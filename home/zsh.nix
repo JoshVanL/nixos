@@ -31,12 +31,12 @@ in {
     programs.zsh = {
       enable = true;
       shellAliases = {
-        s               = "dwl -s 'somebar& sleep 0.3 && swaybg -i $HOME/imgs/system/wallpaper.jpg'";
+        s               = "dwl -s 'swaybg -i $HOME/imgs/system/wallpaper.jpg& somebar&'";
         editn           = "vim /persist/etc/nixos/configuration.nix";
         update          = "sudo nixos-rebuild switch --upgrade-all -I nixos-config=/persist/etc/nixos/configuration.nix";
         update-channel  = "sudo nix-channel --update";
         garbage-collect = "sudo nix-collect-garbage -d";
-        programs        = "vim /persist/etc/nixos/pkgs/programs.nix";
+        programs        = "vim /persist/etc/nixos/home/programs.nix";
 
         kc = "kubectl";
         kg = "kubectl get";

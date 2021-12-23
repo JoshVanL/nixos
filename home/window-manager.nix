@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
   environment.systemPackages = with pkgs; [
@@ -7,7 +7,27 @@
     wofi
     waybar
 
-    (import /persist/etc/nixos/nixpkgs/somebar/default.nix)
+    (import /persist/etc/nixos/nixpkgs/somebar/default.nix {
+      lib  = lib;
+      pkgs = pkgs;
+      applyPatches = [
+        (fetchpatch {
+          name = "somebar.joshvanl-ipc";
+          url  = "https://raw.githubusercontent.com/JoshVanL/somebar/joshvanl-patches/patches/000-ipc.patch";
+          hash = "sha256-+aXA9CcP729cuxpfUqL4HWsITjFW8USs5xs3Lv673C4=";
+        })
+        (fetchpatch {
+          name = "somebar.joshvanl-config-def";
+          url  = "https://raw.githubusercontent.com/joshvanl/somebar/joshvanl-patches/patches/001-config.def.hpp.patch";
+          hash = "sha256-ZHUs9rXNwKmn5l0oPeFKaEFQvygOycBHPh/UXlx9m/Q=";
+        })
+        (fetchpatch {
+          name = "somebar.joshvanl-hide-empty-tags";
+          url  = "https://raw.githubusercontent.com/joshvanl/somebar/joshvanl-patches/patches/002-hide-empty-tags.patch";
+          hash = "sha256-4nAN1UpryyPAr1nvx/iWUWbt42gsD5eN5wEdZXX2fxE=";
+        })
+      ];
+    })
 
     (dwl.overrideAttrs (oldAttrs: rec {
       version = "0.3.2+canary";
@@ -107,6 +127,11 @@
           name = "dwl.add-tag-10";
           url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0017-add-tag-10.patch";
           hash = "sha256-uQJrQbKsICQKdXzJ5ThdsYjclFodgJL053jZiQDzL2w=";
+        })
+        (fetchpatch {
+          name = "dwl.fix-another-seg-fault";
+          url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0018-fix-another-seg-fault.patch";
+          hash = "sha256-fLebNLevVbdCrkJXdSbqgIdIEPsJR+F7J8YW3ag+y0I=";
         })
       ];
     }))

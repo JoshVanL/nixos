@@ -7,7 +7,6 @@ let
 in {
   imports = [
     "${home-manager}/nixos"
-    ./hosts/host.nix
 
     ./yubikey.nix
     ./git.nix

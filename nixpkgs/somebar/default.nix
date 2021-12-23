@@ -1,48 +1,40 @@
-with import <nixpkgs> {}; # bring all of Nixpkgs into scope
+{ lib, pkgs, applyPatches }:
 
-let
-  totalPatches = [
-    (fetchpatch {
-      name = "somebar.ipc";
-      url  = "https://raw.githubusercontent.com/JoshVanL/somebar/master/contrib/ipc.patch";
-      hash = "sha256-+aXA9CcP729cuxpfUqL4HWsITjFW8USs5xs3Lv673C4=";
-    })
-  ];
-in
-
-stdenv.mkDerivation rec {
+pkgs.stdenv.mkDerivation rec {
   pname = "somebar";
-  version = "0.1.0";
+  version = "1.0.0";
 
-  src = fetchFromGitHub {
+  src = pkgs.fetchFromGitHub {
     owner = "joshvanl";
     repo = pname;
     rev = "85b7b6290aff2c121dc6ced132f3e3d13ebb3ec6";
     hash = "sha256-2gp+NO8vJ5c56NyMuGFfSjN232F09dFVExRzC5nkWvI=";
   };
 
-  nativeBuildInputs = [ pkg-config meson ninja ];
+  nativeBuildInputs = [ pkgs.pkg-config pkgs.meson pkgs.ninja ];
 
   buildInputs = [
-    gcc
-    cairo
-    wayland
-    wayland-protocols
-    pango
+    pkgs.gcc
+    pkgs.cairo
+    pkgs.wayland
+    pkgs.wayland-protocols
+    pkgs.pango
   ];
 
   dontBuild = true;
   dontConfigure = true;
 
-  patches = totalPatches;
+  patches = applyPatches;
 
   installPhase = ''
+    runHook preInstall
     meson build --fatal-meson-warnings
     cp src/config.def.hpp src/config.hpp
     cd build
     ninja
     mkdir -p $out/bin
     cp ./somebar $out/bin/somebar
+    runHook postInstall
   '';
 
   meta = with lib; {
@@ -52,6 +44,6 @@ stdenv.mkDerivation rec {
       dwm-like bar for dwl.
     '';
     license = licenses.mit;
-    inherit (wayland.meta) platforms;
+    inherit (pkgs.wayland.meta) platforms;
   };
 }

@@ -56,7 +56,7 @@ done
 AVAILABLE_HOSTS=$()
 HOSTNAME=""
 PS3="Select a hostname: "
-for f in $(find $(git rev-parse --show-toplevel)/pkgs/hosts -type f)
+for f in $(find $(git rev-parse --show-toplevel)/hosts -type f)
 do
 	AVAILABLE_HOSTS+=$(basename -- $f | cut -f 1 -d ".")
 done
@@ -186,7 +186,7 @@ info "system linking /mnt/persist to ensure passward is captured in nix install 
 ln -s /mnt/persist /persist
 
 info "system linking host.nix to hostname configuration ..."
-ln -s /mnt/etc/nixos/pkgs/hosts/${HOSTNAME}.nix /mnt/etc/nixos/pkgs/hosts/host.nix
+ln -s /mnt/etc/nixos/hosts/${HOSTNAME}.nix /mnt/etc/nixos/hosts/host.nix
 
 info "Adding nixos-unstable channel ..."
 nix-channel --add https://nixos.org/channels/nixos-unstable nixos
