@@ -29,6 +29,10 @@ nix-channel --add https://github.com/rycee/home-manager/archive/master.tar.gz ho
 nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixos
 nix-channel --update
 
+info "Setting up fonts"
+git submodule init
+git submpdule update
+
 info "Switching nixos configuration"
 nixos-rebuild switch
 
