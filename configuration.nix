@@ -3,9 +3,16 @@
 {
   imports =
     [
-      ./hardware-configuration-zfs.nix
+      ./hardware-configuration.nix
       ./yubikey.nix
       <home-manager/nixos>
+    ];
+
+  nix.nixPath =
+    [
+      "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
+      "nixos-config=/persist/etc/nixos/configuration.nix"
+      "/nix/var/nix/profiles/per-user/root/channels"
     ];
 
   # Use the systemd-boot EFI boot loader.

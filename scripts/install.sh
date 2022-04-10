@@ -74,8 +74,8 @@ parted "$DISK_PATH" -- mklabel gpt
 parted "$DISK_PATH" -- mkpart primary 512MiB 100%
 parted "$DISK_PATH" -- mkpart ESP fat32 1MiB 512MiB
 parted "$DISK_PATH" -- set 2 boot on
-export DISK_PART_ROOT="${DISK_PATH}1"
-export DISK_PART_BOOT="${DISK_PATH}2"
+export DISK_PART_ROOT="${DISK_PATH}p1"
+export DISK_PART_BOOT="${DISK_PATH}p2"
 
 info "Formatting boot partition ..."
 mkfs.fat -F 32 -n boot "$DISK_PART_BOOT"
@@ -84,17 +84,13 @@ info "Creating '$ZFS_POOL' ZFS pool for '$DISK_PART_ROOT' ..."
 zpool create -f \
   -o ashift=12 \
   -o autotrim=on \
-	-O compression=zstd \
-	-O dnodesize=auto \
-	-O relatime=on \
-	-O normalization=formD \
-	-O encryption=aes-256-gcm \
-	-O keylocation=prompt \
-	-O keyformat=passphrase \
-	"$ZFS_POOL" "$DISK_PART_ROOT"
-
-info "Enabling compression for '$ZFS_POOL' ZFS pool ..."
-zfs set compression=on "$ZFS_POOL"
+  -O compression=lz4 \
+  -O dnodesize=auto \
+  -O relatime=on \
+  -O normalization=formD \
+  -O encryption=aes-256-gcm \
+  -O keylocation=prompt \
+  -O keyformat=passphrase "$ZFS_POOL" "$DISK_PART_ROOT"
 
 info "Creating '$ZFS_DS_ROOT' ZFS dataset ..."
 zfs create -p -o mountpoint=legacy "$ZFS_DS_ROOT"
@@ -149,10 +145,7 @@ mkdir -p /mnt/persist/etc/ssh
 info "Generating NixOS configuration (/mnt/etc/nixos/*.nix) ..."
 nixos-generate-config --root /mnt
 
-info "Enter personal user name ..."
-read USER_NAME
-
-info "Enter password for '${USER_NAME}' user ..."
+info "Enter password for 'josh' user ..."
 USER_PASSWORD_HASH="$(mkpasswd -m sha-512 | sed 's/\$/\\$/g')"
 
 info "Moving generated hardware-configuration.nix to /persist/etc/nixos/ ..."
@@ -165,15 +158,21 @@ mv /mnt/etc/nixos/configuration.nix /mnt/persist/etc/nixos/configuration.nix.ori
 info "Backing up the this installer script to /persist/etc/nixos/install.sh.original ..."
 cp "$0" /mnt/persist/etc/nixos/install.sh.original
 
-info "Connecting to wifi ..."
-read WIFI_SSID
-read WIFI_PASSWORD
-nmcli device wifi connect "$WIFI_SSID" password "$WIFI_PASSWORD"
-
 info "Cloning NixOS configuration to /persist/etc/nixos/ ..."
 cd /mnt/persist/etc/nixos
-git clone https://github.com/joshvanl/nixos
+git init
+git remote add origin https://github.com/joshvanl/nixos.git
+git pull origin main
 cd -
+
+read -p "Press enter to continue"
+
+info "Adding home-manager channel"
+nix-channel --add https://github.com/rycee/home-manager/archive/master.tar.gz home-manager
+nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixos
+nix-channel --update
+
+read -p "Press enter to continue"
 
 info "Installing NixOS to /mnt ..."
 ln -s /mnt/persist/etc/nixos/configuration.nix /mnt/etc/nixos/configuration.nix
