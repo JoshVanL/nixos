@@ -5,7 +5,7 @@
     enable = true;
     plugins = with pkgs.vimPlugins; [
       gruvbox
-      vim-go
+      #vim-go
       vim-airline
       vim-airline-themes
       indentLine

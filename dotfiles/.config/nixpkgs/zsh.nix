@@ -45,7 +45,6 @@
     history = {
       size = 100000;
     };
-    dotDir = "/etc/nixos/dotfiles/zsh";
     oh-my-zsh = {
       enable = true;
       theme = "amuse-custom";

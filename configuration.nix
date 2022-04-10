@@ -4,9 +4,8 @@
   imports =
     [
       ./hardware-configuration-zfs.nix
-      <home-manager/nixos>
-      ./programs.nix
       ./yubikey.nix
+      <home-manager/nixos>
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -17,9 +16,25 @@
   boot.supportedFilesystems = [ "zfs " ];
   boot.zfs.devNodes = "/dev/";
 
-  networking.hostName = "thistle";
-  networking.hostId = "94ec2b8d";
-  networking.wireless.userControlled.enable = false;
+  networking = {
+    hostName = "thistle";
+    hostId   = "94ec2b8d";
+    useDHCP  = false;
+    interfaces = {
+      enp1s0.useDHCP = true;
+      enp2s0f0.useDHCP = true;
+      wlp3s0.useDHCP = true;
+    };
+
+    networkmanager.enable = true;
+    firewall.enable = false;
+    wireless.userControlled.enable = false;
+
+    nameservers = [
+      "8.8.8.8"
+      "8.8.4.4"
+    ];
+  };
 
   # ZFS maintenance settings
   services.zfs.trim.enable = true;
@@ -28,15 +43,6 @@
 
   # Set your time zone.
   time.timeZone = "Europe/London";
-
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
-  networking.useDHCP = false;
-  networking.interfaces.enp1s0.useDHCP = true;
-  networking.interfaces.enp2s0f0.useDHCP = true;
-  networking.interfaces.wlp3s0.useDHCP = true;
-  networking.networkmanager.enable = true;
 
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
@@ -52,11 +58,13 @@
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" ];
   };
-  home-manager.users.josh = { pkgs, ... }: {
-    home.packages = [ ];
-    programs.bash.enable = true;
+
+  nix = {
+    allowedUsers = [ "root" "josh"];
+    extraOptions = ''
+      experimental-features = nix-command
+    '';
   };
-  nix.allowedUsers = [ "root" "josh"];
 
   programs.sway = {
     enable = true;
@@ -74,6 +82,9 @@
   };
   xdg.portal.wlr.enable = true; # Enable screen sharing.
   console.useXkbConfig = true;
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
 
 
   environment = {
@@ -96,5 +107,31 @@
     '';
   };
 
+  # setup .config system link on user login
+  system.userActivationScripts.linkConfigToEtc.text = ''
+    if [[ ! -h "$HOME/.config" ]]; then
+      ln -s "/etc/nixos/dotfiles/.config" "$HOME/.config"
+    fi
+  '';
+
   system.stateVersion = "nixos";
+
+  environment.systemPackages = with pkgs; [
+    git
+    vim_configurable
+    wget
+    firefox
+    termite
+    alacritty
+    gtk-engine-murrine
+    gtk_engines
+    gsettings-desktop-schemas
+    lxappearance
+    cryptsetup
+    #go
+    kubectl
+    yubikey-personalization
+    yubikey-manager
+    killall
+  ];
 }

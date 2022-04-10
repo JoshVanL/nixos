@@ -14,7 +14,7 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "mone";
+    { device = "none";
       fsType = "tmpfs";
     };
 
