@@ -162,14 +162,14 @@ git remote add origin https://github.com/joshvanl/nixos.git
 git pull origin main
 cd -
 
-read -p "Press enter to continue"
+read -p "Press enter to continue ..."
 
-info "Adding home-manager channel"
+info "Adding home-manager channel ..."
 nix-channel --add https://github.com/rycee/home-manager/archive/master.tar.gz home-manager
 nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixos
 nix-channel --update
 
-read -p "Press enter to continue"
+read -p "Press enter to continue ..."
 
 info "Installing NixOS to /mnt ..."
 ln -s /mnt/persist/etc/nixos/configuration.nix /mnt/etc/nixos/configuration.nix
