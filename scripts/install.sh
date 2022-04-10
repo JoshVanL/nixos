@@ -139,9 +139,6 @@ info "Permit ZFS auto-snapshots on ${ZFS_SAFE}/* datasets ..."
 zfs set com.sun:auto-snapshot=true "$ZFS_DS_HOME"
 zfs set com.sun:auto-snapshot=true "$ZFS_DS_PERSIST"
 
-info "Creating persistent directory for host SSH keys ..."
-mkdir -p /mnt/persist/etc/ssh
-
 info "Generating NixOS configuration (/mnt/etc/nixos/*.nix) ..."
 nixos-generate-config --root /mnt
 
