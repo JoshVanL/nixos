@@ -98,6 +98,8 @@
       "sway/config".source = /persist/etc/nixos/dotfiles/.config/sway/config;
     };
   };
+  # TODO: Make fonts discoverable through /persist, but move all other XDG data
+  # into black hole.
   environment.sessionVariables = rec {
     XDG_DATA_HOME = "/persist/etc/nixos/dotfiles";
   };

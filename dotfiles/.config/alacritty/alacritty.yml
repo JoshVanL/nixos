@@ -29,7 +29,7 @@ font:
     family: Menlo for Powerline
 
   # Point size of the font
-  size: 10.0
+  size: 9.7
 
   # Scale the font size based on the monitor's DPI.
   scale_with_dpi: false
