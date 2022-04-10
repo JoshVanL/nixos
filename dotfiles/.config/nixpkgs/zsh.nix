@@ -48,7 +48,7 @@
     oh-my-zsh = {
       enable = true;
       theme = "amuse-custom";
-      custom = "/etc/nixos/dotfiles/.config/oh-my-zsh";
+      custom = "/persist/etc/nixos/dotfiles/.config/oh-my-zsh";
       plugins = [ "git" ];
     };
     sessionVariables = {

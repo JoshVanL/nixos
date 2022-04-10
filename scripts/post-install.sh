@@ -16,13 +16,11 @@ function info {
 info "Enter password for josh ..."
 passwd josh
 
-info "Setting up nixos directory ..."
-rm -rf /etc/nixos
-ln -s /persist/etc/nixos /etc/nixos
-
 info "Setting up .config directories ..."
-ln -s "/etc/nixos/dotfiles/.config" "/root/.config"
-ln -s "/etc/nixos/dotfiles/.config" "/home/josh/.config"
+rm -rf /root/.config
+ln -s "/persist/etc/nixos/dotfiles/.config" "/root/.config"
+rm -rf /home/josh/.config
+ln -s "/persist/etc/nixos/dotfiles/.config" "/home/josh/.config"
 
 info "Adding home-manager channel ..."
 nix-channel --add https://github.com/rycee/home-manager/archive/master.tar.gz home-manager
@@ -30,7 +28,7 @@ nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixos
 nix-channel --update
 
 info "Setting up fonts ..."
-cd /etc/nixos
+cd /persist/etc/nixos
 git submodule init
 git submodule update
 cd -
@@ -41,8 +39,8 @@ nixos-rebuild switch
 info "root: Switching home-manager ..."
 home-manager switch
 
-info "Changing ownership of /etc/nixos to josh ..."
-chown -R josh:wheel /etc/nixos
+info "Changing ownership of /persist/etc/nixos to josh ..."
+chown -R josh:wheel /persist/etc/nixos
 
 info "josh: Switching home-manager ..."
 sudo -H -u josh bash -c 'home-manager switch'

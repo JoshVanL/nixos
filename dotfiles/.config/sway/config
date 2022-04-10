@@ -22,7 +22,7 @@ set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
 font Menlo for Powerline
 
-output * bg /etc/nixos/dotfiles/.config/sway/wallpaper.jpg fill
+output * bg /persist/etc/nixos/dotfiles/.config/sway/wallpaper.jpg fill
 #
 # Example configuration:
 #

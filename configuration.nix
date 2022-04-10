@@ -3,8 +3,8 @@
 {
   imports =
     [
-      ./hardware-configuration.nix
-      ./yubikey.nix
+      /persist/etc/nixos/hardware-configuration.nix
+      /persist/etc/nixos/yubikey.nix
       <home-manager/nixos>
     ];
 
@@ -95,11 +95,11 @@
 
   environment = {
     etc = {
-      "sway/config".source = ./dotfiles/.config/sway/config;
+      "sway/config".source = /persist/etc/nixos/dotfiles/.config/sway/config;
     };
   };
   environment.sessionVariables = rec {
-    XDG_DATA_HOME = "/etc/nixos/dotfiles";
+    XDG_DATA_HOME = "/persist/etc/nixos/dotfiles";
   };
 
   services.interception-tools = {
@@ -116,7 +116,7 @@
   # setup .config system link on user login
   system.userActivationScripts.linkConfigToEtc.text = ''
     if [[ ! -h "$HOME/.config" ]]; then
-      ln -s "/etc/nixos/dotfiles/.config" "$HOME/.config"
+      ln -s "/persist/etc/nixos/dotfiles/.config" "$HOME/.config"
     fi
   '';
 
