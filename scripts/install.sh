@@ -173,4 +173,4 @@ read -p "Press enter to continue"
 
 info "Installing NixOS to /mnt ..."
 ln -s /mnt/persist/etc/nixos/configuration.nix /mnt/etc/nixos/configuration.nix
-nixos-install -I "nixos-config=/mnt/persist/etc/nixos/configuration.nix" --no-root-passwd  # already prompted for and configured password
+nixos-install -I "nixos-config=/mnt/persist/etc/nixos/configuration.nix"
