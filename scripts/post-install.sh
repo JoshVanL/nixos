@@ -20,6 +20,10 @@ info "Setting up nixos directory"
 rm -r /etc/nixos
 ln -s /persist/etc/nixos /etc/nixos
 
+info "Setting up .config directories"
+ln -s "/etc/nixos/dotfiles/.config" "root/.config"
+ln -s "/etc/nixos/dotfiles/.config" "home/josh/.config"
+
 info "Adding home-manager channel"
 nix-channel --add https://github.com/rycee/home-manager/archive/master.tar.gz home-manager
 nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixos
@@ -38,3 +42,4 @@ exit
 
 info "Ready. Powering off."
 read -p "Press any key to continue"
+poweroff
