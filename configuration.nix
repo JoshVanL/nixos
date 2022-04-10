@@ -76,7 +76,6 @@
       mako # notification daemon
       alacritty
       dmenu # Dmenu is the default in the config but i recommend wofi since its wayland native
-      home-manager
       feh
     ];
   };
@@ -132,6 +131,8 @@
     kubectl
     yubikey-personalization
     yubikey-manager
+    pinentry-curses
+    home-manager
     killall
   ];
 }
