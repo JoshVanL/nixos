@@ -146,7 +146,6 @@
       cryptsetup
       #go
       kubectl
-      pinentry-curses
       home-manager
       killall
     ];

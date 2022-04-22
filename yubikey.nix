@@ -12,6 +12,7 @@
       gnupg
       yubikey-personalization
       yubikey-manager
+      pinentry
     ];
   };
 
@@ -25,7 +26,6 @@
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
-      pinentryFlavor = "curses";
     };
   };
 }
