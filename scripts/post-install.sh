@@ -16,12 +16,6 @@ function info {
 info "Enter password for josh ..."
 passwd josh
 
-info "Setting up .config directories ..."
-rm -rf /root/.config
-ln -s "/persist/etc/nixos/dotfiles/.config" "/root/.config"
-rm -rf /home/josh/.config
-ln -s "/persist/etc/nixos/dotfiles/.config" "/home/josh/.config"
-
 info "Adding home-manager channel ..."
 nix-channel --add https://github.com/rycee/home-manager/archive/master.tar.gz home-manager
 nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixos

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports =
@@ -14,6 +14,11 @@
       "nixos-config=/persist/etc/nixos/configuration.nix"
       "/nix/var/nix/profiles/per-user/root/channels"
     ];
+
+  # Clense with fire.
+  boot.initrd.postDeviceCommands = lib.mkAfter ''
+    zfs rollback -r rpool/local/root@blank
+  '';
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -56,10 +61,6 @@
     font = "Lat2-Terminus16";
   };
 
-  fonts.fonts = with pkgs; [
-    powerline-fonts
-  ];
-
   users.defaultUserShell = pkgs.zsh;
   users.users.josh = {
     isNormalUser = true;
@@ -93,17 +94,6 @@
   home-manager.useUserPackages = true;
 
 
-  environment = {
-    etc = {
-      "sway/config".source = /persist/etc/nixos/dotfiles/.config/sway/config;
-    };
-  };
-  # TODO: Make fonts discoverable through /persist, but move all other XDG data
-  # into black hole.
-  environment.sessionVariables = rec {
-    XDG_DATA_HOME = "/persist/etc/nixos/dotfiles";
-  };
-
   services.interception-tools = {
     enable = true;
     plugins = [ pkgs.interception-tools-plugins.caps2esc ];
@@ -115,33 +105,52 @@
     '';
   };
 
-  # setup .config system link on user login
-  system.userActivationScripts.linkConfigToEtc.text = ''
-    if [[ ! -h "$HOME/.config" ]]; then
-      ln -s "/persist/etc/nixos/dotfiles/.config" "$HOME/.config"
-    fi
-  '';
+  systemd.tmpfiles.rules = [
+      "d /home/josh/.config 0755 josh wheel - -"
+      "d /home/josh/.config 0755 root root - -"
+
+      "L /root/.config/alacritty       - - - - /persist/etc/nixos/dotfiles/.config/alacritty"
+      "L /home/josh/.config/alacritty  - - - - /persist/etc/nixos/dotfiles/.config/alacritty"
+      "L /root/.config/nixpkgs         - - - - /persist/etc/nixos/dotfiles/nixpkgs"
+      "L /home/josh/.config/nixpkgs    - - - - /persist/etc/nixos/dotfiles/nixpkgs"
+      "L /root/.config/oh-my-zsh       - - - - /persist/etc/nixos/dotfiles/.config/oh-my-zsh"
+      "L /home/josh/.config/oh-my-zsh  - - - - /persist/etc/nixos/dotfiles/.config/oh-my-zsh"
+      "L /root/.local/share/fonts      - - - - /persist/etc/nixos/dotfiles/fonts"
+      "L /home/josh/.local/share/fonts - - - - /persist/etc/nixos/dotfiles/fonts"
+  ];
+
+  fonts.fonts = with pkgs; [
+    powerline-fonts
+  ];
 
   system.stateVersion = "nixos";
 
-  environment.systemPackages = with pkgs; [
-    git
-    vim_configurable
-    wget
-    firefox
-    termite
-    alacritty
-    gtk-engine-murrine
-    gtk_engines
-    gsettings-desktop-schemas
-    lxappearance
-    cryptsetup
-    #go
-    kubectl
-    yubikey-personalization
-    yubikey-manager
-    pinentry-curses
-    home-manager
-    killall
-  ];
+  environment = {
+    etc = {
+      "sway/config".source = /persist/etc/nixos/dotfiles/.config/sway/config;
+    };
+    sessionVariables = rec {
+      XDG_DATA_HOME = "~/.local/share/fonts";
+    };
+    systemPackages = with pkgs; [
+      git
+      vim_configurable
+      wget
+      firefox
+      termite
+      alacritty
+      gtk-engine-murrine
+      gtk_engines
+      gsettings-desktop-schemas
+      lxappearance
+      cryptsetup
+      #go
+      kubectl
+      yubikey-personalization
+      yubikey-manager
+      pinentry-curses
+      home-manager
+      killall
+    ];
+  };
 }

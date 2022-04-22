@@ -62,7 +62,6 @@ export ZFS_DS_NIX="${ZFS_LOCAL}/nix"
 
 # persistent datasets
 export ZFS_SAFE="${ZFS_POOL}/safe"
-export ZFS_DS_HOME="${ZFS_SAFE}/home"
 export ZFS_DS_PERSIST="${ZFS_SAFE}/persist"
 
 export ZFS_BLANK_SNAPSHOT="${ZFS_DS_ROOT}@blank"
@@ -121,13 +120,6 @@ info "Mounting '$ZFS_DS_NIX' to /mnt/nix ..."
 mkdir /mnt/nix
 mount -t zfs "$ZFS_DS_NIX" /mnt/nix
 
-info "Creating '$ZFS_DS_HOME' ZFS dataset ..."
-zfs create -p -o mountpoint=legacy "$ZFS_DS_HOME"
-
-info "Mounting '$ZFS_DS_HOME' to /mnt/home ..."
-mkdir /mnt/home
-mount -t zfs "$ZFS_DS_HOME" /mnt/home
-
 info "Creating '$ZFS_DS_PERSIST' ZFS dataset ..."
 zfs create -p -o mountpoint=legacy "$ZFS_DS_PERSIST"
 
@@ -136,7 +128,6 @@ mkdir /mnt/persist
 mount -t zfs "$ZFS_DS_PERSIST" /mnt/persist
 
 info "Permit ZFS auto-snapshots on ${ZFS_SAFE}/* datasets ..."
-zfs set com.sun:auto-snapshot=true "$ZFS_DS_HOME"
 zfs set com.sun:auto-snapshot=true "$ZFS_DS_PERSIST"
 
 info "Generating NixOS configuration (/mnt/etc/nixos/*.nix) ..."
