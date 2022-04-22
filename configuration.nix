@@ -127,7 +127,7 @@
 
   environment = {
     etc = {
-      "sway/config".source = /persist/etc/nixos/dotfiles/.config/sway/config;
+      "sway/config".source = ./dotfiles/.config/sway/config;
     };
     sessionVariables = rec {
       XDG_DATA_HOME = "~/.local/share/fonts";
