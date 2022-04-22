@@ -148,7 +148,6 @@ cp "$0" /mnt/persist/etc/nixos/install.sh.original
 
 info "Cloning NixOS configuration to /persist/etc/nixos/ ..."
 cd /mnt/persist/etc/nixos
-nix-shell -p git
 git init
 git remote add origin https://github.com/joshvanl/nixos.git
 git pull origin main
