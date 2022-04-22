@@ -13,9 +13,6 @@ function info {
 
 ################################################################################
 
-info "Enter password for josh ..."
-passwd josh
-
 info "Adding home-manager channel ..."
 nix-channel --add https://github.com/rycee/home-manager/archive/master.tar.gz home-manager
 nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixos

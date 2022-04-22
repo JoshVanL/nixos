@@ -134,7 +134,11 @@ info "Generating NixOS configuration (/mnt/etc/nixos/*.nix) ..."
 nixos-generate-config --root /mnt
 
 info "Enter password for 'josh' user ..."
-USER_PASSWORD_HASH="$(mkpasswd -m sha-512 | sed 's/\$/\\$/g')"
+mkdir -p /mnt/persist/etc/users/passwords
+mkpasswd -m sha-512 | tr -d "\n\r" > /mnt/persist/etc/users/passwords/josh
+
+info "Enter password for 'root' user ..."
+mkpasswd -m sha-512 | tr -d "\n\r" > /mnt/persist/etc/users/passwords/root
 
 info "Moving generated hardware-configuration.nix to /persist/etc/nixos/ ..."
 mkdir -p /mnt/persist/etc/nixos
@@ -145,7 +149,6 @@ mv /mnt/etc/nixos/configuration.nix /mnt/persist/etc/nixos/configuration.nix.ori
 
 info "Backing up the this installer script to /persist/etc/nixos/install.sh.original ..."
 cp "$0" /mnt/persist/etc/nixos/install.sh.original
-
 info "Cloning NixOS configuration to /persist/etc/nixos/ ..."
 cd /mnt/persist/etc/nixos
 git init
@@ -164,4 +167,7 @@ read -p "Press enter to continue ..."
 
 info "Installing NixOS to /mnt ..."
 ln -s /mnt/persist/etc/nixos/configuration.nix /mnt/etc/nixos/configuration.nix
-nixos-install -I "nixos-config=/mnt/persist/etc/nixos/configuration.nix"
+ln -s /mnt/persist/etc/users/passwords /etc/users/passwords
+mkdir -p /persist/etc/users
+ln -s /mnt/persist/etc/users/passwords /persist/etc/users/passwords
+nixos-install -I "nixos-config=/mnt/persist/etc/nixos/configuration.nix" --no-root-passwd

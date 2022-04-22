@@ -28,6 +28,9 @@
   boot.supportedFilesystems = [ "zfs " ];
   boot.zfs.devNodes = "/dev/";
 
+  # Needed for user passwords.
+  fileSystems."/persist".neededForBoot = true;
+
   networking = {
     hostName = "thistle";
     hostId   = "94ec2b8d";
@@ -61,10 +64,23 @@
     font = "Lat2-Terminus16";
   };
 
-  users.defaultUserShell = pkgs.zsh;
-  users.users.josh = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
+  users = {
+    defaultUserShell = pkgs.zsh;
+    mutableUsers = false;
+    users = {
+      josh = {
+        isNormalUser = true;
+        uid = 1000;
+        createHome = true;
+        home = "/home/josh";
+        group = "users";
+        extraGroups = [ "wheel" "networkmanager" ];
+        passwordFile = "/etc/users/passwords/josh";
+      };
+      root = {
+        passwordFile = "/etc/users/passwords/root";
+      };
+    };
   };
 
   nix = {
@@ -105,18 +121,20 @@
     '';
   };
 
+  # Link to configs.
+  # Create .config dir with owner permissions.
   systemd.tmpfiles.rules = [
       "d /home/josh/.config 0755 josh wheel - -"
       "d /root/.config 0755 root root - -"
 
-      "L /root/.config/alacritty       - - - - /persist/etc/nixos/dotfiles/.config/alacritty"
-      "L /home/josh/.config/alacritty  - - - - /persist/etc/nixos/dotfiles/.config/alacritty"
-      "L /root/.config/nixpkgs         - - - - /persist/etc/nixos/dotfiles/nixpkgs"
-      "L /home/josh/.config/nixpkgs    - - - - /persist/etc/nixos/dotfiles/nixpkgs"
-      "L /root/.config/oh-my-zsh       - - - - /persist/etc/nixos/dotfiles/.config/oh-my-zsh"
-      "L /home/josh/.config/oh-my-zsh  - - - - /persist/etc/nixos/dotfiles/.config/oh-my-zsh"
-      "L /root/.local/share/fonts      - - - - /persist/etc/nixos/dotfiles/fonts"
-      "L /home/josh/.local/share/fonts - - - - /persist/etc/nixos/dotfiles/fonts"
+      "L+ /root/.config/alacritty       - - - - /persist/etc/nixos/dotfiles/.config/alacritty"
+      "L+ /home/josh/.config/alacritty  - - - - /persist/etc/nixos/dotfiles/.config/alacritty"
+      "L+ /root/.config/nixpkgs         - - - - /persist/etc/nixos/dotfiles/nixpkgs"
+      "L+ /home/josh/.config/nixpkgs    - - - - /persist/etc/nixos/dotfiles/nixpkgs"
+      "L+ /root/.config/oh-my-zsh       - - - - /persist/etc/nixos/dotfiles/.config/oh-my-zsh"
+      "L+ /home/josh/.config/oh-my-zsh  - - - - /persist/etc/nixos/dotfiles/.config/oh-my-zsh"
+      "L+ /root/.local/share/fonts      - - - - /persist/etc/nixos/dotfiles/fonts"
+      "L+ /home/josh/.local/share/fonts - - - - /persist/etc/nixos/dotfiles/fonts"
   ];
 
   fonts.fonts = with pkgs; [
@@ -127,7 +145,8 @@
 
   environment = {
     etc = {
-      "sway/config".source = ./dotfiles/.config/sway/config;
+      "users/passwords".source = /persist/etc/users/passwords;
+      "sway/config".source     = ./dotfiles/.config/sway/config;
     };
     sessionVariables = rec {
       XDG_DATA_HOME = "~/.local/share/fonts";
