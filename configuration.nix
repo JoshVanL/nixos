@@ -107,7 +107,7 @@
 
   systemd.tmpfiles.rules = [
       "d /home/josh/.config 0755 josh wheel - -"
-      "d /home/josh/.config 0755 root root - -"
+      "d /root/.config 0755 root root - -"
 
       "L /root/.config/alacritty       - - - - /persist/etc/nixos/dotfiles/.config/alacritty"
       "L /home/josh/.config/alacritty  - - - - /persist/etc/nixos/dotfiles/.config/alacritty"
@@ -146,8 +146,6 @@
       cryptsetup
       #go
       kubectl
-      yubikey-personalization
-      yubikey-manager
       pinentry-curses
       home-manager
       killall
