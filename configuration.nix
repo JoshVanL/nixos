@@ -3,8 +3,8 @@
 {
   imports =
     [
-      /persist/etc/nixos/hardware-configuration.nix
-      /persist/etc/nixos/yubikey.nix
+      ./hardware-configuration.nix
+      ./yubikey.nix
       <home-manager/nixos>
     ];
 
