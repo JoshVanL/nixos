@@ -133,8 +133,8 @@
   xdg.portal.wlr.enable = true; # Enable screen sharing.
   console.useXkbConfig = true;
 
-  #home-manager.useGlobalPkgs = true;
-  #home-manager.useUserPackages = true;
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
 
   # Link to configs.
   # Create .config dir with owner permissions.
@@ -161,7 +161,7 @@
       "sway/config".source     = /persist/etc/nixos/dotfiles/.config/sway/config;
     };
     sessionVariables = rec {
-      XDG_DATA_HOME = "~/.local/share/fonts";
+      XDG_DATA_HOME = "\${HOME}/.local/share";
     };
     systemPackages = with pkgs; [
       git
