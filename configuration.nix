@@ -1,32 +1,46 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ./yubikey.nix
-      <home-manager/nixos>
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    #./yubikey.nix
+    #<home-manager/nixos>
+  ];
 
-  nix.nixPath =
-    [
+  nix = {
+    allowedUsers = [ "root" "josh"];
+    extraOptions = ''
+      experimental-features = nix-command
+    '';
+    nixPath = [
       "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
       "nixos-config=/persist/etc/nixos/configuration.nix"
       "/nix/var/nix/profiles/per-user/root/channels"
     ];
+  };
 
-  # Clense with fire.
-  boot.initrd.postDeviceCommands = lib.mkAfter ''
-    zfs rollback -r rpool/local/root@blank
-  '';
+  system.stateVersion = "nixos";
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot  = {
+    # Clense with fire.
+    initrd.postDeviceCommands = lib.mkAfter ''
+      zfs rollback -r rpool/local/root@blank
+    '';
+    zfs = {
+      requestEncryptionCredentials = true;
+    };
 
-  # ZFS boot settings
-  boot.supportedFilesystems = [ "zfs " ];
-  boot.zfs.devNodes = "/dev/";
+    kernelParams = [ "nohibernate" ];
+
+    supportedFilesystems = [ "vfat" "zfs" ];
+    loader = {
+      # Use the systemd-boot EFI boot loader.
+      systemd-boot.enable = true;
+      efi = {
+        canTouchEfiVariables = true;
+      };
+    };
+  };
 
   # Needed for user passwords.
   fileSystems."/persist".neededForBoot = true;
@@ -52,9 +66,29 @@
   };
 
   # ZFS maintenance settings
-  services.zfs.trim.enable = true;
-  services.zfs.autoScrub.enable = true;
-  services.zfs.autoScrub.pools = [ "rpool" ];
+  services = {
+    zfs = {
+      autoScrub = {
+        enable = true;
+        pools  = [ "rpool" ];
+      };
+      autoSnapshot =  {
+        enable = true;
+      };
+      trim.enable = true;
+    };
+
+    #interception-tools = {
+    #  enable = true;
+    #  plugins = [ pkgs.interception-tools-plugins.caps2esc ];
+    #  udevmonConfig = ''
+    #    - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.caps2esc}/bin/caps2esc | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
+    #      DEVICE:
+    #        EVENTS:
+    #          EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
+    #  '';
+    #};
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/London";
@@ -75,51 +109,32 @@
         home = "/home/josh";
         group = "users";
         extraGroups = [ "wheel" "networkmanager" ];
-        passwordFile = "/etc/users/passwords/josh";
+        passwordFile = "/persist/etc/users/josh";
       };
       root = {
-        passwordFile = "/etc/users/passwords/root";
+        hashedPassword = "!";
       };
     };
   };
 
-  nix = {
-    allowedUsers = [ "root" "josh"];
-    extraOptions = ''
-      experimental-features = nix-command
-    '';
-  };
-
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
-    extraPackages = with pkgs; [
-      swaylock
-      swayidle
-      wl-clipboard
-      mako # notification daemon
-      alacritty
-      dmenu # Dmenu is the default in the config but i recommend wofi since its wayland native
-      feh
-    ];
-  };
+  #programs.sway = {
+  #  enable = true;
+  #  wrapperFeatures.gtk = true;
+  #  extraPackages = with pkgs; [
+  #    swaylock
+  #    swayidle
+  #    wl-clipboard
+  #    mako # notification daemon
+  #    alacritty
+  #    dmenu # Dmenu is the default in the config but i recommend wofi since its wayland native
+  #    feh
+  #  ];
+  #};
   xdg.portal.wlr.enable = true; # Enable screen sharing.
   console.useXkbConfig = true;
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-
-
-  services.interception-tools = {
-    enable = true;
-    plugins = [ pkgs.interception-tools-plugins.caps2esc ];
-    udevmonConfig = ''
-      - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.caps2esc}/bin/caps2esc | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
-        DEVICE:
-          EVENTS:
-            EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
-    '';
-  };
+  #home-manager.useGlobalPkgs = true;
+  #home-manager.useUserPackages = true;
 
   # Link to configs.
   # Create .config dir with owner permissions.
@@ -137,36 +152,33 @@
       "L+ /home/josh/.local/share/fonts - - - - /persist/etc/nixos/dotfiles/fonts"
   ];
 
-  fonts.fonts = with pkgs; [
-    powerline-fonts
-  ];
-
-  system.stateVersion = "nixos";
+  #fonts.fonts = with pkgs; [
+  #  powerline-fonts
+  #];
 
   environment = {
     etc = {
-      "users/passwords".source = /persist/etc/users/passwords;
-      "sway/config".source     = ./dotfiles/.config/sway/config;
+      "sway/config".source     = /persist/etc/nixos/dotfiles/.config/sway/config;
     };
     sessionVariables = rec {
       XDG_DATA_HOME = "~/.local/share/fonts";
     };
-    systemPackages = with pkgs; [
-      git
-      vim_configurable
-      wget
-      firefox
-      termite
-      alacritty
-      gtk-engine-murrine
-      gtk_engines
-      gsettings-desktop-schemas
-      lxappearance
-      cryptsetup
-      #go
-      kubectl
-      home-manager
-      killall
-    ];
+    #systemPackages = with pkgs; [
+    #  git
+    #  vim_configurable
+    #  wget
+    #  firefox
+    #  termite
+    #  alacritty
+    #  gtk-engine-murrine
+    #  gtk_engines
+    #  gsettings-desktop-schemas
+    #  lxappearance
+    #  cryptsetup
+    #  #go
+    #  kubectl
+    #  home-manager
+    #  killall
+    #];
   };
 }

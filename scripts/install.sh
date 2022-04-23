@@ -94,6 +94,18 @@ zpool create -f \
 info "Creating '$ZFS_DS_ROOT' ZFS dataset ..."
 zfs create -p -o mountpoint=legacy "$ZFS_DS_ROOT"
 
+info "Creating '$ZFS_DS_NIX' ZFS dataset ..."
+zfs create -p -o mountpoint=legacy "$ZFS_DS_NIX"
+
+info "Disabling access time setting for '$ZFS_DS_NIX' ZFS dataset ..."
+zfs set atime=off "$ZFS_DS_NIX"
+
+info "Creating '$ZFS_DS_PERSIST' ZFS dataset ..."
+zfs create -p -o mountpoint=legacy "$ZFS_DS_PERSIST"
+
+info "Permit ZFS auto-snapshots on ${ZFS_SAFE}/* datasets ..."
+zfs set com.sun:auto-snapshot=true "$ZFS_DS_PERSIST"
+
 info "Configuring extended attributes setting for '$ZFS_DS_ROOT' ZFS dataset ..."
 zfs set xattr=sa "$ZFS_DS_ROOT"
 
@@ -110,64 +122,55 @@ info "Mounting '$DISK_PART_BOOT' to /mnt/boot ..."
 mkdir /mnt/boot
 mount -t vfat "$DISK_PART_BOOT" /mnt/boot
 
-info "Creating '$ZFS_DS_NIX' ZFS dataset ..."
-zfs create -p -o mountpoint=legacy "$ZFS_DS_NIX"
-
-info "Disabling access time setting for '$ZFS_DS_NIX' ZFS dataset ..."
-zfs set atime=off "$ZFS_DS_NIX"
-
 info "Mounting '$ZFS_DS_NIX' to /mnt/nix ..."
 mkdir /mnt/nix
 mount -t zfs "$ZFS_DS_NIX" /mnt/nix
-
-info "Creating '$ZFS_DS_PERSIST' ZFS dataset ..."
-zfs create -p -o mountpoint=legacy "$ZFS_DS_PERSIST"
 
 info "Mounting '$ZFS_DS_PERSIST' to /mnt/persist ..."
 mkdir /mnt/persist
 mount -t zfs "$ZFS_DS_PERSIST" /mnt/persist
 
-info "Permit ZFS auto-snapshots on ${ZFS_SAFE}/* datasets ..."
-zfs set com.sun:auto-snapshot=true "$ZFS_DS_PERSIST"
-
 info "Generating NixOS configuration (/mnt/etc/nixos/*.nix) ..."
 nixos-generate-config --root /mnt
 
 info "Enter password for 'josh' user ..."
-mkdir -p /mnt/persist/etc/users/passwords
-mkpasswd -m sha-512 | tr -d "\n\r" > /mnt/persist/etc/users/passwords/josh
+mkdir -p /mnt/persist/etc/users
+mkdir -p /etc/users
+mkpasswd -m sha-512 | tr -d "\n\r" > /mnt/persist/etc/users/josh
+cp /mnt/persist/etc/users/josh /etc/users/josh
 
-info "Enter password for 'root' user ..."
-mkpasswd -m sha-512 | tr -d "\n\r" > /mnt/persist/etc/users/passwords/root
-
-info "Moving generated hardware-configuration.nix to /persist/etc/nixos/ ..."
+info "Cloning NixOS configuration to /mnt/persist/etc/nixos/ ..."
 mkdir -p /mnt/persist/etc/nixos
-mv /mnt/etc/nixos/hardware-configuration.nix /mnt/persist/etc/nixos/
-
-info "Backing up the originally generated configuration.nix to /persist/etc/nixos/configuration.nix.original ..."
-mv /mnt/etc/nixos/configuration.nix /mnt/persist/etc/nixos/configuration.nix.original
-
-info "Backing up the this installer script to /persist/etc/nixos/install.sh.original ..."
-cp "$0" /mnt/persist/etc/nixos/install.sh.original
-info "Cloning NixOS configuration to /persist/etc/nixos/ ..."
 cd /mnt/persist/etc/nixos
 git init
 git remote add origin https://github.com/joshvanl/nixos.git
 git pull origin main
 cd -
+cp /mnt/persist/etc/nixos/configuration.nix /mnt/etc/nixos/.
+
+info "Appending machine-specific properties to hardware-configuration.nix ..."
+HARDWARE_CONFIG=$(mktemp)
+cat <<CONFIG > "$HARDWARE_CONFIG"
+  boot.zfs.devNodes = "/dev/disk/by-label/$ZFS_POOL";
+CONFIG
+sed -i "\$e cat $HARDWARE_CONFIG" /mnt/etc/nixos/hardware-configuration.nix
+
+info "Copying generated hardware-configuration.nix to /mnt/persist/etc/nixos/ ..."
+cp /mnt/etc/nixos/hardware-configuration.nix /mnt/persist/etc/nixos/
+ln -s /mnt/persist /persist
 
 read -p "Press enter to continue ..."
 
+info "Adding nixos-unstable channel ..."
+nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixos
+
 info "Adding home-manager channel ..."
 nix-channel --add https://github.com/rycee/home-manager/archive/master.tar.gz home-manager
-nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixos
+
+info "Updating nixos channels ..."
 nix-channel --update
 
 read -p "Press enter to continue ..."
 
 info "Installing NixOS to /mnt ..."
-ln -s /mnt/persist/etc/nixos/configuration.nix /mnt/etc/nixos/configuration.nix
-ln -s /mnt/persist/etc/users/passwords /etc/users/passwords
-mkdir -p /persist/etc/users
-ln -s /mnt/persist/etc/users/passwords /persist/etc/users/passwords
-nixos-install -I "nixos-config=/mnt/persist/etc/nixos/configuration.nix" --no-root-passwd
+nixos-install --no-root-passwd
