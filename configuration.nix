@@ -139,8 +139,11 @@
   # Link to configs.
   # Create .config dir with owner permissions.
   systemd.tmpfiles.rules = [
-      "d /home/josh/.config 0755 josh wheel - -"
-      "d /root/.config 0755 root root - -"
+      "d /home/josh/.config      0755 josh wheel - -"
+      "d /home/josh/.local       0755 josh wheel - -"
+      "d /home/josh/.local/share 0755 josh wheel - -"
+
+      "d /root/.config           0755 root root - -"
 
       "L+ /root/.config/alacritty       - - - - /persist/etc/nixos/dotfiles/.config/alacritty"
       "L+ /home/josh/.config/alacritty  - - - - /persist/etc/nixos/dotfiles/.config/alacritty"
