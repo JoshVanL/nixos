@@ -36,6 +36,9 @@ chown -R josh:wheel /persist/etc/nixos
 info "josh: Switching home-manager ..."
 sudo -H -u josh bash -c 'home-manager switch'
 
+info "Switching nixos configuration again ..."
+nixos-rebuild switch
+
 info "Ready. Powering off."
 read -p "Press any key to continue ..."
 poweroff

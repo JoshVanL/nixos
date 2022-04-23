@@ -157,6 +157,8 @@ sed -i "\$e cat $HARDWARE_CONFIG" /mnt/etc/nixos/hardware-configuration.nix
 
 info "Copying generated hardware-configuration.nix to /mnt/persist/etc/nixos/ ..."
 cp /mnt/etc/nixos/hardware-configuration.nix /mnt/persist/etc/nixos/
+
+info "system linking /mnt/persist to ensure passward is captured in nix install ..."
 ln -s /mnt/persist /persist
 
 read -p "Press enter to continue ..."

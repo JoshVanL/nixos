@@ -3,8 +3,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    #./yubikey.nix
-    #<home-manager/nixos>
+    ./yubikey.nix
+    <home-manager/nixos>
   ];
 
   nix = {
@@ -78,16 +78,16 @@
       trim.enable = true;
     };
 
-    #interception-tools = {
-    #  enable = true;
-    #  plugins = [ pkgs.interception-tools-plugins.caps2esc ];
-    #  udevmonConfig = ''
-    #    - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.caps2esc}/bin/caps2esc | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
-    #      DEVICE:
-    #        EVENTS:
-    #          EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
-    #  '';
-    #};
+    interception-tools = {
+      enable = true;
+      plugins = [ pkgs.interception-tools-plugins.caps2esc ];
+      udevmonConfig = ''
+        - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.caps2esc}/bin/caps2esc | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
+          DEVICE:
+            EVENTS:
+              EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
+      '';
+    };
   };
 
   # Set your time zone.
@@ -117,19 +117,19 @@
     };
   };
 
-  #programs.sway = {
-  #  enable = true;
-  #  wrapperFeatures.gtk = true;
-  #  extraPackages = with pkgs; [
-  #    swaylock
-  #    swayidle
-  #    wl-clipboard
-  #    mako # notification daemon
-  #    alacritty
-  #    dmenu # Dmenu is the default in the config but i recommend wofi since its wayland native
-  #    feh
-  #  ];
-  #};
+  programs.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true;
+    extraPackages = with pkgs; [
+      swaylock
+      swayidle
+      wl-clipboard
+      mako # notification daemon
+      alacritty
+      dmenu # Dmenu is the default in the config but i recommend wofi since its wayland native
+      feh
+    ];
+  };
   xdg.portal.wlr.enable = true; # Enable screen sharing.
   console.useXkbConfig = true;
 
@@ -152,9 +152,9 @@
       "L+ /home/josh/.local/share/fonts - - - - /persist/etc/nixos/dotfiles/fonts"
   ];
 
-  #fonts.fonts = with pkgs; [
-  #  powerline-fonts
-  #];
+  fonts.fonts = with pkgs; [
+    powerline-fonts
+  ];
 
   environment = {
     etc = {
@@ -163,22 +163,22 @@
     sessionVariables = rec {
       XDG_DATA_HOME = "~/.local/share/fonts";
     };
-    #systemPackages = with pkgs; [
-    #  git
-    #  vim_configurable
-    #  wget
-    #  firefox
-    #  termite
-    #  alacritty
-    #  gtk-engine-murrine
-    #  gtk_engines
-    #  gsettings-desktop-schemas
-    #  lxappearance
-    #  cryptsetup
-    #  #go
-    #  kubectl
-    #  home-manager
-    #  killall
-    #];
+    systemPackages = with pkgs; [
+      git
+      vim_configurable
+      wget
+      firefox
+      termite
+      alacritty
+      gtk-engine-murrine
+      gtk_engines
+      gsettings-desktop-schemas
+      lxappearance
+      cryptsetup
+      #go
+      kubectl
+      home-manager
+      killall
+    ];
   };
 }
