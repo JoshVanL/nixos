@@ -136,21 +136,14 @@
   systemd.tmpfiles.rules = [
       # /persist to maintain.
       "d /persist/home              0755 josh wheel - -"
-      "d /persist/home/.config      0755 josh wheel - -"
+      "d /persist/home/go           0755 josh wheel - -"
+      "d /persist/home/.gnupg       0755 josh wheel - -"
 
       # Locals to pre-create with correct perms.
       "d /home/josh/.config      0755 josh wheel - -"
       "d /home/josh/.local       0755 josh wheel - -"
       "d /home/josh/.local/share 0755 josh wheel - -"
       "d /root/.config           0755 root root - -"
-
-      # Configs to save.
-      "L+ /home/josh/.config/alacritty - - - - /persist/etc/nixos/dotfiles/.config/alacritty"
-      "L+ /home/josh/.config/nixpkgs   - - - - /persist/etc/nixos/dotfiles/nixpkgs"
-      "L+ /home/josh/.config/oh-my-zsh - - - - /persist/etc/nixos/dotfiles/.config/oh-my-zsh"
-      "L+ /root/.config/alacritty - - - - /persist/etc/nixos/dotfiles/.config/alacritty"
-      "L+ /root/.config/nixpkgs   - - - - /persist/etc/nixos/dotfiles/nixpkgs"
-      "L+ /root/.config/oh-my-zsh - - - - /persist/etc/nixos/dotfiles/.config/oh-my-zsh"
 
       # /etc to save.
       "d  /persist/etc/NetworkManager/system-connections  0755 josh wheel - -"
@@ -162,6 +155,8 @@
 
       # Histories/Caches.
       "L+ /home/josh/.zsh_history - - - - /persist/home/.zsh_history"
+      "L+ /home/josh/.gnupg       - - - - /persist/home/.gnupg"
+      "L+ /home/josh/go	          - - - - /persist/home/go"
   ];
 
   fonts.fonts = with pkgs; [
@@ -176,20 +171,75 @@
       XDG_DATA_HOME = "\${HOME}/.local/share";
     };
     systemPackages = with pkgs; [
+      # base
+      cryptsetup
+      wget
+      killall
       git
       vim_configurable
-      wget
       firefox
-      termite
-      alacritty
-      gtk-engine-murrine
-      gtk_engines
-      gsettings-desktop-schemas
-      lxappearance
-      cryptsetup
-      #go
+      chromium
+
+      # window-manager
+      (dwl.overrideAttrs (oldAttrs: rec {
+        version = "0.3.2+canary";
+        src = fetchFromGitHub {
+          owner = "djpohly";
+          repo = "dwl";
+          rev = "a48ce99e6a3c0dda331781942995a85ba8e438a0";
+          hash = "sha256-E561th6ki5rNMy3qODzw3uZw3nrBbl/52pylp7dpdzg=";
+        };
+        patches = [
+          (fetchpatch {
+            name = "dwl.vanitygaps";
+            url  = "https://github.com/djpohly/dwl/compare/main...Sevz17:vanitygaps.patch";
+            hash = "sha256-6Xb0IncQxyBXSGcWnw/OWq2upSxzJYgfEBhU7DU20oA=";
+          })
+          (fetchpatch {
+            name = "dwl.joshvanl-mod-key-logo";
+            url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0001-mod-key-logo.patch";
+            hash = "sha256-mADTS6fdgMLndlIluKyykjw0t/d2HbkfUP613qgKFPA=";
+          })
+          (fetchpatch {
+            name = "dwl.joshvanl-colours";
+            url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0002-colours.patch";
+            hash = "sha256-yRAwp4Ff6y6PQAUKEthfKUGkIxqYfkuz35INDFPtZx4=";
+          })
+          (fetchpatch {
+            name = "dwl.joshvanl-firefox-wofi";
+            url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0003-firefox-wofi.patch";
+            hash = "sha256-BhdbQ5CmMFVC7+XAjrse7RvfxctALp3e/OdrkfkM0tc=";
+          })
+          (fetchpatch {
+            name = "dwl.joshvanl-repeat-rate";
+            url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0004-repeat-rate.patch";
+            hash = "sha256-6tunCJlffKk4SszsNHbaYXNCrDzuZFOaUQxlXLh4ImI=";
+          })
+          (fetchpatch {
+            name = "dwl.joshvanl-window-change-focus";
+            url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0005-window-change-focus.patch";
+            hash = "sha256-gow4ND3nS+glzJA9Cm8Gt6oncRHJW31c98T5fQFbZuI=";
+          })
+          (fetchpatch {
+            name = "dwl.joshvanl-no-window-rules";
+            url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0006-no-window-rules.patch";
+            hash = "sha256-pbR5rDYjWXbZ1QrAQm7cjuB/U0OsQJUO5r2pNvcEJok=";
+          })
+          (fetchpatch {
+            name = "dwl.joshvanl-chromium";
+            url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0007-chromium.patch";
+            hash = "sha256-PNRD3SSWkPIAthxyOqYGF/cYVCgQx97PlxzY4/16nUw=";
+          })
+        ];
+      }))
+      swaybg
+      wofi
+
+      # work
+      gnumake
+      go_1_18
       kubectl
-      killall
+      calc
     ];
   };
 }
