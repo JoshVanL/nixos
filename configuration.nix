@@ -130,7 +130,6 @@
       feh
     ];
   };
-  xdg.portal.wlr.enable = true; # Enable screen sharing.
   console.useXkbConfig = true;
 
   # Link to configs.
