@@ -13,11 +13,11 @@
       yubikey-personalization
       yubikey-manager
       pinentry
+      pinentry-curses
     ];
   };
 
   services = {
-    gnome.gnome-keyring.enable = true;
     pcscd.enable = true;
     udev.packages = [ pkgs.yubikey-personalization ];
   };
@@ -27,6 +27,7 @@
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
+      pinentryFlavor = "curses";
     };
   };
 }
