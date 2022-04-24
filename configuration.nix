@@ -4,7 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ./yubikey.nix
-    <home-manager/nixos>
+    ./dotfiles/nixpkgs/home.nix
   ];
 
   nix = {
@@ -133,26 +133,36 @@
   xdg.portal.wlr.enable = true; # Enable screen sharing.
   console.useXkbConfig = true;
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-
   # Link to configs.
-  # Create .config dir with owner permissions.
   systemd.tmpfiles.rules = [
+      # /persist to maintain.
+      "d /persist/home              0755 josh wheel - -"
+      "d /persist/home/.config      0755 josh wheel - -"
+
+      # Locals to pre-create with correct perms.
       "d /home/josh/.config      0755 josh wheel - -"
       "d /home/josh/.local       0755 josh wheel - -"
       "d /home/josh/.local/share 0755 josh wheel - -"
-
       "d /root/.config           0755 root root - -"
 
-      "L+ /root/.config/alacritty       - - - - /persist/etc/nixos/dotfiles/.config/alacritty"
-      "L+ /home/josh/.config/alacritty  - - - - /persist/etc/nixos/dotfiles/.config/alacritty"
-      "L+ /root/.config/nixpkgs         - - - - /persist/etc/nixos/dotfiles/nixpkgs"
-      "L+ /home/josh/.config/nixpkgs    - - - - /persist/etc/nixos/dotfiles/nixpkgs"
-      "L+ /root/.config/oh-my-zsh       - - - - /persist/etc/nixos/dotfiles/.config/oh-my-zsh"
-      "L+ /home/josh/.config/oh-my-zsh  - - - - /persist/etc/nixos/dotfiles/.config/oh-my-zsh"
+      # Configs to save.
+      "L+ /home/josh/.config/alacritty - - - - /persist/etc/nixos/dotfiles/.config/alacritty"
+      "L+ /home/josh/.config/nixpkgs   - - - - /persist/etc/nixos/dotfiles/nixpkgs"
+      "L+ /home/josh/.config/oh-my-zsh - - - - /persist/etc/nixos/dotfiles/.config/oh-my-zsh"
+      "L+ /root/.config/alacritty - - - - /persist/etc/nixos/dotfiles/.config/alacritty"
+      "L+ /root/.config/nixpkgs   - - - - /persist/etc/nixos/dotfiles/nixpkgs"
+      "L+ /root/.config/oh-my-zsh - - - - /persist/etc/nixos/dotfiles/.config/oh-my-zsh"
+
+      # /etc to save.
+      "d  /persist/etc/NetworkManager/system-connections  0755 josh wheel - -"
+      "L+ /etc/NetworkManager/system-connections          - - - - /persist/etc/NetworkManager/system-connections"
+
+      # Fonts.
       "L+ /root/.local/share/fonts      - - - - /persist/etc/nixos/dotfiles/fonts"
       "L+ /home/josh/.local/share/fonts - - - - /persist/etc/nixos/dotfiles/fonts"
+
+      # Histories/Caches.
+      "L+ /home/josh/.zsh_history - - - - /persist/home/.zsh_history"
   ];
 
   fonts.fonts = with pkgs; [
@@ -180,7 +190,6 @@
       cryptsetup
       #go
       kubectl
-      home-manager
       killall
     ];
   };

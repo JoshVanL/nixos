@@ -170,9 +170,6 @@ read -p "Press enter to continue ..."
 info "Adding nixos-unstable channel ..."
 nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixos
 
-info "Adding home-manager channel ..."
-nix-channel --add https://github.com/rycee/home-manager/archive/master.tar.gz home-manager
-
 info "Updating nixos channels ..."
 nix-channel --update
 
