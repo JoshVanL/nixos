@@ -4,7 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ./yubikey.nix
-    ./dotfiles/nixpkgs/home.nix
+    ./nixpkgs/home.nix
   ];
 
   nix = {
