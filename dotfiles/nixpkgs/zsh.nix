@@ -13,8 +13,9 @@ in {
     programs.zsh = {
       enable = true;
       shellAliases = {
+        s = "dwl -s \"swaybg -i /persist/etc/nixos/dotfiles/wallpaper.jpg <&-\"";
+        editn = "vim /persist/etc/nixos/configuration.nix";
         update = "sudo nixos-rebuild switch";
-        updateh = "home-manager switch";
         kc = "kubectl";
         kg = "kubectl get";
         l = "ls -lah --group-directories-first";
@@ -57,7 +58,7 @@ in {
       oh-my-zsh = {
         enable = true;
         theme = "amuse-custom";
-        custom = "/persist/etc/nixos/dotfiles/.config/oh-my-zsh";
+        custom = "/persist/etc/nixos/dotfiles/oh-my-zsh";
         plugins = [ "git" ];
       };
       sessionVariables = {

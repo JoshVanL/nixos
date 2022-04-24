@@ -10,6 +10,7 @@ in {
     ./git.nix
     ./zsh.nix
     ./vim.nix
+    ./alacritty.nix
    ];
 
   home-manager.users.josh = { pkgs, ... }: {
