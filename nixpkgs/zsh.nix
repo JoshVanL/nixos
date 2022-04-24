@@ -16,6 +16,7 @@ in {
         s = "dwl -s \"swaybg -i /persist/etc/nixos/dotfiles/wallpaper.jpg <&-\"";
         editn = "vim /persist/etc/nixos/configuration.nix";
         update = "sudo nixos-rebuild switch";
+        garbage-collect = "sudo nix-collect-garbage -d";
         kc = "kubectl";
         kg = "kubectl get";
         l = "ls -lah --group-directories-first";
