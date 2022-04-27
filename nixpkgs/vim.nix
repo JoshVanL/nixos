@@ -93,6 +93,7 @@ in {
       autocmd BufNewFile,BufRead *.html set spell spelllang=en_gb
       autocmd BufNewFile,BufRead *.md set spell spelllang=en_gb
       autocmd BufNewFile,BufRead *.go set spell spelllang=en_gb
+      autocmd BufNewFile,BufRead *.nix set spell spelllang=en_gb
 
       " Allow saving of files as sudo when I forgot to start vim using sudo.
       cmap w!! w !sudo tee > /dev/null %
