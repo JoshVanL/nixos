@@ -11,6 +11,7 @@ in {
     ./zsh.nix
     ./vim.nix
     ./alacritty.nix
+    ./window-manager.nix
    ];
 
   home-manager.users.josh = { pkgs, ... }: {
