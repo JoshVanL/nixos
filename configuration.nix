@@ -23,9 +23,9 @@
   # boot controlls.
   boot  = {
     # Clense with fire.
-    initrd.postDeviceCommands = lib.mkAfter ''
-      zfs rollback -r rpool/local/root@blank
-    '';
+    #initrd.postDeviceCommands = lib.mkAfter ''
+    #  zfs rollback -r rpool/local/root@blank
+    #'';
     zfs = {
       requestEncryptionCredentials = true;
     };
@@ -83,15 +83,12 @@
   # Set your time zone.
   time.timeZone = "Europe/London";
 
-  # Language/Fonts.
+  # Language.
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
     font = "Lat2-Terminus16";
     useXkbConfig = true;
   };
-  fonts.fonts = with pkgs; [
-    powerline-fonts
-  ];
 
   # Sound.
   security.rtkit.enable = true;
