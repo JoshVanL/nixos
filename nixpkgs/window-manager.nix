@@ -5,6 +5,7 @@
     swaybg
     wofi
     feh
+
     (dwl.overrideAttrs (oldAttrs: rec {
       version = "0.3.2+canary";
       src = fetchFromGitHub {

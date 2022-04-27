@@ -85,6 +85,7 @@
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
     font = "Lat2-Terminus16";
+    useXkbConfig = true;
   };
 
   users = {
@@ -105,20 +106,6 @@
       };
     };
   };
-
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
-    extraPackages = with pkgs; [
-      swaylock
-      swayidle
-      mako # notification daemon
-      alacritty
-      dmenu # Dmenu is the default in the config but i recommend wofi since its wayland native
-      feh
-    ];
-  };
-  console.useXkbConfig = true;
 
   # Link to configs.
   systemd.tmpfiles.rules = [
@@ -156,9 +143,6 @@
   ];
 
   environment = {
-    etc = {
-      "sway/config".source     = /persist/etc/nixos/dotfiles/.config/sway/config;
-    };
     sessionVariables = rec {
       XDG_DATA_HOME = "\${HOME}/.local/share";
     };
