@@ -23,12 +23,19 @@ in {
           hash = "sha256-8dYPqTVcC68To2mZ5XxlZBe8K5UbsAi62aVr9YzsBnk=";
         };
       };
+
+      "imgs/system/wallpaper.jpg" = {
+        source = pkgs.fetchurl {
+          url = "https://github.com/JoshVanL/imgs/raw/main/wallpaper.jpg";
+          hash = "sha256-6Wjn186dYxq1tpAqyXu1EhfkXiAgoSeuKntfyFV3Rro=";
+        };
+      };
     };
 
     programs.zsh = {
       enable = true;
       shellAliases = {
-        s = "dwl -s \"swaybg -i /persist/etc/nixos/dotfiles/wallpaper.jpg <&-\"";
+        s = "dwl -s \"swaybg -i /home/josh/imgs/system/wallpaper.jpg <&-\"";
         editn = "vim /persist/etc/nixos/configuration.nix";
         update = "sudo nixos-rebuild switch";
         update-channel = "sudo nix-channel --update";
