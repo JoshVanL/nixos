@@ -9,6 +9,7 @@
     chromium
     imv
     pavucontrol
+    htop
 
     # work
     gnumake

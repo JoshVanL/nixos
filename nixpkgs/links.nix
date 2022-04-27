@@ -19,10 +19,6 @@
       "d  /persist/etc/NetworkManager/system-connections  0755 josh wheel - -"
       "L+ /etc/NetworkManager/system-connections          - - - - /persist/etc/NetworkManager/system-connections"
 
-      # Fonts.
-      "L+ /root/.local/share/fonts      - - - - /persist/etc/nixos/dotfiles/fonts"
-      "L+ /home/josh/.local/share/fonts - - - - /persist/etc/nixos/dotfiles/fonts"
-
       # Histories/Caches.
       "L+ /home/josh/.zsh_history - - - - /persist/home/.zsh_history"
       "L+ /home/josh/.gnupg       - - - - /persist/home/.gnupg"

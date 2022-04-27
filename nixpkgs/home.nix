@@ -15,6 +15,8 @@ in {
     ./wayland.nix
     ./window-manager.nix
     ./links.nix
+    ./gtk.nix
+    ./fonts.nix
     ./programs.nix
    ];
 
