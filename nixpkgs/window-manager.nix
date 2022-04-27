@@ -4,7 +4,6 @@
   environment.systemPackages = with pkgs; [
     swaybg
     wofi
-    feh
 
     (dwl.overrideAttrs (oldAttrs: rec {
       version = "0.3.2+canary";

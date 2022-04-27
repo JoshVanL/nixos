@@ -7,6 +7,7 @@
     killall
     firefox
     chromium
+    imv
 
     # work
     gnumake
