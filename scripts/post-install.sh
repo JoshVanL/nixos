@@ -24,8 +24,9 @@ info "Switching nixos configuration ..."
 rm /home/josh/.zsh_history
 sudo nixos-rebuild switch
 
-# Ensure we clean up from install if exists.
+info "Cleaning up the garbage ..."
 rm -f /persist/persist
+sudo nix-collect-garbage -d
 
 info "Ready. Powering off."
 read -p "Press any key to continue ..."
