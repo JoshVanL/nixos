@@ -8,6 +8,7 @@
     firefox
     chromium
     imv
+    pavucontrol
 
     # work
     gnumake

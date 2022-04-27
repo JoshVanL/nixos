@@ -6,6 +6,7 @@
     ./nixpkgs/home.nix
   ];
 
+  # Nix.
   nix = {
     allowedUsers = [ "root" "josh"];
     extraOptions = ''
@@ -17,9 +18,9 @@
       "/nix/var/nix/profiles/per-user/root/channels"
     ];
   };
-
   system.stateVersion = "nixos";
 
+  # boot controlls.
   boot  = {
     # Clense with fire.
     initrd.postDeviceCommands = lib.mkAfter ''
@@ -44,6 +45,7 @@
   # Needed for user passwords.
   fileSystems."/persist".neededForBoot = true;
 
+  # Networking.
   networking = {
     hostName = "thistle";
     hostId   = "94ec2b8d";
@@ -64,7 +66,7 @@
     ];
   };
 
-  # ZFS maintenance settings
+  # ZFS maintenance settings.
   services = {
     zfs = {
       autoScrub = {
@@ -81,12 +83,29 @@
   # Set your time zone.
   time.timeZone = "Europe/London";
 
+  # Language/Fonts.
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
     font = "Lat2-Terminus16";
     useXkbConfig = true;
   };
+  fonts.fonts = with pkgs; [
+    powerline-fonts
+  ];
 
+  # Sound.
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa = {
+      enable = true;
+      support32Bit = true;
+    };
+    pulse.enable = true;
+    jack.enable = true;
+  };
+
+  # Users.
   users = {
     defaultUserShell = pkgs.zsh;
     mutableUsers = false;
@@ -106,10 +125,7 @@
     };
   };
 
-  fonts.fonts = with pkgs; [
-    powerline-fonts
-  ];
-
+  # Global env vars.
   environment.sessionVariables = rec {
     XDG_DATA_HOME = "\${HOME}/.local/share";
   };
