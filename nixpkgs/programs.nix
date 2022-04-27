@@ -10,6 +10,7 @@
     imv
     pavucontrol
     htop
+    bat
 
     # work
     gnumake
