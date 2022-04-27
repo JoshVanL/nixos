@@ -3,7 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./nixpkgs/home.nix
+    ./pkgs/home.nix
   ];
 
   # Nix.
