@@ -17,20 +17,11 @@ info "Adding unstable channel ..."
 sudo nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixos
 sudo nix-channel --update
 
-info "Setting up fonts ..."
-cd /persist/etc/nixos
-git submodule init
-git submodule update
-cd -
-
 info "Changing ownership of /persist/etc/nixos to josh ..."
 sudo chown -R josh:wheel /persist/etc/nixos
 
 info "Switching nixos configuration ..."
 rm /home/josh/.zsh_history
-sudo nixos-rebuild switch
-
-info "Switching nixos configuration again ..."
 sudo nixos-rebuild switch
 
 info "Ready. Powering off."

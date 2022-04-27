@@ -10,6 +10,21 @@ in {
   ];
 
   home-manager.users.josh = { pkgs, ... }: {
+    home.file = {
+      ".config/oh-my-zsh/themes/kubectl.zsh" = {
+        source = pkgs.fetchurl {
+          url = "https://github.com/JoshVanL/oh-my-zsh-custom/raw/main/kubectl.zsh";
+          hash = "sha256-AMevJrEFeYGOEKCCJjvDbnRLdvguuhfxhqW+k/TnAlU=";
+        };
+      };
+      ".config/oh-my-zsh/themes/amuse-custom.zsh-theme" = {
+        source = pkgs.fetchurl {
+          url = "https://github.com/JoshVanL/oh-my-zsh-custom/raw/main/amuse-custom.zsh-theme";
+          hash = "sha256-8dYPqTVcC68To2mZ5XxlZBe8K5UbsAi62aVr9YzsBnk=";
+        };
+      };
+    };
+
     programs.zsh = {
       enable = true;
       shellAliases = {
@@ -60,7 +75,7 @@ in {
       oh-my-zsh = {
         enable = true;
         theme = "amuse-custom";
-        custom = "/persist/etc/nixos/dotfiles/oh-my-zsh";
+        custom = "$HOME/.config/oh-my-zsh";
         plugins = [ "git" ];
       };
       sessionVariables = {
