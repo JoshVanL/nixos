@@ -104,9 +104,9 @@ in {
       let g:go_fmt_autosave = 1
 
       " Copy/Paste to system clipboard
-      vmap <C-c> "+y
-      vmap <C-x> "+c
-      imap <C-v> <ESC>"+pa
+      xnoremap "+y y:call system("wl-copy", @")<cr>
+      nnoremap "+p :let @"=substitute(system("wl-paste --no-newline"), '<C-v><C-m>', ''+"''"+'', 'g')<cr>p
+      nnoremap "*p :let @"=substitute(system("wl-paste --no-newline --primary"), '<C-v><C-m>', ''+"''"+'', 'g')<cr>p
 
       "Indent Line char
       let g:indentLine_char = '¦'
