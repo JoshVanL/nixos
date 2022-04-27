@@ -35,7 +35,7 @@ in {
     programs.zsh = {
       enable = true;
       shellAliases = {
-        s = "dwl -s \"swaybg -i /home/josh/imgs/system/wallpaper.jpg <&-\"";
+        s = "dwl -s \"swaybg -i $HOME/imgs/system/wallpaper.jpg <&-\"";
         editn = "vim /persist/etc/nixos/configuration.nix";
         update = "sudo nixos-rebuild switch";
         update-channel = "sudo nix-channel --update";

@@ -22,7 +22,5 @@ in {
 
   home-manager.users.josh = { pkgs, ... }: {
     programs.home-manager.enable = true;
-    home.username = "josh";
-    home.homeDirectory = "/home/josh";
   };
 }
