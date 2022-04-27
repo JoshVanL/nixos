@@ -24,6 +24,9 @@ info "Switching nixos configuration ..."
 rm /home/josh/.zsh_history
 sudo nixos-rebuild switch
 
+# Ensure we clean up from install if exists.
+rm -f /persist/persist
+
 info "Ready. Powering off."
 read -p "Press any key to continue ..."
 poweroff
