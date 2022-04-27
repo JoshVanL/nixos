@@ -23,9 +23,9 @@
   # boot controlls.
   boot  = {
     # Clense with fire.
-    #initrd.postDeviceCommands = lib.mkAfter ''
-    #  zfs rollback -r rpool/local/root@blank
-    #'';
+    initrd.postDeviceCommands = lib.mkAfter ''
+      zfs rollback -r rpool/local/root@blank
+    '';
     zfs = {
       requestEncryptionCredentials = true;
     };
