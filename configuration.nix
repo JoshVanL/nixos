@@ -77,17 +77,6 @@
       };
       trim.enable = true;
     };
-
-    interception-tools = {
-      enable = true;
-      plugins = [ pkgs.interception-tools-plugins.caps2esc ];
-      udevmonConfig = ''
-        - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.caps2esc}/bin/caps2esc | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
-          DEVICE:
-            EVENTS:
-              EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
-      '';
-    };
   };
 
   # Set your time zone.
@@ -123,7 +112,6 @@
     extraPackages = with pkgs; [
       swaylock
       swayidle
-      wl-clipboard
       mako # notification daemon
       alacritty
       dmenu # Dmenu is the default in the config but i recommend wofi since its wayland native
@@ -139,6 +127,7 @@
       "d /persist/home/go           0755 josh wheel - -"
       "d /persist/home/.gnupg       0755 josh wheel - -"
       "d /persist/home/.ssh         0700 josh wheel - -"
+      "d /persist/home/.mozilla     0700 josh wheel - -"
 
       # Locals to pre-create with correct perms.
       "d /home/josh/.config      0755 josh wheel - -"
@@ -159,6 +148,7 @@
       "L+ /home/josh/.gnupg       - - - - /persist/home/.gnupg"
       "L+ /home/josh/go	          - - - - /persist/home/go"
       "L+ /home/josh/.ssh	        - - - - /persist/home/.ssh"
+      "L+ /home/josh/.mozilla	    - - - - /persist/home/.mozilla"
   ];
 
   fonts.fonts = with pkgs; [
@@ -175,73 +165,19 @@
     systemPackages = with pkgs; [
       # base
       cryptsetup
-      wget
+      wl-clipboard
       killall
       git
       vim_configurable
       firefox
       chromium
 
-      # window-manager
-      (dwl.overrideAttrs (oldAttrs: rec {
-        version = "0.3.2+canary";
-        src = fetchFromGitHub {
-          owner = "djpohly";
-          repo = "dwl";
-          rev = "a48ce99e6a3c0dda331781942995a85ba8e438a0";
-          hash = "sha256-E561th6ki5rNMy3qODzw3uZw3nrBbl/52pylp7dpdzg=";
-        };
-        patches = [
-          (fetchpatch {
-            name = "dwl.vanitygaps";
-            url  = "https://github.com/djpohly/dwl/compare/main...Sevz17:vanitygaps.patch";
-            hash = "sha256-6Xb0IncQxyBXSGcWnw/OWq2upSxzJYgfEBhU7DU20oA=";
-          })
-          (fetchpatch {
-            name = "dwl.joshvanl-mod-key-logo";
-            url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0001-mod-key-logo.patch";
-            hash = "sha256-mADTS6fdgMLndlIluKyykjw0t/d2HbkfUP613qgKFPA=";
-          })
-          (fetchpatch {
-            name = "dwl.joshvanl-colours";
-            url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0002-colours.patch";
-            hash = "sha256-yRAwp4Ff6y6PQAUKEthfKUGkIxqYfkuz35INDFPtZx4=";
-          })
-          (fetchpatch {
-            name = "dwl.joshvanl-firefox-wofi";
-            url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0003-firefox-wofi.patch";
-            hash = "sha256-BhdbQ5CmMFVC7+XAjrse7RvfxctALp3e/OdrkfkM0tc=";
-          })
-          (fetchpatch {
-            name = "dwl.joshvanl-repeat-rate";
-            url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0004-repeat-rate.patch";
-            hash = "sha256-6tunCJlffKk4SszsNHbaYXNCrDzuZFOaUQxlXLh4ImI=";
-          })
-          (fetchpatch {
-            name = "dwl.joshvanl-window-change-focus";
-            url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0005-window-change-focus.patch";
-            hash = "sha256-gow4ND3nS+glzJA9Cm8Gt6oncRHJW31c98T5fQFbZuI=";
-          })
-          (fetchpatch {
-            name = "dwl.joshvanl-no-window-rules";
-            url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0006-no-window-rules.patch";
-            hash = "sha256-pbR5rDYjWXbZ1QrAQm7cjuB/U0OsQJUO5r2pNvcEJok=";
-          })
-          (fetchpatch {
-            name = "dwl.joshvanl-chromium";
-            url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0007-chromium.patch";
-            hash = "sha256-PNRD3SSWkPIAthxyOqYGF/cYVCgQx97PlxzY4/16nUw=";
-          })
-        ];
-      }))
-      swaybg
-      wofi
-
       # work
       gnumake
       go_1_18
       kubectl
       calc
+      jq
     ];
   };
 }
