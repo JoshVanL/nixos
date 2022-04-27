@@ -165,15 +165,13 @@ cp -r /mnt/persist/etc/nixos /mnt/etc/nixos
 info "system linking /mnt/persist to ensure passward is captured in nix install ..."
 ln -s /mnt/persist /persist
 
-read -p "Press enter to continue ..."
-
 info "Adding nixos-unstable channel ..."
 nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixos
 
 info "Updating nixos channels ..."
 nix-channel --update
 
-read -p "Press enter to continue ..."
-
 info "Installing NixOS to /mnt ..."
 nixos-install --no-root-passwd
+
+info "Done. Please run 'sudo ./scripts/post-install.sh' once rebooted into system ..."
