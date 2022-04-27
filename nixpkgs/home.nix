@@ -7,12 +7,15 @@ let
 in {
   imports = [
     "${home-manager}/nixos"
+    ./yubikey.nix
     ./git.nix
     ./zsh.nix
     ./vim.nix
     ./alacritty.nix
     ./wayland.nix
     ./window-manager.nix
+    ./links.nix
+    ./programs.nix
    ];
 
   home-manager.users.josh = { pkgs, ... }: {

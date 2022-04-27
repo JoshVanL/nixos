@@ -1,0 +1,18 @@
+{ config, lib, pkgs, ... }:
+
+{
+  environment.systemPackages = with pkgs; [
+    # base
+    cryptsetup
+    killall
+    firefox
+    chromium
+
+    # work
+    gnumake
+    go_1_18
+    kubectl
+    calc
+    jq
+  ];
+}

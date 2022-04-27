@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-
   environment = {
     shellInit = ''
       export GPG_TTY="$(tty)"
