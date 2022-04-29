@@ -1,9 +1,11 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   environment.systemPackages = with pkgs; [
+    wl-clipboard
     swaybg
     wofi
+    waybar
 
     (dwl.overrideAttrs (oldAttrs: rec {
       version = "0.3.2+canary";

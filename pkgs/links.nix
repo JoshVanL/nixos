@@ -7,11 +7,12 @@
       "d /persist/home/go           0755 josh wheel - -"
       "d /persist/home/.gnupg       0755 josh wheel - -"
       "d /persist/home/.ssh         0700 josh wheel - -"
-      "d /persist/home/.mozilla     0700 josh wheel - -"
-      "d /persist/home/.cache       0700 josh wheel - -"
+      "d /persist/home/.mozilla     0755 josh wheel - -"
+      "d /persist/home/.cache       0755 josh wheel - -"
 
       # Locals to pre-create with correct perms.
       "d /home/josh/.config      0755 josh wheel - -"
+      "d /home/josh/.cache       0755 josh wheel - -"
       "d /home/josh/.local       0755 josh wheel - -"
       "d /home/josh/.local/share 0755 josh wheel - -"
       "d /root/.config           0755 root root - -"

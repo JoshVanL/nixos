@@ -21,7 +21,7 @@ info "Changing ownership of /persist/etc/nixos to josh ..."
 sudo chown -R josh:wheel /persist/etc/nixos
 
 info "Switching nixos configuration ..."
-rm /home/josh/.zsh_history
+rm -f /home/josh/.zsh_history
 sudo nixos-rebuild switch
 
 info "Cleaning up the garbage ..."
