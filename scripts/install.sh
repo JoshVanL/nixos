@@ -166,7 +166,7 @@ info "system linking /mnt/persist to ensure passward is captured in nix install 
 ln -s /mnt/persist /persist
 
 info "Adding nixos-unstable channel ..."
-nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixos
+nix-channel --add https://nixos.org/channels/nixos-unstable nixos
 
 info "Updating nixos channels ..."
 nix-channel --update

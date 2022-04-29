@@ -12,6 +12,7 @@ in {
     ./zsh.nix
     ./vim.nix
     ./alacritty.nix
+    ./wayland.nix
     ./window-manager.nix
     ./links.nix
     ./gtk.nix

@@ -14,7 +14,7 @@ function info {
 ################################################################################
 
 info "Adding unstable channel ..."
-sudo nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixos
+sudo nix-channel --add https://nixos.org/channels/nixos-unstable nixos
 sudo nix-channel --update
 
 info "Changing ownership of /persist/etc/nixos to josh ..."
