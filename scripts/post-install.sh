@@ -22,7 +22,7 @@ sudo chown -R josh:wheel /persist/etc/nixos
 
 info "Switching nixos configuration ..."
 rm -f /home/josh/.zsh_history
-sudo nixos-rebuild switch
+sudo nixos-rebuild switch --upgrade-all -I nixos-config=/persist/etc/nixos/configuration.nix
 
 info "Cleaning up the garbage ..."
 rm -f /persist/persist
@@ -30,4 +30,4 @@ sudo nix-collect-garbage -d
 
 info "Ready. Powering off."
 read -p "Press any key to continue ..."
-poweroff
+sudo poweroff
