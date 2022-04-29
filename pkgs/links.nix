@@ -8,7 +8,9 @@
       "d /persist/home/.gnupg   0755 josh wheel - -"
       "d /persist/home/.ssh     0700 josh wheel - -"
       "d /persist/home/.mozilla 0755 josh wheel - -"
-      "d /persist/home/.cache   0755 josh wheel - -"
+
+      "d /persist/home/.cache         0755 josh wheel - -"
+      "d /persist/home/.cache/mozilla 0755 josh wheel - -"
 
       # Locals to pre-create with correct perms.
       "d /home/josh/.config      0755 josh wheel - -"
