@@ -22,6 +22,7 @@
       "L+ /etc/NetworkManager/system-connections          - - - - /persist/etc/NetworkManager/system-connections"
 
       # Histories/Caches.
+      "R  /home/josh/.zsh_history   - - - -"
       "L+ /home/josh/.zsh_history   - - - - /persist/home/.zsh_history"
       "L+ /home/josh/.gnupg         - - - - /persist/home/.gnupg"
       "L+ /home/josh/go             - - - - /persist/home/go"
