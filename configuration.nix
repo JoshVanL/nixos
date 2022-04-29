@@ -9,9 +9,6 @@
   # Nix.
   nix = {
     allowedUsers = [ "root" "josh"];
-    #extraOptions = ''
-    #  experimental-features = nix-command
-    #'';
   };
   system.stateVersion = "nixos";
 
