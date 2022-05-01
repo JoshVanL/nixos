@@ -1,0 +1,1 @@
+/persist/etc/nixos/pkgs/hosts/thistle.nix

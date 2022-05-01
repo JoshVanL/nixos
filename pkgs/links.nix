@@ -2,6 +2,9 @@
 
 {
   systemd.tmpfiles.rules = [
+      # Host specific nix.
+      "L+ /persist/etc/nixos/pkgs/hosts/host.nix - - - - /persist/etc/nixos/pkgs/hosts/%H.nix"
+
       # /persist to maintain.
       "d /persist/home          0755 josh wheel - -"
       "d /persist/home/go       0755 josh wheel - -"

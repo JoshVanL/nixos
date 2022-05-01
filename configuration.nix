@@ -39,18 +39,10 @@
 
   # Networking.
   networking = {
-    hostName = "thistle";
-    hostId   = "94ec2b8d";
-    useDHCP  = false;
-    interfaces = {
-      enp1s0.useDHCP = true;
-      enp2s0f0.useDHCP = true;
-      wlp3s0.useDHCP = true;
-    };
-
     networkmanager.enable = true;
     firewall.enable = false;
     wireless.userControlled.enable = false;
+    useDHCP  = false;
 
     nameservers = [
       "8.8.8.8"
