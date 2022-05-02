@@ -7,4 +7,8 @@
       gtk = true;
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    xwayland
+  ];
 }

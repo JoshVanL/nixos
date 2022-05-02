@@ -9,11 +9,7 @@
 #   - ZFS Datasets for NixOS (https://grahamc.com/blog/nixos-on-zfs)
 #   - NixOS Manual (https://nixos.org/nixos/manual/)
 #
-# It expects the name of the block device (e.g. 'sda') to partition
-# and install NixOS on and an authorized public ssh key to log in as
-# 'root' remotely. The script must also be executed as root.
-#
-# Example: `sudo ./install.sh nvme0n1
+# Example: `sudo ./install.sh
 #
 
 set -euo pipefail
@@ -34,24 +30,48 @@ function info {
 
 ################################################################################
 
-export DISK=$1
-
-if ! [[ -v DISK ]]; then
-    err "Missing argument. Expected block device name, e.g. 'nvme0n1'"
-    exit 1
-fi
-
-export DISK_PATH="/dev/${DISK}"
-
-if ! [[ -b "$DISK_PATH" ]]; then
-    err "Invalid argument: '${DISK_PATH}' is not a block special file"
-    exit 1
-fi
-
 if [[ "$EUID" > 0 ]]; then
     err "Must run as root"
     exit 1
 fi
+
+AVAILABLE_DISKS=($(lsblk -d | tail -n+2 | cut -d" " -f1))
+DISK=""
+PS3="Select a disk to format and install: "
+select d in "${AVAILABLE_DISKS[@]}"
+do
+  export DISK=$d
+	break
+done
+export DISK_PATH="/dev/${DISK}"
+
+PARTITION_PREFIX=""
+PS3="Select a partition prefix:"
+select p in "" "p"
+do
+  export PARTITION_PREFIX=$p
+	break
+done
+
+AVAILABLE_HOSTS=$()
+HOSTNAME=""
+PS3="Select a hostname: "
+for f in $(find $(git rev-parse --show-toplevel)/pkgs/hosts -type f)
+do
+	AVAILABLE_HOSTS+=$(basename -- $f | cut -f 1 -d ".")
+done
+select host in "${AVAILABLE_HOSTS[@]}"
+do
+  export HOSTNAME=$host
+	break
+done
+
+info "Enter password for 'josh' user ..."
+mkdir -p /mnt/persist/etc/users
+mkdir -p /etc/users
+mkpasswd -m sha-512 | tr -d "\n\r" > /tmp/josh
+
+################################################################################
 
 export ZFS_POOL="rpool"
 
@@ -73,8 +93,8 @@ parted "$DISK_PATH" -- mklabel gpt
 parted "$DISK_PATH" -- mkpart primary 512MiB 100%
 parted "$DISK_PATH" -- mkpart ESP fat32 1MiB 512MiB
 parted "$DISK_PATH" -- set 2 boot on
-export DISK_PART_ROOT="${DISK_PATH}p1"
-export DISK_PART_BOOT="${DISK_PATH}p2"
+export DISK_PART_ROOT="${DISK_PATH}${PARTITION_PREFIX}1"
+export DISK_PART_BOOT="${DISK_PATH}${PARTITION_PREFIX}2"
 
 info "Formatting boot partition ..."
 mkfs.fat -F 32 -n boot "$DISK_PART_BOOT"
@@ -133,10 +153,10 @@ mount -t zfs "$ZFS_DS_PERSIST" /mnt/persist
 info "Generating NixOS configuration (/mnt/etc/nixos/*.nix) ..."
 nixos-generate-config --root /mnt
 
-info "Enter password for 'josh' user ..."
+info "Moving password to installation ..."
 mkdir -p /mnt/persist/etc/users
 mkdir -p /etc/users
-mkpasswd -m sha-512 | tr -d "\n\r" > /mnt/persist/etc/users/josh
+mv /tmp/josh /mnt/persist/etc/users/josh
 cp /mnt/persist/etc/users/josh /etc/users/josh
 
 info "Cloning NixOS configuration to /mnt/persist/etc/nixos/ ..."
@@ -164,6 +184,9 @@ cp -r /mnt/persist/etc/nixos /mnt/etc/nixos
 
 info "system linking /mnt/persist to ensure passward is captured in nix install ..."
 ln -s /mnt/persist /persist
+
+info "system linking host.nix to hostname configuration ..."
+ln -s /mnt/etc/nixos/pkgs/hosts/${HOSTNAME}.nix /mnt/etc/nixos/pkgs/hosts/host.nix
 
 info "Adding nixos-unstable channel ..."
 nix-channel --add https://nixos.org/channels/nixos-unstable nixos

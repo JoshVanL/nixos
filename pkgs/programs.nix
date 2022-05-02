@@ -11,7 +11,6 @@
     pavucontrol
     htop
     bat
-    xwayland
 
     # work
     gnumake
