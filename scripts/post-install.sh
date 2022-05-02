@@ -17,7 +17,7 @@ function info {
 
 ################################################################################
 
-if [ "$EUID" -ne 0 ]
+if [ "$EUID" -ne 0 ]; then
   err "Must run as root"
   exit 1
 fi
