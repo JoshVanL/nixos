@@ -31,7 +31,7 @@ in {
     programs.zsh = {
       enable = true;
       shellAliases = {
-        s               = "dwl -s \"swaybg -i $HOME/imgs/system/wallpaper.jpg <&-\"";
+        s               = "dwl -s 'somebar& sleep 0.3 && swaybg -i $HOME/imgs/system/wallpaper.jpg'";
         editn           = "vim /persist/etc/nixos/configuration.nix";
         update          = "sudo nixos-rebuild switch --upgrade-all -I nixos-config=/persist/etc/nixos/configuration.nix";
         update-channel  = "sudo nix-channel --update";
@@ -91,8 +91,6 @@ in {
         GOPATH  = "$HOME/go";
         GOBIN   = "$HOME/go/bin";
         GOPROXY = "https://proxy.golang.org";
-        #GPG_TTY = "$(tty)";
-        #SSH_AUTH_SOCK = "/run/user/$UID/gnupg/S.gpg-agent.ssh";
       };
     };
   };

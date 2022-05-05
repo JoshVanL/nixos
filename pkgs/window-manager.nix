@@ -7,6 +7,8 @@
     wofi
     waybar
 
+    (import /persist/etc/nixos/nixpkgs/somebar/default.nix)
+
     (dwl.overrideAttrs (oldAttrs: rec {
       version = "0.3.2+canary";
       src = fetchFromGitHub {

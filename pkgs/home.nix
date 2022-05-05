@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   home-manager = builtins.fetchTarball {
@@ -8,6 +8,7 @@ in {
   imports = [
     "${home-manager}/nixos"
     ./hosts/host.nix
+
     ./yubikey.nix
     ./git.nix
     ./zsh.nix

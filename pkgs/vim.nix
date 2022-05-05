@@ -125,7 +125,6 @@ in {
 
       " CTRL-x is Cut TODO
       vnoremap <C-z> "+x
-      :set paste
       '';
     };
   };
