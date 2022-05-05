@@ -86,6 +86,21 @@
           url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0013-remove-incmaster.patch";
           hash = "sha256-Xvov3THpGNdhGc+U95apB3fMtnRvl4L3B3P3wn8c8vI=";
         })
+        (fetchpatch {
+          name = "dwl.joshvanl-pinentry-floating";
+          url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0014-pinentry-floating.patch";
+          hash = "sha256-HCR4TCWAWIGoIsAMvWVzx2Ff9EyZ390H2ODqf6aGyaE=";
+        })
+        (fetchpatch {
+          name = "dwl.joshvanl-wayland-ipc";
+          url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0015-wayland-ipc.patch";
+          hash = "sha256-jjh1YeROFeJn/Ae0pKu6G2Ds8JFw6JjHWtBm5aqaxqE=";
+        })
+        (fetchpatch {
+          name = "dwl.joshvanl-fix-segfault";
+          url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0016-fix-segfault.patch";
+          hash = "sha256-4FbJXsm/LDhn/5VMYQRyR9IUfCj+M8zsA5WT2v5Sj/8=";
+        })
       ];
     }))
   ];
