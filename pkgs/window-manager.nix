@@ -101,6 +101,11 @@
           url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0016-fix-segfault.patch";
           hash = "sha256-CCdHQ8856IZs3QKISyilRkKc9TCbEXv21NzVRbRfN3s=";
         })
+        (fetchpatch {
+          name = "dwl.add-tag-10";
+          url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0017-add-tag-10.patch";
+          hash = "sha256-uQJrQbKsICQKdXzJ5ThdsYjclFodgJL053jZiQDzL2w=";
+        })
       ];
     }))
   ];
