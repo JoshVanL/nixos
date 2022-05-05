@@ -99,7 +99,7 @@
         (fetchpatch {
           name = "dwl.joshvanl-fix-segfault";
           url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0016-fix-segfault.patch";
-          hash = "sha256-4FbJXsm/LDhn/5VMYQRyR9IUfCj+M8zsA5WT2v5Sj/8=";
+          hash = "sha256-CCdHQ8856IZs3QKISyilRkKc9TCbEXv21NzVRbRfN3s=";
         })
       ];
     }))
