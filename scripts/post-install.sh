@@ -5,6 +5,7 @@ set -euo pipefail
 ################################################################################
 
 export COLOR_RESET="\033[0m"
+export RED_BG="\033[41m"
 export BLUE_BG="\033[44m"
 
 function err {
@@ -22,6 +23,11 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
+info "Setting correct remote git for nixos ..."
+cd /persist/etc/nixos
+git remote set-url origin git@github.com:joshvanl/nixos
+git checkout -b main
+
 info "Adding unstable channel ..."
 nix-channel --add https://nixos.org/channels/nixos-unstable nixos
 nix-channel --update
@@ -36,10 +42,6 @@ nixos-rebuild switch --upgrade-all -I nixos-config=/persist/etc/nixos/configurat
 info "Cleaning up the garbage ..."
 rm -f /persist/persist
 nix-collect-garbage -d
-
-info "Setting correct remote git for nixos ..."
-cd /persist/etc/nixos
-git remote set-url origin git@github.com:joshvanl/nixos
 
 info "Ready. Powering off ..."
 read -p "Press any key to continue ..."
