@@ -39,7 +39,7 @@ nix-collect-garbage -d
 
 info "Setting correct remote git for nixos ..."
 cd /persist/etc/nixos
-git remote set-url fork git@github.com:joshvanl/nixos
+git remote set-url origin git@github.com:joshvanl/nixos
 
 info "Ready. Powering off ..."
 read -p "Press any key to continue ..."
