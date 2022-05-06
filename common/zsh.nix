@@ -33,7 +33,7 @@ in {
       shellAliases = {
         s               = "/etc/window-manager/start.sh";
         editn           = "vim /persist/etc/nixos/configuration.nix";
-        update          = "sudo nixos-rebuild switch --upgrade-all -I nixos-config=/persist/etc/nixos/configuration.nix";
+        update          = "sudo nixos-rebuild switch --upgrade-all -I nixos-config=/persist/etc/nixos/configuration.nix && rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history";
         update-channel  = "sudo nix-channel --update";
         garbage-collect = "sudo nix-collect-garbage -d";
         programs        = "vim /persist/etc/nixos/common/programs.nix";
