@@ -11,6 +11,7 @@
     pavucontrol
     htop
     bat
+    fzf
 
     # work
     gnumake
