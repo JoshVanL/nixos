@@ -36,7 +36,7 @@ in {
         update          = "sudo nixos-rebuild switch --upgrade-all -I nixos-config=/persist/etc/nixos/configuration.nix";
         update-channel  = "sudo nix-channel --update";
         garbage-collect = "sudo nix-collect-garbage -d";
-        programs        = "vim /persist/etc/nixos/home/programs.nix";
+        programs        = "vim /persist/etc/nixos/common/programs.nix";
 
         kc = "kubectl";
         kg = "kubectl get";
