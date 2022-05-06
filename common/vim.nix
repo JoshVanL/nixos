@@ -107,6 +107,8 @@
         let g:go_highlight_function_calls = 1
         let g:go_highlight_extra_types = 1
 
+        set splitbelow
+
         :set backspace=indent,eol,start
 
         " Clipboard
