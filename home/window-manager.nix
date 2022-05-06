@@ -17,9 +17,9 @@
           hash = "sha256-+aXA9CcP729cuxpfUqL4HWsITjFW8USs5xs3Lv673C4=";
         })
         (fetchpatch {
-          name = "somebar.joshvanl-config-def";
-          url  = "https://raw.githubusercontent.com/joshvanl/somebar/joshvanl-patches/patches/001-config.def.hpp.patch";
-          hash = "sha256-mM/8SzNdvQEWlPLFDZshqK9Hh2yJtDZChMJqF7BUvpA=";
+          name = "somebar.joshvanl-config-colours";
+          url  = "https://raw.githubusercontent.com/joshvanl/somebar/joshvanl-patches/patches/001-config-colours.patch";
+          hash = "sha256-ZHUs9rXNwKmn5l0oPeFKaEFQvygOycBHPh/UXlx9m/Q=";
         })
         (fetchpatch {
           name = "somebar.joshvanl-hide-empty-tags";
