@@ -31,7 +31,7 @@ in {
     programs.zsh = {
       enable = true;
       shellAliases = {
-        s               = "dwl -s 'swaybg -i $HOME/imgs/system/wallpaper.jpg& somebar'";
+        s               = "/etc/window-manager/start.sh";
         editn           = "vim /persist/etc/nixos/configuration.nix";
         update          = "sudo nixos-rebuild switch --upgrade-all -I nixos-config=/persist/etc/nixos/configuration.nix";
         update-channel  = "sudo nix-channel --update";
@@ -53,7 +53,6 @@ in {
         ci   = "xclip -selection clipboard -i";
         co   = "xclip -o";
         tmp  = "cd $(mktemp -d)";
-        x    = "startx &> ~/.cache/Xoutput";
         gcil = "gcloud compute instances list";
         wkc  = "watch -n 0.2 kubectl";
         kcw  = "watch -n 0.2 kubectl";

@@ -136,4 +136,20 @@
       ];
     }))
   ];
+
+  environment.etc = {
+    "window-manager/start.sh" = {
+      text = ''
+        #!/usr/bin/env bash
+
+        # TODO: find a way to use 'dwl -c' without freezing.
+        dwl >/dev/null <&- &
+        sleep 0.6
+        swaybg -i $HOME/imgs/system/wallpaper.jpg <&- &
+        somebar <&-
+      '';
+
+      mode = "755";
+    };
+  };
 }
