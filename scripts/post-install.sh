@@ -37,6 +37,10 @@ info "Cleaning up the garbage ..."
 rm -f /persist/persist
 nix-collect-garbage -d
 
+info "Setting correct remote git for nixos ..."
+cd /persist/etc/nixos
+git remote set-url fork git@github.com:joshvanl/nixos
+
 info "Ready. Powering off ..."
 read -p "Press any key to continue ..."
 poweroff
