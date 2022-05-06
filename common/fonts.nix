@@ -3,6 +3,7 @@
 {
   fonts.fonts = with pkgs; [
     powerline-fonts
+    font-awesome
   ];
 
   home-manager.users.josh = { pkgs, ... }: {
