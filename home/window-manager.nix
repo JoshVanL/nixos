@@ -19,7 +19,7 @@
         (fetchpatch {
           name = "somebar.joshvanl-config-def";
           url  = "https://raw.githubusercontent.com/joshvanl/somebar/joshvanl-patches/patches/001-config.def.hpp.patch";
-          hash = "sha256-ZHUs9rXNwKmn5l0oPeFKaEFQvygOycBHPh/UXlx9m/Q=";
+          hash = "sha256-mM/8SzNdvQEWlPLFDZshqK9Hh2yJtDZChMJqF7BUvpA=";
         })
         (fetchpatch {
           name = "somebar.joshvanl-hide-empty-tags";
