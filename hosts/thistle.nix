@@ -10,5 +10,13 @@
       wlp3s0.useDHCP = true;
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    (import /persist/etc/nixos/nixpkgs/somestatus/default.nix {
+      lib  = lib;
+      pkgs = pkgs;
+      applyPatches = [ ];
+    })
+  ];
 }
 
