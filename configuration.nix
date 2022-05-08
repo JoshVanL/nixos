@@ -9,7 +9,14 @@
 
   # Nix.
   nix = {
-    allowedUsers = [ "root" "josh"];
+    allowedUsers      = [ "root" "josh"];
+    autoOptimiseStore = true;
+
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
   };
   system.stateVersion = "nixos";
 
@@ -46,8 +53,8 @@
     useDHCP  = false;
 
     nameservers = [
-      "8.8.8.8"
       "1.1.1.1"
+      "8.8.8.8"
     ];
   };
 
