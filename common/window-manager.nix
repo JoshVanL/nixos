@@ -14,7 +14,7 @@
         swaybg -i $HOME/imgs/system/wallpaper.jpg <&- &
         somebar <&- &
         sleep 0.6
-        until somestatus; do :; done
+        until somestatus >/dev/null; do :; done
       '';
 
       mode = "755";

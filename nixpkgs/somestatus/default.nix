@@ -2,13 +2,13 @@
 
 pkgs.buildGo118Module rec {
   pname = "somestatus";
-  version = "0.1.0";
+  version = "0.1.1";
 
   src = pkgs.fetchFromGitHub {
     owner = "joshvanl";
     repo = pname;
-    rev = "dbd213e1ae2440c9372b3ab2999a5cf0f7b24b62";
-    hash = "sha256-GFQhmHTBQt3C5Y062uGJ5IYMKhrUWwpvqvtAwTGLuJI=";
+    rev = "40b29555815185d2ac875237770ee6e66b54f73e";
+    hash = "sha256-Lwc+oFsLhjrt2tCGLnXlRch1hznovntFkKJMRUV7+3M=";
   };
 
   vendorSha256 = "sha256-jIrWIURv8od7NVoNvV4S63sIQRHmT4NfKIbaifawWQw=";
