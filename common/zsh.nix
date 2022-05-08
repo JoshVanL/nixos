@@ -37,6 +37,7 @@ in {
         update-channel  = "sudo nix-channel --update";
         garbage-collect = "sudo nix-collect-garbage -d";
         programs        = "vim /persist/etc/nixos/common/programs.nix";
+        hist            = "rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history";
 
         kc = "kubectl";
         kg = "kubectl get";
