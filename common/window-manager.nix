@@ -1,6 +1,26 @@
 { lib, pkgs, ... }:
 
 {
+  environment.etc = {
+    "window-manager/start.sh" = {
+      text = ''
+        #!/usr/bin/env bash
+
+        rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history
+
+        # TODO: find a way to use 'dwl -c' without freezing.
+        dwl >/dev/null <&- &
+        sleep 0.6
+        swaybg -i $HOME/imgs/system/wallpaper.jpg <&- &
+        somebar <&- &
+        sleep 0.6
+        until somestatus; do :; done
+      '';
+
+      mode = "755";
+    };
+  };
+
   environment.systemPackages = with pkgs; [
     wl-clipboard
     swaybg
@@ -136,20 +156,4 @@
       ];
     }))
   ];
-
-  environment.etc = {
-    "window-manager/start.sh" = {
-      text = ''
-        #!/usr/bin/env bash
-
-        # TODO: find a way to use 'dwl -c' without freezing.
-        dwl >/dev/null <&- &
-        sleep 0.6
-        swaybg -i $HOME/imgs/system/wallpaper.jpg <&- &
-        somebar <&-
-      '';
-
-      mode = "755";
-    };
-  };
 }
