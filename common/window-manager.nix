@@ -156,6 +156,11 @@
           url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0018-fix-another-seg-fault.patch";
           hash = "sha256-fLebNLevVbdCrkJXdSbqgIdIEPsJR+F7J8YW3ag+y0I=";
         })
+        (super.fetchpatch {
+          name = "dwl.microphone-mute-command";
+          url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0019-mute-command.patch";
+          hash = "sha256-oyi11Bllsj182izBWnvFf3PwfgANew5EstEHPFHhanA=";
+        })
       ];
     });
   };

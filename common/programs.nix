@@ -12,6 +12,7 @@
     htop
     bat
     fzf
+    pulseaudio
 
     # work
     gnumake
