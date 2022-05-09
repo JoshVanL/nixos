@@ -13,6 +13,7 @@
     bat
     fzf
     pulseaudio
+    wdisplays
 
     # work
     gnumake
