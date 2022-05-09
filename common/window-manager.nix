@@ -50,6 +50,11 @@
           url  = "https://raw.githubusercontent.com/joshvanl/somebar/joshvanl-patches/patches/002-hide-empty-tags.patch";
           hash = "sha256-4nAN1UpryyPAr1nvx/iWUWbt42gsD5eN5wEdZXX2fxE=";
         })
+        (super.fetchpatch {
+          name = "somebar.joshvanl-status-text-invert";
+          url  = "https://raw.githubusercontent.com/joshvanl/somebar/joshvanl-patches/patches/003-status-text-invert.patch";
+          hash = "sha256-k07fViaNVqMgd23worXLCXx9Im7/lWdnM+e9jL8kYYQ=";
+        })
       ];
     };
     dwl = super.dwl.overrideAttrs (_: rec {
