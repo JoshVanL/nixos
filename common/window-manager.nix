@@ -57,8 +57,8 @@
       src = super.fetchFromGitHub {
         owner = "djpohly";
         repo  = "dwl";
-        rev   = "a48ce99e6a3c0dda331781942995a85ba8e438a0";
-        hash  = "sha256-E561th6ki5rNMy3qODzw3uZw3nrBbl/52pylp7dpdzg=";
+        rev   = "d5a741c9b47f744428e75a76b9f5f6410acfbcf3";
+        hash  = "sha256-UzToiQW/+tnsMPXxLkoGvF5+wo2YRlzl0cqcwba+wFo=";
       };
       patches = [
         (super.fetchpatch {
@@ -140,11 +140,6 @@
           name = "dwl.joshvanl-wayland-ipc";
           url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0015-wayland-ipc.patch";
           hash = "sha256-jjh1YeROFeJn/Ae0pKu6G2Ds8JFw6JjHWtBm5aqaxqE=";
-        })
-        (super.fetchpatch {
-          name = "dwl.joshvanl-fix-segfault";
-          url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0016-fix-segfault.patch";
-          hash = "sha256-CCdHQ8856IZs3QKISyilRkKc9TCbEXv21NzVRbRfN3s=";
         })
         (super.fetchpatch {
           name = "dwl.add-tag-10";
