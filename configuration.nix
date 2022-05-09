@@ -42,8 +42,9 @@
     };
   };
 
-  # Needed for user passwords.
+  # Needed for config and user passwords.
   fileSystems."/persist".neededForBoot = true;
+  fileSystems."/keep".neededForBoot = true;
 
   # Networking.
   networking = {
@@ -106,7 +107,7 @@
         home = "/home/josh";
         group = "users";
         extraGroups = [ "wheel" "networkmanager" ];
-        passwordFile = "/persist/etc/users/josh";
+        passwordFile = "/keep/etc/users/josh";
       };
       root = {
         hashedPassword = "!";

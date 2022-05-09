@@ -24,7 +24,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 info "Setting correct remote git for nixos ..."
-cd /persist/etc/nixos
+cd /keep/etc/nixos
 git remote set-url origin git@github.com:joshvanl/nixos
 git checkout -b main
 
@@ -32,15 +32,15 @@ info "Adding unstable channel ..."
 nix-channel --add https://nixos.org/channels/nixos-unstable nixos
 nix-channel --update
 
-info "Changing ownership of /persist/etc/nixos to josh ..."
-chown -R josh:wheel /persist/etc/nixos
+info "Changing ownership of /keep/etc/nixos to josh ..."
+chown -R josh:wheel /keep/etc/nixos
 
 info "Switching nixos configuration ..."
 rm -f /home/josh/.zsh_history
-nixos-rebuild switch --upgrade-all -I nixos-config=/persist/etc/nixos/configuration.nix
+nixos-rebuild switch --upgrade-all -I nixos-config=/keep/etc/nixos/configuration.nix
 
 info "Cleaning up the garbage ..."
-rm -f /persist/persist
+rm -f /keep/keep
 nix-collect-garbage -d
 
 info "Ready. Powering off ..."

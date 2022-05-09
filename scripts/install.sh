@@ -67,7 +67,7 @@ do
 done
 
 info "Enter password for 'josh' user ..."
-mkdir -p /mnt/persist/etc/users
+mkdir -p /mnt/keep/etc/users
 mkdir -p /etc/users
 mkpasswd -m sha-512 | tr -d "\n\r" > /tmp/josh
 
@@ -78,9 +78,11 @@ export ZFS_POOL="rpool"
 # ephemeral datasets
 export ZFS_LOCAL="${ZFS_POOL}/local"
 export ZFS_DS_ROOT="${ZFS_LOCAL}/root"
+# The below are kept on this machine.
 export ZFS_DS_NIX="${ZFS_LOCAL}/nix"
+export ZFS_DS_KEEP="${ZFS_LOCAL}/keep"
 
-# persistent datasets
+# Persistent datasets which are backed up.
 export ZFS_SAFE="${ZFS_POOL}/safe"
 export ZFS_DS_PERSIST="${ZFS_SAFE}/persist"
 
@@ -103,34 +105,35 @@ info "Creating '$ZFS_POOL' ZFS pool for '$DISK_PART_ROOT' ..."
 zpool create -f \
   -o ashift=12 \
   -o autotrim=on \
+  -O canmount=off \
+  -O mountpoint=none \
+  -O acltype=posixacl \
   -O compression=lz4 \
   -O dnodesize=auto \
   -O relatime=on \
   -O normalization=formD \
+  -O xattr=sa \
   -O encryption=aes-256-gcm \
   -O keylocation=prompt \
   -O keyformat=passphrase "$ZFS_POOL" "$DISK_PART_ROOT"
 
 info "Creating '$ZFS_DS_ROOT' ZFS dataset ..."
-zfs create -p -o mountpoint=legacy "$ZFS_DS_ROOT"
+zfs create -p -o canmount=on -o mountpoint=legacy "$ZFS_DS_ROOT"
 
 info "Creating '$ZFS_DS_NIX' ZFS dataset ..."
-zfs create -p -o mountpoint=legacy "$ZFS_DS_NIX"
+zfs create -p -o canmount=on -o mountpoint=legacy "$ZFS_DS_NIX"
 
 info "Disabling access time setting for '$ZFS_DS_NIX' ZFS dataset ..."
 zfs set atime=off "$ZFS_DS_NIX"
 
+info "Creating '$ZFS_DS_KEEP' ZFS dataset ..."
+zfs create -p -o canmount=on -o mountpoint=legacy "$ZFS_DS_KEEP"
+
 info "Creating '$ZFS_DS_PERSIST' ZFS dataset ..."
-zfs create -p -o mountpoint=legacy "$ZFS_DS_PERSIST"
+zfs create -p -o canmount=on -o mountpoint=legacy "$ZFS_DS_PERSIST"
 
 info "Permit ZFS auto-snapshots on ${ZFS_SAFE}/* datasets ..."
 zfs set com.sun:auto-snapshot=true "$ZFS_DS_PERSIST"
-
-info "Configuring extended attributes setting for '$ZFS_DS_ROOT' ZFS dataset ..."
-zfs set xattr=sa "$ZFS_DS_ROOT"
-
-info "Configuring access control list setting for '$ZFS_DS_ROOT' ZFS dataset ..."
-zfs set acltype=posixacl "$ZFS_DS_ROOT"
 
 info "Creating '$ZFS_BLANK_SNAPSHOT' ZFS snapshot ..."
 zfs snapshot "$ZFS_BLANK_SNAPSHOT"
@@ -146,6 +149,10 @@ info "Mounting '$ZFS_DS_NIX' to /mnt/nix ..."
 mkdir /mnt/nix
 mount -t zfs "$ZFS_DS_NIX" /mnt/nix
 
+info "Mounting '$ZFS_DS_KEEP' to /mnt/keep ..."
+mkdir /mnt/keep
+mount -t zfs "$ZFS_DS_KEEP" /mnt/keep
+
 info "Mounting '$ZFS_DS_PERSIST' to /mnt/persist ..."
 mkdir /mnt/persist
 mount -t zfs "$ZFS_DS_PERSIST" /mnt/persist
@@ -154,19 +161,19 @@ info "Generating NixOS configuration (/mnt/etc/nixos/*.nix) ..."
 nixos-generate-config --root /mnt
 
 info "Moving password to installation ..."
-mkdir -p /mnt/persist/etc/users
+mkdir -p /mnt/keep/etc/users
 mkdir -p /etc/users
-mv /tmp/josh /mnt/persist/etc/users/josh
-cp /mnt/persist/etc/users/josh /etc/users/josh
+mv /tmp/josh /mnt/keep/etc/users/josh
+cp /mnt/keep/etc/users/josh /etc/users/josh
 
-info "Cloning NixOS configuration to /mnt/persist/etc/nixos/ ..."
-mkdir -p /mnt/persist/etc/nixos
-cd /mnt/persist/etc/nixos
+info "Cloning NixOS configuration to /mnt/keep/etc/nixos/ ..."
+mkdir -p /mnt/keep/etc/nixos
+cd /mnt/keep/etc/nixos
 git init
 git remote add origin https://github.com/joshvanl/nixos.git
 git pull origin main
 cd -
-cp /mnt/persist/etc/nixos/configuration.nix /mnt/etc/nixos/.
+cp /mnt/keep/etc/nixos/configuration.nix /mnt/etc/nixos/.
 
 info "Appending machine-specific properties to hardware-configuration.nix ..."
 HARDWARE_CONFIG=$(mktemp)
@@ -175,15 +182,15 @@ cat <<CONFIG > "$HARDWARE_CONFIG"
 CONFIG
 sed -i "\$e cat $HARDWARE_CONFIG" /mnt/etc/nixos/hardware-configuration.nix
 
-info "Copying generated hardware-configuration.nix to /mnt/persist/etc/nixos/ ..."
-cp /mnt/etc/nixos/hardware-configuration.nix /mnt/persist/etc/nixos/
+info "Copying generated hardware-configuration.nix to /mnt/keep/etc/nixos/ ..."
+cp /mnt/etc/nixos/hardware-configuration.nix /mnt/keep/etc/nixos/
 
-info "Replacing /mnt/etc/nixos with /mnt/persist/etc/nixos ..."
+info "Replacing /mnt/etc/nixos with /mnt/keep/etc/nixos ..."
 rm -r /mnt/etc/nixos
-cp -r /mnt/persist/etc/nixos /mnt/etc/nixos
+cp -r /mnt/keep/etc/nixos /mnt/etc/nixos
 
-info "system linking /mnt/persist to ensure passward is captured in nix install ..."
-ln -s /mnt/persist /persist
+info "system linking /mnt/keep to ensure passward is captured in nix install ..."
+ln -s /mnt/keep /keep
 
 info "system linking host.nix to hostname configuration ..."
 ln -s /mnt/etc/nixos/hosts/${HOSTNAME}.nix /mnt/etc/nixos/hosts/host.nix
