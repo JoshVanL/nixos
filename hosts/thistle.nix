@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
   networking = {
@@ -11,11 +11,11 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    (import /persist/etc/nixos/nixpkgs/somestatus/default.nix {
-      lib  = lib;
-      pkgs = pkgs;
-      applyPatches = [ ];
+  nixpkgs.overlays = [
+    (self: super: {
+      somestatus = super.somestatus.overrideAttrs (attrs: rec {
+        patches = attrs.patches ++ [ ];
+      });
     })
   ];
 }

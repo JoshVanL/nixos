@@ -1,30 +1,46 @@
-{ lib, pkgs, applyPatches }:
+{ lib
+, stdenv
+, fetchFromGitHub
+, pkg-config
+, meson
+, ninja
+, gcc
+, cairo
+, wayland
+, wayland-protocols
+, pango
+, patches ? []
+}:
 
-pkgs.stdenv.mkDerivation rec {
+let
+  totalPatches = patches ++ [ ];
+in
+
+stdenv.mkDerivation rec {
   pname = "somebar";
   version = "1.0.0";
 
-  src = pkgs.fetchFromGitHub {
+  src = fetchFromGitHub {
     owner = "joshvanl";
     repo = pname;
     rev = "85b7b6290aff2c121dc6ced132f3e3d13ebb3ec6";
     hash = "sha256-2gp+NO8vJ5c56NyMuGFfSjN232F09dFVExRzC5nkWvI=";
   };
 
-  nativeBuildInputs = [ pkgs.pkg-config pkgs.meson pkgs.ninja ];
+  nativeBuildInputs = [ pkg-config meson ninja ];
 
   buildInputs = [
-    pkgs.gcc
-    pkgs.cairo
-    pkgs.wayland
-    pkgs.wayland-protocols
-    pkgs.pango
+    gcc
+    cairo
+    wayland
+    wayland-protocols
+    pango
   ];
 
   dontBuild = true;
   dontConfigure = true;
 
-  patches = applyPatches;
+  patches = totalPatches;
 
   installPhase = ''
     runHook preInstall
@@ -44,6 +60,5 @@ pkgs.stdenv.mkDerivation rec {
       dwm-like bar for dwl.
     '';
     license = licenses.mit;
-    inherit (pkgs.wayland.meta) platforms;
   };
 }

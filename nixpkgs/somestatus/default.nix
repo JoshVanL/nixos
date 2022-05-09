@@ -1,10 +1,20 @@
-{ lib, pkgs, applyPatches }:
+{ lib
+, buildGo118Module
+, fetchFromGitHub
+, pkg-config
+, libpulseaudio
+, patches ? []
+}:
 
-pkgs.buildGo118Module rec {
+let
+  totalPatches = patches ++ [ ];
+in
+
+buildGo118Module rec {
   pname = "somestatus";
   version = "0.1.2";
 
-  src = pkgs.fetchFromGitHub {
+  src = fetchFromGitHub {
     owner = "joshvanl";
     repo = pname;
     rev = "cfb1c55a71d6155a1c63630fb36acf9babd7171f";
@@ -13,12 +23,14 @@ pkgs.buildGo118Module rec {
 
   vendorSha256 = "sha256-jIrWIURv8od7NVoNvV4S63sIQRHmT4NfKIbaifawWQw=";
 
+  patches = totalPatches;
+
   nativeBuildInputs = [
-    pkgs.pkg-config
+    pkg-config
   ];
 
   buildInputs = [
-    pkgs.libpulseaudio
+    libpulseaudio
   ];
 
   meta = with lib; {
@@ -29,6 +41,5 @@ pkgs.buildGo118Module rec {
       https://git.sr.ht/~raphi/somebar";
     '';
     license = licenses.asl20;
-    inherit (pkgs.wayland.meta) platforms;
   };
 }
