@@ -7,7 +7,7 @@
 
       # /persist to maintain.
       "d /persist/home          0755 josh wheel - -"
-      "d /persist/home/go       0755 josh wheel - -"
+      "d /keep/home/go       0755 josh wheel - -"
       "d /persist/home/.ssh     0700 josh wheel - -"
       "d /persist/home/.mozilla 0755 josh wheel - -"
 
@@ -28,7 +28,7 @@
       # Histories/Caches.
       "R  /home/josh/.zsh_history   - - - -"
       "L+ /home/josh/.zsh_history   - - - - /persist/home/.zsh_history"
-      "L+ /home/josh/go             - - - - /persist/home/go"
+      "L+ /home/josh/go             - - - - /keep/home/go"
       "L+ /home/josh/.ssh           - - - - /persist/home/.ssh"
       "L+ /home/josh/.mozilla       - - - - /persist/home/.mozilla"
       "L+ /home/josh/.cache/mozilla - - - - /persist/home/.cache/mozilla"
