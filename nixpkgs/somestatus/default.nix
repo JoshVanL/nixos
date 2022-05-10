@@ -12,13 +12,13 @@ in
 
 buildGo118Module rec {
   pname = "somestatus";
-  version = "0.1.4";
+  version = "0.1.5";
 
   src = fetchFromGitHub {
     owner = "joshvanl";
     repo = pname;
-    rev = "8e305144bd218bba44d362bddab6bf68b7992a66";
-    hash = "sha256-PY0bcT1Fa+Cry8OqY6Ln1Jn6vgC+P9AgyyjySHvjyJA=";
+    rev = "e7b48e367910063c95343a907afb2e1c5d951deb";
+    hash = "sha256-STzRNl6Nk1Lt80xV1JdxrQ+6dfX9TjNY9pPAfPxu93I=";
   };
 
   vendorSha256 = "sha256-jIrWIURv8od7NVoNvV4S63sIQRHmT4NfKIbaifawWQw=";
