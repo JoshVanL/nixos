@@ -23,17 +23,17 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
+info "Changing ownership of /keep/etc/nixos to josh ..."
+chown -R josh:wheel /keep/etc/nixos
+
 info "Setting correct remote git for nixos ..."
 cd /keep/etc/nixos
-git remote set-url origin git@github.com:joshvanl/nixos
-git checkout -b main
+sudo -u josh git remote set-url origin git@github.com:joshvanl/nixos
+sudo -u josh git checkout main
 
 info "Adding unstable channel ..."
 nix-channel --add https://nixos.org/channels/nixos-unstable nixos
 nix-channel --update
-
-info "Changing ownership of /keep/etc/nixos to josh ..."
-chown -R josh:wheel /keep/etc/nixos
 
 info "Switching nixos configuration ..."
 rm -f /home/josh/.zsh_history
