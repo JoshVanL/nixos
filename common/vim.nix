@@ -70,6 +70,8 @@
         set ttimeoutlen=20
         :set noshowmode
 
+        set mouse=a
+
         "Spell Checking
         autocmd BufNewFile,BufRead *.txt set spell spelllang=en_gb
         autocmd BufNewFile,BufRead *.tex set spell spelllang=en_gb
