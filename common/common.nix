@@ -18,6 +18,7 @@ in {
     ./links.nix
     ./gtk.nix
     ./fonts.nix
+    ./backup.nix
     ./programs.nix
    ];
 
