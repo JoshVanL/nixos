@@ -31,7 +31,7 @@ in {
     programs.zsh = {
       enable = true;
       shellAliases = {
-        s               = "/etc/window-manager/start.sh";
+        s               = "/etc/joshvanl/window-manager/start.sh";
         editn           = "vim /keep/etc/nixos/configuration.nix";
         update          = "sudo nixos-rebuild switch --upgrade-all -I nixos-config=/keep/etc/nixos/configuration.nix && rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history";
         update-channel  = "sudo nix-channel --update";

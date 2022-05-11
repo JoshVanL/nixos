@@ -2,7 +2,7 @@
 
 {
   environment.etc = {
-    "window-manager/start.sh" = {
+    "joshvanl/window-manager/start.sh" = {
       text = ''
         #!/usr/bin/env bash
 
