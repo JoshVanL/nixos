@@ -106,7 +106,7 @@
         createHome = true;
         home = "/home/josh";
         group = "users";
-        extraGroups = [ "wheel" "networkmanager" ];
+        extraGroups = [ "wheel" "networkmanager" "video" ];
         passwordFile = "/keep/etc/users/josh";
       };
       root = {
