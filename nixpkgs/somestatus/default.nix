@@ -12,16 +12,16 @@ in
 
 buildGo118Module rec {
   pname = "somestatus";
-  version = "0.1.5";
+  version = "0.1.6";
 
   src = fetchFromGitHub {
     owner = "joshvanl";
     repo = pname;
-    rev = "e7b48e367910063c95343a907afb2e1c5d951deb";
-    hash = "sha256-STzRNl6Nk1Lt80xV1JdxrQ+6dfX9TjNY9pPAfPxu93I=";
+    rev = "61c058d41a359ec28cbbf19eb0d3a687810e8109";
+    hash = "sha256-3nkx1UNXBCF6oET42g8pkdYkY8jSsyBAjs+ni77Y2jE=";
   };
 
-  vendorSha256 = "sha256-jIrWIURv8od7NVoNvV4S63sIQRHmT4NfKIbaifawWQw=";
+  vendorSha256 = "sha256-NvUfL0fsT28j8EDu+ub7wnezQVSBRKrDfW8sq6XnOy8=";
 
   patches = totalPatches;
 
