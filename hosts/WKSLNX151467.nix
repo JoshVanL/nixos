@@ -9,6 +9,28 @@
     };
   };
 
+  environment = {
+    systemPackages = with pkgs; [
+      brightnessctl
+    ];
+
+    etc = {
+      "joshvanl/window-manager/kanshi.cfg" = {
+        text = ''
+          {
+            output DP-1 mode 2560x1440 position 0,0
+            output eDP-1 mode 3840x2400 scale 1.6 position 2560,0
+          }
+
+          {
+            output DP-1 mode 2560x1440 position 0,0
+          }
+        '';
+        mode = "644";
+      };
+    };
+  };
+
   nixpkgs.overlays = [
     (self: super: {
       somestatus = super.somestatus.overrideAttrs (attrs: rec {
@@ -19,29 +41,13 @@
             hash = "sha256-9U83CJ6UJJ6KrrRVxn/6OEorijUF2VcD2+f4TG+RwQ0=";
           })
           (super.fetchpatch {
-            name = "somebar.joshvanl-module-battery";
-            url  = "https://raw.githubusercontent.com/joshvanl/somestatus/d71bf508a23cf436344ed7141f27b4390440565d/patches/002-module-backlight-intel.patch";
-            hash = "sha256-NZdMMH8ouo0KAJH85EKoV8VG5+pjpAeXhomPoYRUbBg=";
+            name = "somebar.joshvanl-module-backlight";
+            url  = "https://raw.githubusercontent.com/joshvanl/somestatus/c2ccb473abc40b9db0beb04c9fe659672bc0959f/patches/002-module-backlight-intel.patch";
+            hash = "sha256-R6NI0SPvDWERvD2GObe6Dk/2GODQkxjnSwxfFTZdhl4=";
           })
         ];
       });
     })
   ];
-
-  environment.etc = {
-    "joshvanl/window-manager/kanshi.cfg" = {
-      text = ''
-        {
-          output DP-1 mode 2560x1440 position 0,0
-          output eDP-1 mode 3840x2400 scale 1.6 position 2560,0
-        }
-
-        {
-          output DP-1 mode 2560x1440 position 0,0
-        }
-      '';
-      mode = "644";
-    };
-  };
 }
 
