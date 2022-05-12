@@ -173,6 +173,16 @@
           url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0020-trackpad-natural-scrolling.patch";
           hash = "sha256-c/ItljW3t69FDrcm6kEGNRTu1MQmoeb3HZTwcUhSZiM=";
         })
+        (super.fetchpatch {
+          name = "dwl.joshvanl-volume-buttons";
+          url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0021-volume-buttons.patch";
+          hash = "sha256-tXyQwkIEaPiSdfUGdqMaGIZRTEt6oPbpnvjbxRhf5vA=";
+        })
+        (super.fetchpatch {
+          name = "dwl.joshvanl-brightness-buttons";
+          url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0022-brightness-buttons.patch";
+          hash = "sha256-VNxX3tyLnS3h6lshmF5I59NQ5xV8dIUunoyytLqMgls=";
+        })
       ];
     });
   };
