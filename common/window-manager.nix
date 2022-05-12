@@ -150,19 +150,24 @@
           hash = "sha256-jjh1YeROFeJn/Ae0pKu6G2Ds8JFw6JjHWtBm5aqaxqE=";
         })
         (super.fetchpatch {
-          name = "dwl.add-tag-10";
+          name = "dwl.joshvanl-add-tag-10";
           url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0017-add-tag-10.patch";
           hash = "sha256-uQJrQbKsICQKdXzJ5ThdsYjclFodgJL053jZiQDzL2w=";
         })
         (super.fetchpatch {
-          name = "dwl.fix-another-seg-fault";
+          name = "dwl.joshvanl-fix-another-seg-fault";
           url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0018-fix-another-seg-fault.patch";
           hash = "sha256-fLebNLevVbdCrkJXdSbqgIdIEPsJR+F7J8YW3ag+y0I=";
         })
         (super.fetchpatch {
-          name = "dwl.microphone-mute-command";
+          name = "dwl.joshvanl-microphone-mute-command";
           url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0019-mute-command.patch";
           hash = "sha256-oyi11Bllsj182izBWnvFf3PwfgANew5EstEHPFHhanA=";
+        })
+        (super.fetchpatch {
+          name = "dwl.joshvanl-natural-scrolling";
+          url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0020-trackpad-natural-scrolling.patch";
+          hash = "sha256-c/ItljW3t69FDrcm6kEGNRTu1MQmoeb3HZTwcUhSZiM=";
         })
       ];
     });
