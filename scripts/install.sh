@@ -53,12 +53,12 @@ do
 	break
 done
 
-AVAILABLE_HOSTS=$()
+AVAILABLE_HOSTS=()
 HOSTNAME=""
 PS3="Select a hostname: "
 for f in $(find $(git rev-parse --show-toplevel)/hosts -type f)
 do
-	AVAILABLE_HOSTS+=$(basename -- $f | cut -f 1 -d ".")
+  AVAILABLE_HOSTS+=($(basename -- $f | cut -f 1 -d "."))
 done
 select host in "${AVAILABLE_HOSTS[@]}"
 do
