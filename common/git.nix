@@ -10,6 +10,9 @@ in {
       enable = true;
       userEmail = "vleeuwenjoshua@gmail.com";
       userName  = "joshvanl";
+      ignores = [
+        "*.swp"
+      ];
       extraConfig = {
         init = {
           defaultBranch = "main";
