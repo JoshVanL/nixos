@@ -18,5 +18,14 @@
       });
     })
   ];
+
+  environment.etc = {
+    "joshvanl/window-manager/kanshi.cfg" = {
+      text = ''
+        { }
+      '';
+      mode = "644";
+    };
+  };
 }
 
