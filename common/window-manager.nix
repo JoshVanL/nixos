@@ -40,7 +40,7 @@
       patches = [
         (super.fetchpatch {
           name = "somebar.joshvanl-ipc";
-          url  = "https://raw.githubusercontent.com/JoshVanL/somebar/joshvanl-patches/patches/000-ipc.patch";
+          url  = "https://raw.githubusercontent.com/joshvanl/somebar/joshvanl-patches/patches/000-ipc.patch";
           hash = "sha256-+aXA9CcP729cuxpfUqL4HWsITjFW8USs5xs3Lv673C4=";
         })
         (super.fetchpatch {
