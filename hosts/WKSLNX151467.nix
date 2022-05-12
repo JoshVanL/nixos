@@ -5,7 +5,7 @@
     hostName = "WKSLNX151467";
     hostId   = "49ab6f90";
     interfaces = {
-      wlan0.useDHCP = true;
+      wlp0s20f3.useDHCP = true;
     };
   };
 
