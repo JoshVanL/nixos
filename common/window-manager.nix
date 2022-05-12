@@ -61,12 +61,12 @@
       ];
     };
     dwl = super.dwl.overrideAttrs (_: rec {
-      version = "0.3.2+canary";
+      version = "0.3.2+canary.1";
       src = super.fetchFromGitHub {
         owner = "djpohly";
         repo  = "dwl";
-        rev   = "d5a741c9b47f744428e75a76b9f5f6410acfbcf3";
-        hash  = "sha256-UzToiQW/+tnsMPXxLkoGvF5+wo2YRlzl0cqcwba+wFo=";
+        rev   = "22bd75226bc897a3b2ad90f36883ff489d435eb4";
+        hash  = "sha256-C6PS4F2Rf5ueHDE22IDMaLu1cUbccmQbacHVqKcGjlg=";
       };
       patches = [
         (super.fetchpatch {
