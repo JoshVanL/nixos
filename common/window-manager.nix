@@ -14,6 +14,8 @@
         swaybg -i $HOME/imgs/system/wallpaper.jpg <&- &
         somebar <&- &
         sleep 0.6
+        kanshi --config /etc/joshvanl/window-manager/kanshi.cfg >/dev/null <&- &
+        sleep 0.6
         while somestatus
         do
           break
@@ -29,6 +31,8 @@
     swaybg
     wofi
     waybar
+    kanshi
+    wdisplays
     somestatus
     somebar
     dwl

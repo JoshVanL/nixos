@@ -13,7 +13,6 @@
     bat
     fzf
     pulseaudio
-    wdisplays
     backblaze-b2
 
     # work
