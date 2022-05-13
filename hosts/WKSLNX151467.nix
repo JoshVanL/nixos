@@ -13,6 +13,7 @@
     systemPackages = with pkgs; [
       brightnessctl
       kind
+      helm
     ];
 
     etc = {
@@ -35,6 +36,7 @@
   nixpkgs = {
     config.packageOverrides = super: {
       kind = pkgs.callPackage /keep/etc/nixos/nixpkgs/kind {};
+      helm = pkgs.callPackage /keep/etc/nixos/nixpkgs/helm {};
     };
 
     overlays = [
