@@ -106,7 +106,12 @@
         createHome = true;
         home = "/home/josh";
         group = "users";
-        extraGroups = [ "wheel" "networkmanager" "video" ];
+        extraGroups = [
+          "wheel"
+          "networkmanager"
+          "video"
+          "docker"
+        ];
         passwordFile = "/keep/etc/users/josh";
       };
       root = {
@@ -118,5 +123,12 @@
   # Global env vars.
   environment.sessionVariables = rec {
     XDG_DATA_HOME = "\${HOME}/.local/share";
+  };
+
+  # Docker is good software.
+  # ... Naaat.
+  virtualisation.docker = {
+    enable = true;
+    storageDriver = "zfs";
   };
 }

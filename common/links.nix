@@ -8,6 +8,7 @@
       # /persist to maintain.
       "d /persist/home          0755 josh wheel - -"
       "d /keep/home/go          0755 josh wheel - -"
+      "d /keep/var/lib/docker   0755 josh wheel - -"
       "d /persist/home/.ssh     0700 josh wheel - -"
       "d /persist/home/.mozilla 0755 josh wheel - -"
 
@@ -39,5 +40,7 @@
 
       "L+ /home/josh/.config/chromium - - - - /persist/home/.config/chromium"
       "L+ /home/josh/.cache/chromium  - - - - /persist/home/.cache/chromium"
+
+      "L+ /var/lib/docker - - - - /keep/var/lib/docker"
   ];
 }
