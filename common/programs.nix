@@ -21,5 +21,6 @@
     kubectl
     calc
     jq
+    gcc
   ];
 }
