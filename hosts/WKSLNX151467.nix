@@ -23,7 +23,7 @@
           }
 
           {
-            output DP-1 mode 2560x1440 position 0,0
+            output eDP-1 mode 3840x2400 scale 1.6 position 0,0
           }
         '';
         mode = "644";
