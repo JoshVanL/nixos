@@ -26,7 +26,7 @@
 
   environment.sessionVariables = rec {
     XDG_SESSION_TYPE    = "wayland";
-    XDG_CURRENT_DESKTOP = "wayfire";
+    XDG_CURRENT_DESKTOP = "Wayfire";
     MOZ_ENABLE_WAYLAND  = "1";
   };
 }

@@ -9,13 +9,16 @@
         rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history
 
         # TODO: find a way to use 'dwl -c' without freezing.
-        dwl >/dev/null <&- &
+        XDG_CURRENT_DESKTOP=Wayfire dbus-run-session dwl >/dev/null <&- &
         sleep 0.6
         swaybg -i $HOME/imgs/system/wallpaper.jpg <&- &
         somebar <&- &
         sleep 0.6
         kanshi --config /etc/joshvanl/window-manager/kanshi.cfg >/dev/null <&- &
         sleep 0.6
+        dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=Wayfire
+        systemctl --user stop pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-wlr
+        systemctl --user start wireplumber
         while somestatus
         do
           break
