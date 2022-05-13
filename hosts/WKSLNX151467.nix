@@ -14,6 +14,8 @@
       brightnessctl
       kind
       helm
+      kubectl
+      python3
     ];
 
     etc = {

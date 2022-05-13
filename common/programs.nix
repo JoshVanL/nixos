@@ -18,7 +18,6 @@
     # work
     gnumake
     go_1_18
-    kubectl
     calc
     jq
     gcc

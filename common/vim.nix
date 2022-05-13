@@ -15,7 +15,6 @@
           vim-airline-themes
           indentLine
           vim-trailing-whitespace
-          #vim-wayland-clipboard
         ];
       };
       vimrcConfig.customRC = ''
