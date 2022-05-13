@@ -5,6 +5,9 @@ let
     url = "https://github.com/nix-community/home-manager/archive/master.tar.gz";
   };
 in {
+  # Enable zsh completion from programs built from nixpkgs.
+  environment.pathsToLink = [ "/share/zsh/site-functions" ];
+
   home-manager.users.josh = { pkgs, ... }: {
     home.file = {
       ".config/oh-my-zsh/themes/kubectl.zsh" = {
@@ -30,6 +33,7 @@ in {
 
     programs.zsh = {
       enable = true;
+      enableCompletion = true;
       shellAliases = {
         s               = "/etc/joshvanl/window-manager/start.sh";
         editn           = "vim /keep/etc/nixos/configuration.nix";

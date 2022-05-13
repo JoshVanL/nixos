@@ -8,15 +8,20 @@ buildGo118Module rec {
   version = "0.13.0";
 
   src = fetchFromGitHub {
-    owner = "sigs.k8s.io";
+    owner = "kubernetes-sigs";
     repo = pname;
-    rev = "b33b60a1afd119c0516f5bd4a89763dba6d10c59";
+    rev = "v${version}";
     hash = "sha256-GrJ48q4RxvMHr3z7V37LLyuaok5VNGOq+HEhay+/gMA=";
   };
 
   vendorSha256 = "sha256-/UDmTyngydoso9F/iPp5JYlsfi0VNfHfTsxdGDaTK+w=";
-
   subPackages = [ "." ];
+
+  postInstall = ''
+    mkdir -p $out/share/{bash-completion/completions,zsh/site-functions}
+    $out/bin/kind completion bash > $out/share/bash-completion/completions/kind
+    $out/bin/kind completion zsh > $out/share/zsh/site-functions/_kind
+  '';
 
   meta = with lib; {
     homepage = "https://github.com/kubernetes-sigs/kind";

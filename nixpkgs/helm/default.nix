@@ -10,15 +10,19 @@ buildGo118Module rec {
   src = fetchFromGitHub {
     owner = "helm";
     repo = pname;
-    rev = "6e3701edea09e5d55a8ca2aae03a68917630e91b";
+    rev = "v${version}";
     hash = "sha256-lFAzp7ZxyMZAEO1cNFkEPLgTLEGa6azv36xiTIz4FZY=";
   };
 
   vendorSha256 = "sha256-FLEydmR+UEZ80VYLxBU1ZdwpdLgTjUpqiMItnt9UuLY=";
-
   subPackages = [ "cmd/helm" ];
-
   doCheck = false;
+
+  postInstall = ''
+    mkdir -p $out/share/{bash-completion/completions,zsh/site-functions}
+    $out/bin/helm completion bash > $out/share/bash-completion/completions/helm
+    $out/bin/helm completion zsh > $out/share/zsh/site-functions/_helm
+  '';
 
   meta = with lib; {
     homepage = "https://github.com/helm/helm";

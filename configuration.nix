@@ -95,6 +95,7 @@
     jack.enable = true;
   };
 
+  programs.zsh.enableCompletion = true;
   # Users.
   users = {
     defaultUserShell = pkgs.zsh;
