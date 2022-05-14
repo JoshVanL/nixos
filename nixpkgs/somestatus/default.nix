@@ -12,12 +12,12 @@ in
 
 buildGo118Module rec {
   pname = "somestatus";
-  version = "0.1.6";
+  version = "0.1.7";
 
   src = fetchFromGitHub {
     owner = "joshvanl";
     repo = pname;
-    rev = "61c058d41a359ec28cbbf19eb0d3a687810e8109";
+    rev = "v${version}";
     hash = "sha256-3nkx1UNXBCF6oET42g8pkdYkY8jSsyBAjs+ni77Y2jE=";
   };
 
