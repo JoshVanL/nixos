@@ -12,9 +12,10 @@
   environment = {
     systemPackages = with pkgs; [
       brightnessctl
+      kubectl
       kind
       helm
-      kubectl
+      cmctl
       python3
     ];
 
@@ -39,6 +40,7 @@
     config.packageOverrides = super: {
       kind = pkgs.callPackage /keep/etc/nixos/nixpkgs/kind {};
       helm = pkgs.callPackage /keep/etc/nixos/nixpkgs/helm {};
+      cmctl = pkgs.callPackage /keep/etc/nixos/nixpkgs/cmctl {};
     };
 
     overlays = [
