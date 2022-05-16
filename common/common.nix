@@ -19,6 +19,7 @@ in {
     ./gtk.nix
     ./fonts.nix
     ./backup.nix
+    ./docker.nix
     ./programs.nix
    ];
 

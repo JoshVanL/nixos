@@ -74,7 +74,7 @@
   };
 
   # Set your time zone.
-  time.timeZone = "Europe/London";
+  time.timeZone = "Europe/Madrid";
 
   # Language.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -124,12 +124,5 @@
   # Global env vars.
   environment.sessionVariables = rec {
     XDG_DATA_HOME = "\${HOME}/.local/share";
-  };
-
-  # Docker is good software.
-  # ... Naaat.
-  virtualisation.docker = {
-    enable = true;
-    storageDriver = "zfs";
   };
 }
