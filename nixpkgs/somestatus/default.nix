@@ -18,7 +18,7 @@ buildGo118Module rec {
     owner = "joshvanl";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-3nkx1UNXBCF6oET42g8pkdYkY8jSsyBAjs+ni77Y2jE=";
+    hash = "sha256-VO9OtmEnRkaPthzA5JV6yseUmMRrgD2lnMVnFWK9GVM=";
   };
 
   vendorSha256 = "sha256-NvUfL0fsT28j8EDu+ub7wnezQVSBRKrDfW8sq6XnOy8=";
