@@ -49,7 +49,7 @@ stdenv.mkDerivation rec {
     cd build
     ninja
     mkdir -p $out/bin
-    cp ./somebar $out/bin/somebar
+    mv ./somebar $out/bin/somebar
     runHook postInstall
   '';
 
