@@ -15,7 +15,7 @@
         somebar <&- &
         sleep 0.6
         kanshi --config /etc/joshvanl/window-manager/kanshi.cfg >/dev/null <&- &
-        sleep 1
+        sleep 1.5
         dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=Wayfire
         systemctl --user stop pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-wlr
         systemctl --user start wireplumber
