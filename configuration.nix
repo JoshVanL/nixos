@@ -74,7 +74,7 @@
   };
 
   # Set your time zone.
-  time.timeZone = "Europe/Madrid";
+  time.timeZone = "Europe/London";
 
   # Language.
   i18n.defaultLocale = "en_US.UTF-8";
