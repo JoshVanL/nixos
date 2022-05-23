@@ -19,7 +19,10 @@
         dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=Wayfire
         systemctl --user stop pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-wlr
         systemctl --user start wireplumber
-        while somestatus; do; break; done
+        while somestatus
+        do
+          break
+        done
       '';
 
       mode = "755";
