@@ -197,7 +197,7 @@ ln -s /mnt/etc/nixos/hosts/${HOSTNAME}.nix /mnt/etc/nixos/hosts/host.nix
 
 info "generating optional ssh key for remote install (only useful if remote ssh boot enabled)..."
 mkdir -p "/mnt/persist/etc/ssh"
-ssh-keygen -t ed25519 -N "" -f /persist/etc/ssh/initrd_host_ed_25519_key
+ssh-keygen -t ed25519 -N "" -f /mnt/persist/etc/ssh/initrd_host_ed_25519_key
 
 info "system linking /mnt/persist to ensure ssh is captured in nix install ..."
 ln -s /mnt/persist /persist
