@@ -48,6 +48,11 @@
         helm  = pkgs.callPackage /keep/etc/nixos/pkgs/helm {};
         cmctl = pkgs.callPackage /keep/etc/nixos/pkgs/cmctl {};
       };
+
+      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+        # SentinalOne Agent is not free software.
+        "sentinelone"
+      ];
     };
 
     overlays = [

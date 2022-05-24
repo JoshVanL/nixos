@@ -40,7 +40,7 @@ in {
         update          = "sudo nixos-rebuild switch --upgrade-all -I nixos-config=/keep/etc/nixos/configuration.nix && rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history";
         update-channel  = "sudo nix-channel --update";
         garbage-collect = "sudo nix-collect-garbage -d";
-        programs        = "vim /keep/etc/nixos/common/programs.nix";
+        programs        = "vim /keep/etc/nixos/modules/common/programs.nix";
         hist            = "rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history";
         screen          = "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=Wayfire && systemctl --user stop pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-wlr && systemctl --user start wireplumber";
         sshbye          = "gpg-connect-agent updatestartuptty /bye";
