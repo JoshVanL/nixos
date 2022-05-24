@@ -5,6 +5,7 @@
     # base
     cryptsetup
     killall
+    wget
     firefox
     chromium
     imv
@@ -14,6 +15,10 @@
     fzf
     pulseaudio
     backblaze-b2
+
+    # TODO:
+    dpkg
+    rpm
 
     # work
     gnumake

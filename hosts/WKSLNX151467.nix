@@ -36,11 +36,18 @@
     };
   };
 
+  sentinelone = {
+    enable     = (builtins.pathExists /keep/etc/nixos/modules/sentinelone);
+    site_token = (builtins.readFile /persist/etc/sentinelone/site_token);
+  };
+
   nixpkgs = {
-    config.packageOverrides = super: {
-      kind = pkgs.callPackage /keep/etc/nixos/nixpkgs/kind {};
-      helm = pkgs.callPackage /keep/etc/nixos/nixpkgs/helm {};
-      cmctl = pkgs.callPackage /keep/etc/nixos/nixpkgs/cmctl {};
+    config = {
+      packageOverrides = super: {
+        kind  = pkgs.callPackage /keep/etc/nixos/pkgs/kind {};
+        helm  = pkgs.callPackage /keep/etc/nixos/pkgs/helm {};
+        cmctl = pkgs.callPackage /keep/etc/nixos/pkgs/cmctl {};
+      };
     };
 
     overlays = [

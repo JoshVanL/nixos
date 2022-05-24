@@ -42,8 +42,8 @@
   ];
 
   nixpkgs.config.packageOverrides = super: {
-    somestatus = pkgs.callPackage /keep/etc/nixos/nixpkgs/somestatus {};
-    somebar    = pkgs.callPackage /keep/etc/nixos/nixpkgs/somebar {
+    somestatus = pkgs.callPackage /keep/etc/nixos/pkgs/somestatus {};
+    somebar    = pkgs.callPackage /keep/etc/nixos/pkgs/somebar {
       patches = [
         (super.fetchpatch {
           name = "somebar.joshvanl-ipc";

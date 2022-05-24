@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, modulesPath, ... }:
 
 let
   home-manager = builtins.fetchTarball {
@@ -18,10 +18,15 @@ in {
     ./links.nix
     ./gtk.nix
     ./fonts.nix
-    ./backup.nix
     ./docker.nix
     ./programs.nix
-   ];
+  ];
+
+  zfs_uploader = {
+    enable = true;
+    logPath = "/keep/etc/zfs_uploader/zfs_uploader.log";
+    configPath = "/persist/etc/zfs_uploader/config.cfg";
+  };
 
   home-manager.users.josh = { pkgs, ... }: {
     programs.home-manager.enable = true;

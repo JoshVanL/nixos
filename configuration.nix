@@ -4,7 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ./hosts/host.nix
-    ./common/common.nix
+    ./modules
   ];
 
   # Nix.
