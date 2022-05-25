@@ -6,12 +6,13 @@
       "L+ /keep/etc/nixos/hosts/host.nix - - - - /keep/etc/nixos/hosts/%H.nix"
 
       # /persist to maintain.
-      "d /persist/home          0755 josh wheel - -"
-      "d /keep/home/go          0755 josh wheel - -"
-      "d /keep/home/downloads   0755 josh wheel - -"
-      "d /keep/var/lib/docker   0755 josh wheel - -"
-      "d /persist/home/.ssh     0700 josh wheel - -"
-      "d /persist/home/.mozilla 0755 josh wheel - -"
+      "d /persist/home           0755 josh wheel - -"
+      "d /keep/home/go           0755 josh wheel - -"
+      "d /keep/home/downloads    0755 josh wheel - -"
+      "d /keep/var/lib/docker    0755 josh wheel - -"
+      "d /persist/home/.ssh      0700 josh wheel - -"
+      "d /persist/home/.mozilla  0755 josh wheel - -"
+      "d /persist/home/documents 0755 josh wheel - -"
 
       "d /persist/home/.config          0755 josh wheel - -"
       "d /persist/home/.config/chromium 0755 josh wheel - -"
@@ -39,6 +40,7 @@
       "L+ /home/josh/.mozilla       - - - - /persist/home/.mozilla"
       "L+ /home/josh/.cache/mozilla - - - - /persist/home/.cache/mozilla"
       "L+ /home/josh/downloads      - - - - /keep/home/downloads"
+      "L+ /home/josh/documents      - - - - /persist/home/documents"
 
       "L+ /home/josh/.config/chromium - - - - /persist/home/.config/chromium"
       "L+ /home/josh/.cache/chromium  - - - - /persist/home/.cache/chromium"
