@@ -17,6 +17,7 @@
       helm
       cmctl
       python3
+      imagemagick
     ];
 
     etc = {

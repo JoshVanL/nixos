@@ -15,10 +15,7 @@
     fzf
     pulseaudio
     backblaze-b2
-
-    # TODO:
-    dpkg
-    rpm
+    unzip
 
     # work
     gnumake
@@ -26,5 +23,6 @@
     calc
     jq
     gcc
+    evince
   ];
 }
