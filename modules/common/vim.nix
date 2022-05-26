@@ -15,6 +15,7 @@
           vim-airline-themes
           indentLine
           vim-trailing-whitespace
+          vim-polyglot
         ];
       };
       vimrcConfig.customRC = ''
@@ -69,6 +70,11 @@
         set ttimeoutlen=20
         :set noshowmode
 
+        " Enable wordcount
+        let g:airline#extensions#wordcount#enabled = 1
+        " Add notes to filetypes
+        let g:airline#extensions#wordcount#filetypes = '\vnotes|help|markdown|rst|org|text|asciidoc|tex|mail'
+
         set mouse=a
 
         "Spell Checking
@@ -81,6 +87,7 @@
         autocmd BufNewFile,BufRead *.go set spell spelllang=en_gb
         autocmd BufNewFile,BufRead *.nix set spell spelllang=en_gb
         autocmd BufNewFile,BufRead *.sh set spell spelllang=en_gb
+        autocmd BufNewFile,BufRead *COMMIT_EDITMSG set spell spelllang=en_gb
         hi SpellBad cterm=underline
 
         " Allow saving of files as sudo when I forgot to start vim using sudo.
