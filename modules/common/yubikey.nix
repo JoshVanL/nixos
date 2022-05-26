@@ -11,6 +11,8 @@
     ];
   };
 
+  services.pcscd.enable = true;
+
   programs = {
     ssh.startAgent = false;
     gnupg.agent = {
