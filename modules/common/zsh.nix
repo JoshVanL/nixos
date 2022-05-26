@@ -7,6 +7,8 @@ let
 in {
   # Enable zsh completion from programs built from nixpkgs.
   environment.pathsToLink = [ "/share/zsh/site-functions" ];
+  programs.zsh.enableCompletion = true;
+
 
   home-manager.users.josh = { pkgs, ... }: {
     home.file = {

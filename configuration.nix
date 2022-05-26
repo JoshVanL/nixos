@@ -95,7 +95,6 @@
     jack.enable = true;
   };
 
-  programs.zsh.enableCompletion = true;
   # Users.
   users = {
     defaultUserShell = pkgs.zsh;
@@ -119,10 +118,5 @@
         hashedPassword = "!";
       };
     };
-  };
-
-  # Global env vars.
-  environment.sessionVariables = rec {
-    XDG_DATA_HOME = "\${HOME}/.local/share";
   };
 }
