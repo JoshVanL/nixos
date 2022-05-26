@@ -24,5 +24,6 @@
     jq
     gcc
     evince
+    openssl
   ];
 }
