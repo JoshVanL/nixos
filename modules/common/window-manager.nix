@@ -68,12 +68,12 @@
       ];
     };
     dwl = super.dwl.overrideAttrs (_: rec {
-      version = "0.3.2+canary.1";
+      version = "0.3.2+canary.2";
       src = super.fetchFromGitHub {
         owner = "djpohly";
         repo  = "dwl";
-        rev   = "22bd75226bc897a3b2ad90f36883ff489d435eb4";
-        hash  = "sha256-C6PS4F2Rf5ueHDE22IDMaLu1cUbccmQbacHVqKcGjlg=";
+        rev   = "52e0d00942584b4a8a9ca1f59ffdea26277604ed";
+        hash  = "sha256-bajMPx2XBmFwXGRjQZO2El7GAjyTuLFGA8SEkeIv7Xs=";
       };
       patches = [
         (super.fetchpatch {
@@ -84,7 +84,7 @@
         (super.fetchpatch {
           name = "dwl.joshvanl-mod-key-logo";
           url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0001-mod-key-logo.patch";
-          hash = "sha256-mADTS6fdgMLndlIluKyykjw0t/d2HbkfUP613qgKFPA=";
+          hash = "sha256-cwf6U74j2dKz+CMcCeg17hY3j8fNlJ6RpunjXFG++ks=";
         })
         (super.fetchpatch {
           name = "dwl.joshvanl-colours";
@@ -134,7 +134,7 @@
         (super.fetchpatch {
           name = "dwl.joshvanl-movestack";
           url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0011-movestack.patch";
-          hash = "sha256-MpkvfdQqJI0N6EEZrFFhLCux55yFGUaPLybtvh1IFt0=";
+          hash = "sha256-sJ/gubus6uUxwGNwY41MdQ6YtiiCWY0ecD+xfkbIM7E=";
         })
         (super.fetchpatch {
           name = "dwl.joshvanl-follow-move-window";
@@ -154,7 +154,7 @@
         (super.fetchpatch {
           name = "dwl.joshvanl-wayland-ipc";
           url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0015-wayland-ipc.patch";
-          hash = "sha256-jjh1YeROFeJn/Ae0pKu6G2Ds8JFw6JjHWtBm5aqaxqE=";
+          hash = "sha256-bMxb55QzF8nA7KRRUsoonOw6+OBTj3lNtJ7n4siRtJw=";
         })
         (super.fetchpatch {
           name = "dwl.joshvanl-add-tag-10";
@@ -174,7 +174,7 @@
         (super.fetchpatch {
           name = "dwl.joshvanl-natural-scrolling";
           url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0020-trackpad-natural-scrolling.patch";
-          hash = "sha256-c/ItljW3t69FDrcm6kEGNRTu1MQmoeb3HZTwcUhSZiM=";
+          hash = "sha256-SStmrh88gCu8RTcuueGncLhfICkZve6j4PG/GT19hKc=";
         })
         (super.fetchpatch {
           name = "dwl.joshvanl-volume-buttons";
