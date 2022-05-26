@@ -38,8 +38,8 @@
   };
 
   sentinelone = {
-    enable     = (builtins.pathExists /keep/etc/nixos/modules/sentinelone);
-    site_token = (builtins.readFile /persist/etc/sentinelone/site_token);
+    enable          = (builtins.pathExists /keep/etc/nixos/modules/sentinelone);
+    site_token_path = "/persist/etc/sentinelone/site_token";
   };
 
   nixpkgs = {
