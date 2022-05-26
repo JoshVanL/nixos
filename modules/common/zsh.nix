@@ -45,6 +45,7 @@ in {
         hist            = "rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history";
         screen          = "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=Wayfire && systemctl --user stop pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-wlr && systemctl --user start wireplumber";
         sshbye          = "gpg-connect-agent updatestartuptty /bye";
+        shot            = "grim -g \"$(slurp)\" - | wl-copy -t image/png";
 
         kc = "kubectl";
         kg = "kubectl get";

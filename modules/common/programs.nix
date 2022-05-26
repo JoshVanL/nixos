@@ -16,6 +16,7 @@
     pulseaudio
     backblaze-b2
     unzip
+    git-extras
 
     # work
     gnumake
@@ -25,5 +26,7 @@
     gcc
     evince
     openssl
+    grim
+    slurp
   ];
 }
