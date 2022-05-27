@@ -75,6 +75,8 @@
         " Add notes to filetypes
         let g:airline#extensions#wordcount#filetypes = '\vnotes|help|markdown|rst|org|text|asciidoc|tex|mail'
 
+        set conceallevel=0
+
         set mouse=a
 
         "Spell Checking

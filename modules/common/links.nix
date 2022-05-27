@@ -16,6 +16,7 @@
 
       "d /persist/home/.config          0755 josh wheel - -"
       "d /persist/home/.config/chromium 0755 josh wheel - -"
+      "d /persist/home/.docker          0755 josh wheel - -"
 
       "d /persist/home/.cache          0755 josh wheel - -"
       "d /persist/home/.cache/mozilla  0755 josh wheel - -"
@@ -41,9 +42,11 @@
       "L+ /home/josh/.cache/mozilla - - - - /persist/home/.cache/mozilla"
       "L+ /home/josh/downloads      - - - - /keep/home/downloads"
       "L+ /home/josh/documents      - - - - /persist/home/documents"
+      "L+ /home/josh/.docker        - - - - /persist/home/.docker"
 
       "L+ /home/josh/.config/chromium - - - - /persist/home/.config/chromium"
       "L+ /home/josh/.cache/chromium  - - - - /persist/home/.cache/chromium"
+
 
       "L+ /var/lib/docker - - - - /keep/var/lib/docker"
   ];
