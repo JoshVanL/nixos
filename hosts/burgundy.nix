@@ -34,7 +34,7 @@
       enable = true;
       version = 4;
     };
-    boot.loader.grub.enable = false;
+    loader.grub.enable = false;
   };
 
   networking = {
