@@ -33,13 +33,6 @@
     kernelParams = [ "nohibernate" ];
 
     supportedFilesystems = [ "vfat" "zfs" ];
-    loader = {
-      # Use the systemd-boot EFI boot loader.
-      systemd-boot.enable = true;
-      efi = {
-        canTouchEfiVariables = true;
-      };
-    };
   };
 
   # Needed for config and user passwords.

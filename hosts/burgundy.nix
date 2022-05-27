@@ -1,20 +1,6 @@
 { lib, pkgs, ... }:
 
 {
-  networking = {
-    hostName = "burgundy";
-    hostId   = "414d6053";
-  };
-
-  environment.etc = {
-    "joshvanl/window-manager/kanshi.cfg" = {
-      text = ''
-        { }
-      '';
-      mode = "644";
-    };
-  };
-
   boot = {
     kernelPackages = pkgs.linuxPackages_rpi4;
     initrd = {
@@ -50,7 +36,23 @@
     };
   };
 
-  # Required for the Wireless firmware
-  hardware.enableRedistributableFirmware = true;
+  hardware = {
+    # Enable GPU acceleration
+    raspberry-pi."4".fkms-3d.enable = true;
+  };
+
+  networking = {
+    hostName = "burgundy";
+    hostId   = "414d6053";
+  };
+
+  environment.etc = {
+    "joshvanl/window-manager/kanshi.cfg" = {
+      text = ''
+        { }
+      '';
+      mode = "644";
+    };
+  };
 }
 

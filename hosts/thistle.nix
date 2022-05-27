@@ -1,6 +1,14 @@
 { lib, pkgs, ... }:
 
 {
+  boot.loader = {
+    # Use the systemd-boot EFI boot loader.
+    systemd-boot.enable = true;
+    efi = {
+      canTouchEfiVariables = true;
+    };
+  };
+
   networking = {
     hostName = "thistle";
     hostId   = "94ec2b8d";
