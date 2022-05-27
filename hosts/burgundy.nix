@@ -37,7 +37,7 @@
     loader.grub.enable = false;
   };
 
-  allowUnsupportedSystem = true;
+  nixpkgs.config.allowUnsupportedSystem = true;
 
   networking = {
     hostName = "burgundy";
