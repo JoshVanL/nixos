@@ -17,6 +17,8 @@
     };
   };
 
+  zfs_uploader.enabled = true;
+
   environment = {
     systemPackages = with pkgs; [
       brightnessctl

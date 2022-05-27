@@ -19,6 +19,8 @@
     };
   };
 
+  zfs_uploader.enabled = true;
+
   nixpkgs.overlays = [
     (self: super: {
       somestatus = super.somestatus.overrideAttrs (attrs: rec {
@@ -35,5 +37,7 @@
       mode = "644";
     };
   };
+
+  services.sshd.enable = true;
 }
 
