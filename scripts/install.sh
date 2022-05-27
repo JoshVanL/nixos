@@ -46,7 +46,7 @@ done
 export DISK_PATH="/dev/${DISK}"
 
 PARTITION_PREFIX=""
-PS3="Select a partition prefix:"
+PS3="Select a partition prefix: "
 select p in "" "p"
 do
   export PARTITION_PREFIX=$p
@@ -158,7 +158,7 @@ mkdir /mnt/persist
 mount -t zfs "$ZFS_DS_PERSIST" /mnt/persist
 
 info "Generating NixOS configuration (/mnt/etc/nixos/*.nix) ..."
-nixos-generate-config --root /mnt
+NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-generate-config --root /mnt
 
 info "Moving password to installation ..."
 mkdir -p /mnt/keep/etc/users
@@ -209,6 +209,9 @@ info "Updating nixos channels ..."
 nix-channel --update
 
 info "Installing NixOS to /mnt ..."
-nixos-install --no-root-passwd
+NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-install --no-root-passwd
 
 info "Done. Please run 'sudo ./scripts/post-install.sh' once rebooted into system ..."
+info "Rebooting ..."
+read -p "Press any key to continue ..."
+reboot

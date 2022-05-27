@@ -37,6 +37,8 @@
     loader.grub.enable = false;
   };
 
+  allowUnsupportedSystem = true;
+
   networking = {
     hostName = "burgundy";
     hostId   = "414d6053";

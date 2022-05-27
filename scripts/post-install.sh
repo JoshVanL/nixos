@@ -37,12 +37,12 @@ nix-channel --update
 
 info "Switching nixos configuration ..."
 rm -f /home/josh/.zsh_history
-nixos-rebuild switch --upgrade-all -I nixos-config=/keep/etc/nixos/configuration.nix
+NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-rebuild switch --upgrade-all -I nixos-config=/keep/etc/nixos/configuration.nix
 
 info "Cleaning up the garbage ..."
 rm -f /keep/keep
 nix-collect-garbage -d
 
-info "Ready. Powering off ..."
+info "Ready. Rebooting ..."
 read -p "Press any key to continue ..."
-poweroff
+reboot
