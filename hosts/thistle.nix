@@ -37,7 +37,5 @@
       mode = "644";
     };
   };
-
-  services.sshd.enable = true;
 }
 
