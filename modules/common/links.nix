@@ -10,6 +10,7 @@
       "d /keep/home/go           0755 josh wheel - -"
       "d /keep/home/downloads    0755 josh wheel - -"
       "d /keep/var/lib/docker    0755 josh wheel - -"
+      "d /keep/var/lib/tailscale 0755 josh wheel - -"
       "d /persist/home/.ssh      0700 josh wheel - -"
       "d /persist/home/.mozilla  0755 josh wheel - -"
       "d /persist/home/documents 0755 josh wheel - -"
