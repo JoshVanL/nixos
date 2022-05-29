@@ -15,6 +15,9 @@
     interfaces = {
       wlp0s20f3.useDHCP = true;
     };
+
+    networkmanager.enable = true;
+    firewall.enable = false;
   };
 
   environment = {

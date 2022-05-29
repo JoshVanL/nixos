@@ -43,7 +43,8 @@
     hostName = "burgundy";
     hostId   = "414d6053";
     interfaces = {
-      eth0.useDHCP = true;
+      eth0.useDHCP  = true;
+      wlan0.useDHCP = false;
     };
   };
 

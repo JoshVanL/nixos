@@ -41,11 +41,8 @@
 
   # Networking.
   networking = {
-    networkmanager.enable = true;
-    firewall.enable = false;
     wireless.userControlled.enable = false;
     useDHCP  = false;
-
     nameservers = [
       "1.1.1.1"
       "8.8.8.8"
