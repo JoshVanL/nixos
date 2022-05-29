@@ -23,8 +23,8 @@ in {
   ];
 
   zfs_uploader = {
-    enable = false;
-    logPath = "/keep/etc/zfs_uploader/zfs_uploader.log";
+    enable     = true;
+    logPath    = "/keep/etc/zfs_uploader/zfs_uploader.log";
     configPath = "/persist/etc/zfs_uploader/config.cfg";
   };
 

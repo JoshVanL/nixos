@@ -33,6 +33,9 @@
       "d  /persist/etc/NetworkManager/system-connections  0755 josh wheel - -"
       "L+ /etc/NetworkManager/system-connections          - - - - /persist/etc/NetworkManager/system-connections"
 
+      "d  /persist/etc/ssh 0755 josh wheel - -"
+      "L+ /etc/ssh         - - - - /persist/etc/ssh"
+
       # Histories/Caches.
       "R  /home/josh/.zsh_history   - - - -"
       "L+ /home/josh/.zsh_history   - - - - /persist/home/.zsh_history"
