@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ lib, pkgs, config, ... }:
 
 {
   boot = {
@@ -72,7 +72,7 @@
     enable = true;
     trustedInterfaces = [ "tailscale0" ];
     # allow the Tailscale UDP port through the firewall
-    allowedUDPPorts = [ ${services.tailscale.port} ];
+    allowedUDPPorts = [ config.services.tailscale.port ];
     # allow you to SSH in over the public internet
     allowedTCPPorts = [ 22 ];
   };
