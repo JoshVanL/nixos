@@ -17,6 +17,7 @@
     backblaze-b2
     unzip
     git-extras
+    tailscale
 
     # work
     gnumake
