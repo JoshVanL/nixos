@@ -18,7 +18,6 @@
       wlp3s0.useDHCP = true;
     };
 
-    networkmanager.enable = true;
     firewall.enable = false;
   };
 

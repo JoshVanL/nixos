@@ -41,6 +41,7 @@
 
   # Networking.
   networking = {
+    networkmanager.enable = true;
     wireless.userControlled.enable = false;
     useDHCP  = false;
     nameservers = [
