@@ -68,6 +68,12 @@
 
   # VPN using tailscale (good software).
   services.tailscale.enable = true;
+  systemd.services.tailscaled = {
+    after = [ "systemd-tmpfiles-setup.service" ];
+    # Tailscale freaks out if /var/lib/tailscale is a sys link. Though it's
+    # probably systemd's fault.
+    serviceConfig.BindPaths = "/keep/var/lib/tailscale:/var/lib/tailscale";
+  };
   networking.firewall = {
     enable = true;
     trustedInterfaces = [ "tailscale0" ];
