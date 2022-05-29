@@ -19,6 +19,7 @@ in {
     ./gtk.nix
     ./fonts.nix
     ./docker.nix
+    ./tailscale.nix
     ./programs.nix
   ];
 
