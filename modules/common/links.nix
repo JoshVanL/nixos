@@ -11,7 +11,6 @@
       "d /keep/home/downloads    0755 josh wheel - -"
       "d /keep/var/lib/docker    0755 josh wheel - -"
       "d /keep/var/lib/tailscale 0755 josh wheel - -"
-      "d /persist/home/.ssh      0700 josh wheel - -"
       "d /persist/home/.mozilla  0755 josh wheel - -"
       "d /persist/home/documents 0755 josh wheel - -"
 
@@ -34,14 +33,10 @@
       "d  /persist/etc/NetworkManager/system-connections  0755 josh wheel - -"
       "L+ /etc/NetworkManager/system-connections          - - - - /persist/etc/NetworkManager/system-connections"
 
-      "d  /persist/etc/ssh 0755 josh wheel - -"
-      "L+ /etc/ssh         - - - - /persist/etc/ssh"
-
       # Histories/Caches.
       "R  /home/josh/.zsh_history   - - - -"
       "L+ /home/josh/.zsh_history   - - - - /persist/home/.zsh_history"
       "L+ /home/josh/go             - - - - /keep/home/go"
-      "L+ /home/josh/.ssh           - - - - /persist/home/.ssh"
       "L+ /home/josh/.mozilla       - - - - /persist/home/.mozilla"
       "L+ /home/josh/.cache/mozilla - - - - /persist/home/.cache/mozilla"
       "L+ /home/josh/downloads      - - - - /keep/home/downloads"
