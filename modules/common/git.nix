@@ -12,6 +12,7 @@ in {
       userName  = "joshvanl";
       ignores = [
         "*.swp"
+        ".envrc"
       ];
       extraConfig = {
         init = {
