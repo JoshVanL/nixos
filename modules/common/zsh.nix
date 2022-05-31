@@ -94,6 +94,7 @@ in {
         source "$(fzf-share)/key-bindings.zsh"
         source "$(fzf-share)/completion.zsh"
       fi
+      eval "$(direnv hook zsh)"
       '';
       oh-my-zsh = {
         enable = true;
