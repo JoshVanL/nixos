@@ -29,5 +29,6 @@
     openssl
     grim
     slurp
+    direnv
   ];
 }
