@@ -86,6 +86,7 @@
         autocmd BufNewFile,BufRead *.yaml set spell spelllang=en_gb
         autocmd BufNewFile,BufRead *.html set spell spelllang=en_gb
         autocmd BufNewFile,BufRead *.md set spell spelllang=en_gb
+        autocmd BufNewFile,BufRead *.mdx set spell spelllang=en_gb
         autocmd BufNewFile,BufRead *.go set spell spelllang=en_gb
         autocmd BufNewFile,BufRead *.nix set spell spelllang=en_gb
         autocmd BufNewFile,BufRead *.sh set spell spelllang=en_gb
