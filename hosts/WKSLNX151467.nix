@@ -28,6 +28,7 @@
       cmctl
       python3
       imagemagick
+      google-cloud-sdk
     ];
 
     etc = {
