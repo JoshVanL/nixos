@@ -2,9 +2,14 @@
 
 let
   joshvanlPath = "/persist/etc/joshvanl";
-  dnsBitwarden = if builtins.pathExists "${joshvanlPath}/dns/bitwarden"
-  then (builtins.readFile "${joshvanlPath}/dns/bitwarden")
+  joshvanlDNSPath = "${joshvanlPath}/dns";
+  dnsBitwarden = if builtins.pathExists "${joshvanlDNSPath}/domains/bitwarden"
+  then (builtins.readFile "${joshvanlDNSPath}/domains/bitwarden")
     else "null"
+  ;
+  acmeEmail = if builtins.pathExists "${joshvanlDNSPath}/acme/email"
+    then (builtins.readFile "${joshvanlDNSPath}/acme/email")
+    else "null@null.com"
   ;
 in {
   boot = {
@@ -79,13 +84,24 @@ in {
     "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCaBFpBKuTdsanEImU0BhICRbw9U6V3zCtgksyEhZv65iYEoTrxtRH6BIcMB7onSLjgNj+do+vaQH+yXGrmZc1zfWIynso4vzaZpqNgthIbXaXR3iwRh6FyE9PQx4iOgNVv3DznKZMdVhrlW9NliWHxFv27saUOqLefm9qdIhWWfgrl8y4JxRCTPKIFonIqU2dg4EZXXqJJlEQNU9lkOybncQSfH4zykrJYRIJ/XHMUxQEXO02tqdSqSuhVhv1fxAfF33o+HBhASN50uWB2qh3gHb95pqWm3nQa9OLk66YffviWkURxhXhiCdv5A9aOsCvUTEg/PQrVeJFAu4VMNtJR"
     "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDeppp8Ozc2Fzbe9SwWu6lcC7y4Fh0bRBIO9sMqXRWuOToV/IDLq9gcF9Qx/X48sQOETMJHpYK8aQgAoDuJPGutmWpJf8OyfkGtnc1pwpaAtwwfXzc91uUwRP7MevseRiu3tOVZdXS39xNUbEqJgXLhZVb+Ai+CBDQ7t1vyZ3KwtxGIXTc+BCPuQZ/GKdzxFzdVgaDKLChEJaecYNkzqSZ2ZnF9qwG/4RowEwyKDFDvRqXUEGEZAcYlJ2KDQQvk94MsNhFWRHFNGKYpTcbL69WxSXZQariiASjU1oWzCwQYPtd05TX0F7IkFk80jyp8HM9cM6J3iDF6xrOycLS7m4RgojKTpBTBDCpyaUrWN7PfSVIMQE/KGKIlnr4RT2ewubmPSWqS4ohWF7pZx6MrpQIRynMl8GxXTUy1nnlAPFrqnre0Qahg+5E3Id36f+5yi+kM0C4N7KIzR5cXT+gGCMcmXqtjTowOLDRpwZ9UuiEN4wjey+7OfGUdLW2AU/wsZo5kQ0IrvjQnZVAQVVHViDxTv8FlIdII2wVc/AgOdnTbgS4t5pxf+/XD6flVRpAdRb5pttC0iYnXfh2gueUG546qgsXoHAxo7ymT/zbLe8lmN2zwiZlkwVQ47RWYPtgWvuP2/4ebQ584nGq1hPzx1RKrOdSNZODd/wRjPytD6k5J/w=="
   ];
-  security.pam.yubico = { enable = true; id = "16"; };
 
   home-manager.users.josh = { pkgs, ... }: {
     pam.yubico.authorizedYubiKeys.ids = [ ]
     ++ lib.optional (builtins.pathExists "${joshvanlPath}/yubikey/otp-client-id-1") (builtins.readFile "${joshvanlPath}/yubikey/otp-client-id-1")
     ++ lib.optional (builtins.pathExists "${joshvanlPath}/yubikey/otp-client-id-2") (builtins.readFile "${joshvanlPath}/yubikey/otp-client-id-2")
     ;
+  };
+
+  security = {
+    pam.yubico = { enable = true; id = "16"; };
+    acme = {
+      acceptTerms = true;
+      defaults = {
+        email = "${acmeEmail}";
+        dnsProvider = "gcloud";
+        credentialsFile = "${joshvanlDNSPath}/acme/credentials.secret";
+      };
+    };
   };
 
   services = {
@@ -144,10 +160,9 @@ in {
 
       virtualHosts = {
         "${dnsBitwarden}" = {
-          sslCertificate    = "/persist/etc/www/${dnsBitwarden}/tls.crt";
-          sslCertificateKey = "/persist/etc/www/${dnsBitwarden}/tls.key";
-          enableACME        = false;
-          forceSSL          = true;
+          forceSSL   = true;
+          enableACME = true;
+          acmeRoot   = null;
           locations."/" = {
             proxyPass = "http://127.0.0.1:8222";
             proxyWebsockets = true;
@@ -176,6 +191,12 @@ in {
     };
     tmpfiles.rules = [
       "d  /persist/var/lib/postgresql 0755 josh wheel - -"
+
+      "d  /persist/var/lib/bitwarden_rs 0755 vaultwarden vaultwarden - -"
+      "L+ /var/lib/bitwarden_rs         - - - - /persist/var/lib/bitwarden_rs"
+
+      "d  /persist/var/lib/acme 0755 acme acme - -"
+      "L+ /var/lib/acme         - - - - /persist/var/lib/acme"
     ];
   };
   fileSystems."/var/lib/postgresql" = { device = "/persist/var/lib/postgresql"; options = [ "bind" ]; };
