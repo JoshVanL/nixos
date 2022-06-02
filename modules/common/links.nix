@@ -10,7 +10,6 @@
       "d /keep/home/go           0755 josh wheel - -"
       "d /keep/home/downloads    0755 josh wheel - -"
       "d /keep/var/lib/docker    0755 josh wheel - -"
-      "d /keep/var/lib/tailscale 0755 josh wheel - -"
       "d /persist/home/.mozilla  0755 josh wheel - -"
       "d /persist/home/documents 0755 josh wheel - -"
 
@@ -24,6 +23,8 @@
       "d /persist/home/.cache          0755 josh wheel - -"
       "d /persist/home/.cache/mozilla  0755 josh wheel - -"
       "d /persist/home/.cache/chromium 0755 josh wheel - -"
+
+      "d /persist/var/lib/tailscale 0755 josh wheel - -"
 
       # Locals to pre-create with correct perms.
       "d /home/josh/.config      0755 josh wheel - -"
@@ -52,6 +53,6 @@
       "L+ /home/josh/.config/Bitwarden        - - - - /persist/home/.config/Bitwarden"
       "L+ '/home/josh/.config/Bitwarden\ CLI' - - - - /persist/home/.config/Bitwarden\ CLI"
 
-      "L+ /var/lib/docker    - - - - /keep/var/lib/docker"
+      "L+ /var/lib/docker - - - - /keep/var/lib/docker"
   ];
 }
