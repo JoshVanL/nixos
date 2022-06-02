@@ -18,6 +18,9 @@
       "d /persist/home/.config/chromium 0755 josh wheel - -"
       "d /persist/home/.docker          0755 josh wheel - -"
 
+      "d /persist/home/.config/Bitwarden        0755 josh wheel - -"
+      "d '/persist/home/.config/Bitwarden\ CLI' 0755 josh wheel - -"
+
       "d /persist/home/.cache          0755 josh wheel - -"
       "d /persist/home/.cache/mozilla  0755 josh wheel - -"
       "d /persist/home/.cache/chromium 0755 josh wheel - -"
@@ -46,6 +49,8 @@
       "L+ /home/josh/.config/chromium - - - - /persist/home/.config/chromium"
       "L+ /home/josh/.cache/chromium  - - - - /persist/home/.cache/chromium"
 
+      "L+ /home/josh/.config/Bitwarden        - - - - /persist/home/.config/Bitwarden"
+      "L+ '/home/josh/.config/Bitwarden\ CLI' - - - - /persist/home/.config/Bitwarden\ CLI"
 
       "L+ /var/lib/docker    - - - - /keep/var/lib/docker"
   ];

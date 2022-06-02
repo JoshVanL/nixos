@@ -18,6 +18,8 @@
     unzip
     git-extras
     tailscale
+    bitwarden
+    bitwarden-cli
 
     # work
     gnumake
