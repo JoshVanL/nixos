@@ -30,14 +30,15 @@
       requestEncryptionCredentials = true;
     };
 
-    kernelParams = [ "nohibernate" ];
-
+    kernelParams         = [ "nohibernate" ];
     supportedFilesystems = [ "vfat" "zfs" ];
   };
 
   # Needed for config and user passwords.
-  fileSystems."/persist".neededForBoot = true;
-  fileSystems."/keep".neededForBoot = true;
+  fileSystems = {
+    "/persist".neededForBoot = true;
+    "/keep".neededForBoot    = true;
+  };
 
   # Networking.
   networking = {
@@ -50,8 +51,8 @@
     ];
   };
 
-  # ZFS maintenance settings.
   services = {
+    # ZFS maintenance settings.
     zfs = {
       autoScrub = {
         enable = true;
@@ -61,6 +62,15 @@
         enable = true;
       };
       trim.enable = true;
+    };
+    pipewire = {
+      enable = true;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
+      pulse.enable = true;
+      jack.enable = true;
     };
   };
 
@@ -76,15 +86,6 @@
 
   # Sound.
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa = {
-      enable = true;
-      support32Bit = true;
-    };
-    pulse.enable = true;
-    jack.enable = true;
-  };
 
   # Users.
   users = {
