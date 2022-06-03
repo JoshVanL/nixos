@@ -157,7 +157,7 @@ in {
       virtualHosts = {
         "${dnsBitwarden}" = {
           forceSSL   = true;
-          enableACME = true;
+          enableACME = (builtins.pathExists "${joshvanlDNSPath}/acme/credentials.secret");
           acmeRoot   = null;
           locations."/" = {
             proxyPass = "http://127.0.0.1:8222";
