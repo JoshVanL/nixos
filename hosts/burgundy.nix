@@ -190,14 +190,14 @@ in {
       };
     };
     tmpfiles.rules = [
-      "d  /persist/var/lib/postgresql 0755 josh wheel - -"
-
+      "d  /persist/var/lib/postgresql   0755 josh wheel - -"
       "d  /persist/var/lib/bitwarden_rs 0755 vaultwarden vaultwarden - -"
-      "L+ /var/lib/bitwarden_rs         - - - - /persist/var/lib/bitwarden_rs"
-
-      "d  /persist/var/lib/acme 0755 acme acme - -"
-      "L+ /var/lib/acme         - - - - /persist/var/lib/acme"
+      "d  /persist/var/lib/acme         0755 acme acme - -"
     ];
   };
-  fileSystems."/var/lib/postgresql" = { device = "/persist/var/lib/postgresql"; options = [ "bind" ]; };
+  fileSystems = {
+    "/var/lib/postgresql"   = { options = [ "bind" ]; device = "/persist/var/lib/postgresql";   };
+    "/var/lib/bitwarden_rs" = { options = [ "bind" ]; device = "/persist/var/lib/bitwarden_rs"; };
+    "/var/lib/acme"         = { options = [ "bind" ]; device = "/persist/var/lib/acme";         };
+  };
 }
