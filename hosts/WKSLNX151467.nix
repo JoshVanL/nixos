@@ -58,6 +58,11 @@
     site_token_path = "/persist/etc/sentinelone/site_token";
   };
 
+  systemd.tmpfiles.rules = [ "d  /keep/opt/sentinelone/model 0755 root root - -" ];
+  fileSystems = {
+    "/opt/sentinelone/model" = { options = [ "bind" ]; device = "/keep/opt/sentinelone/model";  };
+  };
+
   nixpkgs = {
     config = {
       packageOverrides = super: {
