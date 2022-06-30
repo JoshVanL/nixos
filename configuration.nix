@@ -18,7 +18,7 @@
       options = "--delete-older-than 7d";
     };
   };
-  system.stateVersion = "nixos";
+  system.stateVersion = "22.11";
 
   # boot controlls.
   boot  = {

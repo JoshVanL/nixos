@@ -8,7 +8,8 @@
         start = [
           vim-nix
           vim-lastplace
-          powerline
+          # TODO:
+          #powerline
           gruvbox
           vim-go
           vim-airline
