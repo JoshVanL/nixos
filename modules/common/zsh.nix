@@ -84,6 +84,7 @@ in {
         cdu  = "cd $HOME/go/src/github.com/jetstack/spiffe-connector-vault";
         cde  = "cd $HOME/go/src/github.com/jetstack/approver-policy-enterprise";
         cds  = "cd $HOME/go/src/github.com/jetstack/js-trust";
+        cdn  = "cd /keep/etc/nixos";
       };
       history = {
         size = 100000;
