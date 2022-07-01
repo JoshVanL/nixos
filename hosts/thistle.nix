@@ -21,6 +21,12 @@
     firewall.enable = false;
   };
 
+  environment = {
+    systemPackages = with pkgs; [
+      texlive.combined.scheme-basic
+    ];
+  };
+
   nixpkgs.overlays = [
     (self: super: {
       somestatus = super.somestatus.overrideAttrs (attrs: rec {
@@ -38,4 +44,3 @@
     };
   };
 }
-
