@@ -29,6 +29,7 @@
       python3
       imagemagick
       google-cloud-sdk
+      go-jwt
     ];
 
     etc = {
@@ -53,28 +54,17 @@
     };
   };
 
-  sentinelone = {
-    enable          = (builtins.pathExists /keep/etc/nixos/modules/sentinelone);
-    site_token_path = "/persist/etc/sentinelone/site_token";
-  };
-
-  systemd.tmpfiles.rules = [ "d  /keep/opt/sentinelone/model 0755 root root - -" ];
-  fileSystems = {
-    "/opt/sentinelone/model" = { options = [ "bind" ]; device = "/keep/opt/sentinelone/model";  };
-  };
+  # Optionally import private internal modules if the modules exist.
+  imports = [] ++ lib.optional (builtins.pathExists /keep/etc/nixos/modules/nixpkgs-internal) (./WKSLNX151467);
 
   nixpkgs = {
     config = {
       packageOverrides = super: {
-        kind  = pkgs.callPackage /keep/etc/nixos/pkgs/kind {};
-        helm  = pkgs.callPackage /keep/etc/nixos/pkgs/helm {};
-        cmctl = pkgs.callPackage /keep/etc/nixos/pkgs/cmctl {};
+        kind   = pkgs.callPackage /keep/etc/nixos/pkgs/kind {};
+        helm   = pkgs.callPackage /keep/etc/nixos/pkgs/helm {};
+        cmctl  = pkgs.callPackage /keep/etc/nixos/pkgs/cmctl {};
+        go-jwt = pkgs.callPackage /keep/etc/nixos/pkgs/go-jwt {};
       };
-
-      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-        # SentinalOne Agent is not free software.
-        "sentinelone"
-      ];
     };
 
     overlays = [
@@ -97,4 +87,3 @@
     ];
   };
 }
-
