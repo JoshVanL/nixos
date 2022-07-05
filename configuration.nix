@@ -17,6 +17,10 @@
       dates = "weekly";
       options = "--delete-older-than 7d";
     };
+
+    extraOptions = ''
+      experimental-features = nix-command
+    '';
   };
   system.stateVersion = "22.11";
 
