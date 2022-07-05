@@ -46,6 +46,7 @@
       "L+ /home/josh/downloads      - - - - /keep/home/downloads"
       "L+ /home/josh/documents      - - - - /persist/home/documents"
       "L+ /home/josh/.docker        - - - - /persist/home/.docker"
+      "L+ /home/josh/.viminfo       - - - - /persist/home/.viminfo"
 
       "L+ /home/josh/.config/chromium - - - - /persist/home/.config/chromium"
       "L+ /home/josh/.cache/chromium  - - - - /persist/home/.cache/chromium"
