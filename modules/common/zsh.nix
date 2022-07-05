@@ -91,6 +91,7 @@ in {
       };
       initExtra = ''
       rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history
+      rm -f $HOME/.viminfo     && ln -s /persist/home/.viminfo     $HOME/.viminfo
       if [ -n "$\{commands[fzf-share]\}" ]; then
         source "$(fzf-share)/key-bindings.zsh"
         source "$(fzf-share)/completion.zsh"
