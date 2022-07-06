@@ -202,6 +202,9 @@ ssh-keygen -t ed25519 -N "" -f /mnt/persist/etc/ssh/initrd_host_ed_25519_key
 info "system linking /mnt/persist to ensure ssh is captured in nix install ..."
 ln -s /mnt/persist /persist
 
+info "generating Secure Boot keys and signatures"
+/mnt/etc/nixos/scripts/secure-boot-keys.sh
+
 info "Adding nixos-unstable channel ..."
 nix-channel --add https://nixos.org/channels/nixos-unstable nixos
 
