@@ -9,8 +9,10 @@
 
   # Nix.
   nix = {
-    allowedUsers      = [ "root" "josh"];
-    autoOptimiseStore = true;
+    settings = {
+      allowed-users       = [ "root" "josh"];
+      auto-optimise-store = true;
+    };
 
     gc = {
       automatic = true;
