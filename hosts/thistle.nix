@@ -1,5 +1,9 @@
 { lib, pkgs, ... }:
 
+let
+  tex = (pkgs.texlive.combine { inherit (pkgs.texlive) scheme-full; });
+in
+
 {
   boot.loader = {
     # Use the systemd-boot EFI boot loader.
@@ -23,7 +27,7 @@
 
   environment = {
     systemPackages = with pkgs; [
-      texlive.combined.scheme-basic
+      tex
     ];
   };
 
