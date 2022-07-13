@@ -36,8 +36,8 @@
       "joshvanl/window-manager/kanshi.cfg" = {
         text = ''
           {
-            output DP-1 mode 2560x1440 position 0,0
-            output eDP-1 mode 3840x2400 scale 1.6 position 2560,0
+            output DP-1 mode 3840x1600 position 0,0
+            output eDP-1 mode 3840x2400 scale 1.6 position 3840,0
           }
 
           {
