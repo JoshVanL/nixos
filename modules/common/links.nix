@@ -48,6 +48,9 @@
       "L+ /home/josh/.docker        - - - - /persist/home/.docker"
       "L+ /home/josh/.viminfo       - - - - /persist/home/.viminfo"
 
+      "d  /persist/home/.config/github-copilot 0755 josh wheel - -"
+      "L+ /home/josh/.config/github-copilot    - - - - /persist/home/.config/github-copilot"
+
       "L+ /home/josh/.config/chromium - - - - /persist/home/.config/chromium"
       "L+ /home/josh/.cache/chromium  - - - - /persist/home/.cache/chromium"
 
