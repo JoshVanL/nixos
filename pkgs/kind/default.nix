@@ -5,13 +5,13 @@
 
 buildGo118Module rec {
   pname = "kind";
-  version = "0.13.0";
+  version = "0.14.0";
 
   src = fetchFromGitHub {
     owner = "kubernetes-sigs";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-GrJ48q4RxvMHr3z7V37LLyuaok5VNGOq+HEhay+/gMA=";
+    hash = "sha256-yCzznSVWuVEkaoj9bo0WOp3Dvl3t1UJ/DwtXv5dp+dQ=";
   };
 
   vendorSha256 = "sha256-/UDmTyngydoso9F/iPp5JYlsfi0VNfHfTsxdGDaTK+w=";
