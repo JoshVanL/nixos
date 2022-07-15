@@ -30,19 +30,23 @@
       imagemagick
       google-cloud-sdk
       go-jwt
+      nodejs
+      envsubst
+      goreleaser
+      postgresql
     ];
 
     etc = {
       "joshvanl/window-manager/kanshi.cfg" = {
         text = ''
           {
-            output DP-1 mode 3840x1600 position 0,0
+            output DP-1 mode 3849x1600  position 0,0
             output eDP-1 mode 3840x2400 scale 1.6 position 3840,0
           }
 
           {
-            output DP-3 mode 2560x1440 position 0,0
-            output eDP-1 mode 3840x2400 scale 1.6 position 2560,0
+            output DP-3 mode 3840x1600 position 0,0
+            output eDP-1 mode 3840x2400 scale 1.6 position 3840,0
           }
 
           {
@@ -55,7 +59,9 @@
   };
 
   # Optionally import private internal modules if the modules exist.
-  imports = [] ++ lib.optional (builtins.pathExists /keep/etc/nixos/modules/nixpkgs-internal) (./WKSLNX151467);
+  imports = [
+    #../modules/secure-boot
+  ] ++ lib.optional (builtins.pathExists /keep/etc/nixos/modules/nixpkgs-internal) (./WKSLNX151467);
 
   nixpkgs = {
     config = {
