@@ -21,7 +21,7 @@ in {
       ".config/oh-my-zsh/themes/amuse-custom.zsh-theme" = {
         source = pkgs.fetchurl {
           url = "https://github.com/JoshVanL/oh-my-zsh-custom/raw/main/amuse-custom.zsh-theme";
-          hash = "sha256-8dYPqTVcC68To2mZ5XxlZBe8K5UbsAi62aVr9YzsBnk=";
+          hash = "sha256-TuR1qNxEUmP2ov0ElHXGhZDiu/BbQgbjMpvINQE8J08=";
         };
       };
 
