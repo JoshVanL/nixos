@@ -15,7 +15,7 @@ in {
       ".config/oh-my-zsh/themes/kubectl.zsh" = {
         source = pkgs.fetchurl {
           url = "https://github.com/JoshVanL/oh-my-zsh-custom/raw/main/kubectl.zsh";
-          hash = "sha256-AMevJrEFeYGOEKCCJjvDbnRLdvguuhfxhqW+k/TnAlU=";
+          hash = "sha256-+jKuFzhFLv+fb76qTMiwFQqa7KTyU/diJLzcsOYRo+o=";
         };
       };
       ".config/oh-my-zsh/themes/amuse-custom.zsh-theme" = {
