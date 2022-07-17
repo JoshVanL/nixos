@@ -32,5 +32,6 @@
     grim
     slurp
     direnv
+    nodejs
   ];
 }

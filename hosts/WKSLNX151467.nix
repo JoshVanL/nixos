@@ -30,7 +30,6 @@
       imagemagick
       google-cloud-sdk
       go-jwt
-      nodejs
       envsubst
       goreleaser
       postgresql
