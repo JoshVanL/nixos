@@ -31,6 +31,7 @@
 
   environment.systemPackages = with pkgs; [
     wl-clipboard
+    wlr-randr
     swaybg
     wofi
     waybar
