@@ -19,6 +19,14 @@
     firewall.enable = false;
   };
 
+  services = {
+    blueman.enable = true;
+  };
+
+  hardware = {
+    bluetooth.enable = true;
+  };
+
   environment = {
     systemPackages = with pkgs; [
       brightnessctl
