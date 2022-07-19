@@ -42,6 +42,7 @@
       goreleaser
       postgresql
       step-cli
+      git-crypt
     ];
 
     etc = {
