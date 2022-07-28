@@ -43,6 +43,7 @@
       postgresql
       step-cli
       git-crypt
+      buf
     ];
 
     etc = {
