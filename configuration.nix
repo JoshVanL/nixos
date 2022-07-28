@@ -21,7 +21,7 @@
     };
 
     extraOptions = ''
-      experimental-features = nix-command
+      experimental-features = nix-command flakes
     '';
   };
   system.stateVersion = "22.11";
