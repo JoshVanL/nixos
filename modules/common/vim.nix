@@ -104,6 +104,7 @@ in {
           autocmd BufNewFile,BufRead *.go set spell spelllang=en_gb
           autocmd BufNewFile,BufRead *.nix set spell spelllang=en_gb
           autocmd BufNewFile,BufRead *.sh set spell spelllang=en_gb
+          autocmd BufNewFile,BufRead *.proto set spell spelllang=en_gb
           autocmd BufNewFile,BufRead *COMMIT_EDITMSG set spell spelllang=en_gb
           hi SpellBad cterm=underline
 
