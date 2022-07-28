@@ -1,33 +1,38 @@
 { lib
 , buildGo118Module
 , fetchFromGitHub
+, installShellFiles
 }:
 
 buildGo118Module rec {
   pname = "cmctl";
-  version = "1.8.0";
+  version = "1.9.1";
 
   src = fetchFromGitHub {
     owner = "cert-manager";
     repo = "cert-manager";
     rev = "v${version}";
-    hash = "sha256-h7GyzjVrfyMHY7yuNmmsym6KGKCQr5R71gjPBTUeMCg=";
+    hash = "sha256-Z1aJ18X4mfJPlCPBC7QgfdX5Tk4+PK8mYoJZhGwz9ec=";
   };
 
-  vendorSha256 = "sha256-UYw9WdQ6VwzuuiOsa1yovkLZG7NmLYSW51p8UhmQMeI=";
+  vendorSha256 = "sha256-45+tZZAEHaLdTN1NQCueJVTx5x2IanwDl+Y9MELqdBE=";
   subPackages = [ "cmd/ctl" ];
 
   ldflags = [
     "-w" "-s"
+    # See https://github.com/cert-manager/cert-manager/blob/4486c01f726f17d2790a8a563ae6bc6e98465505/make/cmctl.mk#L1
     "-X" "github.com/cert-manager/cert-manager/cmd/ctl/pkg/build.name=cmctl"
     "-X" "github.com/cert-manager/cert-manager/cmd/ctl/pkg/build/commands.registerCompletion=true"
   ];
 
+  nativeBuildInputs = [ installShellFiles ];
+
   postInstall = ''
     mv $out/bin/ctl $out/bin/cmctl
-    mkdir -p $out/share/{bash-completion/completions,zsh/site-functions}
-    $out/bin/cmctl completion bash > $out/share/bash-completion/completions/cmctl
-    $out/bin/cmctl completion zsh > $out/share/zsh/site-functions/_cmctl
+    $out/bin/cmctl completion bash > cmctl.bash
+    $out/bin/cmctl completion zsh  > cmctl.zsh
+    $out/bin/cmctl completion fish > cmctl.fish
+    installShellCompletion cmctl.{bash,zsh,fish}
   '';
 
   meta = with lib; {
