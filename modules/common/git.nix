@@ -8,7 +8,7 @@ in {
   home-manager.users.josh = { pkgs, ... }: {
     programs.git = {
       enable = true;
-      userEmail = "vleeuwenjoshua@gmail.com";
+      userEmail = "me@joshvanl.dev";
       userName  = "joshvanl";
       ignores = [
         "*.swp"
