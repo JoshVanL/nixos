@@ -7,11 +7,12 @@
 buildGo118Module rec {
   pname = "cmctl";
   version = "1.9.1";
+  rev = "4486c01f726f17d2790a8a563ae6bc6e98465505";
 
   src = fetchFromGitHub {
+    inherit rev;
     owner = "cert-manager";
     repo = "cert-manager";
-    rev = "v${version}";
     hash = "sha256-Z1aJ18X4mfJPlCPBC7QgfdX5Tk4+PK8mYoJZhGwz9ec=";
   };
 
@@ -20,19 +21,20 @@ buildGo118Module rec {
 
   ldflags = [
     "-w" "-s"
-    # See https://github.com/cert-manager/cert-manager/blob/4486c01f726f17d2790a8a563ae6bc6e98465505/make/cmctl.mk#L1
-    "-X" "github.com/cert-manager/cert-manager/cmd/ctl/pkg/build.name=cmctl"
-    "-X" "github.com/cert-manager/cert-manager/cmd/ctl/pkg/build/commands.registerCompletion=true"
+    "-X github.com/cert-manager/cert-manager/cmd/ctl/pkg/build.name=cmctl"
+    "-X github.com/cert-manager/cert-manager/cmd/ctl/pkg/build/commands.registerCompletion=true"
+    "-X github.com/cert-manager/cert-manager/pkg/util.AppVersion=v${version}"
+    "-X github.com/cert-manager/cert-manager/pkg/util.AppGitCommit=${rev}"
   ];
 
   nativeBuildInputs = [ installShellFiles ];
 
   postInstall = ''
     mv $out/bin/ctl $out/bin/cmctl
-    $out/bin/cmctl completion bash > cmctl.bash
-    $out/bin/cmctl completion zsh  > cmctl.zsh
-    $out/bin/cmctl completion fish > cmctl.fish
-    installShellCompletion cmctl.{bash,zsh,fish}
+    installShellCompletion --cmd cmctl \
+      --bash <($out/bin/cmctl completion bash) \
+      --fish <($out/bin/cmctl completion fish) \
+      --zsh <($out/bin/cmctl completion zsh)
   '';
 
   meta = with lib; {
