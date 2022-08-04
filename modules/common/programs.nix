@@ -23,7 +23,7 @@
 
     # work
     gnumake
-    go_1_18
+    go_1_19
     calc
     jq
     gcc
