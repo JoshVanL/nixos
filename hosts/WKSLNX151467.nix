@@ -39,7 +39,6 @@
       google-cloud-sdk
       go-jwt
       envsubst
-      goreleaser
       postgresql
       step-cli
       git-crypt
