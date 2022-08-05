@@ -1,10 +1,10 @@
 { lib
-, buildGo118Module
+, buildGo119Module
 , fetchFromGitHub
 , installShellFiles
 }:
 
-buildGo118Module rec {
+buildGo119Module rec {
   pname = "cmctl";
   version = "1.9.1";
   rev = "4486c01f726f17d2790a8a563ae6bc6e98465505";

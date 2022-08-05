@@ -1,5 +1,5 @@
 { lib
-, buildGo118Module
+, buildGo119Module
 , fetchFromGitHub
 , pkg-config
 , libpulseaudio
@@ -10,7 +10,7 @@ let
   totalPatches = patches ++ [ ];
 in
 
-buildGo118Module rec {
+buildGo119Module rec {
   pname = "somestatus";
   version = "0.1.7";
 

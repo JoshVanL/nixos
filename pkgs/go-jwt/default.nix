@@ -1,9 +1,9 @@
 { lib
-, buildGo118Module
+, buildGo119Module
 , fetchFromGitHub
 }:
 
-buildGo118Module rec {
+buildGo119Module rec {
   pname = "jwt";
   version = "4.4.1";
 
