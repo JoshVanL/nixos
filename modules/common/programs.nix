@@ -15,7 +15,7 @@
     fzf
     pulseaudio
     backblaze-b2
-    unzip
+    zip unzip
     git-extras
     tailscale
     bitwarden
