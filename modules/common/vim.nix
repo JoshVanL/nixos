@@ -123,8 +123,8 @@ in {
           " Allow saving of files as sudo when I forgot to start vim using sudo.
           nnoremap <leader>w!! :w !sudo tee > /dev/null %
           " Go build
-          cmap gg GoBuild <CR>
-          cmap tt GoTest <CR>
+          cmap gg GoBuild! <CR>
+          cmap tt GoTest! <CR>
           nmap gi :GoIfErr <CR>
           nmap <C-i> :GoImports <CR>
           let g:go_imports_mode='gopls'
