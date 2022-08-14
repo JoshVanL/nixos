@@ -86,6 +86,7 @@ in {
         cde  = "cd $HOME/go/src/github.com/jetstack/approver-policy-enterprise";
         cds  = "cd $HOME/go/src/github.com/jetstack/js-trust";
         cdn  = "cd /keep/etc/nixos";
+        cdy  = "cd /$HOME/go/src/github.com/joshvanl/yazbu";
       };
       history = {
         size = 100000;
