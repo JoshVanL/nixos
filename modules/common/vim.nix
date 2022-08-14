@@ -3,13 +3,24 @@
 let
   vim-github-copilot = pkgs.vimUtils.buildVimPlugin {
     name = "vim-github-copilot";
+    version = "1.5.0";
     src = pkgs.fetchFromGitHub {
       owner  = "github";
       repo   = "copilot.vim";
-      rev    = "c2e75a3a7519c126c6fdb35984976df9ae13f564";
-      sha256 = "sha256-V13La54aIb3hQNDE7BmOIIZWy7In5cG6kE0fti/wxVQ=";
+      rev    = "da286d8c52159026f9cba16cd0f98b609c056841";
+      sha256 = "sha256-0cZS1wK884YBIAF4mbLTTS+D26OzpMh1mZtWfFYz7ng=";
     };
   };
+
+  new-vim-go = pkgs.vimPlugins.vim-go.overrideAttrs (old: {
+      version = "2022-08-12";
+      src = pkgs.fetchFromGitHub {
+        owner  = "fatih";
+        repo   = "vim-go";
+        rev    = "4d6962d8e0792617f87b37b938996f44e2a54645";
+        sha256 = "sha256-HMspC0LltTVFhX0jIwyE2ru2i1wzt64HwkhCOjdMViY=";
+      };
+    });
 
 in {
   environment.variables = { EDITOR = "vim"; };
@@ -25,7 +36,7 @@ in {
             # TODO:
             #powerline
             gruvbox
-            vim-go
+            new-vim-go
             vim-airline
             vim-airline-themes
             indentLine
@@ -102,6 +113,7 @@ in {
           autocmd BufNewFile,BufRead *.md set spell spelllang=en_gb
           autocmd BufNewFile,BufRead *.mdx set spell spelllang=en_gb
           autocmd BufNewFile,BufRead *.go set spell spelllang=en_gb
+          autocmd BufNewFile,BufRead *.go setlocal omnifunc=go#complete#Complete
           autocmd BufNewFile,BufRead *.nix set spell spelllang=en_gb
           autocmd BufNewFile,BufRead *.sh set spell spelllang=en_gb
           autocmd BufNewFile,BufRead *.proto set spell spelllang=en_gb
@@ -115,7 +127,15 @@ in {
           cmap tt GoTest <CR>
           nmap gi :GoIfErr <CR>
           nmap <C-i> :GoImports <CR>
+          let g:go_imports_mode='gopls'
+          let g:go_imports_autosave=1
           let g:go_fmt_autosave = 1
+          let g:go_fmt_options = {
+            \ 'gofmt': '-s',
+            \ }
+
+          au BufWritePre,FileWritePre *.go :GoFmt
+          au BufWritePre,FileWritePre *.go :GoImports
 
           "Indent Line char
           let g:indentLine_char = '¦'
