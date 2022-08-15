@@ -11,13 +11,17 @@
     ];
   };
 
-  services.pcscd.enable = true;
-
   programs = {
-    ssh.startAgent = false;
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
+    ssh.startAgent = true;
   };
+
+  #services.pcscd.enable = true;
+
+  #programs = {
+  #  ssh.startAgent = false;
+  #  gnupg.agent = {
+  #    enable = true;
+  #    enableSSHSupport = true;
+  #  };
+  #};
 }
