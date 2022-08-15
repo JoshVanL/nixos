@@ -50,6 +50,7 @@ in {
         sshbye          = "gpg-connect-agent updatestartuptty /bye";
         shot            = "grim -g \"$(slurp)\" - | wl-copy -t image/png";
         syk             = "killall ssh-agent && eval $(ssh-agent) && ssh-add -K";
+        imps            = "ssh-keygen -K && mkdir -p ~/.ssh && mv id*_rk.pub ~/.ssh/id_ed25519_sk.pub && mv id*_rk ~/.ssh/id_ed25519_sk";
 
         kc = "kubectl";
         kg = "kubectl get";
