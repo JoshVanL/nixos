@@ -12,15 +12,15 @@ let
     };
   };
 
-  new-vim-go = pkgs.vimPlugins.vim-go.overrideAttrs (old: {
-      version = "2022-08-12";
-      src = pkgs.fetchFromGitHub {
-        owner  = "fatih";
-        repo   = "vim-go";
-        rev    = "4d6962d8e0792617f87b37b938996f44e2a54645";
-        sha256 = "sha256-HMspC0LltTVFhX0jIwyE2ru2i1wzt64HwkhCOjdMViY=";
-      };
-    });
+  #new-vim-go = pkgs.vimPlugins.vim-go.overrideAttrs (old: {
+  #    version = "2022-08-12";
+  #    src = pkgs.fetchFromGitHub {
+  #      owner  = "fatih";
+  #      repo   = "vim-go";
+  #      rev    = "4d6962d8e0792617f87b37b938996f44e2a54645";
+  #      sha256 = "sha256-HMspC0LltTVFhX0jIwyE2ru2i1wzt64HwkhCOjdMViY=";
+  #    };
+  #  });
 
 in {
   environment.variables = { EDITOR = "vim"; };
@@ -36,7 +36,7 @@ in {
             # TODO:
             #powerline
             gruvbox
-            new-vim-go
+            vim-go
             vim-airline
             vim-airline-themes
             indentLine
@@ -113,7 +113,7 @@ in {
           autocmd BufNewFile,BufRead *.md set spell spelllang=en_gb
           autocmd BufNewFile,BufRead *.mdx set spell spelllang=en_gb
           autocmd BufNewFile,BufRead *.go set spell spelllang=en_gb
-          autocmd BufNewFile,BufRead *.go setlocal omnifunc=go#complete#Complete
+          "autocmd BufNewFile,BufRead *.go setlocal omnifunc=go#complete#Complete
           autocmd BufNewFile,BufRead *.nix set spell spelllang=en_gb
           autocmd BufNewFile,BufRead *.sh set spell spelllang=en_gb
           autocmd BufNewFile,BufRead *.proto set spell spelllang=en_gb
@@ -129,12 +129,6 @@ in {
           cmap tt GoTest <CR>
           nmap gi :GoIfErr <CR>
           nmap <C-i> :GoImports <CR>
-          let g:go_imports_mode='gopls'
-          let g:go_imports_autosave=1
-          let g:go_fmt_autosave = 1
-          let g:go_fmt_options = {
-            \ 'gofmt': '-s',
-            \ }
 
           au BufWritePre,FileWritePre *.go :GoFmt
           au BufWritePre,FileWritePre *.go :GoImports
