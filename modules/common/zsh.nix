@@ -75,7 +75,7 @@ in {
         cdc  = "cd $HOME/go/src/github.com/cert-manager/cert-manager";
         cdp  = "cd $HOME/go/src/github.com/cert-manager/approver-policy";
         cdj  = "cd $HOME/go/src/github.com/jetstack/jetbot";
-        cdo  = "cd $HOME/go/src/github.com/jetstack/oob-issuer";
+        cdo  = "cd $HOME/go/src/github.com/jetstack/isolated-issuer";
         cdt  = "cd $HOME/go/src/github.com/cert-manager/istio-csr";
         cdi  = "cd $HOME/go/src/github.com/cert-manager/csi-lib";
         cdm  = "cd $HOME/go/src/github.com/cert-manager/istio-csi";
