@@ -42,6 +42,7 @@
       postgresql
       step-cli
       git-crypt
+      age
     ];
 
     etc = {
