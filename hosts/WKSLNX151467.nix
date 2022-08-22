@@ -43,6 +43,7 @@
       step-cli
       git-crypt
       age
+      terraform
     ];
 
     etc = {
