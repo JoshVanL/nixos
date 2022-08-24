@@ -32,7 +32,6 @@
     grim
     slurp
     direnv
-    nodejs
     tree
   ];
 }

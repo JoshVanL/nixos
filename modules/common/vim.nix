@@ -3,12 +3,12 @@
 let
   vim-github-copilot = pkgs.vimUtils.buildVimPlugin {
     name = "vim-github-copilot";
-    version = "1.5.0";
+    version = "1.5.2";
     src = pkgs.fetchFromGitHub {
       owner  = "github";
       repo   = "copilot.vim";
-      rev    = "da286d8c52159026f9cba16cd0f98b609c056841";
-      sha256 = "sha256-0cZS1wK884YBIAF4mbLTTS+D26OzpMh1mZtWfFYz7ng=";
+      rev    = "e219dd98b530db1d68adf8e98c3f0e3e67c77bec";
+      sha256 = "sha256-zX7it18StK1fVnaRPawQT05YgCFbAt6kqcxgcNCd7Kk=";
     };
   };
 
@@ -25,6 +25,8 @@ let
 in {
   environment.variables = { EDITOR = "vim"; };
   environment.systemPackages = with pkgs; [
+    nodejs-16_x # Required for GitHub copilot.
+
     (neovim.override {
       viAlias  = true;
       vimAlias = true;
