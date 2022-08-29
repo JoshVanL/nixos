@@ -3,12 +3,12 @@
 {
   services = {
     sentinelone = {
-      enable          = true;
+      enable          = false;
       site_token_path = "/persist/etc/sentinelone/site_token";
     };
 
     kolide-launcher = {
-      enable = true;
+      enable = false;
       deb_file = "zxkx_josh-van-leeuwen-ff00b2_kolide-launcher.deb";
     };
   };
