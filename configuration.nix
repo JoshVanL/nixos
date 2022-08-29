@@ -20,6 +20,8 @@
       options = "--delete-older-than 7d";
     };
 
+    trustedUsers = [ "root" "josh" ];
+
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
