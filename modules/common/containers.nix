@@ -1,9 +1,12 @@
 { config, lib, pkgs, ... }:
 
 {
-  virtualisation.podman = {
+  #virtualisation.podman = {
+  virtualisation.docker = {
     enable = true;
-    extraPackages = [ pkgs.zfs ];
+    #extraPackages = [ pkgs.zfs ];
+    storageDriver = "zfs";
   };
-  systemd.services.podman.wantedBy = lib.mkForce [];
+  #systemd.services.podman.wantedBy = lib.mkForce [];
+  systemd.services.docker.wantedBy = lib.mkForce [];
 }
