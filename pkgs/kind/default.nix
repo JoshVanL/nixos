@@ -1,26 +1,29 @@
 { lib
 , buildGo119Module
 , fetchFromGitHub
+, installShellFiles
 }:
 
 buildGo119Module rec {
   pname = "kind";
-  version = "0.14.0";
+  version = "0.15.0";
 
   src = fetchFromGitHub {
     owner = "kubernetes-sigs";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-yCzznSVWuVEkaoj9bo0WOp3Dvl3t1UJ/DwtXv5dp+dQ=";
+    hash = "sha256-IDSWmNWHnTKOl6/N1Mz+OKOkZSBarpuN39CBsSjYhKY=";
   };
 
-  vendorSha256 = "sha256-/UDmTyngydoso9F/iPp5JYlsfi0VNfHfTsxdGDaTK+w=";
+  vendorSha256 = "sha256-FE1GvNgXkBt2cH4YB3jTsPXp91DSiYlniQLtMwvi384=";
   subPackages = [ "." ];
 
+  nativeBuildInputs = [ installShellFiles ];
   postInstall = ''
-    mkdir -p $out/share/{bash-completion/completions,zsh/site-functions}
-    $out/bin/kind completion bash > $out/share/bash-completion/completions/kind
-    $out/bin/kind completion zsh > $out/share/zsh/site-functions/_kind
+    installShellCompletion --cmd kind \
+      --bash <($out/bin/kind completion bash) \
+      --fish <($out/bin/kind completion fish) \
+      --zsh <($out/bin/kind completion zsh)
   '';
 
   meta = with lib; {
