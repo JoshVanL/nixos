@@ -54,7 +54,7 @@
         (super.fetchpatch {
           name = "somebar.joshvanl-config-colours";
           url  = "https://raw.githubusercontent.com/joshvanl/somebar/joshvanl-patches/patches/001-config-colours.patch";
-          hash = "sha256-ZHUs9rXNwKmn5l0oPeFKaEFQvygOycBHPh/UXlx9m/Q=";
+          hash = "sha256-wjwliO3ZlGjLyQMTMQ//JOt+mJVpvJMq8/nkDHBtXRk=";
         })
         (super.fetchpatch {
           name = "somebar.joshvanl-hide-empty-tags";
