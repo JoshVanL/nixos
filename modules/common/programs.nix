@@ -33,5 +33,6 @@
     slurp
     direnv
     tree
+    cachix
   ];
 }
