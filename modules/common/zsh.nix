@@ -57,7 +57,7 @@ in {
 
         gog  = "GO111MODULE=off go get -v";
         gogg = "go get -v";
-        got  = "go test -v";
+        got  = "go test --race -v";
         goi  = "go mod tidy -v";
         gob  = "go build -v";
         gon  = "go install -v";
