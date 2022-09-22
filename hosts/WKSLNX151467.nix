@@ -78,7 +78,6 @@
       packageOverrides = super: {
         kind   = pkgs.callPackage /keep/etc/nixos/pkgs/kind {};
         helm   = pkgs.callPackage /keep/etc/nixos/pkgs/helm {};
-        cmctl  = pkgs.callPackage /keep/etc/nixos/pkgs/cmctl {};
         go-jwt = pkgs.callPackage /keep/etc/nixos/pkgs/go-jwt {};
       };
     };
