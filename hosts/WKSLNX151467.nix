@@ -76,7 +76,6 @@
   nixpkgs = {
     config = {
       packageOverrides = super: {
-        kind   = pkgs.callPackage /keep/etc/nixos/pkgs/kind {};
         helm   = pkgs.callPackage /keep/etc/nixos/pkgs/helm {};
         go-jwt = pkgs.callPackage /keep/etc/nixos/pkgs/go-jwt {};
       };
