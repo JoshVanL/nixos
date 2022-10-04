@@ -84,7 +84,7 @@
 
   # Set your time zone.
   #time.timeZone = "Europe/London";
-  time.timeZone = "US/Dallas";
+  time.timeZone = "America/Chicago";
 
   # Language.
   i18n.defaultLocale = "en_US.UTF-8";
