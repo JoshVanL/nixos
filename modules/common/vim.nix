@@ -2,7 +2,7 @@
 
 let
   vim-github-copilot = pkgs.vimUtils.buildVimPlugin {
-    name = "vim-github-copilot";
+    pname = "vim-github-copilot";
     version = "1.5.2";
     src = pkgs.fetchFromGitHub {
       owner  = "github";
@@ -131,6 +131,10 @@ in {
           cmap tt GoTest <CR>
           nmap gi :GoIfErr <CR>
           nmap <C-i> :GoImports <CR>
+          map <C-i> :set conceallevel=0<CR>
+
+          autocmd BufNewFile,BufRead *.md set conceallevel=0
+          autocmd BufNewFile,BufRead *.mdx set conceallevel=0
 
           au BufWritePre,FileWritePre *.go :GoFmt
           au BufWritePre,FileWritePre *.go :GoImports
