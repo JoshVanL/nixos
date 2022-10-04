@@ -18,7 +18,7 @@ let
         };
         doCheck = false;
         nativeBuildInputs = [
-          setuptools_scm
+          setuptools-scm
           pytz
           tzlocal
           six
