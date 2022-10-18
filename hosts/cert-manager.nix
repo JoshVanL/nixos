@@ -10,6 +10,7 @@ let
     # gold-fido
     "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIFOiIRyDiW99jt4klbFBwWYaUDbt9x33vab+lummvaA2AAAABHNzaDo="
   ];
+  joshvanlPath = "/persist/etc/joshvanl";
 in {
   boot = {
     kernelPackages = pkgs.linuxPackages_rpi4;
