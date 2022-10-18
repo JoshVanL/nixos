@@ -83,6 +83,20 @@ in {
     ;
   };
 
+  environment.systemPackages = with pkgs; [
+    kubectl
+    kind
+    cmctl
+  ];
+
+  services = {
+    openssh = {
+      enable = true;
+      passwordAuthentication = false;
+      kbdInteractiveAuthentication = true;
+    };
+  };
+
   security = {
     pam.yubico = { enable = true; id = "16"; };
   };
