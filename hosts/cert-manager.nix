@@ -46,7 +46,7 @@ in {
   nixpkgs.config.allowUnsupportedSystem = true;
 
   networking = {
-    hostName = "burgundy2";
+    hostName = "cert-manager";
     hostId   = "414d6053";
     interfaces = {
       eth0.useDHCP  = true;
