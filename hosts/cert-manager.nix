@@ -18,6 +18,9 @@ in {
       availableKernelModules = [ "usbhid" "usb_storage" "smsc95xx" "usbnet" ];
       network = {
         enable = true;
+        udhcpc.extraArgs = [
+          "--timeout=30"
+        ];
         ssh = {
           enable = true;
           port = 22;
