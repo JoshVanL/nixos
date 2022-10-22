@@ -19,7 +19,7 @@ in {
       network = {
         enable = true;
         udhcpc.extraArgs = [
-          "--timeout=30"
+          "-t 10" "-A 10"
         ];
         ssh = {
           enable = true;
