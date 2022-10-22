@@ -34,11 +34,13 @@ in {
     };
     # ttyAMA0 is the serial console broken out to the GPIO
     kernelParams = [
-        "8250.nr_uarts=1"
-        "console=ttyAMA0,115200"
-        "console=tty1"
-        # A lot GUI programs need this, nearly all wayland applications
-        "cma=128M"
+      "cgroup_memory=1"
+      "cgroup_enable=memory"
+      "8250.nr_uarts=1"
+      "console=ttyAMA0,115200"
+      "console=tty1"
+      # A lot GUI programs need this, nearly all wayland applications
+      "cma=128M"
     ];
     loader.raspberryPi = {
       enable = true;
