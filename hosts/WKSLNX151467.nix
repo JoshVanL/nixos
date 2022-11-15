@@ -44,6 +44,7 @@
       git-crypt
       age
       terraform
+      dive
       vcert
       go-protobuf
       go-protobuf-grpc
