@@ -44,6 +44,9 @@
       git-crypt
       age
       terraform
+      vcert
+      go-protobuf
+      go-protobuf-grpc
     ];
 
     etc = {
@@ -53,20 +56,20 @@
             output DP-3 mode 2560x1440 scale 1.0 position 0,0
             output eDP-1 mode 3840x2400 scale 1.6 position 2560,0
           }
-
-          {
-            output DP-1 mode 2560x1440 scale 1.0 position 0,0
-            output eDP-1 mode 3840x2400 scale 1.6 position 2560,0
-          }
-
-          {
-            output eDP-1 mode 3840x2400 scale 1.6 position 0,0
-          }
         '';
         mode = "644";
       };
     };
   };
+
+          #{
+          #  output eDP-1 mode 3840x2400 scale 1.6 position 0,0
+          #}
+
+          #{
+          #  output DP-1 mode 2560x1440 scale 1.0 position 0,0
+          #  output eDP-1 mode 3840x2400 scale 1.6 position 2560,0
+          #}
 
   # Optionally import private internal modules if the modules exist.
   imports = [
@@ -78,6 +81,9 @@
       packageOverrides = super: {
         helm   = pkgs.callPackage /keep/etc/nixos/pkgs/helm {};
         go-jwt = pkgs.callPackage /keep/etc/nixos/pkgs/go-jwt {};
+        vcert = pkgs.callPackage /keep/etc/nixos/pkgs/vcert {};
+        go-protobuf = pkgs.callPackage /keep/etc/nixos/pkgs/go-protobuf {};
+        go-protobuf-grpc = pkgs.callPackage /keep/etc/nixos/pkgs/go-protobuf-grpc {};
       };
     };
 
