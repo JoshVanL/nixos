@@ -80,7 +80,7 @@ in {
         cdi  = "cd $HOME/go/src/github.com/cert-manager/csi-lib";
         cdm  = "cd $HOME/go/src/github.com/cert-manager/istio-csi";
         cda  = "cd $HOME/go/src/github.com/cert-manager/csi-driver";
-        cdd  = "cd $HOME/go/src/github.com/cert-manager/trust";
+        cdd  = "cd $HOME/go/src/github.com/cert-manager/trust-manager";
         cdw  = "cd $HOME/go/src/github.com/cert-manager/website";
         cdds = "cd $HOME/go/src/github.com/cert-manager/csi-driver-spiffe";
         cdr  = "cd $HOME/go/src/github.com/jetstack/approver-policy-rego";

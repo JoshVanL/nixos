@@ -2,8 +2,8 @@
 
 {
   imports = [
-    /keep/etc/nixos/modules/zfs_uploader
-    /keep/etc/nixos/modules/common
+    ./zfs_uploader
+    ./common
   ]
   ++ lib.optional (builtins.pathExists ./nixpkgs-internal) (./nixpkgs-internal)
   ;
