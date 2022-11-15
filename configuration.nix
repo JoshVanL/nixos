@@ -57,6 +57,9 @@
       "1.1.1.1"
       "8.8.8.8"
     ];
+    #extraHosts = ''
+    #  127.0.0.1 venafi-tpp.platform-ops.jetstack.net
+    #'';
   };
 
   services = {
@@ -83,8 +86,9 @@
   };
 
   # Set your time zone.
-  #time.timeZone = "Europe/London";
-  time.timeZone = "America/Chicago";
+  time.timeZone = "Europe/London";
+  #time.timeZone = "America/Chicago";
+  #time.timeZone = "Europe/Paris";
 
   # Language.
   i18n.defaultLocale = "en_US.UTF-8";
