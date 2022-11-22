@@ -40,14 +40,16 @@
       go-jwt
       envsubst
       postgresql
-      step-cli
+      step
       git-crypt
       age
       terraform
       dive
       vcert
+      protobuf
       go-protobuf
       go-protobuf-grpc
+      gomarkdoc
     ];
 
     etc = {
@@ -85,6 +87,8 @@
         vcert = pkgs.callPackage /keep/etc/nixos/pkgs/vcert {};
         go-protobuf = pkgs.callPackage /keep/etc/nixos/pkgs/go-protobuf {};
         go-protobuf-grpc = pkgs.callPackage /keep/etc/nixos/pkgs/go-protobuf-grpc {};
+        step = pkgs.callPackage /keep/etc/nixos/pkgs/step-cli {};
+        gomarkdoc = pkgs.callPackage /keep/etc/nixos/pkgs/gomarkdoc {};
       };
     };
 
