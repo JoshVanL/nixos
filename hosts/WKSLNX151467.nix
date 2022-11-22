@@ -50,6 +50,7 @@
       go-protobuf
       go-protobuf-grpc
       gomarkdoc
+      paranoia
     ];
 
     etc = {
@@ -89,6 +90,7 @@
         go-protobuf-grpc = pkgs.callPackage /keep/etc/nixos/pkgs/go-protobuf-grpc {};
         step = pkgs.callPackage /keep/etc/nixos/pkgs/step-cli {};
         gomarkdoc = pkgs.callPackage /keep/etc/nixos/pkgs/gomarkdoc {};
+        paranoia = pkgs.callPackage /keep/etc/nixos/pkgs/paranoia {};
       };
     };
 

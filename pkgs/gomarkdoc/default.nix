@@ -20,7 +20,7 @@ buildGo119Module rec {
 
   nativeBuildInputs = [ installShellFiles ];
   postInstall = ''
-    installShellCompletion --cmd kind \
+    installShellCompletion --cmd gomarkdoc \
       --bash <($out/bin/gomarkdoc completion bash) \
       --fish <($out/bin/gomarkdoc completion fish) \
       --zsh <($out/bin/gomarkdoc completion zsh)
