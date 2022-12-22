@@ -13,7 +13,7 @@
     hostName = "purple";
     hostId   = "49ab6f90";
     interfaces = {
-      wlp0s20f3.useDHCP = true;
+      #wlp0s20f3.useDHCP = true;
     };
 
     firewall.enable = false;
