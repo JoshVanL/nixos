@@ -27,9 +27,6 @@ in {
     initrd = {
       availableKernelModules = [ "xhci_pci" "usbhid" "sr_mod" ];
       systemd = {
-        extraBin = {
-          ssh-keygen = "${config.programs.ssh.package}/bin/ssh-keygen";
-        };
         services = {
           generate-ssh-host-key = {
             requires = ["initrd-fs.target"];
@@ -40,7 +37,7 @@ in {
             serviceConfig.Type = "oneshot";
             script = ''
               mkdir -p /etc/ssh/
-              ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -t ed25519 -N ""
+              ${pkgs.openssh}/bin/ssh-keygen" -f /etc/ssh/ssh_host_ed25519_key -t ed25519 -N ""
             '';
           };
         };
