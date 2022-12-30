@@ -185,8 +185,8 @@ git pull origin main
 cd -
 
 info "Replacing /mnt/etc/nixos with /mnt/keep/etc/nixos ..."
-rm -r /mnt/etc/nixos
-cp -r /mnt/keep/etc/nixos /mnt/etc/nixos
+rm -rf /mnt/etc/nixos
+cp -rf /mnt/keep/etc/nixos /mnt/etc/nixos
 
 info "system linking /mnt/keep to ensure passward is captured in nix install ..."
 ln -s /mnt/keep /keep
