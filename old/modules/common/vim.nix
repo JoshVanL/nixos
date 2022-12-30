@@ -165,9 +165,9 @@ in {
           vmap <C-c> "+y
           vnoremap <C-z> "+x
           vmap <C-x> "+k
-          inoremap <C-v> <C-r>*
-          xnoremap "+y y:call system("wl-copy", @")<cr>
-          nnoremap "+p :let @\"=substitute(system(\"wl-paste --no-newline\"), '<C-v><C-m>', ''+"''"+'', 'g')<cr>p
+          "inoremap <C-v> <C-r>*
+          "xnoremap "+y y:call system("wl-copy", @")<cr>
+          "nnoremap "+p :let @\"=substitute(system(\"wl-paste --no-newline\"), '<C-v><C-m>', ''+"''"+'', 'g')<cr>p
 
           set conceallevel=0
           set guicursor=i:block

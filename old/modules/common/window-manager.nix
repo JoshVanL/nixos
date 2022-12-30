@@ -9,20 +9,22 @@
         rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history
 
         # TODO: find a way to use 'dwl -c' without freezing.
-        XDG_CURRENT_DESKTOP=Wayfire dbus-run-session dwl >/dev/null <&- &
+        WLR_NO_HARDWARE_CURSORS=1 XDG_CURRENT_DESKTOP=Wayfire dbus-run-session dwl >/dev/null <&- &
         sleep 0.6
         swaybg -i $HOME/imgs/system/wallpaper.jpg <&- &
         somebar <&- &
         sleep 0.6
+        #wlr-randr --output Virtual-1 --custom-mode 3024x1890@60Hz
         kanshi --config /etc/joshvanl/window-manager/kanshi.cfg >/dev/null <&- &
         sleep 1.5
         dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=Wayfire
         systemctl --user stop pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-wlr
         systemctl --user start wireplumber
-        while somestatus
-        do
-          break
-        done
+        sleep inf
+        #while somestatus
+        #do
+        #  break
+        #done
       '';
 
       mode = "755";
@@ -97,11 +99,11 @@
           url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0003-firefox-wofi.patch";
           hash = "sha256-BhdbQ5CmMFVC7+XAjrse7RvfxctALp3e/OdrkfkM0tc=";
         })
-        (super.fetchpatch {
-          name = "dwl.joshvanl-repeat-rate";
-          url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0004-repeat-rate.patch";
-          hash = "sha256-6tunCJlffKk4SszsNHbaYXNCrDzuZFOaUQxlXLh4ImI=";
-        })
+        #(super.fetchpatch {
+        #  name = "dwl.joshvanl-repeat-rate";
+        #  url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0004-repeat-rate.patch";
+        #  hash = "sha256-6tunCJlffKk4SszsNHbaYXNCrDzuZFOaUQxlXLh4ImI=";
+        #})
         (super.fetchpatch {
           name = "dwl.joshvanl-window-change-focus";
           url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0005-window-change-focus.patch";
@@ -172,11 +174,11 @@
           url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0019-mute-command.patch";
           hash = "sha256-oyi11Bllsj182izBWnvFf3PwfgANew5EstEHPFHhanA=";
         })
-        (super.fetchpatch {
-          name = "dwl.joshvanl-natural-scrolling";
-          url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0020-trackpad-natural-scrolling.patch";
-          hash = "sha256-SStmrh88gCu8RTcuueGncLhfICkZve6j4PG/GT19hKc=";
-        })
+        #(super.fetchpatch {
+        #  name = "dwl.joshvanl-natural-scrolling";
+        #  url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0020-trackpad-natural-scrolling.patch";
+        #  hash = "sha256-SStmrh88gCu8RTcuueGncLhfICkZve6j4PG/GT19hKc=";
+        #})
         (super.fetchpatch {
           name = "dwl.joshvanl-volume-buttons";
           url  = "https://raw.githubusercontent.com/joshvanl/dwl/joshvanl-patches/patches/0021-volume-buttons.patch";

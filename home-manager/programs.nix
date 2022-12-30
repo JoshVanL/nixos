@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     # base
     cryptsetup
     killall
@@ -17,13 +17,10 @@
     backblaze-b2
     zip unzip
     git-extras
-    tailscale
-    bitwarden
     bitwarden-cli
 
     # work
     gnumake
-    go_1_19
     calc
     jq
     gcc

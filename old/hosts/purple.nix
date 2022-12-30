@@ -12,9 +12,6 @@
   networking = {
     hostName = "purple";
     hostId   = "49ab6f90";
-    interfaces = {
-      #wlp0s20f3.useDHCP = true;
-    };
 
     firewall.enable = false;
   };
@@ -25,6 +22,20 @@
 
   hardware = {
     bluetooth.enable = true;
+  };
+
+  services.xserver = {
+    enable = true;
+    desktopManager.xterm.enable = false;
+    layout = "us";
+    autorun = false;
+    #desktopManager.default = "none";
+    displayManager.defaultSession = "none+i3";
+    windowManager.i3 = {
+      enable = true;
+    };
+    displayManager.sessionCommands = "sleep 5 && ${pkgs.xorg.xmodmap}/bin/xmodmap -e 'keycode 94 = grave asciitilde'";
+    displayManager.startx.enable = true;
   };
 
   environment = {
@@ -57,23 +68,13 @@
       "joshvanl/window-manager/kanshi.cfg" = {
         text = ''
           {
-            output DP-3 mode 2560x1440 scale 1.0 position 0,0
-            output eDP-1 mode 3840x2400 scale 1.6 position 2560,0
+            output Virtual-1 mode 3024x1890@60Hz scale 1.4 position 0,0
           }
         '';
         mode = "644";
       };
     };
   };
-
-          #{
-          #  output eDP-1 mode 3840x2400 scale 1.6 position 0,0
-          #}
-
-          #{
-          #  output DP-1 mode 2560x1440 scale 1.0 position 0,0
-          #  output eDP-1 mode 3840x2400 scale 1.6 position 2560,0
-          #}
 
   nixpkgs = {
     config = {

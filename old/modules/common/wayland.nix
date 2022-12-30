@@ -2,7 +2,7 @@
 
 {
   programs.sway = {
-    enable = true;
+    enable = false;
     wrapperFeatures = {
       gtk = true;
     };

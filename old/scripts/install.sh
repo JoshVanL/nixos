@@ -53,23 +53,10 @@ do
 	break
 done
 
-AVAILABLE_ARCHES=()
-ARCH=""
-PS3="Select a architecture: "
-for f in $(find $(git rev-parse --show-toplevel)/machines/* -type d)
-do
-  AVAILABLE_ARCHES+=($(basename -- $f | cut -f 1 -d "."))
-done
-select arch in "${AVAILABLE_ARCHES[@]}"
-do
-  export ARCH=$arch
-	break
-done
-
 AVAILABLE_HOSTS=()
 HOSTNAME=""
 PS3="Select a hostname: "
-for f in $(find $(git rev-parse --show-toplevel)/machines/$ARCH -type f)
+for f in $(find $(git rev-parse --show-toplevel)/hosts -type f)
 do
   AVAILABLE_HOSTS+=($(basename -- $f | cut -f 1 -d "."))
 done
@@ -170,6 +157,9 @@ info "Mounting '$ZFS_DS_PERSIST' to /mnt/persist ..."
 mkdir /mnt/persist
 mount -t zfs "$ZFS_DS_PERSIST" /mnt/persist
 
+info "Generating NixOS configuration (/mnt/etc/nixos/*.nix) ..."
+NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-generate-config --root /mnt
+
 info "Moving password to installation ..."
 mkdir -p /mnt/keep/etc/users
 mkdir -p /etc/users
@@ -183,6 +173,17 @@ git init
 git remote add origin https://github.com/joshvanl/nixos.git
 git pull origin main
 cd -
+cp /mnt/keep/etc/nixos/configuration.nix /mnt/etc/nixos/.
+
+info "Appending machine-specific properties to hardware-configuration.nix ..."
+HARDWARE_CONFIG=$(mktemp)
+cat <<CONFIG > "$HARDWARE_CONFIG"
+  boot.zfs.devNodes = "/dev/disk/by-label/$ZFS_POOL";
+CONFIG
+sed -i "\$e cat $HARDWARE_CONFIG" /mnt/etc/nixos/hardware-configuration.nix
+
+info "Copying generated hardware-configuration.nix to /mnt/keep/etc/nixos/ ..."
+cp /mnt/etc/nixos/hardware-configuration.nix /mnt/keep/etc/nixos/
 
 info "Replacing /mnt/etc/nixos with /mnt/keep/etc/nixos ..."
 rm -r /mnt/etc/nixos
@@ -191,6 +192,9 @@ cp -r /mnt/keep/etc/nixos /mnt/etc/nixos
 info "system linking /mnt/keep to ensure passward is captured in nix install ..."
 ln -s /mnt/keep /keep
 
+info "system linking host.nix to hostname configuration ..."
+ln -s /mnt/etc/nixos/hosts/${HOSTNAME}.nix /mnt/etc/nixos/hosts/host.nix
+
 info "generating optional ssh key for remote install (only useful if remote ssh boot enabled)..."
 mkdir -p "/mnt/persist/etc/ssh"
 ssh-keygen -t ed25519 -N "" -f /mnt/persist/etc/ssh/initrd_host_ed_25519_key
@@ -198,8 +202,17 @@ ssh-keygen -t ed25519 -N "" -f /mnt/persist/etc/ssh/initrd_host_ed_25519_key
 info "system linking /mnt/persist to ensure ssh is captured in nix install ..."
 ln -s /mnt/persist /persist
 
+#info "generating Secure Boot keys and signatures"
+#/mnt/etc/nixos/scripts/secure-boot-keys.sh
+
+info "Adding nixos-unstable channel ..."
+nix-channel --add https://nixos.org/channels/nixos-unstable nixos
+
+info "Updating nixos channels ..."
+nix-channel --update
+
 info "Installing NixOS to /mnt ..."
-NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-install --no-root-passwd --flake '/mnt/etc/nixos#' --target-host "$HOSTNAME"
+NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-install --no-root-passwd
 
 info "Done. Please run 'sudo ./scripts/post-install.sh' once rebooted into system ..."
 info "Rebooting ..."

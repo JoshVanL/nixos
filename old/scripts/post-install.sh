@@ -37,7 +37,7 @@ nix-channel --update
 
 info "Switching nixos configuration ..."
 rm -f /home/josh/.zsh_history
-NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-rebuild switch --flake "/keep/etc/nixos#"
+NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-rebuild switch --upgrade-all -I nixos-config=/keep/etc/nixos/configuration.nix
 
 info "Cleaning up the garbage ..."
 rm -f /keep/keep
