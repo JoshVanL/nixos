@@ -103,10 +103,14 @@ in {
   };
 
   services = {
-    josh.zfs_uploader = {
-      enable = true;
-      logPath = "/keep/etc/zfs_uploader/zfs_uploader.log";
-      configPath = "/persist/etc/zfs_uploader/config.cfg";
+    josh = {
+      tailscale.enable = true;
+      yubikey.enable = true;
+      zfs_uploader = {
+        enable = true;
+        logPath = "/keep/etc/zfs_uploader/zfs_uploader.log";
+        configPath = "/persist/etc/zfs_uploader/config.cfg";
+      };
     };
     openssh = {
       enable = true;

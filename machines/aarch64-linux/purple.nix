@@ -14,6 +14,16 @@
     hostId = "deadbeef";
   };
 
+  services.josh = {
+    docker.enable = true;
+    tailscale.enable = true;
+    yubikey.enable = true;
+    i3 = {
+      enable = true;
+      xrandr = "--output Virtual-1 --mode 4096x2160 --output Virtual-2 --off";
+    };
+  };
+
   nixpkgs.config = {
     allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "prl-tools" ];
     allowUnsupportedSystem = true;

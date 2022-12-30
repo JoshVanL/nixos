@@ -69,18 +69,8 @@
   # Sound.
   security.rtkit.enable = true;
 
-  services.josh = {
-    docker.enable = true;
-    links.enable = true;
-    tailscale.enable = true;
-    yubikey.enable = true;
-    i3 = {
-      enable = true;
-      xrandr = "--output Virtual-1 --mode 4096x2160 --output Virtual-2 --off";
-    };
-  };
-
   environment.variables = { EDITOR = "vim"; };
+  services.josh.links.enable = true;
 
   # Users.
   users = {
