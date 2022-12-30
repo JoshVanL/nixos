@@ -74,8 +74,8 @@
               imports = mapAttrsToList (name: _: ./home-manager/${name}) (filterAttrs
                  (name: entryType: hasSuffix ".nix" name && entryType == "regular")
                  (builtins.readDir ./home-manager)
-               );
-               home.stateVersion = "22.11";
+              );
+              home.stateVersion = "22.11";
             };
           }
           (import (./machines + "/${system}/${machine}.nix"))

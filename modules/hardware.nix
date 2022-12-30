@@ -45,15 +45,11 @@
   fileSystems."/keep" =
     { device = "rpool/local/keep";
       fsType = "zfs";
-      # Needed for config and user passwords.
-      neededForBoot = true;
     };
 
   fileSystems."/persist" =
     { device = "rpool/safe/persist";
       fsType = "zfs";
-      # Needed for config and user passwords.
-      neededForBoot = true;
     };
 
   swapDevices = [ ];

@@ -192,10 +192,6 @@ cp -r /mnt/keep/etc/nixos/ /mnt/etc
 info "system linking /mnt/keep to ensure passward is captured in nix install ..."
 ln -s /mnt/keep /keep
 
-info "generating optional ssh key for remote install (only useful if remote ssh boot enabled)..."
-mkdir -p "/mnt/persist/etc/ssh"
-ssh-keygen -t ed25519 -N "" -f /mnt/persist/etc/ssh/initrd_host_ed_25519_key
-
 info "system linking /mnt/persist to ensure ssh is captured in nix install ..."
 ln -s /mnt/persist /persist
 

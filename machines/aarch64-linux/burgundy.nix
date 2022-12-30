@@ -1,4 +1,4 @@
-{ config, pkgs, lib, modulesPath, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   authorizedKeys = [
@@ -12,14 +12,14 @@ let
   ];
   joshvanlPath = "/persist/etc/joshvanl";
   joshvanlDNSPath = "${joshvanlPath}/dns";
-  dnsBitwarden = if builtins.pathExists "${joshvanlDNSPath}/domains/bitwarden"
-  then (builtins.readFile "${joshvanlDNSPath}/domains/bitwarden")
-    else "null"
-  ;
-  acmeEmail = if builtins.pathExists "${joshvanlDNSPath}/acme/email"
-    then (builtins.readFile "${joshvanlDNSPath}/acme/email")
-    else "null@null.com"
-  ;
+  dnsBitwarden = "bitwarden.joshvanl.dev";
+  acmeEmail = "me@joshvanl.dev";
+  sshKey = pkgs.runCommand "initrd-ssh-key" {
+    buildInputs = [ pkgs.openssh ];
+  } ''
+    mkdir -p $out
+    ssh-keygen -t ed25519 -N "" -f $out/id_ed25519
+  '';
 in {
   boot = {
     kernelPackages = pkgs.linuxPackages_rpi4;
@@ -30,7 +30,9 @@ in {
         ssh = {
           enable = true;
           port = 22;
-          hostKeys = [ /persist/etc/ssh/initrd_host_ed_25519_key ];
+          hostKeys = [
+            (builtins.unsafeDiscardStringContext "${sshKey}/id_ed25519.key")
+          ];
           authorizedKeys = authorizedKeys;
         };
         postCommands = ''
@@ -83,10 +85,7 @@ in {
   users.users.josh.openssh.authorizedKeys.keys = authorizedKeys;
 
   home-manager.users.josh = { pkgs, ... }: {
-    pam.yubico.authorizedYubiKeys.ids = [ ]
-    ++ lib.optional (builtins.pathExists "${joshvanlPath}/yubikey/otp-client-id-1") (builtins.readFile "${joshvanlPath}/yubikey/otp-client-id-1")
-    ++ lib.optional (builtins.pathExists "${joshvanlPath}/yubikey/otp-client-id-2") (builtins.readFile "${joshvanlPath}/yubikey/otp-client-id-2")
-    ;
+    pam.yubico.authorizedYubiKeys.ids = [ "cccccbegbgvj" "cccccclbfjcf" ];
   };
 
   security = {

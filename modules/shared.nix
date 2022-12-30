@@ -80,6 +80,8 @@
     };
   };
 
+  environment.variables = { EDITOR = "vim"; };
+
   # Users.
   users = {
     defaultUserShell = pkgs.zsh;
