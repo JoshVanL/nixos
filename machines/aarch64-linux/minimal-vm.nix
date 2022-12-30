@@ -23,10 +23,12 @@ let
   #'';
 in {
   boot = {
-    kernelPackages = pkgs.linuxPackages_rpi4;
     initrd = {
       availableKernelModules = [ "xhci_pci" "usbhid" "sr_mod" ];
       systemd = {
+        extraBin = {
+          ssh-keygen = "${pkgs.openssh}/bin/ssh-keygen";
+        };
         services = {
           generate-ssh-host-key = {
             requires = ["initrd-fs.target"];
@@ -37,7 +39,7 @@ in {
             serviceConfig.Type = "oneshot";
             script = ''
               mkdir -p /etc/ssh/
-              ${pkgs.openssh}/bin/ssh-keygen" -f /etc/ssh/ssh_host_ed25519_key -t ed25519 -N ""
+              ssh-keygen" -f /etc/ssh/ssh_host_ed25519_key -t ed25519 -N ""
             '';
           };
         };
@@ -47,10 +49,10 @@ in {
         ssh = {
           enable = true;
           port = 22;
-          #hostKeys = [ "${sshKey}/id_ed25519" ];
-          ignoreEmptyHostKeys = true;
+          hostKeys = [ "/etc/ssh/ssh_host_ed25519_key" ];
+          #ignoreEmptyHostKeys = true;
           #extraConfig = ''
-          #  HostKey ${sshKey}/id_ed25519
+          #  HostKey /etc/ssh/ssh_host_ed25519_key
           #'';
           authorizedKeys = authorizedKeys;
         };
