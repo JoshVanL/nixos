@@ -31,7 +31,7 @@ in {
           enable = true;
           port = 22;
           hostKeys = [
-            (builtins.unsafeDiscardStringContext "${sshKey}/id_ed25519.key")
+            (builtins.unsafeDiscardStringContext "${sshKey}/id_ed25519")
           ];
           authorizedKeys = authorizedKeys;
         };
