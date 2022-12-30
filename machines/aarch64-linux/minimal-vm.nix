@@ -49,8 +49,8 @@ in {
         ssh = {
           enable = true;
           port = 22;
-          hostKeys = [ "/etc/ssh/ssh_host_ed25519_key" ];
-          #ignoreEmptyHostKeys = true;
+          #hostKeys = [ "/etc/ssh/ssh_host_ed25519_key" ];
+          ignoreEmptyHostKeys = true;
           #extraConfig = ''
           #  HostKey /etc/ssh/ssh_host_ed25519_key
           #'';
