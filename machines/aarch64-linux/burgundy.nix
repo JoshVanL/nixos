@@ -47,7 +47,6 @@ in {
         "cma=128M"
     ];
     loader = {
-      systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
       grub.enable = false;
       raspberryPi = {
