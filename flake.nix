@@ -24,7 +24,10 @@
         paranoia = pkgs.callPackage ./pkgs/paranoia {};
         step-cli = pkgs.callPackage ./pkgs/step-cli {};
         vcert = pkgs.callPackage ./pkgs/vcert {};
-        zfs_uploader = pkgs.callPackage ./pkgs/zfs_uploader {};
+        zfs_uploader = pkgs.callPackage ./pkgs/zfs_uploader {
+          python3 = pkgs.python3;
+          python3Packages = pkgs.python3Packages;
+        };
       };
     };
 
