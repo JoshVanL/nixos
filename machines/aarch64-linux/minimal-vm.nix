@@ -14,27 +14,47 @@ let
   joshvanlDNSPath = "${joshvanlPath}/dns";
   dnsBitwarden = "bitwarden.joshvanl.dev";
   acmeEmail = "me@joshvanl.dev";
-  sshKey = pkgs.runCommand "initrd-ssh-key" {
-    buildInputs = [ pkgs.openssh ];
-  } ''
-    mkdir -p $out
-    ssh-keygen -t ed25519 -N "" -f $out/id_ed25519
-    chmod 600 $out/id_ed25519
-  '';
+  #sshKey = pkgs.runCommand "initrd-ssh-key" {
+  #  buildInputs = [ pkgs.openssh ];
+  #} ''
+  #  mkdir -p $out
+  #  ssh-keygen -t ed25519 -N "" -f $out/id_ed25519
+  #  chmod 600 $out/id_ed25519
+  #'';
 in {
   boot = {
     kernelPackages = pkgs.linuxPackages_rpi4;
     initrd = {
       availableKernelModules = [ "xhci_pci" "usbhid" "sr_mod" ];
+      systemd = {
+        extraBin = {
+          ssh-keygen = "${config.programs.ssh.package}/bin/ssh-keygen";
+        };
+        services = {
+          generate-ssh-host-key = {
+            requires = ["initrd-fs.target"];
+            after = ["initrd-fs.target"];
+            requiredBy = [ "sshd.service" ];
+            before = [ "sshd.service" ];
+            unitConfig.DefaultDependencies = false;
+            serviceConfig.Type = "oneshot";
+            script = ''
+              mkdir -p /etc/ssh/
+              ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -t ed25519 -N ""
+            '';
+          };
+        };
+      };
       network = {
         enable = true;
         ssh = {
           enable = true;
           port = 22;
+          #hostKeys = [ "${sshKey}/id_ed25519" ];
           ignoreEmptyHostKeys = true;
-          extraConfig = ''
-            HostKey ${sshKey}/id_ed25519
-          '';
+          #extraConfig = ''
+          #  HostKey ${sshKey}/id_ed25519
+          #'';
           authorizedKeys = authorizedKeys;
         };
         postCommands = ''
