@@ -186,6 +186,7 @@ cd -
 
 info "Replacing /mnt/etc/nixos with /mnt/keep/etc/nixos ..."
 rm -rf /mnt/etc/nixos
+mkdir -p /mnt/etc/nixos
 cp -rf /mnt/keep/etc/nixos /mnt/etc/nixos
 
 info "system linking /mnt/keep to ensure passward is captured in nix install ..."
