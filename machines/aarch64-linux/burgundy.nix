@@ -64,7 +64,7 @@ in {
       eth0.useDHCP  = true;
       wlan0.useDHCP = false;
     };
-    
+
     # VPN using tailscale (good software).
     firewall = {
       enable = true;

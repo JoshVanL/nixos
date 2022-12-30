@@ -34,6 +34,7 @@ in {
       vim-fugitive
       vim-rhubarb
       indentLine
+      vim-trailing-whitespace
       vim-lastplace
 
       (pkgs.vimPlugins.nvim-treesitter.withPlugins (plugins: with pkgs.tree-sitter-grammars; [
