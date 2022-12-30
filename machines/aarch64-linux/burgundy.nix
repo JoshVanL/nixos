@@ -19,6 +19,7 @@ let
   } ''
     mkdir -p $out
     ssh-keygen -t ed25519 -N "" -f $out/id_ed25519
+    chmod 600 $out/id_ed25519
   '';
 in {
   boot = {
@@ -30,9 +31,10 @@ in {
         ssh = {
           enable = true;
           port = 22;
-          hostKeys = [
-            (builtins.unsafeDiscardStringContext "${sshKey}/id_ed25519")
-          ];
+          ignoreEmptyHostKeys = true;
+          extraConfig = ''
+            HostKey ${sshKey}/id_ed25519
+          '';
           authorizedKeys = authorizedKeys;
         };
         postCommands = ''
