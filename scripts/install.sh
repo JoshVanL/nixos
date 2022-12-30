@@ -187,7 +187,7 @@ cd -
 info "Replacing /mnt/etc/nixos with /mnt/keep/etc/nixos ..."
 rm -rf /mnt/etc/nixos
 mkdir -p /mnt/etc/nixos
-cp -rf /mnt/keep/etc/nixos /mnt/etc/nixos
+cp -r /mnt/keep/etc/nixos/ /mnt/etc/nixos/.
 
 info "system linking /mnt/keep to ensure passward is captured in nix install ..."
 ln -s /mnt/keep /keep
@@ -200,7 +200,7 @@ info "system linking /mnt/persist to ensure ssh is captured in nix install ..."
 ln -s /mnt/persist /persist
 
 info "Installing NixOS to /mnt ..."
-NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-install --no-root-passwd --flake '/mnt/etc/nixos#' --target-host "$HOSTNAME"
+NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-install --no-root-passwd --flake "/mnt/etc/nixos#$HOSTNAME"
 
 info "Done. Please run 'sudo ./scripts/post-install.sh' once rebooted into system ..."
 info "Rebooting ..."
