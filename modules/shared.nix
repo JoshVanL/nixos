@@ -22,26 +22,6 @@
   };
   system.stateVersion = "22.11";
 
-  # boot controlls.
-  boot  = {
-    # Clense with fire.
-    initrd.postDeviceCommands = lib.mkAfter ''
-      zfs rollback -r rpool/local/root@blank
-    '';
-    zfs = {
-      requestEncryptionCredentials = true;
-    };
-
-    kernelParams         = [ "nohibernate" ];
-    supportedFilesystems = [ "vfat" "zfs" ];
-  };
-
-  # Needed for config and user passwords.
-  fileSystems = {
-    "/persist".neededForBoot = true;
-    "/keep".neededForBoot    = true;
-  };
-
   # Networking.
   networking = {
     networkmanager.enable = true;
@@ -98,7 +78,6 @@
       enable = true;
       xrandr = "--output Virtual-1 --mode 4096x2160 --output Virtual-2 --off";
     };
-    zfs_uploader.enable = false;
   };
 
   # Users.

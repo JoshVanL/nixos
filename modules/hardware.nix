@@ -6,9 +6,26 @@
 {
   imports = [ ];
 
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ ];
-  boot.extraModulePackages = [ ];
+  # boot controlls.
+  boot  = {
+    # Clense with fire.
+    initrd = {
+      kernelModules = [ ];
+      postDeviceCommands = lib.mkAfter ''
+        zfs rollback -r rpool/local/root@blank
+      '';
+    };
+    zfs = {
+      requestEncryptionCredentials = true;
+      devNodes = "/dev/disk/by-label/rpool";
+    };
+
+    kernelParams = [ "nohibernate" ];
+    kernelModules = [ ];
+    extraModulePackages = [ ];
+    supportedFilesystems = [ "vfat" "zfs" ];
+  };
+
 
   fileSystems."/" =
     { device = "rpool/local/root";
@@ -28,16 +45,19 @@
   fileSystems."/keep" =
     { device = "rpool/local/keep";
       fsType = "zfs";
+      # Needed for config and user passwords.
+      neededForBoot = true;
     };
 
   fileSystems."/persist" =
     { device = "rpool/safe/persist";
       fsType = "zfs";
+      # Needed for config and user passwords.
+      neededForBoot = true;
     };
 
   swapDevices = [ ];
 
   # high-resolution display
   hardware.video.hidpi.enable = lib.mkDefault true;
-  boot.zfs.devNodes = "/dev/disk/by-label/rpool";
 }

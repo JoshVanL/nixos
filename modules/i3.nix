@@ -3,6 +3,13 @@
 with lib;
 let
   cfg = config.services.josh.i3;
+
+  xinitrc = pkgs.writeText "xinitrc" ''
+    #!/bin/sh
+    ${pkgs.xorg.xrandr}/bin/xrandr ${cfg.xrandr}
+    ${pkgs.xorg.xset}/bin/xset r rate 200 50
+    exec i3
+  '';
 in {
   options.services.josh.i3 = {
     enable = mkEnableOption "i3";
@@ -26,23 +33,13 @@ in {
       displayManager = {
         defaultSession = "none+i3";
         startx.enable = true;
-        sessionCommands = ''
-          ${pkgs.xorg.xset}/bin/xset r rate 300 30;
-        '';
       };
 
       windowManager.i3.enable = true;
     };
 
     systemd.tmpfiles.rules = [
-      "L+ /home/josh/.xinitrc - - - - /etc/josh/.xinitrc"
+      "L+ /home/josh/.xinitrc - - - - ${xinitrc}"
     ];
-    environment.etc."josh/.xinitrc" = {
-      mode = "0444";
-      text = ''
-        xrandr ${cfg.xrandr}
-        exec i3
-      '';
-    };
   };
 }
