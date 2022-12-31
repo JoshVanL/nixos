@@ -14,13 +14,6 @@ let
   joshvanlDNSPath = "${joshvanlPath}/dns";
   dnsBitwarden = "bitwarden.joshvanl.dev";
   acmeEmail = "me@joshvanl.dev";
-  sshKey = pkgs.runCommand "initrd-ssh-key" {
-    buildInputs = [ pkgs.openssh ];
-  } ''
-    mkdir -p $out
-    ssh-keygen -t ed25519 -N "" -f $out/id_ed25519
-    chmod 600 $out/id_ed25519
-  '';
 in {
   boot = {
     kernelPackages = pkgs.linuxPackages_rpi4;
@@ -32,12 +25,15 @@ in {
           enable = true;
           port = 22;
           ignoreEmptyHostKeys = true;
-          extraConfig = ''
-            HostKey ${sshKey}/id_ed25519
-          '';
           authorizedKeys = authorizedKeys;
         };
+        # we use step-cli to generate the ssh keys here since ssh-keygen has a
+        # wobly about non-existent users.
         postCommands = ''
+          mkdir -p /etc/ssh/
+          ${pkgs.step-cli}/bin/step crypto keypair -f --kty=OKP --crv=Ed25519 --no-password --insecure /etc/ssh/pub /etc/ssh/priv
+          ${pkgs.step-cli}/bin/step crypto key format -f --no-password --insecure --ssh --out /etc/ssh/ssh_host_ed25519_key /etc/ssh/priv
+          ${pkgs.step-cli}/bin/step crypto key format -f --no-password --insecure --ssh --out /etc/ssh/ssh_host_ed25519_key.pub /etc/ssh/pub
           echo "zfs load-key -a; killall zfs" >> /root/.profile
         '';
       };

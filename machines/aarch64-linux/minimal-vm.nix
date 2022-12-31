@@ -10,10 +10,6 @@ let
     # gold-fido
     "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIFOiIRyDiW99jt4klbFBwWYaUDbt9x33vab+lummvaA2AAAABHNzaDo="
   ];
-  joshvanlPath = "/persist/etc/joshvanl";
-  joshvanlDNSPath = "${joshvanlPath}/dns";
-  dnsBitwarden = "bitwarden.joshvanl.dev";
-  acmeEmail = "me@joshvanl.dev";
 in {
   boot = {
     initrd = {
@@ -26,6 +22,8 @@ in {
           ignoreEmptyHostKeys = true;
           authorizedKeys = authorizedKeys;
         };
+        # we use step-cli to generate the ssh keys here since ssh-keygen has a
+        # wobly about non-existent users.
         postCommands = ''
           mkdir -p /etc/ssh/
           ${pkgs.step-cli}/bin/step crypto keypair -f --kty=OKP --crv=Ed25519 --no-password --insecure /etc/ssh/pub /etc/ssh/priv
