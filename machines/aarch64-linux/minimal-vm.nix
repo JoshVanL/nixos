@@ -24,26 +24,29 @@ let
 in {
   boot = {
     initrd = {
+      extraUtilsCommands = ''
+        copy_bin_and_libs ${pkgs.openssh}/bin/ssh-keygen
+      '';
       availableKernelModules = [ "xhci_pci" "usbhid" "sr_mod" ];
-      systemd = {
-        extraBin = {
-          ssh-keygen = "${pkgs.openssh}/bin/ssh-keygen";
-        };
-        services = {
-          generate-ssh-host-key = {
-            requires = ["initrd-fs.target"];
-            after = ["initrd-fs.target"];
-            requiredBy = [ "sshd.service" ];
-            before = [ "sshd.service" ];
-            unitConfig.DefaultDependencies = false;
-            serviceConfig.Type = "oneshot";
-            script = ''
-              mkdir -p /etc/ssh/
-              ssh-keygen -A
-            '';
-          };
-        };
-      };
+      #systemd = {
+      #  extraBin = {
+      #    ssh-keygen = "${pkgs.openssh}/bin/ssh-keygen";
+      #  };
+      #  services = {
+      #    generate-ssh-host-key = {
+      #      requires = ["initrd-fs.target"];
+      #      after = ["initrd-fs.target"];
+      #      requiredBy = [ "sshd.service" ];
+      #      before = [ "sshd.service" ];
+      #      unitConfig.DefaultDependencies = false;
+      #      serviceConfig.Type = "oneshot";
+      #      script = ''
+      #        mkdir -p /etc/ssh/
+      #        ssh-keygen -A
+      #      '';
+      #    };
+      #  };
+      #};
       network = {
         enable = true;
         ssh = {
@@ -57,6 +60,8 @@ in {
           authorizedKeys = authorizedKeys;
         };
         postCommands = ''
+          mkdir -p /etc/ssh/
+          ssh-keygen -A
           echo "zfs load-key -a; killall zfs" >> /root/.profile
         '';
       };
