@@ -95,20 +95,11 @@ in {
   services = {
     josh = {
       tailscale.enable = true;
-      yubikey.enable = true;
     };
     openssh = {
       enable = true;
       passwordAuthentication = true;
       kbdInteractiveAuthentication = true;
     };
-  };
-
-  home-manager.users.josh = { pkgs, ... }: {
-    pam.yubico.authorizedYubiKeys.ids = [ "cccccbegbgvj" "cccccclbfjcf" ];
-  };
-
-  security = {
-    pam.yubico = { enable = true; id = "16"; };
   };
 }
