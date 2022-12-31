@@ -10,10 +10,6 @@ let
     # gold-fido
     "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIFOiIRyDiW99jt4klbFBwWYaUDbt9x33vab+lummvaA2AAAABHNzaDo="
   ];
-  joshvanlPath = "/persist/etc/joshvanl";
-  joshvanlDNSPath = "${joshvanlPath}/dns";
-  dnsBitwarden = "bitwarden.joshvanl.dev";
-  acmeEmail = "me@joshvanl.dev";
 in {
   boot = {
     kernelPackages = pkgs.linuxPackages_rpi4;
@@ -91,9 +87,9 @@ in {
     acme = {
       acceptTerms = true;
       defaults = {
-        email = "${acmeEmail}";
+        email = "me@joshvanl.dev";
         dnsProvider = "gcloud";
-        credentialsFile = "${joshvanlDNSPath}/acme/credentials.secret";
+        credentialsFile = "/persist/etc/joshvanl/dns/acme/credentials.secret";
       };
     };
   };
@@ -118,7 +114,7 @@ in {
       dbBackend = "postgresql";
       config = {
         tz = "Europe/London";
-        domain = "https://${dnsBitwarden}";
+        domain = "https://bitwarden.joshvanl.dev";
         signupsAllowed = false;
         invitationsAllowed = false;
         rocketPort = 8222;
@@ -162,9 +158,9 @@ in {
       recommendedTlsSettings = true;
 
       virtualHosts = {
-        "${dnsBitwarden}" = rec {
-          forceSSL = (builtins.pathExists "${joshvanlDNSPath}/acme/credentials.secret");
-          enableACME = forceSSL;
+        "bitwarden.joshvanl.dev" = {
+          forceSSL = true;
+          enableACME = true;
           acmeRoot = null;
           locations."/" = {
             proxyPass = "http://127.0.0.1:8222";
