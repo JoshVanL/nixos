@@ -92,9 +92,11 @@ in {
 
   users.users.josh.openssh.authorizedKeys.keys = authorizedKeys;
 
-  services.josh = {
-    tailscale.enable = true;
-    yubikey.enable = true;
+  services = {
+    josh = {
+      tailscale.enable = true;
+      yubikey.enable = true;
+    };
     openssh = {
       enable = true;
       passwordAuthentication = true;
