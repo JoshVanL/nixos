@@ -39,7 +39,7 @@ in {
             serviceConfig.Type = "oneshot";
             script = ''
               mkdir -p /etc/ssh/
-              ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -t ed25519 -N ""
+              ssh-keygen -A
             '';
           };
         };
@@ -70,10 +70,7 @@ in {
   networking = {
     hostName = "minimal-vm";
     hostId = "deadbeef";
-    interfaces = {
-      eth0.useDHCP  = true;
-      wlan0.useDHCP = false;
-    };
+    interfaces.enp0s6.useDHCP = true;
 
     # VPN using tailscale (good software).
     firewall = {
