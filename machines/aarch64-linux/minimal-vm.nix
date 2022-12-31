@@ -14,54 +14,23 @@ let
   joshvanlDNSPath = "${joshvanlPath}/dns";
   dnsBitwarden = "bitwarden.joshvanl.dev";
   acmeEmail = "me@joshvanl.dev";
-  #sshKey = pkgs.runCommand "initrd-ssh-key" {
-  #  buildInputs = [ pkgs.openssh ];
-  #} ''
-  #  mkdir -p $out
-  #  ssh-keygen -t ed25519 -N "" -f $out/id_ed25519
-  #  chmod 600 $out/id_ed25519
-  #'';
 in {
   boot = {
     initrd = {
-      extraUtilsCommands = ''
-        copy_bin_and_libs ${pkgs.openssh}/bin/ssh-keygen
-      '';
       availableKernelModules = [ "xhci_pci" "usbhid" "sr_mod" ];
-      #systemd = {
-      #  extraBin = {
-      #    ssh-keygen = "${pkgs.openssh}/bin/ssh-keygen";
-      #  };
-      #  services = {
-      #    generate-ssh-host-key = {
-      #      requires = ["initrd-fs.target"];
-      #      after = ["initrd-fs.target"];
-      #      requiredBy = [ "sshd.service" ];
-      #      before = [ "sshd.service" ];
-      #      unitConfig.DefaultDependencies = false;
-      #      serviceConfig.Type = "oneshot";
-      #      script = ''
-      #        mkdir -p /etc/ssh/
-      #        ssh-keygen -A
-      #      '';
-      #    };
-      #  };
-      #};
       network = {
         enable = true;
         ssh = {
           enable = true;
           port = 22;
-          #hostKeys = [ "/etc/ssh/ssh_host_ed25519_key" ];
           ignoreEmptyHostKeys = true;
-          #extraConfig = ''
-          #  HostKey /etc/ssh/ssh_host_ed25519_key
-          #'';
           authorizedKeys = authorizedKeys;
         };
         postCommands = ''
           mkdir -p /etc/ssh/
-          ssh-keygen -A
+          ${pkgs.step-cli}/bin/step crypto keypair -f --kty=OKP --crv=Ed25519 --no-password --insecure /etc/ssh/pub /etc/ssh/priv
+          ${pkgs.step-cli}/bin/step crypto key format -f --no-password --insecure --ssh --out /etc/ssh/ssh_host_ed25519_key /etc/ssh/priv
+          ${pkgs.step-cli}/bin/step crypto key format -f --no-password --insecure --ssh --out /etc/ssh/ssh_host_ed25519_key.pub /etc/ssh/pub
           echo "zfs load-key -a; killall zfs" >> /root/.profile
         '';
       };
@@ -71,6 +40,10 @@ in {
       systemd-boot.enable = true;
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    step-cli
+  ];
 
   networking = {
     hostName = "minimal-vm";

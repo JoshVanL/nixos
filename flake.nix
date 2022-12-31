@@ -23,7 +23,6 @@
         helm = pkgs.callPackage ./pkgs/helm {};
         kind = pkgs.callPackage ./pkgs/kind {};
         paranoia = pkgs.callPackage ./pkgs/paranoia {};
-        step-cli = pkgs.callPackage ./pkgs/step-cli {};
         vcert = pkgs.callPackage ./pkgs/vcert {};
         zfs_uploader = pkgs.callPackage ./pkgs/zfs_uploader {
           python3 = pkgs.python3;
@@ -106,7 +105,6 @@
           helm = pkgs.helm;
           kind = pkgs.kind;
           paranoia = pkgs.paranoia;
-          step-cli = pkgs.step-cli;
           vcert = pkgs.vcert;
           zfs_uploader = pkgs.zfs_uploader;
         };

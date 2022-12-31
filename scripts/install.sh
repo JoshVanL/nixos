@@ -195,10 +195,6 @@ ln -s /mnt/keep /keep
 info "system linking /mnt/persist to ensure ssh is captured in nix install ..."
 ln -s /mnt/persist /persist
 
-info "generating ssh host key (only useful if using a machine with remote boot login) ..."
-mkdir -p /etc/ssh/
-ssh-keygen -A
-
 info "Installing NixOS to /mnt ..."
 NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-install --no-root-passwd --flake "/mnt/etc/nixos#$HOSTNAME"
 
