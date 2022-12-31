@@ -70,7 +70,7 @@ in {
   networking = {
     hostName = "minimal-vm";
     hostId = "deadbeef";
-    interfaces.enp0s6.useDHCP = true;
+    interfaces.enp0s5.useDHCP = true;
 
     # VPN using tailscale (good software).
     firewall = {
@@ -95,6 +95,11 @@ in {
   services.josh = {
     tailscale.enable = true;
     yubikey.enable = true;
+    openssh = {
+      enable = true;
+      passwordAuthentication = true;
+      kbdInteractiveAuthentication = true;
+    };
   };
 
   home-manager.users.josh = { pkgs, ... }: {
