@@ -1,6 +1,42 @@
 {
   "nodes": {
+    "dwm": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1672634289,
+        "narHash": "sha256-W7cGApJkEk9xYiRw9V3NVnXQY1PodTHTosykLFu3ojM=",
+        "owner": "joshvanl",
+        "repo": "dwm",
+        "rev": "5a6a740ff6f37d921638c5e430f10703bab0c892",
+        "type": "github"
+      },
+      "original": {
+        "owner": "joshvanl",
+        "repo": "dwm",
+        "type": "github"
+      }
+    },
     "flake-utils": {
+      "locked": {
+        "lastModified": 1667395993,
+        "narHash": "sha256-nuEHfE/LcWyuSWnS8t12N1wc105Qtau+/OdUAjtQ0rA=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "5aed5285a952e0b949eb3ba02c12fa4fcfef535f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_2": {
       "locked": {
         "lastModified": 1667395993,
         "narHash": "sha256-nuEHfE/LcWyuSWnS8t12N1wc105Qtau+/OdUAjtQ0rA=",
@@ -54,7 +90,8 @@
     },
     "root": {
       "inputs": {
-        "flake-utils": "flake-utils",
+        "dwm": "dwm",
+        "flake-utils": "flake-utils_2",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs"
       }

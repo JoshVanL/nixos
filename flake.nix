@@ -7,11 +7,16 @@
       url = "github:nix-community/home-manager/release-22.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    dwm = {
+      url = "github:joshvanl/dwm";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, flake-utils, home-manager }:
+  outputs = { self, nixpkgs, flake-utils, home-manager, dwm }:
   let
-    pkgsOverlays = [
+    pkgsOverlays = system: [
+      dwm.overlays.${system}
     ];
 
     pkgsConfig = {
@@ -31,11 +36,11 @@
       };
     };
 
-    nixosModulesPkgs = {
+    nixosModulesPkgs = sys: {
       # propagate git revision
       system.configurationRevision = nixpkgs.lib.mkIf (self ? rev) self.rev;
       nixpkgs = {
-        overlays = pkgsOverlays;
+        overlays = (pkgsOverlays sys);
         config = pkgsConfig;
       };
     };
@@ -66,7 +71,7 @@
         system = system;
 
         modules = nixpkgs.lib.attrValues (myNixosModules) ++ [
-          nixosModulesPkgs
+          (nixosModulesPkgs system)
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -86,12 +91,12 @@
     };
 
   in
-  flake-utils.lib.eachDefaultSystem
+  flake-utils.lib.eachSystem [ "x86_64-linux" "aarch64-linux" ]
     (system:
       let
         pkgs = (import nixpkgs) {
           system = system;
-          overlays = pkgsOverlays;
+          overlays = pkgsOverlays system;
           config = pkgsConfig;
         };
 
