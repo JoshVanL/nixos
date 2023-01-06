@@ -18,6 +18,7 @@
     zip unzip
     git-extras
     bitwarden-cli
+    fast-cli
 
     # work
     gnumake
