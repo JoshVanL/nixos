@@ -13,6 +13,7 @@ let
     #!/bin/sh
     ${pkgs.xorg.xrandr}/bin/xrandr ${cfg.xrandr}
     ${pkgs.xorg.xset}/bin/xset r rate 250 70
+    ${pkgs.xorg.xmodmap}/bin/xmodmap -e 'keycode 94 = grave asciitilde'
     ${pkgs.feh}/bin/feh --bg-fill ${wallpaper}
     ${pkgs.picom}/bin/picom &
     ${pkgs.xorg.xprop}/bin/xprop -root -set WM_NAME "-"
