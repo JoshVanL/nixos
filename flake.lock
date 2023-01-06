@@ -8,11 +8,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1672967060,
-        "narHash": "sha256-jdeIA5y4BDdMq5Oact35M15UbWsXB6QlxrJvL1LyNjo=",
+        "lastModified": 1672967990,
+        "narHash": "sha256-m/Xq9pxwYx4Fl3o6xUvZAzTSd+6C9emjJyo1+48oBM4=",
         "owner": "joshvanl",
         "repo": "dwm",
-        "rev": "56278e52d652a8706d37f783b6b3751ab40dbc8c",
+        "rev": "cc1c25821a8f86dfb10fba3851b41ec75d430479",
         "type": "github"
       },
       "original": {

@@ -15,6 +15,7 @@ let
     ${pkgs.xorg.xset}/bin/xset r rate 250 70
     ${pkgs.feh}/bin/feh --bg-fill ${wallpaper}
     ${pkgs.picom}/bin/picom &
+    ${pkgs.xorg.xprop}/bin/xprop -root -set WM_NAME "-"
     ${pkgs.dwm}/bin/dwm
   '';
 in {
