@@ -12,8 +12,9 @@ let
   xinitrc = pkgs.writeText "xinitrc" ''
     #!/bin/sh
     ${pkgs.xorg.xrandr}/bin/xrandr ${cfg.xrandr}
-    ${pkgs.xorg.xset}/bin/xset r rate 300 50
+    ${pkgs.xorg.xset}/bin/xset r rate 250 70
     ${pkgs.feh}/bin/feh --bg-fill ${wallpaper}
+    ${pkgs.picom}/bin/picom &
     ${pkgs.dwm}/bin/dwm
   '';
 in {
@@ -28,10 +29,11 @@ in {
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       xclip
+      arandr
+      rofi
     ];
 
     services = {
-      picom.enable = true;
       xserver = {
         enable = true;
         layout = "us";
@@ -50,6 +52,10 @@ in {
         windowManager.dwm.enable = true;
       };
     };
+
+    fonts.fonts = with pkgs; [
+      font-awesome
+    ];
 
     systemd.tmpfiles.rules = [
       "L+ /home/josh/.xinitrc - - - - ${xinitrc}"
