@@ -54,5 +54,6 @@
     go-protobuf-grpc
     gomarkdoc
     paranoia
+    dapr-cli
   ];
 }
