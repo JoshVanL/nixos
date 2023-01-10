@@ -33,6 +33,8 @@ in {
 
       "d /persist/var/lib/tailscale 0755 josh wheel - -"
 
+      "d /persist/home/.ssh 0755 josh wheel - -"
+
       # Locals to pre-create with correct perms.
       "d /home/josh/.config      0755 josh wheel - -"
       "d /home/josh/.cache       0755 josh wheel - -"

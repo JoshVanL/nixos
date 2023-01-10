@@ -18,11 +18,5 @@ in {
     ];
 
     programs.ssh.startAgent = true;
-
-    systemd.tmpfiles.rules = [
-      "d /persist/home/.ssh 0755 josh wheel - -"
-      "d /home/.ssh 0755 josh wheel - -"
-      "L+ /home/josh/.ssh/known_hosts - - - - /persist/home/.ssh/known_hosts"
-    ];
   };
 }
