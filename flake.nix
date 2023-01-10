@@ -17,7 +17,12 @@
   let
     pkgsOverlays = system: [
       dwm.overlays.${system}
-    ];
+    ] ++
+    nixpkgs.lib.mapAttrsToList (name: _: import ./overlays/${name}) (nixpkgs.lib.filterAttrs
+      (name: entryType: nixpkgs.lib.hasSuffix ".nix" name && entryType == "regular")
+      (builtins.readDir ./overlays)
+    );
+
 
     pkgsConfig = {
       packageOverrides = pkgs: with pkgs; {

@@ -1,9 +1,9 @@
 { lib
-, buildGo119Module
+, buildGoModule
 , fetchFromGitHub
 }:
 
-buildGo119Module rec {
+buildGoModule rec {
   pname = "vcert";
   version = "4.22.1";
 

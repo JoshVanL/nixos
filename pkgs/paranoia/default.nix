@@ -1,10 +1,10 @@
 { lib
-, buildGo119Module
+, buildGoModule
 , fetchFromGitHub
 , installShellFiles
 }:
 
-buildGo119Module rec {
+buildGoModule rec {
   pname = "paranoia";
   version = "0.2.1";
 

@@ -1,21 +1,21 @@
 { lib
-, buildGo119Module
+, buildGoModule
 , fetchFromGitHub
 , installShellFiles
 }:
 
-buildGo119Module rec {
+buildGoModule rec {
   pname = "kind";
-  version = "0.15.0";
+  version = "0.17.0";
 
   src = fetchFromGitHub {
     owner = "kubernetes-sigs";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-IDSWmNWHnTKOl6/N1Mz+OKOkZSBarpuN39CBsSjYhKY=";
+    hash = "sha256-YAa5Dr8Pc6P3RZ3SCiyi7zwmVd5tPalM88R8bxgg6JU=";
   };
 
-  vendorSha256 = "sha256-FE1GvNgXkBt2cH4YB3jTsPXp91DSiYlniQLtMwvi384=";
+  vendorSha256 = "sha256-J/sJd2LLMBr53Z3sGrWgnWA8Ry+XqqfCEObqFyUD96g=";
   subPackages = [ "." ];
 
   nativeBuildInputs = [ installShellFiles ];

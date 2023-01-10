@@ -1,9 +1,9 @@
 { lib
-, buildGo119Module
+, buildGoModule
 , fetchFromGitHub
 }:
 
-buildGo119Module rec {
+buildGoModule rec {
   pname = "go-protobuf-grpc";
   version = "1.50.1";
 

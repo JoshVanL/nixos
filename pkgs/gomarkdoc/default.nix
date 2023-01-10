@@ -1,10 +1,10 @@
 { lib
-, buildGo119Module
+, buildGoModule
 , fetchFromGitHub
 , installShellFiles
 }:
 
-buildGo119Module rec {
+buildGoModule rec {
   pname = "gomarkdoc";
   version = "0.4.1";
 
