@@ -17,7 +17,7 @@
         normal.family = "Menlo for Powerline";
         bold.family = "Menlo for Powerline";
         italic.family = "Menlo for Powerline";
-        size = 20;
+        size = 15;
         scale_with_dpi = true;
       };
       custom_cursor_colors = false;
