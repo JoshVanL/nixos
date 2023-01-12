@@ -36,6 +36,7 @@ in {
       indentLine
       vim-trailing-whitespace
       vim-lastplace
+      vim-hexokinase
 
       (pkgs.vimPlugins.nvim-treesitter.withPlugins (plugins: with pkgs.tree-sitter-grammars; [
         tree-sitter-beancount
@@ -145,6 +146,14 @@ in {
       map <C-i> :set conceallevel=0<CR>
 
       nnoremap <leader>w!! :w !sudo tee > /dev/null %
-     '';
+
+      let g:copilot_filetypes = {
+      \ 'gitcommit': v:true,
+      \ 'markdown': v:true,
+      \ 'yaml': v:true
+      \ }
+
+      let g:Hexokinase_highlighters = ['virtual']
+    '';
   };
 }
