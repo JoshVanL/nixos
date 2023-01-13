@@ -55,5 +55,6 @@
     gomarkdoc
     paranoia
     dapr-cli
+    gotestsum
   ];
 }
