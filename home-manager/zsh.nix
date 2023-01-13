@@ -29,12 +29,13 @@
     shellAliases = {
       s               = "/etc/joshvanl/window-manager/start.sh";
       x               = "startx";
-      editn           = "vim /keep/etc/nixos/configuration.nix";
+      editn           = "vim /etc/nixos/configuration.nix";
       update          = "sudo nixos-rebuild switch --flake '/keep/etc/nixos/.#' && rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history && source $HOME/.zshrc";
       flake           = "nix flake";
       garbage-collect = "sudo nix-collect-garbage -d";
-      programs        = "vim /keep/etc/nixos/modules/common/programs.nix";
-      links           = "vim /keep/etc/nixos/modules/common/links.nix";
+      programs        = "vim /etc/nixos/home-manager/programs.nix";
+      links           = "vim /etc/nixos/modules/links.nix";
+      purple          = "vim /etc/nixos/machines/aarch64-linux/purple.nix";
       hist            = "rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history";
       screen          = "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=Wayfire && systemctl --user stop pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-wlr && systemctl --user start wireplumber";
       sshbye          = "gpg-connect-agent updatestartuptty /bye";
@@ -77,8 +78,9 @@
       cdu  = "cd $HOME/go/src/github.com/jetstack/spiffe-connector-vault";
       cde  = "cd $HOME/go/src/github.com/jetstack/approver-policy-enterprise";
       cds  = "cd $HOME/go/src/github.com/jetstack/js-trust";
-      cdn  = "cd /keep/etc/nixos";
+      cdn  = "cd /etc/nixos";
       cdy  = "cd /$HOME/go/src/github.com/joshvanl/yazbu";
+      kcc  = "kind create cluster";
     };
     history = {
       size = 100000;

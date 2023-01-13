@@ -36,7 +36,6 @@ in {
       indentLine
       vim-trailing-whitespace
       vim-lastplace
-      vim-hexokinase
 
       (pkgs.vimPlugins.nvim-treesitter.withPlugins (plugins: with pkgs.tree-sitter-grammars; [
         tree-sitter-beancount
@@ -152,8 +151,6 @@ in {
       \ 'markdown': v:true,
       \ 'yaml': v:true
       \ }
-
-      let g:Hexokinase_highlighters = ['virtual']
     '';
   };
 }
