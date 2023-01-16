@@ -81,6 +81,7 @@
       cdn  = "cd /etc/nixos";
       cdy  = "cd /$HOME/go/src/github.com/joshvanl/yazbu";
       kcc  = "kind create cluster";
+      kdc  = "kind delete cluster";
     };
     history = {
       size = 100000;
