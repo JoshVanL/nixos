@@ -1,6 +1,11 @@
 { config, lib, pkgs, ... }:
 
-{
+let
+  gimmiScript = pkgs.writeScriptBin "gimmi" ''
+    #!${pkgs.zsh}/bin/zsh
+    nix-shell -p $@ --run "zsh"
+  '';
+in {
   home.file = {
     ".config/oh-my-zsh/themes/kubectl.zsh" = {
       source = pkgs.fetchurl {
@@ -42,6 +47,8 @@
       shot            = "grim -g \"$(slurp)\" - | wl-copy -t image/png";
       syk             = "killall ssh-agent && eval $(ssh-agent) && ssh-add -K";
       imps            = "ssh-keygen -K && mkdir -p ~/.ssh && mv id*_rk.pub ~/.ssh/id_ed25519_sk.pub && mv id*_rk ~/.ssh/id_ed25519_sk";
+
+      gimmi = "${gimmiScript}/bin/gimmi";
 
       kc = "kubectl";
       kg = "kubectl get";
