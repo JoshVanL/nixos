@@ -38,6 +38,7 @@
           python3 = pkgs.python3;
           python3Packages = pkgs.python3Packages;
         };
+        mockery = pkgs.callPackage ./pkgs/mockery {};
       };
     };
 
