@@ -95,9 +95,6 @@ in {
       let g:airline_powerline_fonts = 1
       let g:airline_detect_paste=1
 
-      " Setup correct path to ag
-      let g:ackprg = '${pkgs.silver-searcher}/bin/ag --vimgrep'
-
       lua << EOF
       require'nvim-treesitter.configs'.setup {
         highlight = {

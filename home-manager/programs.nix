@@ -19,6 +19,7 @@
     git-extras
     bitwarden-cli
     fast-cli
+    ripgrep
 
     # work
     gnumake
