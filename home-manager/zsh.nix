@@ -5,6 +5,67 @@ let
     #!${pkgs.zsh}/bin/zsh
     nix-shell -p $@ --run "zsh"
   '';
+
+  aliases = {
+    s               = "/etc/joshvanl/window-manager/start.sh";
+    x               = "startx";
+    editn           = "vim /etc/nixos/configuration.nix";
+    update          = "sudo nixos-rebuild switch --flake '/keep/etc/nixos/.#' && rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history && source $HOME/.zshrc";
+    flake           = "nix flake";
+    garbage-collect = "sudo nix-collect-garbage -d";
+    programs        = "vim /etc/nixos/home-manager/programs.nix";
+    links           = "vim /etc/nixos/modules/links.nix";
+    purple          = "vim /etc/nixos/machines/aarch64-linux/purple.nix";
+    hist            = "rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history";
+    screen          = "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=Wayfire && systemctl --user stop pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-wlr && systemctl --user start wireplumber";
+    sshbye          = "gpg-connect-agent updatestartuptty /bye";
+    shot            = "grim -g \"$(slurp)\" - | wl-copy -t image/png";
+    syk             = "killall ssh-agent && eval $(ssh-agent) && ssh-add -K";
+    imps            = "ssh-keygen -K && mkdir -p ~/.ssh && mv id*_rk.pub ~/.ssh/id_ed25519_sk.pub && mv id*_rk ~/.ssh/id_ed25519_sk";
+
+    gimmi = "${gimmiScript}/bin/gimmi";
+
+    kc = "kubectl";
+    kg = "kubectl get";
+
+    gog  = "GO111MODULE=off go get -v";
+    gogg = "go get -v";
+    got  = "go test --race -v";
+    goi  = "go mod tidy -v";
+    gob  = "go build -v";
+    gon  = "go install -v";
+    gov  = "go vet -v";
+
+    l    = "ls -lah --group-directories-first";
+    ci   = "xclip -selection clipboard -i";
+    co   = "xclip -o";
+    tmp  = "cd $(mktemp -d)";
+    gcil = "gcloud compute instances list";
+    wkc  = "watch -n 0.2 kubectl";
+    kcw  = "watch -n 0.2 kubectl";
+    kwc  = "watch -n 0.2 kubectl";
+    kccm = "kubectl cert-manager";
+    cdc  = "cd $HOME/go/src/github.com/cert-manager/cert-manager";
+    cdp  = "cd $HOME/go/src/github.com/cert-manager/approver-policy";
+    cdj  = "cd $HOME/go/src/github.com/jetstack/jetbot";
+    cdo  = "cd $HOME/go/src/github.com/jetstack/isolated-issuer";
+    cdt  = "cd $HOME/go/src/github.com/cert-manager/istio-csr";
+    cdi  = "cd $HOME/go/src/github.com/cert-manager/csi-lib";
+    cdm  = "cd $HOME/go/src/github.com/cert-manager/istio-csi";
+    cda  = "cd $HOME/go/src/github.com/cert-manager/csi-driver";
+    cdd  = "cd $HOME/go/src/github.com/dapr/dapr";
+    cdw  = "cd $HOME/go/src/github.com/cert-manager/website";
+    cdds = "cd $HOME/go/src/github.com/cert-manager/csi-driver-spiffe";
+    cdr  = "cd $HOME/go/src/github.com/jetstack/approver-policy-rego";
+    cdu  = "cd $HOME/go/src/github.com/jetstack/spiffe-connector-vault";
+    cde  = "cd $HOME/go/src/github.com/jetstack/approver-policy-enterprise";
+    cds  = "cd $HOME/go/src/github.com/jetstack/js-trust";
+    cdn  = "cd /etc/nixos";
+    cdy  = "cd /$HOME/go/src/github.com/joshvanl/yazbu";
+    kcc  = "kind create cluster";
+    kdc  = "kind delete cluster";
+  };
+
 in {
   home.file = {
     ".config/oh-my-zsh/themes/kubectl.zsh" = {
@@ -31,65 +92,7 @@ in {
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    shellAliases = {
-      s               = "/etc/joshvanl/window-manager/start.sh";
-      x               = "startx";
-      editn           = "vim /etc/nixos/configuration.nix";
-      update          = "sudo nixos-rebuild switch --flake '/keep/etc/nixos/.#' && rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history && source $HOME/.zshrc";
-      flake           = "nix flake";
-      garbage-collect = "sudo nix-collect-garbage -d";
-      programs        = "vim /etc/nixos/home-manager/programs.nix";
-      links           = "vim /etc/nixos/modules/links.nix";
-      purple          = "vim /etc/nixos/machines/aarch64-linux/purple.nix";
-      hist            = "rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history";
-      screen          = "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=Wayfire && systemctl --user stop pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-wlr && systemctl --user start wireplumber";
-      sshbye          = "gpg-connect-agent updatestartuptty /bye";
-      shot            = "grim -g \"$(slurp)\" - | wl-copy -t image/png";
-      syk             = "killall ssh-agent && eval $(ssh-agent) && ssh-add -K";
-      imps            = "ssh-keygen -K && mkdir -p ~/.ssh && mv id*_rk.pub ~/.ssh/id_ed25519_sk.pub && mv id*_rk ~/.ssh/id_ed25519_sk";
-
-      gimmi = "${gimmiScript}/bin/gimmi";
-
-      kc = "kubectl";
-      kg = "kubectl get";
-
-      gog  = "GO111MODULE=off go get -v";
-      gogg = "go get -v";
-      got  = "go test --race -v";
-      goi  = "go mod tidy -v";
-      gob  = "go build -v";
-      gon  = "go install -v";
-      gov  = "go vet -v";
-
-      l    = "ls -lah --group-directories-first";
-      ci   = "xclip -selection clipboard -i";
-      co   = "xclip -o";
-      tmp  = "cd $(mktemp -d)";
-      gcil = "gcloud compute instances list";
-      wkc  = "watch -n 0.2 kubectl";
-      kcw  = "watch -n 0.2 kubectl";
-      kwc  = "watch -n 0.2 kubectl";
-      kccm = "kubectl cert-manager";
-      cdc  = "cd $HOME/go/src/github.com/cert-manager/cert-manager";
-      cdp  = "cd $HOME/go/src/github.com/cert-manager/approver-policy";
-      cdj  = "cd $HOME/go/src/github.com/jetstack/jetbot";
-      cdo  = "cd $HOME/go/src/github.com/jetstack/isolated-issuer";
-      cdt  = "cd $HOME/go/src/github.com/cert-manager/istio-csr";
-      cdi  = "cd $HOME/go/src/github.com/cert-manager/csi-lib";
-      cdm  = "cd $HOME/go/src/github.com/cert-manager/istio-csi";
-      cda  = "cd $HOME/go/src/github.com/cert-manager/csi-driver";
-      cdd  = "cd $HOME/go/src/github.com/dapr/dapr";
-      cdw  = "cd $HOME/go/src/github.com/cert-manager/website";
-      cdds = "cd $HOME/go/src/github.com/cert-manager/csi-driver-spiffe";
-      cdr  = "cd $HOME/go/src/github.com/jetstack/approver-policy-rego";
-      cdu  = "cd $HOME/go/src/github.com/jetstack/spiffe-connector-vault";
-      cde  = "cd $HOME/go/src/github.com/jetstack/approver-policy-enterprise";
-      cds  = "cd $HOME/go/src/github.com/jetstack/js-trust";
-      cdn  = "cd /etc/nixos";
-      cdy  = "cd /$HOME/go/src/github.com/joshvanl/yazbu";
-      kcc  = "kind create cluster";
-      kdc  = "kind delete cluster";
-    };
+    shellAliases = aliases;
     history = {
       size = 100000;
     };
