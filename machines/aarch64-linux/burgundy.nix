@@ -106,8 +106,10 @@ in {
     };
     openssh = {
       enable = true;
-      passwordAuthentication = false;
-      kbdInteractiveAuthentication = true;
+      settings = {
+        passwordAuthentication = false;
+        kbdInteractiveAuthentication = true;
+      };
     };
     vaultwarden = {
       enable = true;
