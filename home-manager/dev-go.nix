@@ -6,7 +6,7 @@
     go-junit-report
     golangci-lint
     gopls
-    go_1_19
+    go
   ];
 
   programs.neovim = {
