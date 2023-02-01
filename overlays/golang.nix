@@ -1,4 +1,4 @@
 final: prev: {
-  buildGoModule = prev.buildGo120Module;
+  buildGoModule = prev.buildGo119Module;
   go = prev.go_1_20;
 }
