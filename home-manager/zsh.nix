@@ -54,6 +54,7 @@ let
     cdm  = "cd $HOME/go/src/github.com/cert-manager/istio-csi";
     cda  = "cd $HOME/go/src/github.com/cert-manager/csi-driver";
     cdd  = "cd $HOME/go/src/github.com/dapr/dapr";
+    cddc = "cd $HOME/go/src/github.com/dapr/components-contrib";
     cdw  = "cd $HOME/go/src/github.com/cert-manager/website";
     cdds = "cd $HOME/go/src/github.com/cert-manager/csi-driver-spiffe";
     cdr  = "cd $HOME/go/src/github.com/jetstack/approver-policy-rego";
