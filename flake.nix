@@ -34,6 +34,7 @@
         kind = pkgs.callPackage ./pkgs/kind {};
         paranoia = pkgs.callPackage ./pkgs/paranoia {};
         vcert = pkgs.callPackage ./pkgs/vcert {};
+        gke-gcloud-auth-plugin = pkgs.callPackage ./pkgs/gke-gcloud-auth-plugin {};
         zfs_uploader = pkgs.callPackage ./pkgs/zfs_uploader {
           python3 = pkgs.python3;
           python3Packages = pkgs.python3Packages;

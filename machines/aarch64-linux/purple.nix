@@ -24,6 +24,10 @@
     };
   };
 
+  home-manager.users.josh = {
+    gcloud.enable = true;
+  };
+
   nixpkgs.config = {
     allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "prl-tools" ];
     allowUnsupportedSystem = true;
@@ -39,7 +43,6 @@
     cmctl
     python3
     imagemagick
-    google-cloud-sdk
     go-jwt
     envsubst
     postgresql
