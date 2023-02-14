@@ -14,5 +14,9 @@ in {
       storageDriver = "zfs";
     };
     systemd.services.docker.wantedBy = lib.mkForce [];
+
+    environment.systemPackages = with pkgs; [
+      docker-compose
+    ];
   };
 }
