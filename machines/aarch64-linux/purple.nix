@@ -27,6 +27,7 @@
   home-manager.users.josh = {
     gcloud.enable = true;
     dev-go.enable = true;
+    dev-python.enable = true;
     dev-kube.enable = true;
   };
 
@@ -38,8 +39,6 @@
   hardware.parallels.enable = true;
 
   environment.systemPackages = with pkgs; [
-    brightnessctl
-    python3
     imagemagick
     go-jwt
     envsubst
