@@ -17,6 +17,8 @@ in {
 
     environment.systemPackages = with pkgs; [
       docker-compose
+      dive
+      paranoia
     ];
   };
 }

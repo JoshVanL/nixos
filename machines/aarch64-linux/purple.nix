@@ -26,6 +26,8 @@
 
   home-manager.users.josh = {
     gcloud.enable = true;
+    dev-go.enable = true;
+    dev-kube.enable = true;
   };
 
   nixpkgs.config = {
@@ -37,10 +39,6 @@
 
   environment.systemPackages = with pkgs; [
     brightnessctl
-    kubectl
-    kind
-    helm
-    cmctl
     python3
     imagemagick
     go-jwt
@@ -50,15 +48,6 @@
     git-crypt
     age
     terraform
-    dive
-    vcert
     protobuf
-    go-protobuf
-    go-protobuf-grpc
-    gomarkdoc
-    paranoia
-    dapr-cli
-    gotestsum
-    mockery
   ];
 }
