@@ -40,6 +40,7 @@
           python3Packages = pkgs.python3Packages;
         };
         mockery = pkgs.callPackage ./pkgs/mockery {};
+        interfacebloat = pkgs.callPackage ./pkgs/interfacebloat {};
       };
     };
 
@@ -119,6 +120,7 @@
           paranoia = pkgs.paranoia;
           vcert = pkgs.vcert;
           zfs_uploader = pkgs.zfs_uploader;
+          interfacebloat = pkgs.interfacebloat;
         };
       }
     ) // {

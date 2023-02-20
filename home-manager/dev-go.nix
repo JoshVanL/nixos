@@ -22,6 +22,7 @@ in
       gomarkdoc
       gotestsum
       mockery
+      interfacebloat
     ];
 
     programs.neovim = {
