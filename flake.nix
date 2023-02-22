@@ -41,6 +41,7 @@
         };
         mockery = pkgs.callPackage ./pkgs/mockery {};
         interfacebloat = pkgs.callPackage ./pkgs/interfacebloat {};
+        dupword = pkgs.callPackage ./pkgs/dupword {};
       };
     };
 
@@ -121,6 +122,7 @@
           vcert = pkgs.vcert;
           zfs_uploader = pkgs.zfs_uploader;
           interfacebloat = pkgs.interfacebloat;
+          dupword = pkgs.dupword;
         };
       }
     ) // {

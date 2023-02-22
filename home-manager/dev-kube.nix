@@ -16,6 +16,7 @@ in
       helm
       cmctl
       dapr-cli
+      kubernetes-controller-tools
     ];
   };
 }

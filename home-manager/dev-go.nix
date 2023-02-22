@@ -23,6 +23,7 @@ in
       gotestsum
       mockery
       interfacebloat
+      dupword
     ];
 
     programs.neovim = {
