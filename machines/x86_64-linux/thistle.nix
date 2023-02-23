@@ -1,7 +1,7 @@
 { config, pkgs, lib, modulesPath, ... }: {
 
   boot = {
-    initrd.availableKernelModules = [ "xhci_pci" "usbhid" "sr_mod" ];
+    initrd.availableKernelModules = [ "ehci_pci" "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" ];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
@@ -22,14 +22,38 @@
     docker.enable = true;
     tailscale.enable = true;
     yubikey.enable = true;
+    zfs_uploader = {
+      enable = true;
+      logPath = "/keep/etc/zfs_uploader/zfs_uploader.log";
+      configPath = "/persist/etc/zfs_uploader/config.cfg";
+    };
     dwm = {
       enable = true;
-      xrandr = "--output Virtual-1 --mode 4096x2160 --output Virtual-2 --off";
+      xrandr = "--output DisplayPort-0 --mode 3840x2160 --rate 120";
     };
   };
 
+  home-manager.users.josh = {
+    gcloud.enable = true;
+    dev-go.enable = true;
+    dev-python.enable = true;
+    dev-kube.enable = true;
+  };
+
+  services.xserver = {
+    libinput = {
+      enable = true;
+    };
+    extraConfig = ''
+      Section "InputClass"
+        Identifier "libinput pointer catchall"
+        MatchDevicePath "/dev/input/event*"
+        Driver "libinput"
+        Option "NaturalScrolling" "true"
+      EndSection
+    '';
+  };
+
   environment.systemPackages = with pkgs; [
-    tex
-    lmodern
   ];
 }
