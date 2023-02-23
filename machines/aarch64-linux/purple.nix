@@ -47,6 +47,5 @@
     git-crypt
     age
     terraform
-    protobuf
   ];
 }
