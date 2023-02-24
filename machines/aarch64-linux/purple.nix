@@ -20,7 +20,7 @@
     yubikey.enable = true;
     dwm = {
       enable = true;
-      xrandr = "--output Virtual-1 --mode 4096x2160 --output Virtual-2 --off";
+      xrandr = "--output Virtual-1 --mode 4096x2160 --rate 120 --output Virtual-2 --off";
     };
   };
 
