@@ -26,6 +26,10 @@ in
       dupword
     ];
 
+    home.sessionVariables = {
+      GOPRIVATE = "github.com/diagridio";
+    };
+
     programs.neovim = {
       plugins = with pkgs.vimPlugins; [
         vim-go
