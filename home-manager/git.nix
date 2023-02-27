@@ -10,7 +10,6 @@
       ".envrc"
     ];
     extraConfig = {
-      url."ssh://git@github.com/".insteadOf = "https://github.com/";
       init = {
         defaultBranch = "main";
       };

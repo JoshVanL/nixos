@@ -26,6 +26,12 @@ in
       dupword
     ];
 
+    programs.git = {
+      extraConfig = {
+        url."ssh://git@github.com/".insteadOf = "https://github.com/diagridio/";
+      };
+    };
+
     home.sessionVariables = {
       GOPRIVATE = "github.com/diagridio";
     };
