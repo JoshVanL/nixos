@@ -5,17 +5,16 @@
 
 buildGoModule rec {
   pname = "jwt";
-  version = "4.4.1";
+  version = "4.5.0";
 
   src = fetchFromGitHub {
     owner = "golang-jwt";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-aq8G0baDZks5LXCVbufU1J/r0AMgD2TcZez326G2PEA=";
+    hash = "sha256-dyKL8wQRApkdCkKxJ1knllvixsrBLw+BtRS0SjlN7NQ=";
   };
 
-  vendorSha256 = "sha256-pQpattmS9VmO3ZIQUFn66az8GSmB4IvYhTTCFn6SUmo=";
-  subPackages = [ "cmd/jwt" ];
+  vendorSha256 = null;
 
   meta = with lib; {
     homepage = "https://github.com/golang-jwt/jwt";
