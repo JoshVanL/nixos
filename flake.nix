@@ -42,6 +42,7 @@
         mockery = pkgs.callPackage ./pkgs/mockery {};
         interfacebloat = pkgs.callPackage ./pkgs/interfacebloat {};
         dupword = pkgs.callPackage ./pkgs/dupword {};
+        shadow-go = pkgs.callPackage ./pkgs/shadow {};
       };
     };
 
@@ -123,6 +124,7 @@
           zfs_uploader = pkgs.zfs_uploader;
           interfacebloat = pkgs.interfacebloat;
           dupword = pkgs.dupword;
+          shadow-go = pkgs.shadow;
         };
       }
     ) // {
