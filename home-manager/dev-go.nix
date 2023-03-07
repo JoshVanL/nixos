@@ -24,7 +24,8 @@ in
       mockery
       interfacebloat
       dupword
-      shadow-go
+      gofumpt
+      gotools
     ];
 
     #programs.git = {

@@ -15,7 +15,7 @@
   };
 
   services.josh = {
-    docker.enable = true;
+    podman.enable = true;
     tailscale.enable = true;
     yubikey.enable = true;
     dwm = {
