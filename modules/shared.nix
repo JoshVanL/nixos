@@ -87,7 +87,6 @@
           "wheel"
           "networkmanager"
           "video"
-          "docker"
         ];
         passwordFile = "/keep/etc/users/josh";
       };

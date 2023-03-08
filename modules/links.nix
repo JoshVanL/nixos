@@ -16,13 +16,11 @@ in {
       "d /persist/home           0755 josh wheel - -"
       "d /keep/home/go           0755 josh wheel - -"
       "d /keep/home/downloads    0755 josh wheel - -"
-      "d /keep/var/lib/docker    0755 josh wheel - -"
       "d /persist/home/.mozilla  0755 josh wheel - -"
       "d /persist/home/documents 0755 josh wheel - -"
 
       "d /persist/home/.config          0755 josh wheel - -"
       "d /persist/home/.config/chromium 0755 josh wheel - -"
-      "d /persist/home/.docker          0755 josh wheel - -"
 
       "d /persist/home/.config/Bitwarden        0755 josh wheel - -"
       "d '/persist/home/.config/Bitwarden\ CLI' 0755 josh wheel - -"
@@ -56,7 +54,6 @@ in {
       "L+ /home/josh/downloads      - - - - /keep/home/downloads"
       "L+ /home/josh/Downloads      - - - - /home/josh/downloads"
       "L+ /home/josh/documents      - - - - /persist/home/documents"
-      "L+ /home/josh/.docker        - - - - /persist/home/.docker"
       "L+ /home/josh/.viminfo       - - - - /persist/home/.viminfo"
 
       "d  /persist/home/.config/github-copilot 0755 josh wheel - -"
@@ -67,8 +64,6 @@ in {
 
       "L+ /home/josh/.config/Bitwarden        - - - - /persist/home/.config/Bitwarden"
       "L+ '/home/josh/.config/Bitwarden\ CLI' - - - - /persist/home/.config/Bitwarden\ CLI"
-
-      "L+ /var/lib/docker - - - - /keep/var/lib/docker"
     ];
   };
 }
