@@ -4,18 +4,34 @@ with lib;
 let
   vim-github-copilot = pkgs.vimUtils.buildVimPlugin {
     pname = "vim-github-copilot";
-    version = "1.8.0";
+    version = "1.8.3";
     src = pkgs.fetchFromGitHub {
       owner = "github";
       repo = "copilot.vim";
-      rev = "324ec9eb69e20971b58340d0096c3caac7bc2089";
-      sha256 = "b3c/EQmObPKnT5pBbhAbAySGt2E+1UC0Zqm2vJJiv/4=";
+      rev = "9e869d29e62e36b7eb6fb238a4ca6a6237e7d78b";
+      sha256 = "sha256-B+2hHNTrabj6O9F6OoskNIUsjJXLrt+4XgjuiRoM80s=";
+    };
+  };
+
+  vim-codegpt = pkgs.vimUtils.buildVimPlugin {
+    pname = "vim-codegpt";
+    version = "0.0.1";
+    src = pkgs.fetchFromGitHub {
+      owner = "dpayne";
+      repo = "codegpt.nvim";
+      rev = "53b3e75af4ddd281d09fcd9574f8cebdf3198010";
+      sha256 = "sha256-boegd5ypU7k7tn3y78XguIV1ri4XyY9zfewQ9nLavfs=";
     };
   };
 
 in {
   # Required for GitHub copilot.
   home.packages = [ pkgs.nodejs-16_x ];
+
+  home.sessionVariables = {
+    # TODO: pass as arg
+    OPENAI_API_KEY="$(cat /persist/home/secrets/chatgpt/api_key)";
+  };
 
   programs.neovim = {
     enable = true;
@@ -36,6 +52,11 @@ in {
       indentLine
       vim-trailing-whitespace
       vim-lastplace
+
+      vim-codegpt
+      # needed for codegpt
+      plenary-nvim
+      nui-nvim
 
       (pkgs.vimPlugins.nvim-treesitter.withPlugins (plugins: with pkgs.tree-sitter-grammars; [
         tree-sitter-beancount
