@@ -6,16 +6,16 @@
 
 buildGoModule rec {
   pname = "mockery";
-  version = "2.16.0";
+  version = "2.22.1";
 
   src = fetchFromGitHub {
     owner = "vektra";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-fd+ZR74tApbZEXfMqpUAMk22h9rMRmtByGSd8JcTtK0=";
+    hash = "sha256-Jzb7JHzJbWwaSXoSR0wfCCs0r5vLEilTAm5oNHtj+pM=";
   };
 
-  vendorSha256 = "sha256-SRTxe3y+wQgxsj7ruquMG16dUEAa92rnTXceysWm+F8=";
+  vendorSha256 = "sha256-w4DONTXbsAjJD5ytvBLR+sOIGEMWEUxEzs25UiQkGuw=";
 
   nativeBuildInputs = [ installShellFiles ];
   postInstall = ''
