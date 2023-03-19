@@ -15,6 +15,7 @@ let
     ${pkgs.xorg.xset}/bin/xset r rate 250 70
     ${pkgs.xorg.xset}/bin/xset s off -dpms
     ${pkgs.xorg.xmodmap}/bin/xmodmap -e 'keycode 94 = grave asciitilde'
+    ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option caps:escape
     ${pkgs.feh}/bin/feh --bg-fill ${wallpaper}
     ${pkgs.picom}/bin/picom &
     ${pkgs.xorg.xprop}/bin/xprop -root -set WM_NAME "-"
