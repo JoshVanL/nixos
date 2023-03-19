@@ -58,4 +58,6 @@
 
   # high-resolution display
   hardware.video.hidpi.enable = lib.mkDefault true;
+
+  hardware.enableRedistributableFirmware = true;
 }
