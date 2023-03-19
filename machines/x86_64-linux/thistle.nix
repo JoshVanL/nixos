@@ -29,7 +29,7 @@
     };
     dwm = {
       enable = true;
-      xrandr = "--output DisplayPort-0 --mode 3840x2160 --rate 120";
+      xrandr = "--output DP-1 --mode 3840x2160 --rate 120";
     };
   };
 
