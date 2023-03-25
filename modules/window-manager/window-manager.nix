@@ -2,7 +2,7 @@
 
 with lib;
 let
-  cfg = config.services.josh.dwm;
+  cfg = config.me.window-manager;
 
   wallpaper = pkgs.fetchurl {
     url = "https://github.com/JoshVanL/imgs/raw/main/wallpaper-2.jpg";
@@ -22,7 +22,7 @@ let
     ${pkgs.dwm}/bin/dwm
   '';
 in {
-  options.services.josh.dwm = {
+  options.me.window-manager = {
     enable = mkEnableOption "dwm";
 
     xrandr = mkOption {
@@ -31,12 +31,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [
-      xclip
-      arandr
-      rofi
-    ];
-
     services = {
       xserver = {
         enable = true;
@@ -55,14 +49,27 @@ in {
 
         windowManager.dwm.enable = true;
       };
+
+      pipewire = {
+        enable = true;
+        alsa = {
+          enable = true;
+          support32Bit = true;
+        };
+        pulse.enable = true;
+        jack.enable = true;
+      };
     };
 
-    fonts.fonts = with pkgs; [
-      font-awesome
-    ];
 
-    systemd.tmpfiles.rules = [
-      "L+ /home/josh/.xinitrc - - - - ${xinitrc}"
-    ];
+    home-manager.users.${config.me.username}.home = {
+      packages = with pkgs; [
+        xclip
+        arandr
+        evince
+      ];
+
+      file.".xinitrc".source = xinitrc;
+    };
   };
 }

@@ -2,7 +2,7 @@
 
 with lib;
 let
-  cfg = config.services.josh.podman;
+  cfg = config.me.programs.podman;
 
   docker-compose-alias = pkgs.stdenv.mkDerivation {
     name = "docker-compose";
@@ -14,12 +14,12 @@ let
   };
 
 in {
-  options.services.josh.podman = {
+  options.me.programs.podman = {
     enable = mkEnableOption "podman";
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [
+    home-manager.users.${config.me.username}.home.packages = with pkgs; [
       podman-compose
       docker-compose-alias
       dive
