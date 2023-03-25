@@ -22,32 +22,12 @@
       (builtins.readDir ./overlays)
     );
 
-    nixosModulesPkgs = sys: {
+    myPkgs = sys: {
       # propagate git revision
       system.configurationRevision = lib.mkIf (self ? rev) self.rev;
       nixpkgs = {
         overlays = (pkgsOverlays sys);
-        config = {
-          packageOverrides = pkgs: with pkgs; {
-            go-jwt = pkgs.callPackage ./pkgs/go-jwt {};
-            gomarkdoc = pkgs.callPackage ./pkgs/gomarkdoc {};
-            go-protobuf = pkgs.callPackage ./pkgs/go-protobuf {};
-            go-protobuf-grpc = pkgs.callPackage ./pkgs/go-protobuf-grpc {};
-            helm = pkgs.callPackage ./pkgs/helm {};
-            kind = pkgs.callPackage ./pkgs/kind {};
-            paranoia = pkgs.callPackage ./pkgs/paranoia {};
-            vcert = pkgs.callPackage ./pkgs/vcert {};
-            gke-gcloud-auth-plugin = pkgs.callPackage ./pkgs/gke-gcloud-auth-plugin {};
-            zfs_uploader = pkgs.callPackage ./pkgs/zfs_uploader {
-              python3 = pkgs.python3;
-              python3Packages = pkgs.python3Packages;
-            };
-            mockery = pkgs.callPackage ./pkgs/mockery {};
-            interfacebloat = pkgs.callPackage ./pkgs/interfacebloat {};
-            dupword = pkgs.callPackage ./pkgs/dupword {};
-            shadow-go = pkgs.callPackage ./pkgs/shadow {};
-          };
-        };
+        config.packageOverrides = (import ./pkgs/default.nix);
       };
     };
 
@@ -62,7 +42,7 @@
       value = lib.makeOverridable lib.nixosSystem {
         system = system;
         modules = (import ./modules/module-list.nix) ++ [
-          (nixosModulesPkgs system)
+          (myPkgs system)
           (import (./machines + "/${system}/${machine}.nix"))
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
