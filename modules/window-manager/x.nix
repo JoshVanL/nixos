@@ -27,7 +27,7 @@ let
       xmodmap -e 'keycode 94 = grave asciitilde'
       setxkbmap -option caps:escape
       feh --bg-fill ${wallpaper}
-      bin/picom &
+      picom &
       xprop -root -set WM_NAME "-"
       ${pkgs.dwm}/bin/dwm
     '';

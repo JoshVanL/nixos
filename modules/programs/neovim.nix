@@ -50,6 +50,8 @@ in {
       "L+ /home/${config.me.base.username}/.config/github-copilot - - - - /persist/home/.config/github-copilot"
     ]);
 
+    environment.variables.EDITOR = "vim";
+
     home-manager.users.${config.me.base.username} = {
       home = {
         # Required for GitHub copilot.
@@ -57,10 +59,7 @@ in {
 
         sessionVariables = {
           VISUAL = "vim";
-          EDITOR = "vim";
-        } // (mkIf cfg.openAI.enable {
-          OPENAI_API_KEY = "$(cat ${cfg.openAI.apiKeyPath})";
-        });
+        };
       };
 
       programs.neovim = {
@@ -68,6 +67,7 @@ in {
         viAlias = true;
         vimAlias = true;
         vimdiffAlias = true;
+        defaultEditor = true;
 
         plugins = (with pkgs.vimPlugins; [
           gruvbox
@@ -198,6 +198,8 @@ in {
           \ 'markdown': v:true,
           \ 'yaml': v:true
           \ }
+        ''+ optionalString cfg.openAI.enable ''
+          let $OPENAI_API_KEY = readfile('${cfg.openAI.apiKeyPath}')
         '';
       };
     };

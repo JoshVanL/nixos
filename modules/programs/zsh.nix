@@ -4,14 +4,14 @@ let
   cfg = config.me.programs.zsh;
 
   updateSH = pkgs.writeShellApplication {
-    name = "update-yubikey.sh";
-    runtimeInputs = with pkgs; [ nixos-rebuild ];
+    name = "update-nixos.sh";
+    runtimeInputs = with pkgs; [ nixos-rebuild zsh ];
     text = ''
       sudo nixos-rebuild switch --flake '/keep/etc/nixos/.#'
       rm -f /home/${config.me.base.username}/.zsh_history
       ln -s /persist/home/.zsh_history /home/${config.me.base.username}/.zsh_history
       # shellcheck source=/dev/null
-      source "/home/${config.me.base.username}/.zshrc"
+      zsh -c "source /home/${config.me.base.username}/.zshrc"
     '';
   };
 
@@ -25,7 +25,7 @@ let
 
   aliases = {
     x = "startx";
-    update = "${updateSH}/bin/update-yubikey.sh";
+    update = "${updateSH}/bin/update-nixos.sh";
     flake = "nix flake";
     garbage-collect = "sudo nix-collect-garbage -d";
 

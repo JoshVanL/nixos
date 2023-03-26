@@ -25,6 +25,7 @@
         configPath = "/persist/etc/zfs_uploader/config.cfg";
       };
     };
+    # TODO: fix nscd daemon
     networking = {
       ssh.enable = true;
       tailscale.enable = true;
@@ -43,10 +44,6 @@
       neovim = {
         enable = true;
         coPilot.enable = true;
-        openAI = {
-          enable = true;
-          apiKeyPath = "/persist/home/secrets/chatgpt/api_key";
-        };
       };
       podman.enable = true;
       zsh.enable = true;
