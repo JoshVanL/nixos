@@ -6,6 +6,15 @@ let
 in {
   options.me.networking.ssh = {
     enable = mkEnableOption "ssh";
+
+    ingress = {
+      enable = mkEnableOption "ingress ssh";
+      authorizedKeys = mkOption {
+        type = types.listOf types.str;
+        default = [];
+        description = "List of authorized keys for ingress ssh";
+      };
+    };
   };
 
   config = mkIf cfg.enable {
@@ -13,6 +22,16 @@ in {
       "d /persist/home/.ssh 0755 ${config.me.base.username} wheel - -"
       "L+ /home/${config.me.base.username}/.ssh/known_hosts - - - - /persist/home/.ssh/known_hosts"
     ];
+
+    users.users.${config.me.base.username}.openssh.authorizedKeys.keys = mkIf cfg.ingress.enable cfg.ingress.authorizedKeys;
+
+    services.openssh = mkIf cfg.ingress.enable {
+      enable = true;
+      settings = {
+        passwordAuthentication = false;
+        kbdInteractiveAuthentication = true;
+      };
+    };
 
     home-manager.users.${config.me.base.username} = {
       programs.ssh = {

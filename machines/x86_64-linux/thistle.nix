@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, config, ... }: {
   me = {
     base = {
       username = "josh";
@@ -8,10 +8,11 @@
       };
     };
     dev = {
-      c.enable = true;
       go.enable = true;
-      python.enable = true;
       kube.enable = true;
+      crypto.enable = true;
+      data.enable = true;
+      image.enable = true;
     };
     data = {
       zfs_uploader = {
@@ -41,7 +42,11 @@
       google.enable = true;
       neovim = {
         enable = true;
-        openaiAPIKeyPath = "/persist/home/secrets/chatgpt/api_key";
+        coPilot.enable = true;
+        openAI = {
+          enable = true;
+          apiKeyPath = "/persist/home/secrets/chatgpt/api_key";
+        };
       };
       podman.enable = true;
       zsh.enable = true;

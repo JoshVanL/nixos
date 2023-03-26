@@ -23,6 +23,8 @@
 
   environment.etc."nixos".source = "/keep/etc/nixos";
 
+  nixpkgs.config.allowUnsupportedSystem = true;
+
   # Set your time zone.
   time.timeZone = "Europe/London";
 
@@ -57,13 +59,5 @@
     };
   };
 
-  home-manager.users.${config.me.base.username}.home.packages = with pkgs; [
-    cryptsetup
-    killall
-    bat
-    zip
-    unzip
-    ripgrep
-    tree
-  ];
+  home-manager.users.${config.me.base.username}.home.packages = with pkgs; [ killall ];
 }

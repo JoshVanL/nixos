@@ -57,10 +57,10 @@
       (map
         ( machine: [ (build-machine machine "x86_64-linux") ])
         (machines "x86_64-linux"))
-      #++
-      #(map
-      #  ( machine: [ (build-machine machine "aarch64-linux") ])
-      #  (machines "aarch64-linux"))
+      ++
+      (map
+        ( machine: [ (build-machine machine "aarch64-linux") ])
+        (machines "aarch64-linux"))
     ));
   };
 }

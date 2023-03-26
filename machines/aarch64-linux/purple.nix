@@ -1,51 +1,64 @@
-{ config, pkgs, lib, modulesPath, ... }: {
-
-  boot = {
-    initrd.availableKernelModules = [ "xhci_pci" "usbhid" "sr_mod" ];
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
+{ pkgs, lib, ... }: {
+  me = {
+    base = {
+      username = "josh";
+      boot = {
+        loader = "systemd-boot";
+        initrd.availableKernelModules = [ "xhci_pci" "usbhid" "sr_mod" ];
+      };
+      hardware.parallels.enable = true;
     };
-  };
-
-  networking = {
-    interfaces.enp0s5.useDHCP = true;
-    hostName = "purple";
-    hostId = "deadbeef";
-  };
-
-  services.josh = {
-    podman.enable = true;
-    tailscale.enable = true;
-    yubikey.enable = true;
-    dwm = {
+    dev = {
+      c.enable = true;
+      go.enable = true;
+      kube.enable = true;
+      crypto.enable = true;
+      data.enable = true;
+      image.enable = true;
+      python.enable = true;
+    };
+    data = {
+      zfs_uploader = {
+        enable = true;
+        logPath = "/keep/var/run/zfs_uploader/zfs_uploader.log";
+        configPath = "/persist/etc/zfs_uploader/config.cfg";
+      };
+    };
+    networking = {
+      ssh.enable = true;
+      tailscale.enable = true;
+      interfaces = {
+        hostName = "purple";
+        intf.enp0s5.useDHCP = true;
+      };
+    };
+    programs = {
+      git = {
+        enable = true;
+        username = "joshvanl";
+        email = "me@joshvanl.dev";
+      };
+      google.enable = true;
+      neovim = {
+        enable = true;
+        coPilot.enable = true;
+        openAI = {
+          enable = true;
+          apiKeyPath = "/persist/home/secrets/chatgpt/api_key";
+        };
+      };
+      podman.enable = true;
+      zsh.enable = true;
+    };
+    security = {
+      bitwarden.enable = true;
+      yubikey.enable = true;
+    };
+    window-manager = {
       enable = true;
-      xrandr = "--output Virtual-1 --mode 4096x2160 --rate 120 --output Virtual-2 --off";
+      fontsize = 15;
+      xrandrArgs = "--output Virtual-1 --mode 4096x2160 --rate 120 --output Virtual-2 --off";
     };
   };
-
-  home-manager.users.josh = {
-    gcloud.enable = true;
-    dev-go.enable = true;
-    dev-python.enable = true;
-    dev-kube.enable = true;
-  };
-
-  nixpkgs.config = {
-    allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "prl-tools" ];
-    allowUnsupportedSystem = true;
-  };
-
-  hardware.parallels.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    imagemagick
-    go-jwt
-    envsubst
-    postgresql
-    step-cli
-    git-crypt
-    age
-    terraform
-  ];
 }
+

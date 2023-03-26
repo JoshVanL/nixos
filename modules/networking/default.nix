@@ -4,5 +4,6 @@
     ./interfaces.nix
     ./ssh.nix
     ./tailscale.nix
+    ./acme.nix
   ];
 }

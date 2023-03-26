@@ -29,19 +29,26 @@ in {
   options.me.programs.neovim = {
     enable = mkEnableOption "neovim";
 
-    openaiAPIKeyPath = mkOption {
-      type = types.str;
-      default = "";
-      description = "OpenAI API key";
+    coPilot = {
+      enable = mkEnableOption "GitHub Copilot";
+    };
+    openAI = {
+      enable = mkEnableOption "OpenAI";
+      apiKeyPath = mkOption {
+        type = types.path;
+        default = "";
+        description = "OpenAI API key";
+      };
     };
   };
 
   config = mkIf cfg.enable {
     systemd.user.tmpfiles.rules = [
-      "d /persist/home/.config/github-copilot 0755 ${config.me.base.username} wheel - -"
       "L+ /home/${config.me.base.username}/.viminfo - - - - /persist/home/.viminfo"
+    ] ++ (optionals cfg.coPilot.enable [
+      "d /persist/home/.config/github-copilot 0755 ${config.me.base.username} wheel - -"
       "L+ /home/${config.me.base.username}/.config/github-copilot - - - - /persist/home/.config/github-copilot"
-    ];
+    ]);
 
     home-manager.users.${config.me.base.username} = {
       home = {
@@ -51,8 +58,9 @@ in {
         sessionVariables = {
           VISUAL = "vim";
           EDITOR = "vim";
-          OPENAI_API_KEY = mkIf (cfg.openaiAPIKeyPath != "") "$(cat ${cfg.openaiAPIKeyPath})";
-        };
+        } // (mkIf cfg.openAI.enable {
+          OPENAI_API_KEY = "$(cat ${cfg.openAI.apiKeyPath})";
+        });
       };
 
       programs.neovim = {
@@ -66,7 +74,7 @@ in {
           vim-airline
           LanguageClient-neovim
           nerdtree
-          vim-github-copilot
+          (mkIf cfg.coPilot.enable vim-github-copilot)
           ack-vim
           fzf-vim
           vim-fugitive
@@ -75,7 +83,7 @@ in {
           vim-trailing-whitespace
           vim-lastplace
 
-          vim-codegpt
+          (mkIf cfg.openAI.enable vim-codegpt)
           # needed for codegpt
           plenary-nvim
           nui-nvim
@@ -90,8 +98,7 @@ in {
             tree-sitter-markdown
             tree-sitter-nix
             tree-sitter-yaml
-          ]
-          ))
+          ]))
         ]);
 
         extraConfig = ''
