@@ -8,9 +8,10 @@ let
     name = "import-yubikey.sh";
     runtimeInputs = [ pkgs.openssh ];
     text = ''
+      CURR_DIR=$(pwd)
       TMPDIR=$(mktemp -d)
       cd "$TMPDIR"
-      trap 'cd - && rm -rf $TMPDIR' EXIT
+      trap 'cd $CURR_DIR && rm -rf $TMPDIR' EXIT
       ssh-keygen -K
       mkdir -p ~/.ssh
       mv id*_rk.pub ~/.ssh/id_ed25519_sk.pub

@@ -192,14 +192,14 @@ in {
           map <C-i> :set conceallevel=0<CR>
 
           nnoremap <leader>w!! :w !sudo tee > /dev/null %
-
+        '' + optionalString cfg.coPilot.enable ''
           let g:copilot_filetypes = {
           \ 'gitcommit': v:true,
           \ 'markdown': v:true,
           \ 'yaml': v:true
           \ }
         ''+ optionalString cfg.openAI.enable ''
-          let $OPENAI_API_KEY = readfile('${cfg.openAI.apiKeyPath}')
+          let $OPENAI_API_KEY = readfile('${cfg.openAI.apiKeyPath}')[0]
         '';
       };
     };
