@@ -9,17 +9,29 @@ let
     hash = "sha256-8JkbnfF033XPiBETWQ5G6RCmBmXtx9f/SsfYU7ObnwY=";
   };
 
-  xinitrc = pkgs.writeShellScript "xinitrc.sh" ''
-    ${pkgs.xorg.xrandr}/bin/xrandr ${cfg.xrandrArgs}
-    ${pkgs.xorg.xset}/bin/xset r rate 250 70
-    ${pkgs.xorg.xset}/bin/xset s off -dpms
-    ${pkgs.xorg.xmodmap}/bin/xmodmap -e 'keycode 94 = grave asciitilde'
-    ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option caps:escape
-    ${pkgs.feh}/bin/feh --bg-fill ${wallpaper}
-    ${pkgs.picom}/bin/picom &
-    ${pkgs.xorg.xprop}/bin/xprop -root -set WM_NAME "-"
-    ${pkgs.dwm}/bin/dwm
-  '';
+  xinitrcSH = pkgs.writeShellApplication {
+    name = "xinitrc.sh";
+    runtimeInputs = with pkgs; [
+      xorg.xrandr
+      xorg.xset
+      xorg.xmodmap
+      xorg.setxkbmap
+      feh
+      picom
+      xorg.xprop
+    ];
+    text = ''
+      xrandr ${cfg.xrandrArgs}
+      xset r rate 250 70
+      xset s off -dpms
+      xmodmap -e 'keycode 94 = grave asciitilde'
+      setxkbmap -option caps:escape
+      feh --bg-fill ${wallpaper}
+      bin/picom &
+      xprop -root -set WM_NAME "-"
+      ${pkgs.dwm}/bin/dwm
+    '';
+  };
 in {
   options.me.window-manager = {
     enable = mkEnableOption "window-manager";
@@ -83,7 +95,7 @@ in {
         evince
       ];
 
-      file.".xinitrc".source = xinitrc;
+      file.".xinitrc".source = "${xinitrcSH}/bin/xinitrc.sh";
     };
   };
 }

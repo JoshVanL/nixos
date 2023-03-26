@@ -4,6 +4,20 @@ with lib;
 let
   cfg = config.me.security.yubikey;
 
+  importYubikeySH = pkgs.writeShellApplication {
+    name = "import-yubikey.sh";
+    runtimeInputs = [ pkgs.openssh ];
+    text = ''
+      TMPDIR=$(mktemp -d)
+      cd "$TMPDIR"
+      trap 'cd - && rm -rf $TMPDIR' EXIT
+      ssh-keygen -K
+      mkdir -p ~/.ssh
+      mv id*_rk.pub ~/.ssh/id_ed25519_sk.pub
+      mv id*_rk ~/.ssh/id_ed25519_sk
+    '';
+  };
+
 in {
   options.me.security.yubikey = {
     enable = mkEnableOption "yubikey";
@@ -35,7 +49,7 @@ in {
       pam.yubico.authorizedYubiKeys.ids = mkIf cfg.pam.enable cfg.pam.authorizedIDs;
 
       programs.zsh.shellAliases = mkIf config.me.programs.zsh.enable {
-        imps = "ssh-keygen -K && mkdir -p ~/.ssh && mv id*_rk.pub ~/.ssh/id_ed25519_sk.pub && mv id*_rk ~/.ssh/id_ed25519_sk";
+        imps = "${importYubikeySH}/bin/import-yubikey.sh";
       };
     };
   };

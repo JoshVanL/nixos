@@ -3,6 +3,24 @@ with lib;
 let
   cfg = config.me.networking.ssh;
 
+  sshbyeSH = pkgs.writeShellApplication {
+    name = "sshbye.sh";
+    runtimeInputs = with pkgs; [ gnupg ];
+    text = ''
+      gpg-connect-agent updatestartuptty /bye
+    '';
+  };
+
+  sykSH = pkgs.writeShellApplication {
+    name = "syk.sh";
+    runtimeInputs = with pkgs; [ killall openssh ];
+    text = ''
+      killall ssh-agent
+      eval "$(ssh-agent)"
+      ssh-add -K
+    '';
+  };
+
 in {
   options.me.networking.ssh = {
     enable = mkEnableOption "ssh";
@@ -39,8 +57,8 @@ in {
       };
 
       programs.zsh.shellAliases = mkIf config.me.programs.zsh.enable {
-        sshbye = "gpg-connect-agent updatestartuptty /bye";
-        syk = "killall ssh-agent && eval $(ssh-agent) && ssh-add -K";
+        sshbye = "${sshbyeSH}/bin/sshbye.sh";
+        syk = "${sykSH}/bin/syk.sh";
       };
     };
   };

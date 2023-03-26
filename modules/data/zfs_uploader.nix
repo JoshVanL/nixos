@@ -4,6 +4,14 @@ with lib;
 let
   cfg = config.me.data.zfs_uploader;
 
+  backupSH = pkgs.writeShellApplication {
+    name = "backup.sh";
+    runtimeInputs = with pkgs; [ zfs zfs_uploader ];
+    text = ''
+      PYTHONUNBUFFERED=1 zfsup --config-path ${cfg.configPath} --log-path "${cfg.logPath}" backup
+    '';
+  };
+
 in {
   options.me.data.zfs_uploader = {
     enable = mkEnableOption "zfs_uploader";
@@ -25,18 +33,6 @@ in {
       backblaze-b2
     ];
 
-    environment.etc."zfs_uploader/backup.sh" = {
-      text = ''
-        #!/bin/usr/env bash
-
-        export PYTHONUNBUFFERED=1
-        export PATH=$PATH:${pkgs.zfs}/bin
-        ${pkgs.zfs_uploader}/bin/zfsup --config-path ${cfg.configPath} --log-path "${cfg.logPath}" backup
-      '';
-
-      mode = "755";
-    };
-
     systemd = {
       tmpfiles.rules = [
         "d ${dirOf cfg.configPath} 0755 ${config.me.base.username} wheel - -"
@@ -52,7 +48,7 @@ in {
           User             = "root";
           Group            = "root";
           WorkingDirectory = "/tmp";
-          ExecStart        = "${pkgs.bash}/bin/bash /etc/zfs_uploader/backup.sh";
+          ExecStart        = "${backupSH}/bin/backup.sh";
           Restart          = "on-failure";
         };
         wantedBy = [ "default.target" ];
@@ -60,6 +56,7 @@ in {
     };
 
     # Helper functions:
+    # export PATH=$PATH:${pkgs.zfs}/bin
     # $ zfs list -t snapshot
     # $ B2_APPLICATION_KEY_ID=xxx B2_APPLICATION_KEY=xxx backblaze-b2  download-file-by-name xxx rpool/safe/persist/xxxx.full persist.full
     # $ sudo zfs receive -F -v rpool/safe/restore < persist.full

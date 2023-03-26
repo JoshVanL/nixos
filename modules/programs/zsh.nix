@@ -3,19 +3,33 @@ with lib;
 let
   cfg = config.me.programs.zsh;
 
-  gimmiScript = pkgs.writeScript "gimmi" ''
-    #!${pkgs.zsh}/bin/zsh
-    nix-shell -p $@ --run "zsh"
-  '';
+  updateSH = pkgs.writeShellApplication {
+    name = "update-yubikey.sh";
+    runtimeInputs = with pkgs; [ nixos-rebuild ];
+    text = ''
+      sudo nixos-rebuild switch --flake '/keep/etc/nixos/.#'
+      rm -f /home/${config.me.base.username}/.zsh_history
+      ln -s /persist/home/.zsh_history /home/${config.me.base.username}/.zsh_history
+      # shellcheck source=/dev/null
+      source "/home/${config.me.base.username}/.zshrc"
+    '';
+  };
+
+  gimmiSH = pkgs.writeShellApplication {
+    name = "gimmi.sh";
+    runtimeInputs = with pkgs; [ nix zsh ];
+    text = ''
+      nix-shell -p "$@" --run "zsh"
+    '';
+  };
 
   aliases = {
     x = "startx";
-    update = "sudo nixos-rebuild switch --flake '/keep/etc/nixos/.#' && rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history && source $HOME/.zshrc";
+    update = "${updateSH}/bin/update-yubikey.sh";
     flake = "nix flake";
     garbage-collect = "sudo nix-collect-garbage -d";
-    hist = "rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history";
 
-    gimmi = "${gimmiScript}";
+    gimmi = "${gimmiSH}/bin/gimmi.sh";
 
     l    = "ls -lah --group-directories-first";
     ci   = "xclip -selection clipboard -i";
