@@ -9,7 +9,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home-manager.users.${config.me.username} = {
+    home-manager.users.${config.me.base.username} = {
       home.packages = with pkgs; [
         (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.cloud-build-local])
       ] ++

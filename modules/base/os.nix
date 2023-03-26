@@ -1,10 +1,9 @@
 { lib, pkgs, config, ... }:
 
 {
-  # Nix.
   nix = {
     settings = {
-      allowed-users       = [ "root" "${config.me.username}"];
+      allowed-users = [ "root" "${config.me.base.username}"];
       auto-optimise-store = true;
     };
 
@@ -14,7 +13,7 @@
       options = "--delete-older-than 7d";
     };
 
-    settings.trusted-users = [ "root" "${config.me.username}" ];
+    settings.trusted-users = [ "root" "${config.me.base.username}" ];
 
     extraOptions = ''
       experimental-features = nix-command flakes
@@ -39,18 +38,18 @@
     defaultUserShell = pkgs.zsh;
     mutableUsers = false;
     users = {
-      ${config.me.username} = {
+      ${config.me.base.username} = {
         isNormalUser = true;
         uid = 1000;
         createHome = true;
-        home = "/home/${config.me.username}";
+        home = "/home/${config.me.base.username}";
         group = "users";
         extraGroups = [
           "wheel"
           "networkmanager"
           "video"
         ];
-        passwordFile = "/keep/etc/users/${config.me.username}";
+        passwordFile = "/keep/etc/users/${config.me.base.username}";
       };
       root = {
         hashedPassword = "!";
@@ -58,7 +57,7 @@
     };
   };
 
-  home-manager.users.${config.me.username}.home.packages = with pkgs; [
+  home-manager.users.${config.me.base.username}.home.packages = with pkgs; [
     cryptsetup
     killall
     bat

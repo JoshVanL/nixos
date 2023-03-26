@@ -5,5 +5,6 @@ with lib;
   imports = [
     ./yubikey.nix
     ./bitwarden.nix
+    ./joshvanl.nix
   ];
 }

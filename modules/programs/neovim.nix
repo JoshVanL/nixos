@@ -38,12 +38,12 @@ in {
 
   config = mkIf cfg.enable {
     systemd.user.tmpfiles.rules = [
-      "d /persist/home/.config/github-copilot 0755 ${config.me.username} wheel - -"
-      "L+ /home/${config.me.username}/.viminfo - - - - /persist/home/.viminfo"
-      "L+ /home/${config.me.username}/.config/github-copilot - - - - /persist/home/.config/github-copilot"
+      "d /persist/home/.config/github-copilot 0755 ${config.me.base.username} wheel - -"
+      "L+ /home/${config.me.base.username}/.viminfo - - - - /persist/home/.viminfo"
+      "L+ /home/${config.me.base.username}/.config/github-copilot - - - - /persist/home/.config/github-copilot"
     ];
 
-    home-manager.users.${config.me.username} = {
+    home-manager.users.${config.me.base.username} = {
       home = {
         # Required for GitHub copilot.
         packages = [ pkgs.nodejs-16_x ];

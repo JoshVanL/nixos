@@ -15,6 +15,7 @@ in {
     kernelPackages = pkgs.linuxPackages_rpi4;
     initrd = {
       availableKernelModules = [ "usbhid" "usb_storage" "smsc95xx" "usbnet" ];
+
       network = {
         enable = true;
         ssh = {
@@ -33,14 +34,14 @@ in {
           echo "zfs load-key -a; killall zfs" >> /root/.profile
         '';
       };
+
     };
     # ttyAMA0 is the serial console broken out to the GPIO
     kernelParams = [
-        "8250.nr_uarts=1"
-        "console=ttyAMA0,115200"
-        "console=tty1"
-        # A lot GUI programs need this, nearly all wayland applications
-        "cma=128M"
+      "nohibernate"
+      "8250.nr_uarts=1"
+      "console=ttyAMA0,115200"
+      "console=tty1"
     ];
     loader = {
       efi.canTouchEfiVariables = true;

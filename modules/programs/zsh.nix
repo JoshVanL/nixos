@@ -33,10 +33,10 @@ in {
     environment.pathsToLink = [ "/share/zsh/site-functions" ];
 
     systemd.user.tmpfiles.rules = [
-      "L+ /home/${config.me.username}/.zsh_history - - - - /persist/home/.zsh_history"
+      "L+ /home/${config.me.base.username}/.zsh_history - - - - /persist/home/.zsh_history"
     ];
 
-    home-manager.users.${config.me.username} = {
+    home-manager.users.${config.me.base.username} = {
       home = {
         file = {
           ".config/oh-my-zsh/themes/amuse-custom.zsh-theme".source = pkgs.fetchurl {

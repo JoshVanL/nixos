@@ -9,9 +9,8 @@ let
     hash = "sha256-8JkbnfF033XPiBETWQ5G6RCmBmXtx9f/SsfYU7ObnwY=";
   };
 
-  xinitrc = pkgs.writeText "xinitrc" ''
-    #!/bin/sh
-    ${pkgs.xorg.xrandr}/bin/xrandr ${cfg.xrandr}
+  xinitrc = pkgs.writeShellScript "xinitrc.sh" ''
+    ${pkgs.xorg.xrandr}/bin/xrandr ${cfg.xrandrArgs}
     ${pkgs.xorg.xset}/bin/xset r rate 250 70
     ${pkgs.xorg.xset}/bin/xset s off -dpms
     ${pkgs.xorg.xmodmap}/bin/xmodmap -e 'keycode 94 = grave asciitilde'
@@ -23,10 +22,15 @@ let
   '';
 in {
   options.me.window-manager = {
-    enable = mkEnableOption "dwm";
+    enable = mkEnableOption "window-manager";
 
-    xrandr = mkOption {
+    xrandrArgs = mkOption {
       type = types.lines;
+    };
+
+    naturalScrolling = mkOption {
+      type = types.bool;
+      default = false;
     };
   };
 
@@ -48,6 +52,16 @@ in {
         };
 
         windowManager.dwm.enable = true;
+
+        libinput.enable = cfg.naturalScrolling;
+        extraConfig = mkIf cfg.naturalScrolling ''
+          Section "InputClass"
+            Identifier "libinput pointer catchall"
+            MatchDevicePath "/dev/input/event*"
+            Driver "libinput"
+            Option "NaturalScrolling" "true"
+          EndSection
+        '';
       };
 
       pipewire = {
@@ -62,7 +76,7 @@ in {
     };
 
 
-    home-manager.users.${config.me.username}.home = {
+    home-manager.users.${config.me.base.username}.home = {
       packages = with pkgs; [
         xclip
         arandr

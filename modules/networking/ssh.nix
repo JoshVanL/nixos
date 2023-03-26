@@ -10,11 +10,11 @@ in {
 
   config = mkIf cfg.enable {
     systemd.user.tmpfiles.rules = [
-      "d /persist/home/.ssh 0755 ${config.me.username} wheel - -"
-      "L+ /home/${config.me.username}/.ssh/known_hosts - - - - /persist/home/.ssh/known_hosts"
+      "d /persist/home/.ssh 0755 ${config.me.base.username} wheel - -"
+      "L+ /home/${config.me.base.username}/.ssh/known_hosts - - - - /persist/home/.ssh/known_hosts"
     ];
 
-    home-manager.users.${config.me.username} = {
+    home-manager.users.${config.me.base.username} = {
       programs.ssh = {
         enable = true;
       };

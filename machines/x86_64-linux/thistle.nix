@@ -1,27 +1,12 @@
 { pkgs, lib, ... }: {
-
-  # Move as option.
-  boot = {
-    initrd.availableKernelModules = [ "ehci_pci" "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" ];
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-  };
-
-  # Move to option.
-  networking = {
-    hostName = "thistle";
-    hostId = "deadbeef";
-    interfaces = {
-      enp1s0.useDHCP = true;
-      enp2s0f0.useDHCP = true;
-      wlp3s0.useDHCP = true;
-    };
-  };
-
   me = {
-    username = "josh";
+    base = {
+      username = "josh";
+      boot = {
+        loader = "systemd-boot";
+        initrd.availableKernelModules = [ "ehci_pci" "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" ];
+      };
+    };
     dev = {
       c.enable = true;
       go.enable = true;
@@ -38,6 +23,14 @@
     networking = {
       ssh.enable = true;
       tailscale.enable = true;
+      interfaces = {
+        hostName = "thistle";
+        intf = {
+          enp1s0.useDHCP = true;
+          enp2s0f0.useDHCP = true;
+          wlp3s0.useDHCP = true;
+        };
+      };
     };
     programs = {
       git = {
@@ -60,22 +53,8 @@
     window-manager = {
       enable = true;
       fontsize = 8;
-      xrandr = "--output DP-1 --mode 3840x2160 --rate 120";
+      xrandrArgs = "--output DP-1 --mode 3840x2160 --rate 120";
+      naturalScrolling = true;
     };
-  };
-
-  # TODO: move to window-manager
-  services.xserver = {
-    libinput = {
-      enable = true;
-    };
-    extraConfig = ''
-      Section "InputClass"
-        Identifier "libinput pointer catchall"
-        MatchDevicePath "/dev/input/event*"
-        Driver "libinput"
-        Option "NaturalScrolling" "true"
-      EndSection
-    '';
   };
 }

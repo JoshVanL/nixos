@@ -2,14 +2,13 @@
 with lib;
 
 {
-  options = {
-    me.username = mkOption {
-      type = types.str;
-    };
+  options.me.base.username = mkOption {
+    type = types.str;
   };
 
   imports = [
     ./os.nix
     ./hardware.nix
+    ./boot.nix
   ];
 }

@@ -19,7 +19,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home-manager.users.${config.me.username}.home.packages = with pkgs; [
+    home-manager.users.${config.me.base.username}.home.packages = with pkgs; [
       podman-compose
       docker-compose-alias
       dive

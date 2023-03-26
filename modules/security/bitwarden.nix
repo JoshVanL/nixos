@@ -11,13 +11,13 @@ in {
 
   config = mkIf cfg.enable {
     systemd.user.tmpfiles.rules = [
-      "d /persist/home/.config/Bitwarden 0755 ${config.me.username} wheel - -"
-      "d '/persist/home/.config/Bitwarden\ CLI' 0755 ${config.me.username} wheel - -"
-      "L+ /home/${config.me.username}/.config/Bitwarden - - - - /persist/home/.config/Bitwarden"
-      "L+ '/home/${config.me.username}/.config/Bitwarden\ CLI' - - - - '/persist/home/.config/Bitwarden\ CLI'"
+      "d /persist/home/.config/Bitwarden 0755 ${config.me.base.username} wheel - -"
+      "d '/persist/home/.config/Bitwarden\ CLI' 0755 ${config.me.base.username} wheel - -"
+      "L+ /home/${config.me.base.username}/.config/Bitwarden - - - - /persist/home/.config/Bitwarden"
+      "L+ '/home/${config.me.base.username}/.config/Bitwarden\ CLI' - - - - '/persist/home/.config/Bitwarden\ CLI'"
     ];
 
-    home-manager.users.${config.me.username}.home = {
+    home-manager.users.${config.me.base.username}.home = {
       packages = with pkgs; [
         bitwarden-cli
       ];

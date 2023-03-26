@@ -3,7 +3,7 @@ with lib;
 
 {
   imports = [
-    ./window-manager.nix
+    ./x.nix
     ./alacritty.nix
     ./browser.nix
     ./fonts.nix

@@ -12,7 +12,7 @@ in {
   config = mkIf cfg.enable {
     programs.ssh.startAgent = mkIf config.me.networking.ssh.enable true;
 
-    home-manager.users.${config.me.username} = {
+    home-manager.users.${config.me.base.username} = {
       home.packages = with pkgs; [
         gnupg
         yubikey-personalization

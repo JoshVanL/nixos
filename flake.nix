@@ -14,9 +14,8 @@
   outputs = { self, nixpkgs, home-manager, joshvanldwm }@inputs:
   let
     lib = nixpkgs.lib;
-    pkgsOverlays = system: [
-      joshvanldwm.overlays.${system}
-    ] ++
+
+    pkgsOverlays = system: [ joshvanldwm.overlays.${system} ] ++
     lib.mapAttrsToList (name: _: import ./overlays/${name}) (lib.filterAttrs
       (name: entryType: lib.hasSuffix ".nix" name && entryType == "regular")
       (builtins.readDir ./overlays)
@@ -47,9 +46,7 @@
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.josh = { lib, pkgs, config, ... }: with lib; {
-              home.stateVersion = "22.11";
-            };
+            home-manager.users.josh = { ... }: { home.stateVersion = "22.11"; };
           }
         ];
       };

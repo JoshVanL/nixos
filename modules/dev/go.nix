@@ -10,11 +10,11 @@ in {
 
   config = mkIf cfg.enable {
     systemd.user.tmpfiles.rules = [
-      "d /keep/home/go 0755 ${config.me.username} wheel - -"
-      "L+ /home/${config.me.username}/go - - - - /keep/home/go"
+      "d /keep/home/go 0755 ${config.me.base.username} wheel - -"
+      "L+ /home/${config.me.base.username}/go - - - - /keep/home/go"
     ];
 
-    home-manager.users.${config.me.username} = {
+    home-manager.users.${config.me.base.username} = {
       systemd.user.services.gopls = {
         Unit = {
           Description = "Run the go language server as user daemon, so we can limit its memory and CPU usage";
@@ -23,7 +23,7 @@ in {
 
         Service = {
           Type = "simple";
-          Environment = [ "PATH=/run/wrappers/bin:/home/${config.me.username}/.nix-profile/bin:/etc/profiles/per-user/${config.me.username}/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin" ];
+          Environment = [ "PATH=/run/wrappers/bin:/home/${config.me.base.username}/.nix-profile/bin:/etc/profiles/per-user/${config.me.base.username}/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin" ];
           ExecStartPre = "/run/current-system/sw/bin/rm -f %t/gopls-daemon-socket";
           ExecStart = "${pkgs.gopls}/bin/gopls -listen=\"unix;%t/gopls-daemon-socket\" -logfile=auto -debug=:0";
           Restart = "always";
