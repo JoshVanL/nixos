@@ -46,17 +46,19 @@ done
 export DISK_PATH="/dev/${DISK}"
 
 PARTITION_PREFIX=""
-PS3="Select a partition prefix: "
+PS3="Select a partition prefix (generally, nvme use 'p', and sdx use nothing): "
 select p in "" "p"
 do
   export PARTITION_PREFIX=$p
 	break
 done
 
+REPO_ROOT=$(git rev-parse --show-toplevel)
+
 AVAILABLE_ARCHES=()
 ARCH=""
-PS3="Select a architecture: "
-for f in $(find $(git rev-parse --show-toplevel)/machines/* -type d)
+PS3="Select an architecture: "
+for f in $(find ${REPO_ROOT}/machines/* -type d)
 do
   AVAILABLE_ARCHES+=($(basename -- $f | cut -f 1 -d "."))
 done
@@ -69,7 +71,7 @@ done
 AVAILABLE_HOSTS=()
 HOSTNAME=""
 PS3="Select a hostname: "
-for f in $(find $(git rev-parse --show-toplevel)/machines/$ARCH -type f)
+for f in $(find ${REPO_ROOT}/machines/${ARCH} -type f)
 do
   AVAILABLE_HOSTS+=($(basename -- $f | cut -f 1 -d "."))
 done
@@ -79,10 +81,23 @@ do
 	break
 done
 
-info "Enter password for 'josh' user ..."
+USERNAME=$(grep ${REPO_ROOT}/machines/${ARCH}/${HOSTNAME}.nix -e "username" | awk -F'"' '$0=$2')
+
+echo "You will install NixOS on '${DISK_PATH}', with the hostname '${HOSTNAME}', and the user '${USERNAME}'."
+
+while true; do
+    read -p "Continue? [y/n] " yn
+    case $yn in
+        [Yy]* ) break;;
+        [Nn]* ) echo "Cancelled."; exit 1;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+info "Enter password for '${USERNAME}' user ..."
 mkdir -p /mnt/keep/etc/users
 mkdir -p /etc/users
-mkpasswd -m sha-512 | tr -d "\n\r" > /tmp/josh
+mkpasswd -m sha-512 | tr -d "\n\r" > /tmp/${USERNAME}
 
 ################################################################################
 
@@ -173,8 +188,8 @@ mount -t zfs "$ZFS_DS_PERSIST" /mnt/persist
 info "Moving password to installation ..."
 mkdir -p /mnt/keep/etc/users
 mkdir -p /etc/users
-mv /tmp/josh /mnt/keep/etc/users/josh
-cp /mnt/keep/etc/users/josh /etc/users/josh
+mv /tmp/${USERNAME} /mnt/keep/etc/users/${USERNAME}
+cp /mnt/keep/etc/users/${USERNAME} /etc/users/${USERNAME}
 
 info "Cloning NixOS configuration to /mnt/keep/etc/nixos/ ..."
 mkdir -p /mnt/keep/etc/nixos

@@ -23,20 +23,22 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
-info "Changing ownership of /keep/etc/nixos to josh ..."
-chown -R josh:wheel /keep/etc/nixos
+USERNAME=$(ls /keep/etc/users)
+
+info "Changing ownership of /keep/etc/nixos to ${USERNAME} ..."
+chown -R ${USERNAME}:wheel /keep/etc/nixos
 
 info "Setting correct remote git for nixos ..."
 cd /keep/etc/nixos
-sudo -u josh git remote set-url origin git@github.com:joshvanl/nixos
-sudo -u josh git checkout main
+sudo -u ${USERNAME} git remote set-url origin git@github.com:joshvanl/nixos
+sudo -u ${USERNAME} git checkout main
 
 info "Adding unstable channel ..."
 nix-channel --add https://nixos.org/channels/nixos-unstable nixos
 nix-channel --update
 
 info "Switching nixos configuration ..."
-rm -f /home/josh/.zsh_history
+rm -f /home/${USERNAME}/.zsh_history
 NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-rebuild switch --flake "/keep/etc/nixos#"
 
 info "Cleaning up the garbage ..."
