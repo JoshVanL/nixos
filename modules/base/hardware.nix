@@ -41,7 +41,6 @@ in {
 
     # high-resolution display
     hardware = {
-      video.hidpi.enable = true;
       enableRedistributableFirmware = true;
       parallels.enable = cfg.parallels.enable;
     };

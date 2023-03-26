@@ -44,6 +44,7 @@ in {
 
   config = mkIf cfg.enable {
     environment.pathsToLink = [ "/share/zsh/site-functions" ];
+    programs.zsh.enable = true;
 
     systemd.user.tmpfiles.rules = [
       "L+ /home/${config.me.base.username}/.zsh_history - - - - /persist/home/.zsh_history"
@@ -51,16 +52,9 @@ in {
 
     home-manager.users.${config.me.base.username} = {
       home = {
-        file = {
-          ".config/oh-my-zsh/themes/amuse-custom.zsh-theme".source = pkgs.fetchurl {
-            url = "https://github.com/JoshVanL/oh-my-zsh-custom/raw/main/amuse-custom.zsh-theme";
-            hash = "sha256-TuR1qNxEUmP2ov0ElHXGhZDiu/BbQgbjMpvINQE8J08=";
-          };
-
-          "imgs/system/wallpaper.jpg".source = pkgs.fetchurl {
-            url = "https://github.com/JoshVanL/imgs/raw/main/wallpaper-2.jpg";
-            hash = "sha256-8JkbnfF033XPiBETWQ5G6RCmBmXtx9f/SsfYU7ObnwY=";
-          };
+        file.".config/oh-my-zsh/themes/amuse-custom.zsh-theme".source = pkgs.fetchurl {
+          url = "https://github.com/JoshVanL/oh-my-zsh-custom/raw/main/amuse-custom.zsh-theme";
+          hash = "sha256-TuR1qNxEUmP2ov0ElHXGhZDiu/BbQgbjMpvINQE8J08=";
         };
 
         packages = with pkgs; [
