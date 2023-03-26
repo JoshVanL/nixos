@@ -81,7 +81,7 @@ do
 	break
 done
 
-USERNAME=$(grep ${REPO_ROOT}/machines/${ARCH}/${HOSTNAME}.nix -e "username" | awk -F'"' '$0=$2')
+USERNAME=$(grep ${REPO_ROOT}/machines/${ARCH}/${HOSTNAME}.nix -e "username" | awk -F'"' '$0=$2 {print $1;exit;}'
 
 echo "You will install NixOS on '${DISK_PATH}', with the hostname '${HOSTNAME}', and the user '${USERNAME}'."
 
