@@ -59,5 +59,8 @@
     };
   };
 
-  home-manager.users.${config.me.base.username}.home.packages = with pkgs; [ killall ];
+  home-manager.users.${config.me.base.username}.home = {
+    stateVersion = "22.11";
+    packages = with pkgs; [ killall ];
+  };
 }
