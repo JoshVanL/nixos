@@ -9,16 +9,24 @@ in {
   };
 
   config = mkIf cfg.enable {
+    systemd.tmpfiles.rules = mkIf config.me.programs.podman.enable [
+      # This directory is hardcoded in kind somewhere and is required for it to
+      # work but doesn't actually use it...
+      "d /lib/modules 0755 ${config.me.base.username} wheel - -"
+    ];
+
     home-manager.users.${config.me.base.username} = {
       home = {
         packages = with pkgs; [
           kubectl
-          kind
           helm
           cmctl
           dapr-cli
           kubernetes-controller-tools
-        ];
+        ] ++
+          (optional config.me.programs.podman.enable kind)
+        ;
+
         file.".config/oh-my-zsh/themes/kubectl.zsh".source = pkgs.fetchurl {
           url = "https://github.com/joshvanl/oh-my-zsh-custom/raw/main/kubectl.zsh";
           hash = "sha256-+jKuFzhFLv+fb76qTMiwFQqa7KTyU/diJLzcsOYRo+o=";
@@ -31,9 +39,11 @@ in {
         wkc  = "watch -n 0.2 kubectl";
         kcw  = "watch -n 0.2 kubectl";
         kwc  = "watch -n 0.2 kubectl";
+      } //
+      (optionalAttrs config.me.programs.podman.enable {
         kcc  = "kind create cluster";
         kdc  = "kind delete cluster";
-      };
+      });
     };
   };
 }
