@@ -59,6 +59,11 @@
     };
   };
 
+  systemd.tmpfiles.rules = [
+    "d /home/${config.me.base.username}/.cache 0755 ${config.me.base.username} wheel - -"
+    "d /home/${config.me.base.username}/.config 0755 ${config.me.base.username} wheel - -"
+  ];
+
   home-manager.users.${config.me.base.username}.home = {
     stateVersion = "22.11";
     packages = with pkgs; [
