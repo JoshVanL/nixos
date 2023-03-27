@@ -55,18 +55,7 @@ done
 
 REPO_ROOT=$(git rev-parse --show-toplevel)
 
-AVAILABLE_ARCHES=()
-ARCH=""
-PS3="Select an architecture: "
-for f in $(find ${REPO_ROOT}/machines/* -type d)
-do
-  AVAILABLE_ARCHES+=($(basename -- $f | cut -f 1 -d "."))
-done
-select arch in "${AVAILABLE_ARCHES[@]}"
-do
-  export ARCH=$arch
-	break
-done
+ARCH="$(uname -m)-linux"
 
 AVAILABLE_HOSTS=()
 HOSTNAME=""
