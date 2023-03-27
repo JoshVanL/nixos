@@ -28,7 +28,7 @@ in {
       };
     };
 
-    systemd.user.tmpfiles.rules = [
+    systemd.tmpfiles.rules = [
       "d /persist/var/lib/acme 0755 acme acme - -"
     ];
 

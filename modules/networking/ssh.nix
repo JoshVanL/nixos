@@ -36,7 +36,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    systemd.user.tmpfiles.rules = [
+    systemd.tmpfiles.rules = [
       "d /persist/home/.ssh 0755 ${config.me.base.username} wheel - -"
       "L+ /home/${config.me.base.username}/.ssh/known_hosts - - - - /persist/home/.ssh/known_hosts"
     ];

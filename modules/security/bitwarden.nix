@@ -23,7 +23,7 @@ in {
       ];
     };
 
-    systemd.user.tmpfiles.rules = [
+    systemd.tmpfiles.rules = [
       "d /persist/home/.config/Bitwarden 0755 ${config.me.base.username} wheel - -"
       "d '/persist/home/.config/Bitwarden\ CLI' 0755 ${config.me.base.username} wheel - -"
       "L+ /home/${config.me.base.username}/.config/Bitwarden - - - - /persist/home/.config/Bitwarden"

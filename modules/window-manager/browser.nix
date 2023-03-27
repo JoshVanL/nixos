@@ -3,7 +3,7 @@ with lib;
 
 {
   config = mkIf config.me.window-manager.enable {
-    systemd.user.tmpfiles.rules = [
+    systemd.tmpfiles.rules = [
       "d /persist/home 0755 ${config.me.base.username} wheel - -"
       "d /persist/home/.mozilla  0755 ${config.me.base.username} wheel - -"
       "d /persist/home/.config/chromium  0755 ${config.me.base.username} wheel - -"

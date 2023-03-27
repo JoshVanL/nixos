@@ -46,7 +46,7 @@ in {
     environment.pathsToLink = [ "/share/zsh/site-functions" ];
     programs.zsh.enable = true;
 
-    systemd.user.tmpfiles.rules = [
+    systemd.tmpfiles.rules = [
       "L+ /home/${config.me.base.username}/.zsh_history - - - - /persist/home/.zsh_history"
     ];
 

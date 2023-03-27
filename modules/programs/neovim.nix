@@ -43,7 +43,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    systemd.user.tmpfiles.rules = [
+    systemd.tmpfiles.rules = [
       "L+ /home/${config.me.base.username}/.viminfo - - - - /persist/home/.viminfo"
     ] ++ (optionals cfg.coPilot.enable [
       "d /persist/home/.config/github-copilot 0755 ${config.me.base.username} wheel - -"

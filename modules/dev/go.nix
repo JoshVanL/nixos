@@ -9,7 +9,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    systemd.user.tmpfiles.rules = [
+    systemd.tmpfiles.rules = [
       "d /keep/home/go 0755 ${config.me.base.username} wheel - -"
       "L+ /home/${config.me.base.username}/go - - - - /keep/home/go"
     ];
