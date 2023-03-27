@@ -8,18 +8,7 @@
       };
       hardware.parallels.enable = true;
     };
-    dev = {
-      c.enable = true;
-      go.enable = true;
-      kube.enable = true;
-      crypto.enable = true;
-      data.enable = true;
-      image.enable = true;
-      python.enable = true;
-    };
     networking = {
-      ssh.enable = true;
-      tailscale.enable = true;
       interfaces = {
         hostName = "mini";
         intf.enp0s5.useDHCP = true;
@@ -31,17 +20,8 @@
         username = "joshvanl";
         email = "me@joshvanl.dev";
       };
-      google.enable = true;
-      neovim = {
-        enable = true;
-        coPilot.enable = true;
-      };
-      podman.enable = true;
+      neovim.enable = true;
       zsh.enable = true;
-    };
-    security = {
-      bitwarden.enable = true;
-      yubikey.enable = true;
     };
     window-manager = {
       enable = true;
