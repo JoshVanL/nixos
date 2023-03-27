@@ -55,6 +55,7 @@ in {
     home-manager.users.${config.me.base.username} = {
       programs.ssh = {
         enable = true;
+        userKnownHostsFile = "/persist/home/.ssh/known_hosts";
       };
 
       programs.zsh.shellAliases = mkIf config.me.programs.zsh.enable {

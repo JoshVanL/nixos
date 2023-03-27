@@ -16,8 +16,8 @@ with lib;
       "L+ /home/${config.me.base.username}/.cache/mozilla - - - - /persist/home/.cache/mozilla"
       "L+ /home/${config.me.base.username}/.config/chromium - - - - /persist/home/.config/chromium"
       "L+ /home/${config.me.base.username}/.cache/chromium - - - - /persist/home/.cache/chromium"
-      "L+ /home/${config.me.base.username}/downloads - - - - /persist/home/downloads"
-      "L+ /home/${config.me.base.username}/Downloads - - - - /persist/home/downloads"
+      "L+ /home/${config.me.base.username}/downloads - - - - /keep/home/downloads"
+      "L+ /home/${config.me.base.username}/Downloads - - - - /keep/home/downloads"
       "L+ /home/${config.me.base.username}/documents - - - - /persist/home/documents"
     ];
 
