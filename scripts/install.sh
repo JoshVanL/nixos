@@ -71,14 +71,14 @@ do
 done
 
 USERNAME=$(grep ${REPO_ROOT}/machines/${ARCH}/${HOSTNAME}.nix -e "username" | awk -F'"' '$0=$2 {print $1;exit;}')
-echo "You will install NixOS on '${DISK_PATH}', with the hostname '${HOSTNAME}', and the user '${USERNAME}'."
+info "You will install NixOS on '${DISK_PATH}', with the hostname '${HOSTNAME}', and the user '${USERNAME}'."
 
 while true; do
     read -p "Continue? [y/n] " yn
     case $yn in
         [Yy]* ) break;;
-        [Nn]* ) echo "Cancelled."; exit 1;;
-        * ) echo "Please answer yes or no.";;
+        [Nn]* ) info "Cancelled."; exit 1;;
+        * ) info "Please answer yes or no.";;
     esac
 done
 
