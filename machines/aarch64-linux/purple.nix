@@ -25,7 +25,6 @@
         configPath = "/persist/etc/zfs_uploader/config.cfg";
       };
     };
-    # TODO: fix nscd daemon
     networking = {
       ssh.enable = true;
       tailscale.enable = true;
@@ -54,7 +53,8 @@
     };
     window-manager = {
       enable = true;
-      fontsize = 15;
+      #fontsize = 15;
+      fontsize = 25;
       xrandrArgs = "--output Virtual-1 --mode 4096x2160 --rate 120 --output Virtual-2 --off";
     };
   };

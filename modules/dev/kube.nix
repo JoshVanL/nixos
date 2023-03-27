@@ -20,7 +20,7 @@ in {
           kubernetes-controller-tools
         ];
         file.".config/oh-my-zsh/themes/kubectl.zsh".source = pkgs.fetchurl {
-          url = "https://github.com/JoshVanL/oh-my-zsh-custom/raw/main/kubectl.zsh";
+          url = "https://github.com/joshvanl/oh-my-zsh-custom/raw/main/kubectl.zsh";
           hash = "sha256-+jKuFzhFLv+fb76qTMiwFQqa7KTyU/diJLzcsOYRo+o=";
         };
       };

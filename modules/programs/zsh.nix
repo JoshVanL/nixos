@@ -53,8 +53,8 @@ in {
     home-manager.users.${config.me.base.username} = {
       home = {
         file.".config/oh-my-zsh/themes/amuse-custom.zsh-theme".source = pkgs.fetchurl {
-          url = "https://github.com/JoshVanL/oh-my-zsh-custom/raw/main/amuse-custom.zsh-theme";
-          hash = "sha256-TuR1qNxEUmP2ov0ElHXGhZDiu/BbQgbjMpvINQE8J08=";
+          url = "https://raw.githubusercontent.com/JoshVanL/oh-my-zsh-custom/main/amuse-custom.zsh-theme";
+          hash = "sha256-8RhcaTiHCwCQxXz/8v5TpruJTXUFDmu2Efrm7UJJMlI=";
         };
 
         packages = with pkgs; [
