@@ -9,6 +9,7 @@
       hardware.parallels.enable = true;
     };
     dev = {
+      build.enable = true;
       c.enable = true;
       go.enable = true;
       kube.enable = true;

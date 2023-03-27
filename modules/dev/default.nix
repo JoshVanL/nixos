@@ -1,6 +1,7 @@
 { lib, pkgs, config, ... }:
 {
   imports = [
+    ./build.nix
     ./c.nix
     ./crypto.nix
     ./data.nix
