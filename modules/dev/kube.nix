@@ -33,16 +33,16 @@ in {
         };
       };
 
-      programs.zsh.shellAliases = mkIf config.me.programs.zsh.enable {
+      programs.zsh.shellAliases = mkIf config.me.programs.zsh.enable ({
         kc = "kubectl";
         kg = "kubectl get";
         wkc  = "watch -n 0.2 kubectl";
         kcw  = "watch -n 0.2 kubectl";
         kwc  = "watch -n 0.2 kubectl";
-      } // mkIf config.me.programs.podman.enable {
+      } // (optionalAttrs config.me.programs.podman.enable {
         kcc  = "kind create cluster";
         kdc  = "kind delete cluster";
-      };
+      }));
     };
   };
 }
