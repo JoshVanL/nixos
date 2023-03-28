@@ -39,11 +39,10 @@ in {
         wkc  = "watch -n 0.2 kubectl";
         kcw  = "watch -n 0.2 kubectl";
         kwc  = "watch -n 0.2 kubectl";
-      } //
-      (optionalAttrs config.me.programs.podman.enable {
+      } // mkIf config.me.programs.podman.enable {
         kcc  = "kind create cluster";
         kdc  = "kind delete cluster";
-      });
+      };
     };
   };
 }
