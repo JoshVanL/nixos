@@ -7,7 +7,7 @@
 - `/overlays` overlays for nixpkgs.
 
 Machines use zfs where all data is shredded on boot unless stored (or sys
-linked) from `/persist` or `/keep`. `/persist` is intended to be backedup.
+linked) from `/persist` or `/keep`. `/persist` is intended to be backed up.
 
 ## To install
 
