@@ -1,6 +1,6 @@
 # [nixos](https://www.stilldrinking.org/programming-sucks)
 
-- `/machines` root machine configurations
+- `/machines` root machine configurations.
 - `/modules` modules used by the machines.
 - `/scripts` scripts used to install a machines.
 - `/pkgs` software packages that are not in nixpkgs.
