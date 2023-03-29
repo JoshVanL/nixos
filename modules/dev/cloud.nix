@@ -1,11 +1,11 @@
 { lib, pkgs, config, ... }:
 with lib;
 let
-  cfg = config.me.programs.google;
+  cfg = config.me.dev.cloud;
 
 in {
-  options.me.programs.google = {
-    enable = mkEnableOption "google";
+  options.me.dev.cloud = {
+    enable = mkEnableOption "dev.cloud";
   };
 
   config = mkIf cfg.enable {

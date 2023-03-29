@@ -23,8 +23,9 @@ in {
           cmctl
           dapr-cli
           kubernetes-controller-tools
-        ] ++
-          (optional config.me.programs.podman.enable kind)
+        ]
+        ++ (optional config.me.programs.podman.enable kind)
+        ++ (optional config.me.dev.kube.enable pkgs.gke-gcloud-auth-plugin)
         ;
 
         file.".config/oh-my-zsh/themes/kubectl.zsh".source = pkgs.fetchurl {

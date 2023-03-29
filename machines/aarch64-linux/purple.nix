@@ -11,9 +11,10 @@
     dev = {
       build.enable = true;
       c.enable = true;
+      cloud.enable = true;
+      crypto.enable = true;
       go.enable = true;
       kube.enable = true;
-      crypto.enable = true;
       data.enable = true;
       image.enable = true;
       python.enable = true;
@@ -40,7 +41,6 @@
         username = "joshvanl";
         email = "me@joshvanl.dev";
       };
-      google.enable = true;
       neovim = {
         enable = true;
         coPilot.enable = true;

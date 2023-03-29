@@ -3,6 +3,7 @@
   imports = [
     ./build.nix
     ./c.nix
+    ./cloud.nix
     ./crypto.nix
     ./data.nix
     ./go.nix

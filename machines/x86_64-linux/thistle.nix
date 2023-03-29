@@ -13,6 +13,7 @@
       crypto.enable = true;
       data.enable = true;
       image.enable = true;
+      cloud.enable = true;
     };
     data = {
       zfs_uploader = {
@@ -39,7 +40,6 @@
         username = "joshvanl";
         email = "me@joshvanl.dev";
       };
-      google.enable = true;
       neovim = {
         enable = true;
         coPilot.enable = true;
