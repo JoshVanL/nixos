@@ -19,6 +19,7 @@ let
       feh
       picom
       xorg.xprop
+      pkgs.dwm
     ];
     text = ''
       xrandr ${cfg.xrandrArgs}
@@ -29,7 +30,7 @@ let
       feh --bg-fill ${wallpaper}
       picom &
       xprop -root -set WM_NAME "-"
-      ${pkgs.dwm}/bin/dwm
+      dwm
     '';
   };
 in {

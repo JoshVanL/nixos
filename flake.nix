@@ -21,15 +21,6 @@
       (builtins.readDir ./overlays)
     );
 
-    myPkgs = sys: {
-      # propagate git revision
-      system.configurationRevision = lib.mkIf (self ? rev) self.rev;
-      nixpkgs = {
-        overlays = (pkgsOverlays sys);
-        config.packageOverrides = (import ./pkgs/default.nix);
-      };
-    };
-
     machines = system: map (lib.removeSuffix ".nix") (lib.attrNames(
       lib.filterAttrs
         (_: entryType: entryType == "regular")
@@ -40,9 +31,15 @@
       name = machine;
       value = lib.makeOverridable lib.nixosSystem {
         system = system;
-        modules = (import ./modules/module-list.nix) ++ [
-          (myPkgs system)
-          (import (./machines + "/${system}/${machine}.nix"))
+        modules = [
+          ({ pkgs, lib, config, ... }: {
+            nixpkgs.config.packageOverrides = (import ./pkgs/default.nix);
+            nixpkgs.overlays = pkgsOverlays system;
+            system.configurationRevision = lib.mkIf (self ? rev) self.rev;
+            imports = (import ./modules/module-list.nix) ++ [
+              (import (./machines/${system}/${machine}.nix))
+            ];
+          })
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -53,12 +50,10 @@
 
   in {
     nixosConfigurations = builtins.listToAttrs (lib.flatten (
-      (map
-        ( machine: [ (build-machine machine "x86_64-linux") ])
+      (map ( machine: [ (build-machine machine "x86_64-linux") ])
         (machines "x86_64-linux"))
       ++
-      (map
-        ( machine: [ (build-machine machine "aarch64-linux") ])
+      (map ( machine: [ (build-machine machine "aarch64-linux") ])
         (machines "aarch64-linux"))
     ));
   };
