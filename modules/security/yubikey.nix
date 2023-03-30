@@ -49,7 +49,7 @@ in {
 
       pam.yubico.authorizedYubiKeys.ids = mkIf cfg.pam.enable cfg.pam.authorizedIDs;
 
-      programs.zsh.shellAliases = mkIf config.me.programs.zsh.enable {
+      programs.zsh.shellAliases = {
         imps = "${importYubikeySH}/bin/import-yubikey.sh";
       };
     };

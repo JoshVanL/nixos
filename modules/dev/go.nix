@@ -86,7 +86,7 @@ in {
         '';
       };
 
-      programs.zsh.shellAliases = mkIf config.me.programs.zsh.enable {
+      programs.zsh.shellAliases = {
         gog  = "GO111MODULE=off go get -v";
         gogg = "go get -v";
         got  = "go test --race -v";

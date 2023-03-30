@@ -20,7 +20,7 @@ in {
         USE_GKE_GCLOUD_AUTH_PLUGIN = "True";
       };
 
-      programs.zsh.shellAliases = mkIf config.me.programs.zsh.enable {
+      programs.zsh.shellAliases = {
         gcil = "gcloud compute instances list";
       };
     };

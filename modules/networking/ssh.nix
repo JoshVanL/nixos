@@ -58,7 +58,7 @@ in {
         userKnownHostsFile = "/persist/home/.ssh/known_hosts";
       };
 
-      programs.zsh.shellAliases = mkIf config.me.programs.zsh.enable {
+      programs.zsh.shellAliases = {
         sshbye = "${sshbyeSH}/bin/sshbye.sh";
         syk = "${sykSH}/bin/syk.sh";
       };

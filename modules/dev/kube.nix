@@ -34,7 +34,7 @@ in {
         };
       };
 
-      programs.zsh.shellAliases = mkIf config.me.programs.zsh.enable ({
+      programs.zsh.shellAliases = ({
         kc = "kubectl";
         kg = "kubectl get";
         wkc  = "watch -n 0.2 kubectl";
