@@ -3,6 +3,14 @@ with lib;
 let
   cfg = config.me.dev.image;
 
+  screenSH = pkgs.writeShellApplication {
+    name = "screen";
+    runtimeInputs = with pkgs; [ xclip scrot ];
+    text = ''
+      scrot -shole - | xclip -selection clipboard -target image/png
+    '';
+  };
+
 in {
   options.me.dev.image = {
     enable = mkEnableOption "dev.image";
@@ -13,6 +21,8 @@ in {
       imagemagick
       imv
       gthumb
+      scrot
+      screenSH
     ];
   };
 }

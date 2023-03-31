@@ -4,7 +4,7 @@ let
   cfg = config.me.programs.zsh;
 
   updateSH = pkgs.writeShellApplication {
-    name = "update-nixos.sh";
+    name = "update";
     runtimeInputs = with pkgs; [ nixos-rebuild zsh ];
     text = ''
       sudo nixos-rebuild switch --flake '/keep/etc/nixos/.#'
@@ -15,7 +15,7 @@ let
   };
 
   gimmiSH = pkgs.writeShellApplication {
-    name = "gimmi.sh";
+    name = "gimmi";
     runtimeInputs = with pkgs; [ nix zsh ];
     text = ''
       nix-shell -p "$@" --run "zsh"
@@ -24,15 +24,10 @@ let
 
   aliases = {
     x = "startx";
-    update = "${updateSH}/bin/update-nixos.sh";
     flake = "nix flake";
     garbage-collect = "sudo nix-collect-garbage -d";
 
-    gimmi = "${gimmiSH}/bin/gimmi.sh";
-
     l    = "ls -lah --group-directories-first";
-    ci   = "xclip -selection clipboard -i";
-    co   = "xclip -o";
     tmp  = "cd $(mktemp -d)";
     cdn  = "cd /etc/nixos";
   };
@@ -58,6 +53,8 @@ in {
         };
 
         packages = with pkgs; [
+          updateSH
+          gimmiSH
           fzf
           direnv
         ];

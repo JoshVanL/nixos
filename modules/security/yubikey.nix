@@ -4,8 +4,8 @@ with lib;
 let
   cfg = config.me.security.yubikey;
 
-  importYubikeySH = pkgs.writeShellApplication {
-    name = "import-yubikey.sh";
+  impsSH = pkgs.writeShellApplication {
+    name = "imps";
     runtimeInputs = [ pkgs.openssh ];
     text = ''
       CURR_DIR=$(pwd)
@@ -45,13 +45,10 @@ in {
         yubikey-manager
         pinentry
         pinentry-curses
+        impsSH
       ];
 
       pam.yubico.authorizedYubiKeys.ids = mkIf cfg.pam.enable cfg.pam.authorizedIDs;
-
-      programs.zsh.shellAliases = {
-        imps = "${importYubikeySH}/bin/import-yubikey.sh";
-      };
     };
   };
 }

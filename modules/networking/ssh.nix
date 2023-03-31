@@ -4,7 +4,7 @@ let
   cfg = config.me.networking.ssh;
 
   sshbyeSH = pkgs.writeShellApplication {
-    name = "sshbye.sh";
+    name = "sshbye";
     runtimeInputs = with pkgs; [ gnupg ];
     text = ''
       gpg-connect-agent updatestartuptty /bye
@@ -12,7 +12,7 @@ let
   };
 
   sykSH = pkgs.writeShellApplication {
-    name = "syk.sh";
+    name = "syk";
     runtimeInputs = with pkgs; [ killall openssh ];
     text = ''
       killall ssh-agent
@@ -57,11 +57,10 @@ in {
         enable = true;
         userKnownHostsFile = "/persist/home/.ssh/known_hosts";
       };
-
-      programs.zsh.shellAliases = {
-        sshbye = "${sshbyeSH}/bin/sshbye.sh";
-        syk = "${sykSH}/bin/syk.sh";
-      };
+      home.packages = [
+        sshbyeSH
+        sykSH
+      ];
     };
   };
 }
