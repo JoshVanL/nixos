@@ -10,6 +10,7 @@ in {
 
   config = mkIf cfg.enable {
     home-manager.users.${config.me.base.username}.home.packages = with pkgs; [
+      openssl
       go-jwt
       step-cli
       (mkIf config.me.programs.git.enable git-crypt)
