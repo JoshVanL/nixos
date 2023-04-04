@@ -5,7 +5,6 @@ with pkgs;
   gomarkdoc = callPackage ./gomarkdoc {};
   go-protobuf = callPackage ./go-protobuf {};
   go-protobuf-grpc = callPackage ./go-protobuf-grpc {};
-  helm = callPackage ./helm {};
   kind = callPackage ./kind {};
   paranoia = callPackage ./paranoia {};
   vcert = callPackage ./vcert {};
@@ -15,7 +14,4 @@ with pkgs;
     python3Packages = python3Packages;
   };
   mockery = callPackage ./mockery {};
-  interfacebloat = callPackage ./interfacebloat {};
-  dupword = callPackage ./dupword {};
-  shadow-go = callPackage ./shadow {};
 }
