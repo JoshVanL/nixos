@@ -19,7 +19,7 @@ in {
       home = {
         packages = with pkgs; [
           kubectl
-          helm
+          kubernetes-helm
           cmctl
           dapr-cli
           kubernetes-controller-tools

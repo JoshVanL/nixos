@@ -51,8 +51,6 @@ in {
           gomarkdoc
           gotestsum
           mockery
-          interfacebloat
-          dupword
           gofumpt
           gotools
         ];
