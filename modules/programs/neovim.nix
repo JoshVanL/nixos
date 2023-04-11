@@ -160,6 +160,10 @@ in {
 
           set guicursor=i:block
 
+          "highlight trailing whitespace
+          :highlight ExtraWhitespace ctermbg=red guibg=red
+          :match ExtraWhitespace /\s\+$/
+
           "Spell Checking
           autocmd BufNewFile,BufRead *.txt set spell spelllang=en_gb
           autocmd BufNewFile,BufRead *.tex set spell spelllang=en_gb
