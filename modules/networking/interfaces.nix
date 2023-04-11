@@ -31,6 +31,7 @@ in {
     };
 
     home-manager.users.${config.me.base.username}.home.packages = with pkgs; [
+      fast-cli
       wget
     ];
   };
