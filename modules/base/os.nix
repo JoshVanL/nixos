@@ -27,6 +27,7 @@
 
   # Set your time zone.
   time.timeZone = "Europe/London";
+  services.ntp.enable = true;
 
   # Language.
   i18n.defaultLocale = "en_US.UTF-8";
