@@ -25,7 +25,8 @@
       nixcache = {
         enable = true;
         domain = "cache.joshvanl.dev";
-        secretKeyFile = "/persist/home/secrets/nixcache/cache-priv-key.pem";
+        maxCacheSize = "50G";
+        maxCacheAge = "90d";
       };
       zfs_uploader = {
         enable = true;

@@ -81,7 +81,6 @@ in {
         enable = true;
         virtualHosts = {
           ${cfg.server.domain} = {
-            serverAliases = [ "bitwarden" ];
             forceSSL = true;
             enableACME = true;
             acmeRoot = null;
@@ -103,7 +102,6 @@ in {
 
     systemd.services = mkIf cfg.server.enable {
       postgresql.after = [ "systemd-tmpfiles-setup.service" ];
-      nginx.after = [ "systemd-tmpfiles-setup.service" ];
       vaultwarden = {
         wants = [ "nginx.service" ];
         after = ["systemd-tmpfiles-setup.service"  "nginx.service" ];

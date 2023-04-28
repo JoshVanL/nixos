@@ -14,5 +14,6 @@ in {
       recommendedOptimisation = true;
       recommendedTlsSettings = true;
     };
+    systemd.services.nginx.after = [ "systemd-tmpfiles-setup.service" ];
   };
 }
