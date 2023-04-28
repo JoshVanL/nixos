@@ -22,6 +22,11 @@
       };
     };
     data = {
+      nixcache = {
+        enable = true;
+        domain = "cache.joshvanl.dev";
+        secretKeyFile = "/persist/home/secrets/nixcache/cache-priv-key.pem";
+      };
       zfs_uploader = {
         enable = true;
         logPath = "/keep/var/run/zfs_uploader/zfs_uploader.log";

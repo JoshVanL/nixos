@@ -2,5 +2,6 @@
 {
   imports = [
     ./zfs_uploader.nix
+    ./nixcache.nix
   ];
 }
