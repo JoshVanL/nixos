@@ -48,6 +48,7 @@ in {
       enable = true;
       settings = {
         passwordAuthentication = false;
+        PasswordAuthentication = false;
         kbdInteractiveAuthentication = true;
       };
     };
