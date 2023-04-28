@@ -54,7 +54,7 @@
     };
     window-manager = {
       enable = true;
-      fontsize = 23;
+      fontsize = 15;
       xrandrArgs = "--output Virtual-1 --mode 4096x2160 --rate 120 --output Virtual-2 --off";
     };
   };
