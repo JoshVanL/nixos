@@ -5,8 +5,8 @@ let
   cfg = config.me.window-manager;
 
   wallpaper = pkgs.fetchurl {
-    url = "https://github.com/JoshVanL/imgs/raw/main/wallpaper-2.jpg";
-    hash = "sha256-8JkbnfF033XPiBETWQ5G6RCmBmXtx9f/SsfYU7ObnwY=";
+    url = "https://github.com/JoshVanL/imgs/raw/main/wallpaper-3.jpg";
+    hash = "sha256-d+2uu+/ZtjJU34tNjidbMHGY6UDjPO7R2tA8VrCHWIA=";
   };
 
   xinitrcSH = pkgs.writeShellApplication {
