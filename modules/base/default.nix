@@ -8,6 +8,7 @@ with lib;
 
   imports = [
     ./os.nix
+    ./nix.nix
     ./hardware.nix
     ./boot.nix
   ];

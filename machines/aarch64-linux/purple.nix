@@ -6,6 +6,10 @@
         loader = "systemd-boot";
         initrd.availableKernelModules = [ "xhci_pci" "usbhid" "sr_mod" ];
       };
+      nix.substituters = [
+        "http://cache.joshvanl.dev/"
+        "http://cache.nixos.org/"
+      ];
       hardware.parallels.enable = true;
     };
     dev = {

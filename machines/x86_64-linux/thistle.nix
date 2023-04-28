@@ -2,6 +2,10 @@
   me = {
     base = {
       username = "josh";
+      nix.substituters = [
+        "http://cache.joshvanl.dev/"
+        "http://cache.nixos.org/"
+      ];
       boot = {
         loader = "systemd-boot";
         initrd.availableKernelModules = [ "ehci_pci" "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" ];

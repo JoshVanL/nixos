@@ -30,6 +30,8 @@ in {
       interfaces = cfg.intf;
     };
 
+    services.ntp.enable = true;
+
     home-manager.users.${config.me.base.username}.home.packages = with pkgs; [
       fast-cli
       wget

@@ -1,30 +1,6 @@
 { lib, pkgs, config, ... }:
 
 {
-  nix = {
-    settings = {
-      allowed-users = [ "root" "${config.me.base.username}"];
-      auto-optimise-store = true;
-    };
-
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
-
-    settings.trusted-users = [ "root" "${config.me.base.username}" ];
-
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
-  };
-  system.stateVersion = "22.11";
-
-  environment.etc."nixos".source = "/keep/etc/nixos";
-
-  nixpkgs.config.allowUnsupportedSystem = true;
-
   # Set your time zone.
   time.timeZone = "Europe/London";
   services.ntp.enable = true;

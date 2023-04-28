@@ -2,6 +2,10 @@
   me = {
     base = {
       username = "josh";
+      nix.substituters = [
+        "http://cache.joshvanl.dev/"
+        "http://cache.nixos.org/"
+      ];
       boot = {
         loader = "raspberrypi";
         kernelPackages = pkgs.linuxPackages_rpi4;
