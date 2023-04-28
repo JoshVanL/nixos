@@ -40,6 +40,10 @@ in {
       "d /home/${config.me.base.username}/.ssh 0755 ${config.me.base.username} wheel - -"
       "d /persist/home/.ssh 0755 ${config.me.base.username} wheel - -"
       "L+ /home/${config.me.base.username}/.ssh/known_hosts - - - - /persist/home/.ssh/known_hosts"
+      "d /persist/etc/ssh 0755 root root - -"
+      "d /etc/ssh 0755 root root - -"
+      "L+ /etc/ssh/ssh_host_ed25519_key - - - - /persist/etc/ssh/ssh_host_ed25519_key"
+      "L+ /etc/ssh/ssh_host_ed25519_key.pub - - - - /persist/etc/ssh/ssh_host_ed25519_key.pub"
     ];
 
     users.users.${config.me.base.username}.openssh.authorizedKeys.keys = mkIf cfg.ingress.enable cfg.ingress.authorizedKeys;
