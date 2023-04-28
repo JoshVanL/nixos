@@ -57,7 +57,7 @@
     };
     window-manager = {
       enable = true;
-      fontsize = 12;
+      fontsize = 10;
       xrandrArgs = "--output DP-1 --mode 3840x2160 --rate 120";
       naturalScrolling = true;
     };
