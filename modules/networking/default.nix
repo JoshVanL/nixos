@@ -5,5 +5,6 @@
     ./ssh.nix
     ./tailscale.nix
     ./acme.nix
+    ./nginx.nix
   ];
 }

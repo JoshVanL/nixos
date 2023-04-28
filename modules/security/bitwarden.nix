@@ -4,6 +4,8 @@ with lib;
 let
   cfg = config.me.security.bitwarden;
 
+  rocketPort = 8222;
+
 in {
   options.me.security.bitwarden = {
     enable = mkEnableOption "bitwarden";
@@ -42,7 +44,7 @@ in {
           domain = "https://${cfg.server.domain}";
           signupsAllowed = false;
           invitationsAllowed = false;
-          rocketPort = 8222;
+          rocketPort = rocketPort;
           databaseUrl = "postgresql://vaultwarden@%2Frun%2Fpostgresql/vaultwarden";
           enableDbWal = "false";
         };
@@ -77,18 +79,14 @@ in {
       };
       nginx = {
         enable = true;
-        recommendedProxySettings = true;
-        recommendedGzipSettings = true;
-        recommendedOptimisation = true;
-        recommendedTlsSettings = true;
-
         virtualHosts = {
           ${cfg.server.domain} = {
+            serverAliases = [ "bitwarden" ];
             forceSSL = true;
             enableACME = true;
             acmeRoot = null;
             locations."/" = {
-              proxyPass = "http://127.0.0.1:8222";
+              proxyPass = "http://127.0.0.1:${toString rocketPort}";
               proxyWebsockets = true;
             };
             extraConfig = ''
