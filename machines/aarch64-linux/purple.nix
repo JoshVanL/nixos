@@ -20,9 +20,8 @@
       python.enable = true;
     };
     data = {
-      # TODO:
       zfs_uploader = {
-        enable = false;
+        enable = true;
         logPath = "/keep/var/run/zfs_uploader/zfs_uploader.log";
         configPath = "/persist/etc/zfs_uploader/config.cfg";
       };
