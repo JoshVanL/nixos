@@ -3,8 +3,8 @@
     base = {
       username = "josh";
       nix.substituters = [
-        "http://cache.joshvanl.dev/"
-        "http://cache.nixos.org/"
+        "https://cache.joshvanl.dev/"
+        "https://cache.nixos.org/"
       ];
       boot = {
         loader = "raspberrypi";
@@ -29,6 +29,7 @@
       nixcache = {
         enable = true;
         domain = "cache.joshvanl.dev";
+        cacheDir = "/keep/var/run/nginx/cache/nix";
         maxCacheSize = "50G";
         maxCacheAge = "90d";
       };

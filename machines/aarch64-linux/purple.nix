@@ -7,8 +7,8 @@
         initrd.availableKernelModules = [ "xhci_pci" "usbhid" "sr_mod" ];
       };
       nix.substituters = [
-        "http://cache.joshvanl.dev/"
-        "http://cache.nixos.org/"
+        "https://cache.joshvanl.dev/"
+        "https://cache.nixos.org/"
       ];
       hardware.parallels.enable = true;
     };

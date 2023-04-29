@@ -3,8 +3,8 @@
     base = {
       username = "josh";
       nix.substituters = [
-        "http://cache.joshvanl.dev/"
-        "http://cache.nixos.org/"
+        "https://cache.joshvanl.dev/"
+        "https://cache.nixos.org/"
       ];
       boot = {
         loader = "systemd-boot";
