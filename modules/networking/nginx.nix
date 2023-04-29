@@ -9,10 +9,12 @@ in {
 
   config = {
     services.nginx = {
-      recommendedProxySettings = true;
       recommendedGzipSettings = true;
       recommendedOptimisation = true;
       recommendedTlsSettings = true;
+      appendHttpConfig = ''
+        resolver 8.8.8.8 ipv6=off;
+      '';
     };
     systemd.services.nginx.after = [ "systemd-tmpfiles-setup.service" ];
   };
