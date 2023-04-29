@@ -45,6 +45,8 @@ in {
       "d /keep/etc/ssh 0755 root root - -"
       "L+ /etc/ssh/ssh_host_ed25519_key - - - - /keep/etc/ssh/ssh_host_ed25519_key"
       "L+ /etc/ssh/ssh_host_ed25519_key.pub - - - - /keep/etc/ssh/ssh_host_ed25519_key.pub"
+      "L+ /etc/ssh/ssh_host_rsa_key - - - - /keep/etc/ssh/ssh_host_rsa_key"
+      "L+ /etc/ssh/ssh_host_rsa_key.pub - - - - /keep/etc/ssh/ssh_host_rsa_key.pub"
     ]);
 
     users.users.${config.me.base.username}.openssh.authorizedKeys.keys = mkIf cfg.ingress.enable cfg.ingress.authorizedKeys;
