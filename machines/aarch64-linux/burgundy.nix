@@ -5,7 +5,7 @@
       nix = {
         substituters = [
           "https://machinecache.joshvanl.dev/"
-          "https://cache.joshvanl.dev/"
+          "https://nixcache.joshvanl.dev/"
           "https://cache.nixos.org/"
         ];
         trusted-public-keys = config.me.security.joshvanl.nixPublicKeys;
@@ -32,7 +32,7 @@
     data = {
       nixcache = {
         enable = true;
-        domain = "cache.joshvanl.dev";
+        domain = "nixcache.joshvanl.dev";
         cacheDir = "/keep/var/run/nginx/cache/nix";
         maxCacheSize = "50G";
         maxCacheAge = "90d";
