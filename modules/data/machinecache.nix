@@ -84,6 +84,9 @@ in {
               proxy_set_header X-Real-IP $remote_addr;
               proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             '';
+            locations."/nix-cache-info".extraConfig = ''
+              return 200 "StoreDir: /nix/store\nWantMassQuery: 1\nPriority: 42\n";
+            '';
           };
         };
       };

@@ -10,7 +10,6 @@
         substituters = [
           "https://machinecache.joshvanl.dev/"
           "https://nixcache.joshvanl.dev/"
-          "https://cache.nixos.org/"
         ];
         trusted-public-keys = config.me.security.joshvanl.nixPublicKeys;
       };
