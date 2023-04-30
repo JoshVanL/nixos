@@ -13,6 +13,13 @@ in {
         A list of Nix binary caches to use.
       '';
     };
+    trusted-public-keys = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+      description = ''
+        A list of public keys of Nix binary caches to trust.
+      '';
+    };
   };
 
   config = {
@@ -21,6 +28,7 @@ in {
         allowed-users = [ "root" "${config.me.base.username}"];
         auto-optimise-store = true;
         substituters = cfg.substituters;
+        trusted-public-keys = cfg.trusted-public-keys;
       };
 
 
