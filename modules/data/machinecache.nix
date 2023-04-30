@@ -83,7 +83,7 @@ in {
     };
 
     systemd = {
-      timers."machine-builder.timer" = {
+      timers."machine-builder" = {
         wantedBy = [ "timers.target" ];
         timerConfig = {
           OnCalendar=cfg.timerOnCalendar;
