@@ -44,12 +44,12 @@ in {
         description = "ZFS snapshot to S3 uploader";
         wants = [ "network-online.target" ];
         serviceConfig = {
-          Type             = "simple";
-          User             = "root";
-          Group            = "root";
+          Type = "simple";
+          User = "root";
+          Group = "root";
           WorkingDirectory = "/tmp";
-          ExecStart        = "${backupSH}/bin/backup.sh";
-          Restart          = "on-failure";
+          ExecStart= "${backupSH}/bin/backup.sh";
+          Restart = "on-failure";
         };
         wantedBy = [ "default.target" ];
       };

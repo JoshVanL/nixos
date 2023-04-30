@@ -10,9 +10,6 @@ in {
     domain = mkOption {
       type = types.str;
     };
-    secretKeyFile = mkOption {
-      type = types.path;
-    };
     cacheDir = mkOption {
       type = types.str;
       default = "/keep/var/run/nginx/cache/nix";
