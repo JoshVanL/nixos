@@ -2,10 +2,14 @@
   me = {
     base = {
       username = "josh";
-      nix.substituters = [
-        "https://cache.joshvanl.dev/"
-        "https://cache.nixos.org/"
-      ];
+      nix = {
+        substituters = [
+          "https://machinecache.joshvanl.dev/"
+          "https://cache.joshvanl.dev/"
+          "https://cache.nixos.org/"
+        ];
+        trusted-public-keys = config.me.security.joshvanl.nixPublicKeys;
+      };
       boot = {
         loader = "raspberrypi";
         kernelPackages = pkgs.linuxPackages_rpi4;
@@ -32,6 +36,13 @@
         cacheDir = "/keep/var/run/nginx/cache/nix";
         maxCacheSize = "50G";
         maxCacheAge = "90d";
+      };
+      machinecache = {
+        enable = true;
+        domain = "machinecache.joshvanl.dev";
+        secretKeyFile = "/persist/etc/joshvanl/machinecache/cache-priv-key.pem";
+        machineRepo = "https://github.com/joshvanl/nixos";
+        timerOnCalendar = "*-*-* 4:00:00";
       };
       zfs_uploader = {
         enable = true;

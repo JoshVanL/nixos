@@ -2,10 +2,14 @@
   me = {
     base = {
       username = "josh";
-      nix.substituters = [
-        "https://cache.joshvanl.dev/"
-        "https://cache.nixos.org/"
-      ];
+      nix = {
+        substituters = [
+          "https://machinecache.joshvanl.dev/"
+          "https://cache.joshvanl.dev/"
+          "https://cache.nixos.org/"
+        ];
+        trusted-public-keys = config.me.security.joshvanl.nixPublicKeys;
+      };
       boot = {
         loader = "systemd-boot";
         initrd.availableKernelModules = [ "ehci_pci" "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" ];

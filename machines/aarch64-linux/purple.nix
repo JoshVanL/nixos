@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, config, ... }: {
   me = {
     base = {
       username = "josh";
@@ -6,10 +6,14 @@
         loader = "systemd-boot";
         initrd.availableKernelModules = [ "xhci_pci" "usbhid" "sr_mod" ];
       };
-      nix.substituters = [
-        "https://cache.joshvanl.dev/"
-        "https://cache.nixos.org/"
-      ];
+      nix = {
+        substituters = [
+          "https://machinecache.joshvanl.dev/"
+          "https://cache.joshvanl.dev/"
+          "https://cache.nixos.org/"
+        ];
+        trusted-public-keys = config.me.security.joshvanl.nixPublicKeys;
+      };
       hardware.parallels.enable = true;
     };
     dev = {
