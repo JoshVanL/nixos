@@ -40,6 +40,7 @@ in {
       virtualHosts."${cfg.domain}" = {
         forceSSL = true;
         enableACME = true;
+        acmeRoot = null;
         extraConfig = ''
           proxy_cache cache_zone;
           proxy_cache_valid 200 ${cfg.maxCacheAge};

@@ -12,29 +12,27 @@ let
 
       trap 'rm -rf -- "$TMPDIR"' EXIT
 
-      git clone ${cfg.machineRepo} $${TMPDIR}/.
+      git clone ${cfg.machineRepo} "''${TMPDIR}/."
 
       ARCHS=()
-      for f in $(find ''${TMPDIR}/machines/ -type d)
-      do
-        ARCHS+=($(basename -- $f))
-      done
+      find "''${TMPDIR}"/machines/ -type d -exec sh -c '
+        mapfile -t ARCHS < <(basename -- "$1")
+      ' sh {} \;
 
       MACHINES=()
-      for arch in ''${ARCHS[@]}
+      for arch in "''${ARCHS[@]}"
       do
-        for f in $(find ''${TMPDIR}/machines/''${arch} -type f)
-        do
-          MACHINES+=($(basename -- $f | cut -f 1 -d "."))
-        done
+        find "''${TMPDIR}"/machines/"''${arch}" -type f -exec sh -c '
+          mapfile -t MACHINES < <(basename -- "$1" | cut -f 1 -d ".")
+        ' sh {} \;
       done
 
-      echo ">>Found machines: [''${MACHINES[@]}]"
+      echo ">>Found machines: \[''${MACHINES[*]}\]"
 
-      for machine in ''${MACHINES[@]}
+      for machine in "''${MACHINES[@]}"
       do
-        echo ">>Building machine: [''${machine}]"
-        nix build -L ''${TMPDIR}#nixosConfigurations.''${machine}.config.system.build.toplevel
+        echo ">>Building machine: \[''${machine}\]"
+        nix build -L "''${TMPDIR}"#nixosConfigurations."''${machine}".config.system.build.toplevel
       done
 
       echo ">>All machines built!"
@@ -72,6 +70,7 @@ in {
           "${cfg.domain}" = {
             forceSSL = true;
             enableACME = true;
+            acmeRoot = null;
             locations."/".extraConfig = ''
               proxy_pass http://localhost:${toString config.services.nix-serve.port};
               proxy_set_header Host $host;
