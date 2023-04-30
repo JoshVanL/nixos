@@ -6,28 +6,34 @@ let
 
   builderSH = pkgs.writeShellApplication {
     name = "build_machines.sh";
-    runtimeInputs = with pkgs; [ nix git ];
+    runtimeInputs = with pkgs; [ nix git bash ];
     text = ''
       TMPDIR=$(mktemp -d)
 
       trap 'rm -rf -- "$TMPDIR"' EXIT
 
-      git clone ${cfg.machineRepo} "''${TMPDIR}/."
+      git clone https://github.com/joshvanl/nixos "''${TMPDIR}/."
 
-      ARCHS=()
-      find "''${TMPDIR}"/machines/ -type d -exec sh -c '
-        mapfile -t ARCHS < <(basename -- "$1")
-      ' sh {} \;
+      while IFS= read -r -d ''+"'' "+''arch
+      do
+        if [[ "''${arch}" == "''${TMPDIR}/machines/" ]]; then
+          continue
+        fi
+        ARCHS+=("$(basename -- "$arch")")
+      done <   <(find "''${TMPDIR}"/machines/ -type d -print0)
+
+      echo ">>Found architectures: [''${ARCHS[*]}]"
 
       MACHINES=()
       for arch in "''${ARCHS[@]}"
       do
-        find "''${TMPDIR}"/machines/"''${arch}" -type f -exec sh -c '
-          mapfile -t MACHINES < <(basename -- "$1" | cut -f 1 -d ".")
-        ' sh {} \;
+        while IFS= read -r -d ''+"'' "+''machine
+        do
+          MACHINES+=("$(basename -- "$machine" | cut -f 1 -d ".")")
+        done <   <(find "''${TMPDIR}"/machines/"''${arch}" -type f -print0)
       done
 
-      echo ">>Found machines: \[''${MACHINES[*]}\]"
+      echo ">>Found machines: [''${MACHINES[*]}]"
 
       for machine in "''${MACHINES[@]}"
       do
@@ -58,6 +64,7 @@ in {
   };
 
   config = mkIf cfg.enable {
+    nix.settings.trusted-users = [ "nix-serve"];
     services = {
       nix-serve = {
         enable = true;

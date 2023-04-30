@@ -4,7 +4,6 @@
       username = "josh";
       nix = {
         substituters = [
-          "https://machinecache.joshvanl.dev/"
           "https://nixcache.joshvanl.dev/"
           "https://cache.nixos.org/"
         ];
