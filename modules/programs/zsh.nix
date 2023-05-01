@@ -23,7 +23,6 @@ let
   };
 
   aliases = {
-    x = "startx";
     flake = "nix flake";
     garbage-collect = "sudo nix-collect-garbage -d";
 

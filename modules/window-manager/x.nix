@@ -89,14 +89,20 @@ in {
     };
 
 
-    home-manager.users.${config.me.base.username}.home = {
-      packages = with pkgs; [
-        xclip
-        arandr
-        evince
-      ];
+    home-manager.users.${config.me.base.username} = {
+      home = {
+        packages = with pkgs; [
+          xclip
+          arandr
+          evince
+        ];
 
-      file.".xinitrc".source = "${xinitrcSH}/bin/xinitrc.sh";
+        file.".xinitrc".source = "${xinitrcSH}/bin/xinitrc.sh";
+      };
+
+      programs.zsh.shellAliases = {
+        x = "startx";
+      };
     };
   };
 }
