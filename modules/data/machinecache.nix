@@ -9,8 +9,8 @@ let
     runtimeInputs = with pkgs; [ nix git bash ];
     text = ''
       TMPDIR=$(mktemp -d)
-
-      trap 'rm -rf -- "$TMPDIR"' EXIT
+      cd "$TMPDIR"
+      trap 'cd - && rm -rf -- "$TMPDIR"' EXIT
 
       git clone https://github.com/joshvanl/nixos "''${TMPDIR}/."
 
@@ -38,7 +38,7 @@ let
       for machine in "''${MACHINES[@]}"
       do
         echo ">>Building machine: \[''${machine}\]"
-        nix build -L "''${TMPDIR}"#nixosConfigurations."''${machine}".config.system.build.toplevel
+        nix build -L --keep-going "''${TMPDIR}"#nixosConfigurations."''${machine}".config.system.build.toplevel
       done
 
       echo ">>All machines built!"
@@ -50,6 +50,14 @@ in {
     enable = mkEnableOption "machinecache";
     domain = mkOption {
       type = types.str;
+    };
+    priority = mkOption {
+      type = types.str;
+      default = "38";
+      description = ''
+        Set Priority of Nix cache. Remeber that a lower number gives higher priorty!
+        For reference, cache.nixos.org has a priority of 40.
+      '';
     };
     secretKeyFile = mkOption {
       type = types.str;
@@ -85,7 +93,7 @@ in {
               proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             '';
             locations."/nix-cache-info".extraConfig = ''
-              return 200 "StoreDir: /nix/store\nWantMassQuery: 1\nPriority: 42\n";
+              return 200 "StoreDir: /nix/store\nWantMassQuery: 1\nPriority: ${cfg.priority}\n";
             '';
           };
         };
