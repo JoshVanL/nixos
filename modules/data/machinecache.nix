@@ -37,7 +37,7 @@ let
 
       for machine in "''${MACHINES[@]}"
       do
-        echo ">>Building machine: \[''${machine}\]"
+        echo ">>Building machine: [''${machine}]"
         nix build -L --no-eval-cache --keep-going "''${TMPDIR}"#nixosConfigurations."''${machine}".config.system.build.toplevel
       done
 
