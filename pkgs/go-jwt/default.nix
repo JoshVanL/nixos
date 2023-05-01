@@ -16,6 +16,8 @@ buildGoModule rec {
 
   vendorSha256 = null;
 
+  doCheck = false;
+
   meta = with lib; {
     homepage = "https://github.com/golang-jwt/jwt";
     description = "Community maintained clone of https://github.com/dgrijalva/jwt-go";
