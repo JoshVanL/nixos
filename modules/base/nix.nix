@@ -27,14 +27,14 @@ in {
       settings = {
         allowed-users = [ "root" "${config.me.base.username}"];
         auto-optimise-store = true;
-        substituters = cfg.substituters;
-        trusted-public-keys = cfg.trusted-public-keys;
+        substituters = lib.mkBefore cfg.substituters;
+        trusted-public-keys = lib.mkBefore cfg.trusted-public-keys;
       };
 
 
       gc = {
         automatic = true;
-        dates = "weekly";
+        dates = "daily";
         options = "--delete-older-than 7d";
       };
 
