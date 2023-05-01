@@ -9,15 +9,17 @@ in {
     kernelPackages = mkOption {
       default = null;
     };
-
     kernelParams = mkOption {
       default = [ ];
       type = types.listOf types.str;
     };
-
     loader = mkOption {
       default = "systemd-boot";
       type = types.enum [ "systemd-boot" "raspberrypi" ];
+    };
+    emulatedSystems = mkOption {
+      default = [ ];
+      type = types.listOf types.str;
     };
 
     initrd = {
@@ -31,7 +33,6 @@ in {
           default = false;
           type = types.bool;
         };
-
         authorizedKeys = mkOption {
           default = [ ];
           type = types.listOf types.str;
@@ -79,6 +80,7 @@ in {
       kernelModules = [ ];
       extraModulePackages = [ ];
       supportedFilesystems = [ "vfat" "zfs" ];
+      binfmt.emulatedSystems = cfg.emulatedSystems;
 
       loader = {
         efi.canTouchEfiVariables = true;
