@@ -2,12 +2,6 @@
   me = {
     base = {
       username = "josh";
-      nix = {
-        substituters = [
-          "https://nixcache.joshvanl.dev/"
-        ];
-        trusted-public-keys = config.me.security.joshvanl.nixPublicKeys;
-      };
       boot = {
         loader = "raspberrypi";
         kernelPackages = pkgs.linuxPackages_rpi4;
