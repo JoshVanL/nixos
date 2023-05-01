@@ -25,6 +25,8 @@
             authorizedKeys = config.me.security.joshvanl.sshPublicKeys;
           };
         };
+        # Enable so we can build other machines for the cache.
+        emulatedSystems = [ "x86_64-linux" ];
       };
     };
     data = {
