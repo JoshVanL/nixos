@@ -61,10 +61,14 @@ in {
           # we use step-cli to generate the ssh keys here since ssh-keygen has a
           # wobly about non-existent users.
           postCommands = ''
-            mkdir -p /etc/ssh/
-            ${pkgs.step-cli}/bin/step crypto keypair -f --kty=OKP --crv=Ed25519 --no-password --insecure /etc/ssh/pub /etc/ssh/priv
-            ${pkgs.step-cli}/bin/step crypto key format -f --no-password --insecure --ssh --out /etc/ssh/ssh_host_ed25519_key /etc/ssh/priv
-            ${pkgs.step-cli}/bin/step crypto key format -f --no-password --insecure --ssh --out /etc/ssh/ssh_host_ed25519_key.pub /etc/ssh/pub
+            mkdir -p /boot/ssh /etc/ssh
+            if [[ ! -f /boot/ssh/ssh_host_ed25519_key ]]; then
+              ${pkgs.step-cli}/bin/step crypto keypair -f --kty=OKP --crv=Ed25519 --no-password --insecure /boot/ssh/pub /boot/ssh/priv
+              ${pkgs.step-cli}/bin/step crypto key format -f --no-password --insecure --ssh --out /boot/ssh/ssh_host_ed25519_key /boot/ssh/priv
+              ${pkgs.step-cli}/bin/step crypto key format -f --no-password --insecure --ssh --out /boot/ssh/ssh_host_ed25519_key.pub /boot/ssh/pub
+            fi
+            cp /boot/ssh/ssh_host_ed25519_key /etc/ssh/ssh_host_ed25519_key
+            cp /boot/ssh/ssh_host_ed25519_key.pub /etc/ssh/ssh_host_ed25519_key.pub
             echo "zfs load-key -a; killall zfs" >> /root/.profile
           '';
         };
