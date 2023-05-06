@@ -6,6 +6,11 @@ let
 in {
   options.me.dev.go = {
     enable = mkEnableOption "dev.go";
+    proxy = mkOption {
+      type = types.str;
+      default = "https://proxy.golang.org";
+      description = "The proxy to use for go modules";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -60,7 +65,7 @@ in {
           GOPRIVATE = "github.com/diagridio";
           GOPATH  = "$HOME/go";
           GOBIN   = "$HOME/go/bin";
-          GOPROXY = "https://proxy.golang.org";
+          GOPROXY = cfg.proxy;
         };
       };
 

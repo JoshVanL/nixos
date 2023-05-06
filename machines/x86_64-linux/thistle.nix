@@ -15,7 +15,10 @@
       };
     };
     dev = {
-      go.enable = true;
+      go = {
+        enable = true;
+        proxy = "https://gocache.joshvanl.dev|https://proxy.golang.org";
+      };
       kube.enable = true;
       crypto.enable = true;
       data.enable = true;

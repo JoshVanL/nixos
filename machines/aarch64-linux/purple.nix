@@ -20,7 +20,10 @@
       c.enable = true;
       cloud.enable = true;
       crypto.enable = true;
-      go.enable = true;
+      go = {
+        enable = true;
+        proxy = "https://gocache.joshvanl.dev|https://proxy.golang.org";
+      };
       kube.enable = true;
       data.enable = true;
       image.enable = true;

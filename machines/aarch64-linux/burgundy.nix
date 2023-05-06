@@ -41,6 +41,12 @@
         machineRepo = "https://github.com/joshvanl/nixos";
         timerOnCalendar = "*-*-* 4:00:00";
       };
+      gocache = {
+        enable = true;
+        domain = "gocache.joshvanl.dev";
+        maxCacheSize = "300G";
+        maxCacheAge = "180d";
+      };
       zfs_uploader = {
         enable = true;
         logPath = "/keep/var/run/zfs_uploader/zfs_uploader.log";
