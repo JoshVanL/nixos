@@ -37,7 +37,7 @@
         intf = {
           enp1s0.useDHCP = true;
           enp2s0f0.useDHCP = true;
-          wlp3s0.useDHCP = true;
+          wlan0.useDHCP = true;
         };
       };
     };

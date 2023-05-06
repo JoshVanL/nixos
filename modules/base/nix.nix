@@ -28,6 +28,7 @@ in {
         allowed-users = [ "root" "${config.me.base.username}"];
         auto-optimise-store = true;
         substituters = lib.mkBefore cfg.substituters;
+        connect-timeout = 1;
         trusted-public-keys = lib.mkBefore cfg.trusted-public-keys;
       };
 

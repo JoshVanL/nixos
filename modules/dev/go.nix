@@ -53,6 +53,7 @@ in {
           mockery
           gofumpt
           gotools
+          gcc
         ];
 
         sessionVariables = {

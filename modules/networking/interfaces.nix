@@ -19,6 +19,8 @@ in {
 
     networking = {
       networkmanager.enable = true;
+      networkmanager.wifi.backend = "iwd";
+      wireless.iwd.enable = true;
       wireless.userControlled.enable = false;
       hostName = cfg.hostName;
       hostId = "deadbeef";
