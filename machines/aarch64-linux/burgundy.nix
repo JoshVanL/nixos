@@ -31,8 +31,8 @@
         enable = true;
         domain = "nixcache.joshvanl.dev";
         cacheDir = "/keep/var/run/nginx/cache/nix";
-        maxCacheSize = "30G";
-        maxCacheAge = "90d";
+        maxCacheSize = "300G";
+        maxCacheAge = "180d";
       };
       machinecache = {
         enable = true;
