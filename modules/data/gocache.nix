@@ -49,7 +49,7 @@ in {
           proxy_ssl_server_name on;
           proxy_ssl_verify on;
           proxy_ssl_trusted_certificate /etc/ssl/certs/ca-certificates.crt;
-          set $upstream_endpoint https://proxy.golang.org
+          set $upstream_endpoint https://proxy.golang.org;
         '';
         locations."/" = {
           proxyPass = "$upstream_endpoint";
