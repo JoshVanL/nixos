@@ -20,6 +20,17 @@ in {
         A list of public keys of Nix binary caches to trust.
       '';
     };
+
+    gc = {
+      dates = mkOption {
+        type = types.str;
+        default = "weekly";
+      };
+      options = mkOption {
+        type = types.str;
+        default = "--delete-older-than 7d";
+      };
+    };
   };
 
   config = {
@@ -35,8 +46,8 @@ in {
 
       gc = {
         automatic = true;
-        dates = "weekly";
-        options = "--delete-older-than 7d";
+        dates = cfg.gc.dates;
+        options = cfg.gc.options;
       };
 
       settings.trusted-users = [ "root" "${config.me.base.username}" ];
