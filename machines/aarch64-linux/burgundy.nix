@@ -44,8 +44,6 @@
       gocache = {
         enable = true;
         domain = "gocache.joshvanl.dev";
-        maxCacheSize = "300G";
-        maxCacheAge = "180d";
       };
       zfs_uploader = {
         enable = true;

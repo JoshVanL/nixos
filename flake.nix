@@ -9,9 +9,13 @@
       url = "github:joshvanl/dwm";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-serve-ng = {
+      url = "github:aristanetworks/nix-serve-ng";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, joshvanldwm }@inputs:
+  outputs = { self, nixpkgs, home-manager, joshvanldwm, nix-serve-ng }@inputs:
   let
     lib = nixpkgs.lib;
 
@@ -40,6 +44,7 @@
               (import (./machines/${system}/${machine}.nix))
             ];
           })
+          nix-serve-ng.nixosModules.default
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;

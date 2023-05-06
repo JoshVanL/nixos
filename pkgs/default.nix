@@ -14,4 +14,5 @@ with pkgs;
     python3Packages = python3Packages;
   };
   mockery = callPackage ./mockery {};
+  goproxy = callPackage ./goproxy {};
 }
