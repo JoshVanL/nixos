@@ -12,7 +12,6 @@ in {
       recommendedOptimisation = true;
       recommendedTlsSettings = true;
       recommendedGzipSettings = true;
-      #recommendedProxySettings = true;
       appendHttpConfig = ''
         resolver 8.8.8.8 ipv6=off;
         access_log off;
