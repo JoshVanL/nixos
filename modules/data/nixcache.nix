@@ -12,7 +12,7 @@ in {
     };
     priority = mkOption {
       type = types.str;
-      default = "39";
+      default = "38";
       description = ''
         Set Priority of Nix cache. Remeber that a lower number gives higher priorty!
         For reference, cache.nixos.org has a priority of 40.
@@ -46,9 +46,6 @@ in {
       '';
 
       virtualHosts."${cfg.domain}" = {
-        forceSSL = true;
-        enableACME = true;
-        acmeRoot = null;
         extraConfig = ''
           proxy_cache nix_cache_zone;
           proxy_cache_valid 200 ${cfg.maxCacheAge};

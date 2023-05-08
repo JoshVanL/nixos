@@ -51,9 +51,6 @@ in {
       enable = true;
       virtualHosts = {
         "${cfg.domain}" = {
-          forceSSL = true;
-          enableACME = true;
-          acmeRoot = null;
           locations."/".extraConfig = ''
             proxy_pass http://localhost:8081;
             proxy_set_header Host $host;

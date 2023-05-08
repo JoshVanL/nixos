@@ -53,7 +53,7 @@ in {
     };
     priority = mkOption {
       type = types.str;
-      default = "38";
+      default = "39";
       description = ''
         Set Priority of Nix cache. Remeber that a lower number gives higher priorty!
         For reference, cache.nixos.org has a priority of 40.
@@ -77,23 +77,18 @@ in {
       nix-serve = {
         enable = true;
         secretKeyFile = cfg.secretKeyFile;
+        extraParams = "--timeout=3 --priority=${cfg.priority}";
       };
 
       nginx = {
         enable = true;
         virtualHosts = {
           "${cfg.domain}" = {
-            forceSSL = true;
-            enableACME = true;
-            acmeRoot = null;
             locations."/".extraConfig = ''
               proxy_pass http://localhost:${toString config.services.nix-serve.port};
               proxy_set_header Host $host;
               proxy_set_header X-Real-IP $remote_addr;
               proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            '';
-            locations."/nix-cache-info".extraConfig = ''
-              return 200 "StoreDir: /nix/store\nWantMassQuery: 1\nPriority: ${cfg.priority}\n";
             '';
           };
         };

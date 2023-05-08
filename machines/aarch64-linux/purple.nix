@@ -8,8 +8,8 @@
       };
       nix = {
         substituters = [
-          "https://machinecache.joshvanl.dev/"
-          "https://nixcache.joshvanl.dev/"
+          "http://machinecache.joshvanl.dev/"
+          "http://nixcache.joshvanl.dev/"
         ];
         trusted-public-keys = config.me.security.joshvanl.nixPublicKeys;
       };
@@ -22,7 +22,7 @@
       crypto.enable = true;
       go = {
         enable = true;
-        proxy = "https://gocache.joshvanl.dev|https://proxy.golang.org";
+        proxy = "http://gocache.joshvanl.dev|https://proxy.golang.org";
       };
       kube.enable = true;
       data.enable = true;

@@ -4,8 +4,8 @@
       username = "josh";
       nix = {
         substituters = [
-          "https://machinecache.joshvanl.dev/"
-          "https://nixcache.joshvanl.dev/"
+          "http://machinecache.joshvanl.dev/"
+          "http://nixcache.joshvanl.dev/"
         ];
         trusted-public-keys = config.me.security.joshvanl.nixPublicKeys;
       };
@@ -17,7 +17,7 @@
     dev = {
       go = {
         enable = true;
-        proxy = "https://gocache.joshvanl.dev|https://proxy.golang.org";
+        proxy = "http://gocache.joshvanl.dev|https://proxy.golang.org";
       };
       kube.enable = true;
       crypto.enable = true;

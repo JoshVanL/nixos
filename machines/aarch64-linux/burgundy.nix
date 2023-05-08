@@ -3,7 +3,7 @@
     base = {
       username = "josh";
       nix = {
-        substituters = [ "https://nixcache.joshvanl.dev" ];
+        substituters = [ "http://nixcache.joshvanl.dev" ];
         gc = {
           dates = "monthly";
           options = "--delete-older-than 30d";
