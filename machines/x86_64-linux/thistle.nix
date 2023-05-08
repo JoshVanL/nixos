@@ -4,8 +4,8 @@
       username = "josh";
       nix = {
         substituters = [
-          "http://machinecache.joshvanl.dev/"
           "http://nixcache.joshvanl.dev/"
+          "http://machinecache.joshvanl.dev/"
         ];
         trusted-public-keys = config.me.security.joshvanl.nixPublicKeys;
       };
