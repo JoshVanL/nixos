@@ -13,9 +13,9 @@ in {
 
   config = {
     systemd.tmpfiles.rules = [
-      "d /persist/etc/NetworkManager 0755 ${config.me.base.username} wheel - -"
+      "d /persist/etc/NetworkManager/system-connections 0755 ${config.me.base.username} wheel - -"
+      "L+ /etc/NetworkManager/system-connections - - - - /persist/etc/NetworkManager/system-connections"
     ];
-    environment.etc."NetworkManager/system-connections".source = "/persist/etc/NetworkManager/system-connections";
 
     networking = {
       networkmanager.enable = true;
