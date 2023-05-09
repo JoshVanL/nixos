@@ -21,28 +21,18 @@ in {
 
     home-manager.users.${config.me.base.username} = {
       systemd.user.services.gopls = {
-        Unit = {
-          Description = "Run the go language server as user daemon, so we can limit its memory and CPU usage";
-          After = [ "network.target" ];
-        };
-
+        Unit.Description = "gopls daemon";
+        Install.WantedBy = [ "default.target" ];
         Service = {
-          Type = "simple";
           Environment = [ "PATH=/run/wrappers/bin:/home/${config.me.base.username}/.nix-profile/bin:/etc/profiles/per-user/${config.me.base.username}/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin" ];
-          ExecStartPre = "/run/current-system/sw/bin/rm -f %t/gopls-daemon-socket";
-          ExecStart = "${pkgs.gopls}/bin/gopls -listen=\"unix;%t/gopls-daemon-socket\" -logfile=auto -debug=:0";
+          ExecStart = "${pkgs.gopls}/bin/gopls -listen=unix;%t/gopls";
+          ExecStopPost = "/run/current-system/sw/bin/rm -f %t/gopls";
           Restart = "always";
-          MemoryLimit = "6G";
-          IOSchedulingClass = "3";
-          OOMScoreAdjust = "500";
-          CPUSchedulingPolicy = "idle";
-        };
-
-        Install = {
-          WantedBy = [ "basic.target" ];
+          RestartSec = 3;
+          MemoryHigh = "10G";
+          MemoryMax = "12G";
         };
       };
-
       home = {
         # install core golang dev packages
         packages = with pkgs; [
@@ -89,6 +79,7 @@ in {
           let g:go_highlight_functions = 1
           let g:go_highlight_function_calls = 1
           let g:go_highlight_extra_types = 1
+          let g:go_gopls_options = ['-remote=unix;/run/user/1000/gopls']
         '';
       };
 
