@@ -32,7 +32,10 @@ in {
       interfaces = cfg.intf;
     };
 
-    services.ntp.enable = true;
+    services = {
+      ntp.enable = true;
+      avahi.enable = true;
+    };
 
     home-manager.users.${config.me.base.username}.home.packages = with pkgs; [
       fast-cli
