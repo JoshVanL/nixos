@@ -25,8 +25,8 @@ let
       xrandr ${cfg.xrandrArgs}
       xset r rate 250 70
       xset s off -dpms
-      xmodmap -e 'keycode 94 = grave asciitilde'
       setxkbmap -option caps:escape
+      xmodmap -e 'keycode 94 = grave asciitilde'
       feh --bg-fill ${wallpaper}
       picom &
       xprop -root -set WM_NAME "-"
