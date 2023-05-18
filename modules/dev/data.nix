@@ -14,6 +14,7 @@ in {
       zip
       unzip
       postgresql
+      jq
     ];
   };
 }
