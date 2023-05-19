@@ -13,8 +13,9 @@ in {
 
   config = {
     systemd.tmpfiles.rules = [
-      "d /persist/etc/NetworkManager/system-connections 0755 ${config.me.base.username} wheel - -"
-      "L+ /etc/NetworkManager/system-connections - - - - /persist/etc/NetworkManager/system-connections"
+      "d /persist/etc/NetworkManager 0755 ${config.me.base.username} wheel - -"
+      "d /persist/var/lib/iwd 0755 ${config.me.base.username} wheel - -"
+      "L+ /var/lib/iwd - - - - /persist/var/lib/iwd"
     ];
 
     networking = {
