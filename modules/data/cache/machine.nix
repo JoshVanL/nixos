@@ -2,7 +2,7 @@
 
 with lib;
 let
-  cfg = config.me.data.machinecache;
+  cfg = config.me.data.cache.machine;
 
   builderSH = pkgs.writeShellApplication {
     name = "build_machines.sh";
@@ -46,7 +46,7 @@ let
   };
 
 in {
-  options.me.data.machinecache = {
+  options.me.data.cache.machine = {
     enable = mkEnableOption "machinecache";
     domain = mkOption {
       type = types.str;

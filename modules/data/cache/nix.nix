@@ -2,10 +2,10 @@
 
 with lib;
 let
-  cfg = config.me.data.nixcache;
+  cfg = config.me.data.cache.nix;
 
 in {
-  options.me.data.nixcache = {
+  options.me.data.cache.nix = {
     enable = mkEnableOption "nixcache";
     domain = mkOption {
       type = types.str;

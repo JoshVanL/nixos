@@ -1,7 +1,8 @@
 { lib, pkgs, config, ... }:
 {
   imports = [
-    ./zfs_uploader.nix
-    ./cache/default.nix
+    ./go.nix
+    ./nix.nix
+    ./machine.nix
   ];
 }

@@ -31,23 +31,25 @@
       };
     };
     data = {
-      nixcache = {
-        enable = true;
-        domain = "nixcache.joshvanl.dev";
-        cacheDir = "/keep/var/run/nginx/cache/nix";
-        maxCacheSize = "300G";
-        maxCacheAge = "180d";
-      };
-      machinecache = {
-        enable = true;
-        domain = "machinecache.joshvanl.dev";
-        secretKeyFile = "/persist/etc/joshvanl/machinecache/cache-priv-key.pem";
-        machineRepo = "https://github.com/joshvanl/nixos";
-        timerOnCalendar = "*-*-* 4:00:00";
-      };
-      gocache = {
-        enable = true;
-        domain = "gocache.joshvanl.dev";
+      cache = {
+        nix = {
+          enable = true;
+          domain = "nixcache.joshvanl.dev";
+          cacheDir = "/keep/var/run/nginx/cache/nix";
+          maxCacheSize = "300G";
+          maxCacheAge = "180d";
+        };
+        machine = {
+          enable = true;
+          domain = "machinecache.joshvanl.dev";
+          secretKeyFile = "/persist/etc/joshvanl/machinecache/cache-priv-key.pem";
+          machineRepo = "https://github.com/joshvanl/nixos";
+          timerOnCalendar = "*-*-* 4:00:00";
+        };
+        go = {
+          enable = true;
+          domain = "gocache.joshvanl.dev";
+        };
       };
       zfs_uploader = {
         enable = true;

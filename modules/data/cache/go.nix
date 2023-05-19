@@ -2,7 +2,7 @@
 
 with lib;
 let
-  cfg = config.me.data.gocache;
+  cfg = config.me.data.cache.go;
 
   goproxySH = pkgs.writeShellApplication {
     name = "goproxy.sh";
@@ -13,7 +13,7 @@ let
   };
 
 in {
-  options.me.data.gocache = {
+  options.me.data.cache.go = {
     enable = mkEnableOption "gocache";
     domain = mkOption {
       type = types.str;
