@@ -15,8 +15,9 @@ in {
     systemd.tmpfiles.rules = [
       "d /persist/etc/NetworkManager 0755 ${config.me.base.username} wheel - -"
       "d /persist/var/lib/iwd 0755 ${config.me.base.username} wheel - -"
-      "L+ /var/lib/iwd - - - - /persist/var/lib/iwd"
     ];
+    environment.etc."NetworkManager/system-connections".source = "/persist/etc/NetworkManager/system-connections";
+    fileSystems."/var/lib/iwd" = { options = [ "bind" ]; device = "/persist/var/lib/iwd"; };
 
     networking = {
       networkmanager.enable = true;
