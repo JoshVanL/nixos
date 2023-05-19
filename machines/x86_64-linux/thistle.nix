@@ -15,6 +15,7 @@
       };
     };
     dev = {
+      build.enable = true;
       go = {
         enable = true;
         proxy = "http://gocache.joshvanl.dev|https://proxy.golang.org";
