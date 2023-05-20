@@ -47,7 +47,7 @@ let
 
 in {
   options.me.data.cache.machine = {
-    enable = mkEnableOption "machinecache";
+    enable = mkEnableOption "machine";
     domain = mkOption {
       type = types.str;
     };

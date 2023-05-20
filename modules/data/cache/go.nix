@@ -14,7 +14,7 @@ let
 
 in {
   options.me.data.cache.go = {
-    enable = mkEnableOption "gocache";
+    enable = mkEnableOption "go";
     domain = mkOption {
       type = types.str;
     };

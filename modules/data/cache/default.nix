@@ -4,5 +4,6 @@
     ./go.nix
     ./nix.nix
     ./machine.nix
+    ./container.nix
   ];
 }

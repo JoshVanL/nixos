@@ -6,7 +6,7 @@ let
 
 in {
   options.me.data.cache.nix = {
-    enable = mkEnableOption "nixcache";
+    enable = mkEnableOption "nix";
     domain = mkOption {
       type = types.str;
     };

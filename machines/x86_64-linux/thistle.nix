@@ -59,7 +59,17 @@
           apiKeyPath = "/persist/home/secrets/chatgpt/api_key";
         };
       };
-      podman.enable = true;
+      podman = {
+        enable = true;
+        mirrorDomain = "containercache.joshvanl.dev";
+        mirrors = [
+          "docker.io"
+          "ghcr.io"
+          "quay.io"
+          "registry.k8s.io"
+          "mcr.microsoft.com"
+        ];
+      };
       zsh.enable = true;
     };
     security = {

@@ -7,7 +7,7 @@ let
     name = "update";
     runtimeInputs = with pkgs; [ nixos-rebuild zsh ];
     text = ''
-      sudo nixos-rebuild switch --flake '/keep/etc/nixos/.#'
+      sudo nixos-rebuild switch -L --flake '/keep/etc/nixos/.#'
       rm -f /home/${config.me.base.username}/.zsh_history
       ln -s /persist/home/.zsh_history /home/${config.me.base.username}/.zsh_history
       zsh -c "source /home/${config.me.base.username}/.zshrc"

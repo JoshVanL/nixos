@@ -50,6 +50,17 @@
           enable = true;
           domain = "gocache.joshvanl.dev";
         };
+        container = {
+          enable = true;
+          domain = "containercache.joshvanl.dev";
+          registries = [
+            {name = "docker.io"; upstream = "registry-1.docker.io";}
+            "ghcr.io"
+            "quay.io"
+            "registry.k8s.io"
+            "mcr.microsoft.com"
+          ];
+        };
       };
       zfs_uploader = {
         enable = true;
