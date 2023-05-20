@@ -60,7 +60,7 @@ HOSTNAME=""
 PS3="Select a hostname: "
 for f in $(find ${REPO_ROOT}/machines -type f)
 do
-  AVAILABLE_HOSTS+=($(basename -- $f))
+  AVAILABLE_HOSTS+=($(basename -- $f | cut -f 1 -d "."))
 done
 select host in "${AVAILABLE_HOSTS[@]}"
 do

@@ -20,7 +20,7 @@ let
         if [[ "''${machine}" == "''${TMPDIR}/machines/" ]]; then
           continue
         fi
-        MACHINES+=("$(basename -- "$machine")")
+        MACHINES+=("$(basename -- "$machine" | cut -f 1 -d ".")")
       done <   <(find "''${TMPDIR}"/machines/ -type f -print0)
 
       echo ">>Found machines: [''${MACHINES[*]}]"
