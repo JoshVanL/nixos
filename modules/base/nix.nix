@@ -22,6 +22,10 @@ in {
     };
 
     gc = {
+      automatic = mkOption {
+        type = types.bool;
+        default = true;
+      };
       dates = mkOption {
         type = types.str;
         default = "weekly";
@@ -45,7 +49,7 @@ in {
 
 
       gc = {
-        automatic = true;
+        automatic = cfg.gc.automatic;
         dates = cfg.gc.dates;
         options = cfg.gc.options;
       };
