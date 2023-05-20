@@ -104,6 +104,7 @@ in {
           wants = [ "network-online.target" ];
           after = [ "network-online.target" ];
           wantedBy = [ "multi-user.target" ];
+          startLimitIntervalSec = 120;
           script = ''
             ${pkgs.docker-distribution}/bin/registry serve ${configFile i}
           '';
@@ -113,7 +114,6 @@ in {
             WorkingDirectory = storagePath;
             Restart = "always";
             RestartSec = "5s";
-            StartLimitInterval = "120s";
             StartLimitBurst = 25;
           };
         };
