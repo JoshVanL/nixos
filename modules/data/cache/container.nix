@@ -111,7 +111,10 @@ in {
           serviceConfig = {
             User = "docker-registry";
             WorkingDirectory = storagePath;
-            Restart = "on-failure";
+            Restart = "always";
+            RestartSec = "5s";
+            StartLimitInterval = "120s";
+            StartLimitBurst = 25;
           };
         };
       }
