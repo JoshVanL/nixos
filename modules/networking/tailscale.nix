@@ -21,7 +21,7 @@ in {
       # allow the Tailscale UDP port through the firewall
       allowedUDPPorts = [ config.services.tailscale.port ];
       # allow you to SSH in over the public internet
-      allowedTCPPorts = optionals config.me.networking.ssh.enable [ 22 ];
+      allowedTCPPorts = optionals config.me.networking.ssh.ingress.enable [ 22 ];
       checkReversePath = "loose";
     };
 

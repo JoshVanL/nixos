@@ -36,6 +36,10 @@ in {
   };
 
   config = mkIf cfg.enable {
+    assertions = [
+      {assertion = cfg.enable || !cfg.ingress.enable; message = "SSH must be enabled to enable ingress ssh";}
+    ];
+
     systemd.tmpfiles.rules = [
       "d /home/${config.me.base.username}/.ssh 0755 ${config.me.base.username} wheel - -"
       "d /persist/home/.ssh 0755 ${config.me.base.username} wheel - -"
