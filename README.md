@@ -18,8 +18,7 @@ $ sudo -i
 $ # Setup internet connectivity (https://nixos.wiki/wiki/NixOS_Installation_Guide#Wireless)
 $ nix-shell -p git
 $ git clone https://github.com/joshvanl/nixos
-$ cd nixos
-$ ./scripts/install.sh
+$ cd nixos && ./scripts/install.sh
 $ # Follow install instructions
 ```
 

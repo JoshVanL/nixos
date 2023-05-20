@@ -14,24 +14,14 @@ let
 
       git clone https://github.com/joshvanl/nixos "''${TMPDIR}/."
 
-      while IFS= read -r -d ''+"'' "+''arch
+      MACHINES=()
+      while IFS= read -r -d ''+"'' "+''machine
       do
-        if [[ "''${arch}" == "''${TMPDIR}/machines/" ]]; then
+        if [[ "''${machine}" == "''${TMPDIR}/machines/" ]]; then
           continue
         fi
-        ARCHS+=("$(basename -- "$arch")")
+        MACHINES+=("$(basename -- "$machine")")
       done <   <(find "''${TMPDIR}"/machines/ -type d -print0)
-
-      echo ">>Found architectures: [''${ARCHS[*]}]"
-
-      MACHINES=()
-      for arch in "''${ARCHS[@]}"
-      do
-        while IFS= read -r -d ''+"'' "+''machine
-        do
-          MACHINES+=("$(basename -- "$machine" | cut -f 1 -d ".")")
-        done <   <(find "''${TMPDIR}"/machines/"''${arch}" -type f -print0)
-      done
 
       echo ">>Found machines: [''${MACHINES[*]}]"
 

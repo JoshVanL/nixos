@@ -55,14 +55,12 @@ done
 
 REPO_ROOT=$(git rev-parse --show-toplevel)
 
-ARCH="$(uname -m)-linux"
-
 AVAILABLE_HOSTS=()
 HOSTNAME=""
 PS3="Select a hostname: "
-for f in $(find ${REPO_ROOT}/machines/${ARCH} -type f)
+for f in $(find ${REPO_ROOT}/machines -type f)
 do
-  AVAILABLE_HOSTS+=($(basename -- $f | cut -f 1 -d "."))
+  AVAILABLE_HOSTS+=($(basename -- $f))
 done
 select host in "${AVAILABLE_HOSTS[@]}"
 do
@@ -70,7 +68,7 @@ do
 	break
 done
 
-USERNAME=$(grep ${REPO_ROOT}/machines/${ARCH}/${HOSTNAME}.nix -e "username" | awk -F'"' '$0=$2 {print $1;exit;}')
+USERNAME=$(grep ${REPO_ROOT}/machines/${HOSTNAME}.nix -e "username" | awk -F'"' '$0=$2 {print $1;exit;}')
 info "You will install NixOS on '${DISK_PATH}', with the hostname '${HOSTNAME}', and the user '${USERNAME}'."
 
 while true; do
