@@ -20,7 +20,7 @@ in {
     };
     cacheDir = mkOption {
       type = types.str;
-      default = "/keep/var/run/nginx/cache/nix";
+      default = "/keep/run/nginx/cache/nix";
     };
     maxCacheSize = mkOption {
       type = types.str;

@@ -65,7 +65,7 @@ in {
     };
     cacheDir = mkOption {
       type = types.str;
-      default = "/keep/var/run/container/cache";
+      default = "/keep/run/container/cache";
     };
     garbageCollectDates = mkOption {
       type = types.str;

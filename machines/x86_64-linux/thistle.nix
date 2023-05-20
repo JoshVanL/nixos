@@ -29,7 +29,7 @@
     data = {
       zfs_uploader = {
         enable = true;
-        logPath = "/keep/var/run/zfs_uploader/zfs_uploader.log";
+        logPath = "/keep/run/zfs_uploader/zfs_uploader.log";
         configPath = "/persist/etc/zfs_uploader/config.cfg";
       };
     };

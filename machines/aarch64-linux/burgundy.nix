@@ -32,7 +32,7 @@
         nix = {
           enable = true;
           domain = "nixcache.joshvanl.dev";
-          cacheDir = "/keep/var/run/nginx/cache/nix";
+          cacheDir = "/keep/run/nginx/cache/nix";
           maxCacheSize = "300G";
           maxCacheAge = "180d";
         };
@@ -61,7 +61,7 @@
       };
       zfs_uploader = {
         enable = true;
-        logPath = "/keep/var/run/zfs_uploader/zfs_uploader.log";
+        logPath = "/keep/run/zfs_uploader/zfs_uploader.log";
         configPath = "/persist/etc/zfs_uploader/config.cfg";
       };
     };

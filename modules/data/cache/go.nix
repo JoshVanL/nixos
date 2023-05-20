@@ -20,7 +20,7 @@ in {
     };
     cacheDir = mkOption {
       type = types.str;
-      default = "/keep/var/run/nginx/cache/go";
+      default = "/keep/run/nginx/cache/go";
     };
   };
 
