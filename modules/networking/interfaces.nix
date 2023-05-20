@@ -19,6 +19,16 @@ in {
     environment.etc."NetworkManager/system-connections".source = "/persist/etc/NetworkManager/system-connections";
     fileSystems."/var/lib/iwd" = { options = [ "bind" ]; device = "/persist/var/lib/iwd"; };
 
+    # Stop NetworkManager complaining on restart.
+    systemd.services.NetworkManager-wait-online = {
+      serviceConfig = {
+        ExecStart = [ "" "${pkgs.networkmanager}/bin/nm-online -q" ];
+        Restart = "on-failure";
+        RestartSec = 1;
+      };
+      unitConfig.StartLimitIntervalSec = 0;
+    };
+
     networking = {
       networkmanager.enable = true;
       networkmanager.wifi.backend = "iwd";
