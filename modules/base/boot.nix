@@ -42,6 +42,19 @@ in {
   };
 
   config = {
+
+    systemd.services.zfs-rollback-shutdown = {
+      description = "Rollback ZFS on shutdown";
+      wantedBy = [ "shutdown.target" "reboot.target" ];
+      before = [ "shutdown.target" "reboot.target" ];
+      after = [ "zfs-mount.service" ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = false;
+        ExecStart = "${pkgs.zfs}/bin/zfs rollback -r rpool/local/root@blank";
+      };
+    };
+
     boot = {
       # Clense with fire.
       initrd = {
