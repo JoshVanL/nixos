@@ -21,7 +21,7 @@ let
           continue
         fi
         MACHINES+=("$(basename -- "$machine")")
-      done <   <(find "''${TMPDIR}"/machines/ -type d -print0)
+      done <   <(find "''${TMPDIR}"/machines/ -type f -print0)
 
       echo ">>Found machines: [''${MACHINES[*]}]"
 
