@@ -9,7 +9,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    systemd.tmpfiles.rules = mkIf config.me.programs.podman.enable [
+    systemd.tmpfiles.rules = mkIf config.me.networking.podman.enable [
       # This directory is hardcoded in kind somewhere and is required for it to
       # work but doesn't actually use it...
       "d /lib/modules 0755 ${config.me.base.username} wheel - -"
@@ -24,7 +24,7 @@ in {
           dapr-cli
           kubernetes-controller-tools
         ]
-        ++ (optional config.me.programs.podman.enable kind)
+        ++ (optional config.me.networking.podman.enable kind)
         ++ (optional config.me.dev.kube.enable pkgs.gke-gcloud-auth-plugin)
         ;
 
@@ -40,7 +40,7 @@ in {
         wkc  = "watch -n 0.2 kubectl";
         kcw  = "watch -n 0.2 kubectl";
         kwc  = "watch -n 0.2 kubectl";
-      } // (optionalAttrs config.me.programs.podman.enable {
+      } // (optionalAttrs config.me.networking.podman.enable {
         kcc  = "kind create cluster";
         kdc  = "kind delete cluster";
       }));

@@ -2,7 +2,7 @@
 
 with lib;
 let
-  cfg = config.me.programs.podman;
+  cfg = config.me.networking.podman;
 
   docker-compose-alias = pkgs.stdenv.mkDerivation {
     name = "docker-compose";
@@ -14,7 +14,7 @@ let
   };
 
 in {
-  options.me.programs.podman = {
+  options.me.networking.podman = {
     enable = mkEnableOption "podman";
     mirrorDomain = mkOption {
       type = types.str;

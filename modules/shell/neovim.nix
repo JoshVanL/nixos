@@ -1,7 +1,7 @@
 { lib, pkgs, config, ... }:
 with lib;
 let
-  cfg = config.me.programs.neovim;
+  cfg = config.me.shell.neovim;
 
   vim-github-copilot = pkgs.vimUtils.buildVimPlugin {
     pname = "vim-github-copilot";
@@ -26,7 +26,7 @@ let
   };
 
 in {
-  options.me.programs.neovim = {
+  options.me.shell.neovim = {
     enable = mkEnableOption "neovim";
 
     coPilot = {

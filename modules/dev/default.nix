@@ -10,5 +10,6 @@
     ./image.nix
     ./kube.nix
     ./python.nix
+    ./git.nix
   ];
 }

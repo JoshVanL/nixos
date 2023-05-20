@@ -16,6 +16,11 @@
       hardware.parallels.enable = true;
     };
     dev = {
+      git = {
+        enable = true;
+        username = "joshvanl";
+        email = "me@joshvanl.dev";
+      };
       build.enable = true;
       c.enable = true;
       cloud.enable = true;
@@ -43,18 +48,13 @@
         hostName = "purple";
         intf.enp0s5.useDHCP = true;
       };
+      podman.enable = true;
     };
-    programs = {
-      git = {
-        enable = true;
-        username = "joshvanl";
-        email = "me@joshvanl.dev";
-      };
+    shell = {
       neovim = {
         enable = true;
         coPilot.enable = true;
       };
-      podman.enable = true;
       zsh.enable = true;
     };
     security = {

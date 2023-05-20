@@ -14,12 +14,12 @@
         intf.enp0s5.useDHCP = true;
       };
     };
-    programs = {
-      git = {
-        enable = true;
-        username = "joshvanl";
-        email = "me@joshvanl.dev";
-      };
+    dev.git = {
+      enable = true;
+      username = "joshvanl";
+      email = "me@joshvanl.dev";
+    };
+    shell = {
       neovim.enable = true;
       zsh.enable = true;
     };

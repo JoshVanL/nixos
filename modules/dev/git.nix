@@ -1,10 +1,10 @@
 { lib, pkgs, config, ... }:
 with lib;
 let
-  cfg = config.me.programs.git;
+  cfg = config.me.dev.git;
 
 in {
-  options.me.programs.git = {
+  options.me.dev.git = {
     enable = mkEnableOption "git";
 
     email = mkOption {

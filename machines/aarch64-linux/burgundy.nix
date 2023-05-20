@@ -91,8 +91,8 @@
         credentialsFile = "/persist/etc/joshvanl/dns/acme/credentials.secret";
       };
     };
-    programs = {
-      git.enable = true;
+    dev.git.enable = true;
+    shell = {
       neovim.enable = true;
       zsh.enable = true;
     };

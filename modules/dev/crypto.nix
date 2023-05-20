@@ -13,7 +13,7 @@ in {
       openssl
       go-jwt
       step-cli
-      (mkIf config.me.programs.git.enable git-crypt)
+      (mkIf config.me.dev.git.enable git-crypt)
       age
     ];
   };

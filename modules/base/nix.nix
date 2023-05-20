@@ -65,5 +65,10 @@ in {
     environment.etc."nixos".source = "/keep/etc/nixos";
 
     nixpkgs.config.allowUnsupportedSystem = true;
+
+    home-manager.users.${config.me.base.username}.programs.zsh.shellAliases = mkIf config.me.shell.zsh.enable {
+      flake = "nix flake";
+      garbage-collect = "sudo nix-collect-garbage -d";
+    };
   };
 }

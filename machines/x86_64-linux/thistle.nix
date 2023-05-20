@@ -15,6 +15,11 @@
       };
     };
     dev = {
+      git = {
+        enable = true;
+        username = "joshvanl";
+        email = "me@joshvanl.dev";
+      };
       build.enable = true;
       go = {
         enable = true;
@@ -44,21 +49,6 @@
           wlan0.useDHCP = true;
         };
       };
-    };
-    programs = {
-      git = {
-        enable = true;
-        username = "joshvanl";
-        email = "me@joshvanl.dev";
-      };
-      neovim = {
-        enable = true;
-        coPilot.enable = true;
-        openAI = {
-          enable = true;
-          apiKeyPath = "/persist/home/secrets/chatgpt/api_key";
-        };
-      };
       podman = {
         enable = true;
         mirrorDomain = "containercache.joshvanl.dev";
@@ -69,6 +59,16 @@
           "registry.k8s.io"
           "mcr.microsoft.com"
         ];
+      };
+    };
+    shell = {
+      neovim = {
+        enable = true;
+        coPilot.enable = true;
+        openAI = {
+          enable = true;
+          apiKeyPath = "/persist/home/secrets/chatgpt/api_key";
+        };
       };
       zsh.enable = true;
     };
