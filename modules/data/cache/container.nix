@@ -110,6 +110,7 @@ in {
           serviceConfig = {
             User = "docker-registry";
             WorkingDirectory = storagePath;
+            Restart = "on-failure";
           };
         };
       }
