@@ -21,6 +21,7 @@ in {
       description = ''
         The domain to use for the mirror.
       '';
+      default = "";
     };
     mirrors = mkOption {
       type = types.listOf types.str;
@@ -33,10 +34,10 @@ in {
 
   config = mkIf cfg.enable {
     assertions = [
-      #{
-      #  assertion = (stringLength cfg.mirrorDomain > 0) == (length cfg.mirrors > 0);
-      #  message = "If you set a mirror domain, you must also set at least one mirror.";
-      #}
+      {
+        assertion = (length cfg.mirrors > 0) == ((stringLength cfg.mirrorDomain) > 0);
+        message = "If you set a mirror domain, you must also set at least one mirror.";
+      }
     ];
 
     home-manager.users.${config.me.base.username} = {
