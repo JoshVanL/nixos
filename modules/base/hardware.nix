@@ -6,36 +6,48 @@ let
 
 in {
   options.me.base.hardware = {
+    system = mkOption {
+      type = types.str;
+      default = "";
+      description = "The architecture and OS of the system to install to.";
+    };
     parallels.enable = mkEnableOption "Parallels Desktop";
   };
 
   config = {
-    fileSystems."/" =
-      { device = "rpool/local/root";
+    assertions = [{
+      assertion = cfg.system == "x86_64-linux" || cfg.system == "aarch64-linux";
+      message = "Invalid system: ${cfg.system}. Must be 'x86_64-linux' or 'aarch64-linux'.";
+    }];
+
+    fileSystems = {
+      "/" = {
+        device = "rpool/local/root";
         fsType = "zfs";
       };
 
-    fileSystems."/boot" =
-      { device = "/dev/disk/by-label/boot";
+      "/boot" = {
+        device = "/dev/disk/by-label/boot";
         fsType = "vfat";
       };
 
-    fileSystems."/nix" =
-      { device = "rpool/local/nix";
+      "/nix" = {
+        device = "rpool/local/nix";
         fsType = "zfs";
       };
 
-    fileSystems."/keep" =
-      { device = "rpool/local/keep";
+      "/keep" = {
+        device = "rpool/local/keep";
         fsType = "zfs";
         neededForBoot = true;
       };
 
-    fileSystems."/persist" =
-      { device = "rpool/safe/persist";
+      "/persist" = {
+        device = "rpool/safe/persist";
         fsType = "zfs";
         neededForBoot = true;
       };
+    };
 
     swapDevices = [ ];
 

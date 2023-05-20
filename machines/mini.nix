@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: {
+{ lib, ... }: {
   me = {
     base = {
       username = "notme";
@@ -7,6 +7,7 @@
         initrd.availableKernelModules = [ "xhci_pci" "usbhid" "sr_mod" ];
       };
       hardware.parallels.enable = true;
+      hardware.system = "aarch64-linux";
     };
     networking = {
       interfaces = {

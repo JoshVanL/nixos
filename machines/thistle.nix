@@ -13,6 +13,7 @@
         loader = "systemd-boot";
         initrd.availableKernelModules = [ "ehci_pci" "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" ];
       };
+      hardware.system = "x86_64-linux";
     };
     dev = {
       git = {

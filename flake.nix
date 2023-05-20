@@ -25,23 +25,23 @@
       (builtins.readDir ./overlays)
     );
 
-    machines = system: map (lib.removeSuffix ".nix") (lib.attrNames(
+    machines = map (lib.removeSuffix ".nix") (lib.attrNames(
       lib.filterAttrs
         (_: entryType: entryType == "regular")
-        (builtins.readDir ./machines/${system})
+        (builtins.readDir ./machines)
     ));
 
-    build-machine = machine: system: {
-      name = machine;
+    build = name: system: {
+      inherit name;
       value = lib.makeOverridable lib.nixosSystem {
-        system = system;
+        inherit system;
         modules = [
           ({ pkgs, lib, config, ... }: {
             nixpkgs.config.packageOverrides = (import ./pkgs/default.nix);
             nixpkgs.overlays = pkgsOverlays system;
             system.configurationRevision = lib.mkIf (self ? rev) self.rev;
             imports = (import ./modules/module-list.nix) ++ [
-              (import (./machines/${system}/${machine}.nix))
+              (import (./machines/${name}.nix))
             ];
           })
           nix-serve-ng.nixosModules.default
@@ -53,13 +53,10 @@
       };
     };
 
+    buildFromName = name:
+      build name (import ./machines/${name}.nix {config={};pkgs={};lib=lib;}).me.base.hardware.system;
+
   in {
-    nixosConfigurations = builtins.listToAttrs (lib.flatten (
-      (map ( machine: [ (build-machine machine "x86_64-linux") ])
-        (machines "x86_64-linux"))
-      ++
-      (map ( machine: [ (build-machine machine "aarch64-linux") ])
-        (machines "aarch64-linux"))
-    ));
+    nixosConfigurations = builtins.listToAttrs (map buildFromName machines);
   };
 }
