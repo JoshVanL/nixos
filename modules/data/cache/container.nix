@@ -23,7 +23,7 @@ let
     storage = {
       cache.blobdescriptor = "inmemory";
       delete.enabled = false;
-      filesystem.rootdirectory = storagePath;
+      filesystem.rootdirectory = "${storagePath}/${regName (elemAt cfg.registries i)}";
     };
     http = {
       addr = "127.0.0.1:${toString (6000 + i)}";
