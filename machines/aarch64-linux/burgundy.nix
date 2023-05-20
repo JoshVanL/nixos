@@ -4,10 +4,7 @@
       username = "josh";
       nix = {
         substituters = [ "http://nixcache.joshvanl.dev" ];
-        gc = {
-          dates = "monthly";
-          options = "--delete-older-than 30d";
-        };
+        gc.automatic = false;
       };
       boot = {
         loader = "raspberrypi";
