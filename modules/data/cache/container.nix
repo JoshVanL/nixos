@@ -102,6 +102,7 @@ in {
         value = {
           description = "Docker Container Registry ${regName registry}";
           wants = [ "network-online.target" ];
+          after = [ "network-online.target" ];
           wantedBy = [ "multi-user.target" ];
           script = ''
             ${pkgs.docker-distribution}/bin/registry serve ${configFile i}
