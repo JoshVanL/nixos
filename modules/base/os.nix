@@ -39,6 +39,7 @@
   systemd.tmpfiles.rules = [
     "d /home/${config.me.base.username}/.cache 0755 ${config.me.base.username} wheel - -"
     "d /home/${config.me.base.username}/.config 0755 ${config.me.base.username} wheel - -"
+    "d /keep/etc/users 0700 root root - -"
   ];
 
   home-manager.users.${config.me.base.username}.home = {

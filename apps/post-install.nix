@@ -24,6 +24,10 @@ let
       info "Changing ownership of /persist/home to $USERNAME ..."
       chown -R "$USERNAME":wheel /persist/home
 
+      info "Changing ownership and mode of /keep/etc/users to root & 700 ..."
+      chown -R root:root /keep/etc/users
+      chmod 700 /keep/etc/users
+
       info "Switching nixos configuration ..."
       nixos-rebuild switch -L --flake '/keep/etc/nixos/.#'
 
