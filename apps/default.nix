@@ -1,4 +1,5 @@
-{ nixpkgs
+{ self
+, nixpkgs
 , nixosConfigurations
 }:
 with nixpkgs.lib;
@@ -14,8 +15,11 @@ let
   # nixosConfigurations attrset.
   targetSystems = lists.unique (mapAttrsToList (_: machine: machine.config.me.base.hardware.system) nixosConfigurations);
 
+  # commit-rev is the git revision of the flake.
+  commit-rev = if self ? rev then self.rev else "";
+
   # Add helper functions to the lib attrset.
-  lib = nixpkgs.lib // { inherit pkgsys mkApp targetSystems; };
+  lib = nixpkgs.lib // { inherit pkgsys mkApp targetSystems commit-rev; };
 
 in fold (attrset: acc: recursiveUpdate attrset acc) {} [
   (import ./install.nix { inherit lib nixosConfigurations; })

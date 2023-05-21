@@ -57,6 +57,6 @@
 
   in rec {
     nixosConfigurations = builtins.listToAttrs (map buildFromName machines);
-    apps = (import ./apps { inherit nixpkgs nixosConfigurations; });
+    apps = (import ./apps { inherit self nixpkgs nixosConfigurations; });
   };
 }
