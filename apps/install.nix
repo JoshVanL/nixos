@@ -38,13 +38,13 @@ let
       TMPDIR=$(mktemp -d)
       trap 'rm -rf -- "$TMPDIR"' EXIT
 
+      PS3="> "
       declare -A USERNAMES_MAP=(${usernamesBashMap})
 
       NIXOS_REPO="''${NIXOS_REPO:-joshvanl/nixos}"
+      COMMIT="''${COMMIT:-main}"
 
-      PS3="> "
-
-      info "Running NixOS install."
+      info "Running NixOS install from ''${NIXOS_REPO}@''${COMMIT}"
       err "!! WARNING: This will erase the contents of the chosen disk. !!"
       info "######################"
 
@@ -84,9 +84,9 @@ let
       ask "Select a partition prefix."
       ask "Generally, for '/dev/nvmeX' disks use 'p', and '/dev/sdX' disks use nothing."
       if [[ $DISK != nvme* ]]; then
-        ask "You probably want noting (0)."
+        ask "You probably want noting (1)."
       else
-        ask "You probably want 'p' (1)."
+        ask "You probably want 'p' (2)."
       fi
       select p in "<no prefix>" "p"
       do
@@ -192,10 +192,10 @@ let
       rm -rf /mnt/keep/etc/nixos && mkdir -p /mnt/keep/etc/nixos
       git clone "https://github.com/$NIXOS_REPO" /mnt/keep/etc/nixos
 
-      info "system linking /mnt/keep to ensure passward is captured in nix install ..."
+      info "System linking /mnt/keep to ensure passward is captured in nix install ..."
       ln -s /mnt/keep /keep
 
-      info "system linking /mnt/persist to ensure ssh is captured in nix install ..."
+      info "System linking /mnt/persist to ensure ssh is captured in nix install ..."
       ln -s /mnt/persist /persist
 
       info "Installing NixOS to /mnt ..."

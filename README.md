@@ -16,11 +16,26 @@ connectivity](https://nixos.wiki/wiki/NixOS_Installation_Guide#Wireless). Follow
 the installer application's instructions.
 
 ```bash
-$ sudo nix run github:joshvanl/nixos#install
+$ sudo nix run --experimental-features 'nix-command flakes' github:joshvanl/nixos#install
 ```
 
 After you have installed, rebooted and logged in, run:
 
 ```bash
 $ sudo nix run /keep/etc/nixos#post-install
+```
+
+### Options
+
+Install a specific commit:
+
+```bash
+$ sudo nix run --experimental-features 'nix-command flakes' github:joshvanl/nixos/9914fa7#install
+```
+
+When installing from a different repo, ensure the `NIXOS_REPO` environment
+variable is set:
+
+```bash
+$ NIXOS_REPO='notme/diffnixos' sudo nix run --experimental-features 'nix-command flakes' github:notme/diffnixos#install
 ```

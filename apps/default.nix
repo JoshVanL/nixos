@@ -28,7 +28,7 @@ let
     }
 
     function ask {
-        echo -e "\033[42m$1\033[0m"
+        echo -e "\033[45m$1\033[0m"
     }
   '';
 
