@@ -1,0 +1,9 @@
+[
+  ./base
+  ./data
+  ./dev
+  ./networking
+  ./shell
+  ./security
+  ./window-manager
+]
