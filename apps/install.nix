@@ -84,7 +84,7 @@ let
       ask "Select a partition prefix."
       ask "Generally, for '/dev/nvmeX' disks use 'p', and '/dev/sdX' disks use nothing."
       if [[ $DISK != nvme* ]]; then
-        ask "You probably want noting (1)."
+        ask "You probably want <no prefix> (1)."
       else
         ask "You probably want 'p' (2)."
       fi
