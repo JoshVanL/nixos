@@ -4,6 +4,25 @@ with lib;
 let
   cfg = config.me.base.nix;
 
+  updateSH = pkgs.writeShellApplication {
+    name = "update";
+    runtimeInputs = with pkgs; [ nixos-rebuild zsh ];
+    text = ''
+      sudo nixos-rebuild switch -L --flake '/keep/etc/nixos/.#'
+      rm -f /home/${config.me.base.username}/.zsh_history
+      ln -s /persist/home/.zsh_history /home/${config.me.base.username}/.zsh_history
+      zsh -c "source /home/${config.me.base.username}/.zshrc"
+    '';
+  };
+
+  gimmiSH = pkgs.writeShellApplication {
+    name = "gimmi";
+    runtimeInputs = with pkgs; [ nix zsh ];
+    text = ''
+      nix-shell -p "$@" --run "zsh"
+    '';
+  };
+
 in {
   options.me.base.nix = {
     substituters = mkOption {
@@ -66,9 +85,16 @@ in {
 
     nixpkgs.config.allowUnsupportedSystem = true;
 
-    home-manager.users.${config.me.base.username}.programs.zsh.shellAliases = mkIf config.me.shell.zsh.enable {
-      flake = "nix flake";
-      garbage-collect = "sudo nix-collect-garbage -d";
+    home-manager.users.${config.me.base.username} = {
+      home.packages = [
+        updateSH
+        gimmiSH
+      ];
+
+      programs.zsh.shellAliases = mkIf config.me.shell.zsh.enable {
+        flake = "nix flake";
+        garbage-collect = "sudo nix-collect-garbage -d";
+      };
     };
   };
 }

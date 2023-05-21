@@ -31,18 +31,15 @@
         (builtins.readDir ./machines)
     ));
 
-    build = name: system: {
-      inherit name;
-      value = lib.makeOverridable lib.nixosSystem {
+    buildMachine = name: system:
+      lib.nameValuePair name (lib.makeOverridable lib.nixosSystem {
         inherit system;
         modules = [
           ({ pkgs, lib, config, ... }: {
-            nixpkgs.config.packageOverrides = (import ./pkgs/default.nix);
-            nixpkgs.overlays = pkgsOverlays system;
+            nixpkgs.config.packageOverrides = (import ./pkgs);
+            nixpkgs.overlays = (pkgsOverlays system);
             system.configurationRevision = lib.mkIf (self ? rev) self.rev;
-            imports = (import ./modules/module-list.nix) ++ [
-              (import (./machines/${name}.nix))
-            ];
+            imports = (import ./modules) ++ [(import (./machines/${name}.nix))];
           })
           nix-serve-ng.nixosModules.default
           home-manager.nixosModules.home-manager {
@@ -50,13 +47,16 @@
             home-manager.useUserPackages = true;
           }
         ];
-      };
-    };
+      }
+    );
 
-    buildFromName = name:
-      build name (import ./machines/${name}.nix {config={};pkgs={};lib=lib;}).me.base.hardware.system;
+    sysFromMachineName = name:
+      (import ./machines/${name}.nix {config={};pkgs={};lib=lib;}).me.base.hardware.system;
 
-  in {
+    buildFromName = name: buildMachine name (sysFromMachineName name);
+
+  in rec {
     nixosConfigurations = builtins.listToAttrs (map buildFromName machines);
+    apps = (import ./apps { inherit self nixpkgs nixosConfigurations; });
   };
 }

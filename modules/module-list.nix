@@ -1,9 +1,0 @@
-[
-  ./base/default.nix
-  ./data/default.nix
-  ./dev/default.nix
-  ./networking/default.nix
-  ./shell/default.nix
-  ./security/default.nix
-  ./window-manager/default.nix
-]

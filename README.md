@@ -2,7 +2,7 @@
 
 - `/machines` root machine configurations.
 - `/modules` modules used by the machines.
-- `/scripts` scripts used to install a machines.
+- `/apps` runnable apps, used for installing and managing machines.
 - `/pkgs` software packages that are not in nixpkgs.
 - `/overlays` overlays for nixpkgs.
 
@@ -11,19 +11,31 @@ linked) from `/persist` or `/keep`. `/persist` is intended to be backed up.
 
 ## To install
 
-Boot from a [nixos image](https://nixos.org/download.html), then:
+Boot from a [nixos image](https://nixos.org/download.html) and [setup internet
+connectivity](https://nixos.wiki/wiki/NixOS_Installation_Guide#Wireless). Follow
+the installer application's instructions.
 
 ```bash
-$ sudo -i
-$ # Setup internet connectivity (https://nixos.wiki/wiki/NixOS_Installation_Guide#Wireless)
-$ nix-shell -p git
-$ git clone https://github.com/joshvanl/nixos
-$ cd nixos && ./scripts/install.sh
-$ # Follow install instructions
+$ sudo nix run --experimental-features 'nix-command flakes' github:joshvanl/nixos#install
 ```
 
 After you have installed, rebooted and logged in, run:
 
 ```bash
-$ sudo /etc/nixos/scripts/post-install.sh
+$ sudo nix run /keep/etc/nixos#post-install
+```
+
+### Options
+
+Install a specific commit:
+
+```bash
+$ sudo nix run --experimental-features 'nix-command flakes' github:joshvanl/nixos/9914fa7#install
+```
+
+When installing from a different repo, ensure the `NIXOS_REPO` environment
+variable is set:
+
+```bash
+$ NIXOS_REPO='notme/diffnixos' sudo nix run --experimental-features 'nix-command flakes' github:notme/diffnixos#install
 ```
