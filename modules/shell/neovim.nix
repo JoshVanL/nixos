@@ -53,13 +53,8 @@ in {
     environment.variables.EDITOR = "vim";
 
     home-manager.users.${config.me.base.username} = {
-      home = {
-        # Required for GitHub copilot.
-        packages = [ pkgs.nodejs-16_x ];
-
-        sessionVariables = {
-          VISUAL = "vim";
-        };
+      home.sessionVariables = {
+        VISUAL = "vim";
       };
 
       programs.neovim = {
@@ -198,6 +193,7 @@ in {
 
           nnoremap <leader>w!! :w !sudo tee > /dev/null %
         '' + optionalString cfg.coPilot.enable ''
+          let g:copilot_node_command = "${pkgs.nodejs}/bin/node"
           let g:copilot_filetypes = {
           \ 'gitcommit': v:true,
           \ 'markdown': v:true,
