@@ -209,5 +209,8 @@ let
   };
 
 in listToAttrs (map (system:
-  nameValuePair "${system}" {install = mkApp (install system);}
+  nameValuePair "${system}" {
+    default = mkApp (install system);
+    install = mkApp (install system);
+  }
 ) targetSystems)
