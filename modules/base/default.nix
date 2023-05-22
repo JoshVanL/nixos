@@ -11,5 +11,6 @@ with lib;
     ./nix.nix
     ./hardware.nix
     ./boot.nix
+    ./parallels.nix
   ];
 }

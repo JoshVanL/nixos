@@ -1,5 +1,4 @@
 { lib, config, ... }:
-
 with lib;
 let
   cfg = config.me.base.hardware;
@@ -11,7 +10,6 @@ in {
       default = "";
       description = "The architecture and OS of the system to install to.";
     };
-    parallels.enable = mkEnableOption "Parallels Desktop";
   };
 
   config = {
@@ -51,13 +49,7 @@ in {
 
     swapDevices = [ ];
 
-    # high-resolution display
-    hardware = {
-      enableRedistributableFirmware = true;
-      parallels.enable = cfg.parallels.enable;
-    };
-    nixpkgs.config.allowUnfreePredicate = mkIf cfg.parallels.enable
-      (pkg: builtins.elem (lib.getName pkg) [ "prl-tools" ]);
+    hardware.enableRedistributableFirmware = true;
 
     services = {
       # ZFS maintenance settings.

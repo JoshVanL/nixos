@@ -13,10 +13,8 @@
         ];
         trusted-public-keys = config.me.security.joshvanl.nixPublicKeys;
       };
-      hardware = {
-        system = "aarch64-linux";
-        parallels.enable = true;
-      };
+      hardware.system = "aarch64-linux";
+      parallels.enable = true;
     };
     dev = {
       git = {

@@ -48,7 +48,7 @@ in {
           User = "root";
           Group = "root";
           WorkingDirectory = "/tmp";
-          ExecStart= "${backupSH}/bin/backup.sh";
+          ExecStart = "${backupSH}/bin/backup.sh";
           Restart = "on-failure";
         };
         wantedBy = [ "default.target" ];
