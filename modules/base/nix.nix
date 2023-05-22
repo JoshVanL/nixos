@@ -9,9 +9,9 @@ let
     runtimeInputs = with pkgs; [ nixos-rebuild zsh ];
     text = ''
       sudo nixos-rebuild switch -L --flake '/keep/etc/nixos/.#'
-      rm -f /home/${config.me.base.username}/.zsh_history
-      ln -s /persist/home/.zsh_history /home/${config.me.base.username}/.zsh_history
-      zsh -c "source /home/${config.me.base.username}/.zshrc"
+      rm -f /home/${config.me.username}/.zsh_history
+      ln -s /persist/home/.zsh_history /home/${config.me.username}/.zsh_history
+      zsh -c "source /home/${config.me.username}/.zshrc"
     '';
   };
 
@@ -59,7 +59,7 @@ in {
   config = {
     nix = {
       settings = {
-        allowed-users = [ "root" "${config.me.base.username}"];
+        allowed-users = [ "root" "${config.me.username}"];
         auto-optimise-store = true;
         substituters = lib.mkBefore cfg.substituters;
         connect-timeout = 1;
@@ -73,7 +73,7 @@ in {
         options = cfg.gc.options;
       };
 
-      settings.trusted-users = [ "root" "${config.me.base.username}" ];
+      settings.trusted-users = [ "root" "${config.me.username}" ];
 
       extraOptions = ''
         experimental-features = nix-command flakes
@@ -85,7 +85,7 @@ in {
 
     nixpkgs.config.allowUnsupportedSystem = true;
 
-    home-manager.users.${config.me.base.username} = {
+    home-manager.users.${config.me.username} = {
       home.packages = [
         updateSH
         gimmiSH

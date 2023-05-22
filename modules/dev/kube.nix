@@ -12,10 +12,10 @@ in {
     systemd.tmpfiles.rules = mkIf config.me.networking.podman.enable [
       # This directory is hardcoded in kind somewhere and is required for it to
       # work but doesn't actually use it...
-      "d /lib/modules 0755 ${config.me.base.username} wheel - -"
+      "d /lib/modules 0755 ${config.me.username} wheel - -"
     ];
 
-    home-manager.users.${config.me.base.username} = {
+    home-manager.users.${config.me.username} = {
       home = {
         packages = with pkgs; [
           kubectl

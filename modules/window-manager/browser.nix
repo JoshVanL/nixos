@@ -4,24 +4,24 @@ with lib;
 {
   config = mkIf config.me.window-manager.enable {
     systemd.tmpfiles.rules = [
-      "d /persist/home 0755 ${config.me.base.username} wheel - -"
-      "d /persist/home/.mozilla  0755 ${config.me.base.username} wheel - -"
-      "d /persist/home/.config/chromium  0755 ${config.me.base.username} wheel - -"
-      "d /persist/home/.cache/mozilla 0755 ${config.me.base.username} wheel - -"
-      "d /persist/home/.cache/chromium 0755 ${config.me.base.username} wheel - -"
-      "d /persist/home/downloads 0755 ${config.me.base.username} wheel - -"
-      "d /persist/home/documents 0755 ${config.me.base.username} wheel - -"
+      "d /persist/home 0755 ${config.me.username} wheel - -"
+      "d /persist/home/.mozilla  0755 ${config.me.username} wheel - -"
+      "d /persist/home/.config/chromium  0755 ${config.me.username} wheel - -"
+      "d /persist/home/.cache/mozilla 0755 ${config.me.username} wheel - -"
+      "d /persist/home/.cache/chromium 0755 ${config.me.username} wheel - -"
+      "d /persist/home/downloads 0755 ${config.me.username} wheel - -"
+      "d /persist/home/documents 0755 ${config.me.username} wheel - -"
 
-      "L+ /home/${config.me.base.username}/.mozilla - - - - /persist/home/.mozilla"
-      "L+ /home/${config.me.base.username}/.cache/mozilla - - - - /persist/home/.cache/mozilla"
-      "L+ /home/${config.me.base.username}/.config/chromium - - - - /persist/home/.config/chromium"
-      "L+ /home/${config.me.base.username}/.cache/chromium - - - - /persist/home/.cache/chromium"
-      "L+ /home/${config.me.base.username}/downloads - - - - /keep/home/downloads"
-      "L+ /home/${config.me.base.username}/Downloads - - - - /keep/home/downloads"
-      "L+ /home/${config.me.base.username}/documents - - - - /persist/home/documents"
+      "L+ /home/${config.me.username}/.mozilla - - - - /persist/home/.mozilla"
+      "L+ /home/${config.me.username}/.cache/mozilla - - - - /persist/home/.cache/mozilla"
+      "L+ /home/${config.me.username}/.config/chromium - - - - /persist/home/.config/chromium"
+      "L+ /home/${config.me.username}/.cache/chromium - - - - /persist/home/.cache/chromium"
+      "L+ /home/${config.me.username}/downloads - - - - /keep/home/downloads"
+      "L+ /home/${config.me.username}/Downloads - - - - /keep/home/downloads"
+      "L+ /home/${config.me.username}/documents - - - - /persist/home/documents"
     ];
 
-    home-manager.users.${config.me.base.username}.home = {
+    home-manager.users.${config.me.username}.home = {
       packages = with pkgs; [
         chromium
         firefox

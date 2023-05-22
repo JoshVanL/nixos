@@ -38,7 +38,7 @@ in {
 
     security.pam.yubico = mkIf cfg.pam.enable { enable = true; id = "16"; };
 
-    home-manager.users.${config.me.base.username} = {
+    home-manager.users.${config.me.username} = {
       home.packages = with pkgs; [
         gnupg
         yubikey-personalization

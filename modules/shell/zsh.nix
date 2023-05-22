@@ -33,10 +33,10 @@ in {
     programs.zsh.enable = true;
 
     systemd.tmpfiles.rules = [
-      "L+ /home/${config.me.base.username}/.zsh_history - - - - /persist/home/.zsh_history"
+      "L+ /home/${config.me.username}/.zsh_history - - - - /persist/home/.zsh_history"
     ];
 
-    home-manager.users.${config.me.base.username} = {
+    home-manager.users.${config.me.username} = {
       home = {
         file.".config/oh-my-zsh/themes/amuse-custom.zsh-theme".source = pkgs.fetchurl {
           url = "https://raw.githubusercontent.com/JoshVanL/oh-my-zsh-custom/main/amuse-custom.zsh-theme";

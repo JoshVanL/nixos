@@ -13,7 +13,7 @@ let
 
   # targetSystems is a list of all the systems which are defined in the
   # nixosConfigurations attrset.
-  targetSystems = lists.unique (mapAttrsToList (_: machine: machine.config.me.base.hardware.system) nixosConfigurations);
+  targetSystems = lists.unique (mapAttrsToList (_: machine: machine.config.me.system) nixosConfigurations);
 
   # commit-rev is the git revision of the flake.
   commit-rev = if self ? rev then self.rev else "";
@@ -45,13 +45,13 @@ let
 
   # usernamesBashMap is a bash map of machines to thir usernames.
   usernamesBashMap = concatStringsSep " " (map (name:
-    "[\"" + name + "\"]=\"" + nixosConfigurations.${name}.config.me.base.username + "\""
+    "[\"" + name + "\"]=\"" + nixosConfigurations.${name}.config.me.username + "\""
   ) allMachines);
 
   # sysMachines returns a string of the names of the machines which have the
   # same architecture as the given system.
   sysMachines = system: "\"" + (concatStringsSep "\" \"" (builtins.attrNames (
-    filterAttrs (name: value: value.config.me.base.hardware.system == system) nixosConfigurations
+    filterAttrs (name: value: value.config.me.system == system) nixosConfigurations
   ))) + "\"";
 
   # Add helper functions to the lib attrset.

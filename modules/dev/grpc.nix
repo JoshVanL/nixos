@@ -10,10 +10,10 @@ in {
 
   config = mkIf cfg.enable {
     systemd.tmpfiles.rules = [
-      "d /keep/home/go 0755 ${config.me.base.username} wheel - -"
-      "L+ /home/${config.me.base.username}/go - - - - /keep/home/go"
+      "d /keep/home/go 0755 ${config.me.username} wheel - -"
+      "L+ /home/${config.me.username}/go - - - - /keep/home/go"
     ];
-    home-manager.users.${config.me.base.username}.home = {
+    home-manager.users.${config.me.username}.home = {
       packages = with pkgs; [
         grpcurl
         protobuf

@@ -1,8 +1,8 @@
 { pkgs, lib, config, ... }: {
   me = {
+    username = "josh";
+    system = "aarch64-linux";
     base = {
-      username = "josh";
-      hardware.system = "aarch64-linux";
       nix = {
         substituters = [ "http://nixcache.joshvanl.dev" ];
         gc.automatic = false;

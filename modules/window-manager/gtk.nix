@@ -2,7 +2,7 @@
 with lib;
 {
   config = mkIf config.me.window-manager.enable {
-    home-manager.users.${config.me.base.username} = {
+    home-manager.users.${config.me.username} = {
       home.packages = with pkgs; [
         dconf
       ];

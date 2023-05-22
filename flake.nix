@@ -51,7 +51,7 @@
     );
 
     sysFromMachineName = name:
-      (import ./machines/${name}.nix {config={};pkgs={};lib=lib;}).me.base.hardware.system;
+      (import ./machines/${name}.nix {config={};pkgs={};lib=lib;}).me.system;
 
     buildFromName = name: buildMachine name (sysFromMachineName name);
 

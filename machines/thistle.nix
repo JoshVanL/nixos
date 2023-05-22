@@ -1,7 +1,8 @@
 { pkgs, lib, config, ... }: {
   me = {
+    username = "josh";
+    system = "x86_64-linux";
     base = {
-      username = "josh";
       nix = {
         substituters = [
           "http://nixcache.joshvanl.dev/"
@@ -13,7 +14,6 @@
         loader = "systemd-boot";
         initrd.availableKernelModules = [ "ehci_pci" "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" ];
       };
-      hardware.system = "x86_64-linux";
     };
     dev = {
       git = {

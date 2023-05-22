@@ -28,15 +28,15 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home-manager.users.${config.me.base.username}.home.packages = with pkgs; [
+    home-manager.users.${config.me.username}.home.packages = with pkgs; [
       zfs_uploader
       backblaze-b2
     ];
 
     systemd = {
       tmpfiles.rules = [
-        "d ${dirOf cfg.configPath} 0755 ${config.me.base.username} wheel - -"
-        "d ${dirOf cfg.logPath} 0755 ${config.me.base.username} wheel - -"
+        "d ${dirOf cfg.configPath} 0755 ${config.me.username} wheel - -"
+        "d ${dirOf cfg.logPath} 0755 ${config.me.username} wheel - -"
       ];
 
       services.zfs_uploader = {

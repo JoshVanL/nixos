@@ -13,8 +13,8 @@ in {
 
   config = {
     systemd.tmpfiles.rules = [
-      "d /persist/etc/NetworkManager 0755 ${config.me.base.username} wheel - -"
-      "d /persist/var/lib/iwd 0755 ${config.me.base.username} wheel - -"
+      "d /persist/etc/NetworkManager 0755 ${config.me.username} wheel - -"
+      "d /persist/var/lib/iwd 0755 ${config.me.username} wheel - -"
     ];
     environment.etc."NetworkManager/system-connections".source = "/persist/etc/NetworkManager/system-connections";
     fileSystems."/var/lib/iwd" = { options = [ "bind" ]; device = "/persist/var/lib/iwd"; };
@@ -49,7 +49,7 @@ in {
       avahi.enable = true;
     };
 
-    home-manager.users.${config.me.base.username}.home.packages = with pkgs; [
+    home-manager.users.${config.me.username}.home.packages = with pkgs; [
       fast-cli
       wget
     ];

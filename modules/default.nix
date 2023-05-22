@@ -6,4 +6,5 @@
   ./shell
   ./security
   ./window-manager
+  ./me.nix
 ]

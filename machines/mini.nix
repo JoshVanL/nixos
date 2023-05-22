@@ -1,13 +1,13 @@
 { lib, ... }: {
   me = {
+    username = "notme";
+    system = "aarch64-linux";
     base = {
-      username = "notme";
       boot = {
         loader = "systemd-boot";
         initrd.availableKernelModules = [ "xhci_pci" "usbhid" "sr_mod" ];
       };
       parallels.enable = true;
-      hardware.system = "aarch64-linux";
     };
     networking = {
       interfaces = {

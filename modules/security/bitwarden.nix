@@ -19,19 +19,19 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home-manager.users.${config.me.base.username}.home = {
+    home-manager.users.${config.me.username}.home = {
       packages = with pkgs; [
         bitwarden-cli
       ];
     };
 
     systemd.tmpfiles.rules = [
-      "d /persist/home/.config/Bitwarden 0755 ${config.me.base.username} wheel - -"
-      "d '/persist/home/.config/Bitwarden\ CLI' 0755 ${config.me.base.username} wheel - -"
-      "L+ /home/${config.me.base.username}/.config/Bitwarden - - - - /persist/home/.config/Bitwarden"
-      "L+ '/home/${config.me.base.username}/.config/Bitwarden\ CLI' - - - - '/persist/home/.config/Bitwarden\ CLI'"
+      "d /persist/home/.config/Bitwarden 0755 ${config.me.username} wheel - -"
+      "d '/persist/home/.config/Bitwarden\ CLI' 0755 ${config.me.username} wheel - -"
+      "L+ /home/${config.me.username}/.config/Bitwarden - - - - /persist/home/.config/Bitwarden"
+      "L+ '/home/${config.me.username}/.config/Bitwarden\ CLI' - - - - '/persist/home/.config/Bitwarden\ CLI'"
     ] ++ (optionals cfg.server.enable [
-      "d /persist/var/lib/postgresql 0755 ${config.me.base.username} wheel - -"
+      "d /persist/var/lib/postgresql 0755 ${config.me.username} wheel - -"
       "d /persist/var/lib/bitwarden_rs 0755 vaultwarden vaultwarden - -"
     ]);
 

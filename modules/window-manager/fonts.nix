@@ -7,7 +7,7 @@ with lib;
       font-awesome
     ];
 
-    home-manager.users.${config.me.base.username}.home.file = {
+    home-manager.users.${config.me.username}.home.file = {
       ".local/share/fonts/Menlo For Powerline.ttf" = {
         source = pkgs.fetchurl {
           url = "https://github.com/JoshVanL/Menlo-for-Powerline/raw/master/Menlo%20for%20Powerline.ttf";

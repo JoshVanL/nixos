@@ -17,18 +17,18 @@
     defaultUserShell = pkgs.zsh;
     mutableUsers = false;
     users = {
-      ${config.me.base.username} = {
+      ${config.me.username} = {
         isNormalUser = true;
         uid = 1000;
         createHome = true;
-        home = "/home/${config.me.base.username}";
+        home = "/home/${config.me.username}";
         group = "users";
         extraGroups = [
           "wheel"
           "networkmanager"
           "video"
         ];
-        passwordFile = "/keep/etc/users/${config.me.base.username}";
+        passwordFile = "/keep/etc/users/${config.me.username}";
       };
       root = {
         hashedPassword = "!";
@@ -37,12 +37,12 @@
   };
 
   systemd.tmpfiles.rules = [
-    "d /home/${config.me.base.username}/.cache 0755 ${config.me.base.username} wheel - -"
-    "d /home/${config.me.base.username}/.config 0755 ${config.me.base.username} wheel - -"
+    "d /home/${config.me.username}/.cache 0755 ${config.me.username} wheel - -"
+    "d /home/${config.me.username}/.config 0755 ${config.me.username} wheel - -"
     "d /keep/etc/users 0700 root root - -"
   ];
 
-  home-manager.users.${config.me.base.username}.home = {
+  home-manager.users.${config.me.username}.home = {
     stateVersion = "22.11";
     packages = with pkgs; [
       killall

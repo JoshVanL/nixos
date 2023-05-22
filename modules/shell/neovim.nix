@@ -44,15 +44,15 @@ in {
 
   config = mkIf cfg.enable {
     systemd.tmpfiles.rules = [
-      "L+ /home/${config.me.base.username}/.viminfo - - - - /persist/home/.viminfo"
+      "L+ /home/${config.me.username}/.viminfo - - - - /persist/home/.viminfo"
     ] ++ (optionals cfg.coPilot.enable [
-      "d /persist/home/.config/github-copilot 0755 ${config.me.base.username} wheel - -"
-      "L+ /home/${config.me.base.username}/.config/github-copilot - - - - /persist/home/.config/github-copilot"
+      "d /persist/home/.config/github-copilot 0755 ${config.me.username} wheel - -"
+      "L+ /home/${config.me.username}/.config/github-copilot - - - - /persist/home/.config/github-copilot"
     ]);
 
     environment.variables.EDITOR = "vim";
 
-    home-manager.users.${config.me.base.username} = {
+    home-manager.users.${config.me.username} = {
       home.sessionVariables = {
         VISUAL = "vim";
       };

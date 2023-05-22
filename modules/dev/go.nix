@@ -15,16 +15,16 @@ in {
 
   config = mkIf cfg.enable {
     systemd.tmpfiles.rules = [
-      "d /keep/home/go 0755 ${config.me.base.username} wheel - -"
-      "L+ /home/${config.me.base.username}/go - - - - /keep/home/go"
+      "d /keep/home/go 0755 ${config.me.username} wheel - -"
+      "L+ /home/${config.me.username}/go - - - - /keep/home/go"
     ];
 
-    home-manager.users.${config.me.base.username} = {
+    home-manager.users.${config.me.username} = {
       systemd.user.services.gopls = {
         Unit.Description = "gopls daemon";
         Install.WantedBy = [ "default.target" ];
         Service = {
-          Environment = [ "PATH=/run/wrappers/bin:/home/${config.me.base.username}/.nix-profile/bin:/etc/profiles/per-user/${config.me.base.username}/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin" ];
+          Environment = [ "PATH=/run/wrappers/bin:/home/${config.me.username}/.nix-profile/bin:/etc/profiles/per-user/${config.me.username}/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin" ];
           ExecStart = "${pkgs.gopls}/bin/gopls -listen=unix;%t/gopls";
           ExecStopPost = "/run/current-system/sw/bin/rm -f %t/gopls";
           Restart = "always";

@@ -12,7 +12,7 @@ in {
   };
 
   config = mkIf config.me.window-manager.enable {
-    home-manager.users.${config.me.base.username}.programs.alacritty = {
+    home-manager.users.${config.me.username}.programs.alacritty = {
       enable = true;
       settings = {
         env = {

@@ -26,7 +26,7 @@ in {
 
   config = mkIf cfg.enable {
     systemd.tmpfiles.rules = [
-      "d ${cfg.cacheDir} 0755 ${config.me.base.username} wheel -"
+      "d ${cfg.cacheDir} 0755 ${config.me.username} wheel -"
     ];
 
     fileSystems = {

@@ -10,11 +10,11 @@ in {
 
   config = mkIf cfg.enable {
     systemd.tmpfiles.rules = [
-      "d /keep/home/.aws 0755 ${config.me.base.username} wheel - -"
-      "L+ /home/${config.me.base.username}/.aws - - - - /keep/home/.aws"
+      "d /keep/home/.aws 0755 ${config.me.username} wheel - -"
+      "L+ /home/${config.me.username}/.aws - - - - /keep/home/.aws"
     ];
 
-    home-manager.users.${config.me.base.username} = {
+    home-manager.users.${config.me.username} = {
       home.packages = with pkgs; [
         awscli2
         (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.cloud-build-local])

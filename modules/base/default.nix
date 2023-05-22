@@ -2,7 +2,7 @@
 with lib;
 
 {
-  options.me.base.username = mkOption {
+  options.me.username = mkOption {
     type = types.str;
   };
 

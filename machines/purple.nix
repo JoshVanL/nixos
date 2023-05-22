@@ -1,7 +1,8 @@
 { pkgs, lib, config, ... }: {
   me = {
+    system = "aarch64-linux";
+    username = "josh";
     base = {
-      username = "josh";
       boot = {
         loader = "systemd-boot";
         initrd.availableKernelModules = [ "xhci_pci" "usbhid" "sr_mod" ];
@@ -13,7 +14,6 @@
         ];
         trusted-public-keys = config.me.security.joshvanl.nixPublicKeys;
       };
-      hardware.system = "aarch64-linux";
       parallels.enable = true;
     };
     dev = {

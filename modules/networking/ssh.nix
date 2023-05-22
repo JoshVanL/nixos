@@ -41,9 +41,9 @@ in {
     ];
 
     systemd.tmpfiles.rules = [
-      "d /home/${config.me.base.username}/.ssh 0755 ${config.me.base.username} wheel - -"
-      "d /persist/home/.ssh 0755 ${config.me.base.username} wheel - -"
-      "L+ /home/${config.me.base.username}/.ssh/known_hosts - - - - /persist/home/.ssh/known_hosts"
+      "d /home/${config.me.username}/.ssh 0755 ${config.me.username} wheel - -"
+      "d /persist/home/.ssh 0755 ${config.me.username} wheel - -"
+      "L+ /home/${config.me.username}/.ssh/known_hosts - - - - /persist/home/.ssh/known_hosts"
     ] ++ (optionals cfg.ingress.enable [
       "d /etc/ssh 0755 root root - -"
       "d /keep/etc/ssh 0755 root root - -"
@@ -53,7 +53,7 @@ in {
       "L+ /etc/ssh/ssh_host_rsa_key.pub - - - - /keep/etc/ssh/ssh_host_rsa_key.pub"
     ]);
 
-    users.users.${config.me.base.username}.openssh.authorizedKeys.keys = mkIf cfg.ingress.enable cfg.ingress.authorizedKeys;
+    users.users.${config.me.username}.openssh.authorizedKeys.keys = mkIf cfg.ingress.enable cfg.ingress.authorizedKeys;
 
     services.openssh = mkIf cfg.ingress.enable {
       enable = true;
@@ -64,7 +64,7 @@ in {
       };
     };
 
-    home-manager.users.${config.me.base.username} = {
+    home-manager.users.${config.me.username} = {
       programs.ssh = {
         enable = true;
         userKnownHostsFile = "/persist/home/.ssh/known_hosts";
