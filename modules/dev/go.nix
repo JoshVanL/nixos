@@ -40,9 +40,6 @@ in {
           golangci-lint
           gopls
           go
-          protobuf
-          go-protobuf
-          go-protobuf-grpc
           gomarkdoc
           gotestsum
           mockery

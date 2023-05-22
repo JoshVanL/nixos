@@ -11,5 +11,6 @@
     ./kube.nix
     ./python.nix
     ./git.nix
+    ./grpc.nix
   ];
 }

@@ -26,6 +26,7 @@
         enable = true;
         proxy = "http://gocache.joshvanl.dev|https://proxy.golang.org";
       };
+      grpc.enable = true;
       kube.enable = true;
       crypto.enable = true;
       data.enable = true;
