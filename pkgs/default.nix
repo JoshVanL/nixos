@@ -9,10 +9,8 @@ with pkgs;
   paranoia = callPackage ./paranoia {};
   vcert = callPackage ./vcert {};
   gke-gcloud-auth-plugin = callPackage ./gke-gcloud-auth-plugin {};
-  zfs_uploader = callPackage ./zfs_uploader {
-    python3 = python3;
-    python3Packages = python3Packages;
-  };
+  zfs_uploader = callPackage ./zfs_uploader {};
   mockery = callPackage ./mockery {};
   goproxy = callPackage ./goproxy {};
+  mechanical-markdown = callPackage ./mechanical-markdown {};
 }
