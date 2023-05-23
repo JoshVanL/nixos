@@ -86,7 +86,7 @@ in {
     };
 
     systemd = {
-      timers."machine-builder" = {
+      timers.machine-builder = {
         wantedBy = [ "timers.target" ];
         timerConfig = {
           OnCalendar=cfg.timerOnCalendar;
@@ -94,7 +94,7 @@ in {
         };
       };
 
-      services."machine-builder" = {
+      services.machine-builder = {
         enable = true;
         description = "NixOS machine builder";
         wants = [ "network-online.target" ];

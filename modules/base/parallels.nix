@@ -14,7 +14,6 @@ in {
 
     systemd.user.services.prlcp = {
       enable = true;
-      wantedBy = mkForce [ "default.target" ];
       serviceConfig = {
         Environment = [ "DISPLAY=:0" ];
         Restart = mkForce "always";

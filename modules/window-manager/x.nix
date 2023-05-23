@@ -1,4 +1,4 @@
-{ lib, pkgs, config, dwm, ... }:
+{ lib, pkgs, config, ... }:
 
 with lib;
 let
@@ -9,30 +9,49 @@ let
     hash = "sha256-d+2uu+/ZtjJU34tNjidbMHGY6UDjPO7R2tA8VrCHWIA=";
   };
 
-  xinitrcSH = pkgs.writeShellApplication {
-    name = "xinitrc.sh";
+  xconfSH = pkgs.writeShellApplication {
+    name = "xconf.sh";
     runtimeInputs = with pkgs; [
-      xorg.xrandr
       xorg.xset
       xorg.xmodmap
       xorg.setxkbmap
-      feh
-      picom
       xorg.xprop
-      pkgs.dwm
     ];
     text = ''
-      xrandr ${cfg.xrandrArgs}
       xset r rate 250 70
       xset s off -dpms
       setxkbmap -option caps:escape
       xmodmap -e 'keycode 94 = grave asciitilde'
-      feh --bg-fill ${wallpaper}
-      picom &
       xprop -root -set WM_NAME "-"
-      dwm
     '';
   };
+
+  xinitrcSH = pkgs.writeShellApplication {
+    name = ".xinitrc";
+    runtimeInputs = with pkgs; [ dwm systemdMinimal ];
+    text = ''
+      systemctl --user start graphical-session.target
+      dwm
+      systemctl --user stop graphical-session.target
+    '';
+  };
+
+  mkSystemd = sys: {
+    Unit = {
+      Description = sys.desc;
+      PartOf = ["graphical-session.target"];
+    };
+    Install = {
+      WantedBy = ["graphical-session.target"];
+      After = sys.after or [];
+    };
+    Service = {
+      Environment = [ "DISPLAY=:0" ];
+      Type = sys.type;
+      ExecStart = sys.exec;
+    };
+  };
+
 in {
   options.me.window-manager = {
     enable = mkEnableOption "window-manager";
@@ -88,8 +107,33 @@ in {
       };
     };
 
-
     home-manager.users.${config.me.username} = {
+      systemd.user.services = {
+        xrandr = mkSystemd {
+          type = "oneshot";
+          desc = "configure xrandr";
+          exec = "${pkgs.xorg.xrandr}/bin/xrandr ${cfg.xrandrArgs}";
+        };
+        xconf = mkSystemd {
+          type = "oneshot";
+          desc = "configure X";
+          exec = "${xconfSH}/bin/xconf.sh";
+          after = ["xrandr.service"];
+        };
+        feh = mkSystemd {
+          type = "oneshot";
+          desc = "set wallpaper";
+          exec = "${pkgs.feh}/bin/feh --bg-fill ${wallpaper} --no-fehbg";
+          after = ["xrandr.service"];
+        };
+        picom = mkSystemd {
+          type = "simple";
+          desc = "picom compositor";
+          exec = "${pkgs.picom}/bin/picom";
+          after = ["xrandr.service"];
+        };
+      };
+
       home = {
         packages = with pkgs; [
           xclip
@@ -97,7 +141,7 @@ in {
           evince
         ];
 
-        file.".xinitrc".source = "${xinitrcSH}/bin/xinitrc.sh";
+        file.".xinitrc".source = "${xinitrcSH}/bin/.xinitrc";
       };
 
       programs.zsh.shellAliases = {
