@@ -47,6 +47,7 @@
     packages = with pkgs; [
       killall
       htop
+      lsof
     ];
   };
 }
