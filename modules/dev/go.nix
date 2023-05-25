@@ -24,7 +24,6 @@ in {
         Unit.Description = "gopls daemon";
         Install.WantedBy = [ "default.target" ];
         Service = {
-          Environment = [ "PATH=/run/wrappers/bin:/home/${config.me.username}/.nix-profile/bin:/etc/profiles/per-user/${config.me.username}/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin" ];
           ExecStart = "${pkgs.gopls}/bin/gopls -listen=unix;%t/gopls";
           ExecStopPost = "/run/current-system/sw/bin/rm -f %t/gopls";
           Restart = "always";
