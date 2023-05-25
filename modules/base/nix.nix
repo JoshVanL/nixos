@@ -6,20 +6,17 @@ let
 
   updateSH = pkgs.writeShellApplication {
     name = "update";
-    runtimeInputs = with pkgs; [ nixos-rebuild zsh ];
+    runtimeInputs = with pkgs; [ nixos-rebuild ];
     text = ''
       sudo nixos-rebuild switch -L --flake '/keep/etc/nixos/.#'
-      rm -f /home/${config.me.username}/.zsh_history
-      ln -s /persist/home/.zsh_history /home/${config.me.username}/.zsh_history
-      zsh -c "source /home/${config.me.username}/.zshrc"
     '';
   };
 
   gimmiSH = pkgs.writeShellApplication {
     name = "gimmi";
-    runtimeInputs = with pkgs; [ nix zsh ];
+    runtimeInputs = with pkgs; [ nix ];
     text = ''
-      nix-shell -p "$@" --run "zsh"
+      nix-shell -p "$@" --run "''${SHELL}"
     '';
   };
 

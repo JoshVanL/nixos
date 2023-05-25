@@ -35,6 +35,7 @@
       data.enable = true;
       image.enable = true;
       python.enable = true;
+      rust.enable = true;
     };
     data = {
       zfs_uploader = {

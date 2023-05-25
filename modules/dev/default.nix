@@ -12,5 +12,6 @@
     ./python.nix
     ./git.nix
     ./grpc.nix
+    ./rust.nix
   ];
 }
