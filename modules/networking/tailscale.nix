@@ -28,7 +28,7 @@ in {
     systemd = {
       services.tailscaled.after = [ "systemd-tmpfiles-setup.service" ];
       user.tmpfiles.rules = [
-        "d /persist/var/lib/tailscale 0755 ${config.me.username} wheel - -"
+        "d /persist/var/lib/tailscale 0700 root root - -"
       ];
     };
 
