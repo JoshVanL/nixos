@@ -25,6 +25,7 @@ in {
         Install.WantedBy = [ "default.target" ];
         Service = {
           ExecStart = "${pkgs.gopls}/bin/gopls -listen=unix;%t/gopls";
+          Environment = [ "PATH=${pkgs.go}/bin" ];
           ExecStopPost = "/run/current-system/sw/bin/rm -f %t/gopls";
           Restart = "always";
           RestartSec = 3;
