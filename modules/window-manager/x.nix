@@ -28,11 +28,10 @@ let
 
   xinitrcSH = pkgs.writeShellApplication {
     name = ".xinitrc";
-    runtimeInputs = with pkgs; [ dwm systemdMinimal ];
     text = ''
-      systemctl --user start graphical-session.target
-      dwm
-      systemctl --user stop graphical-session.target
+      ${pkgs.systemdMinimal}/bin/systemctl --user start graphical-session.target
+      ${pkgs.dwm}/bin/dwm
+      ${pkgs.systemdMinimal}/bin/systemctl --user stop graphical-session.target
     '';
   };
 
