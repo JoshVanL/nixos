@@ -70,5 +70,13 @@
       xrandrArgs = "--output Virtual-1 --mode 4096x2160 --rate 120 --output Virtual-2 --off";
     };
   };
-}
 
+  specialisation = {
+    onthemove = {
+      inheritParentConfig = true;
+      configuration = {
+        me.window-manager.fontsize = lib.mkForce 24;
+      };
+    };
+  };
+}
