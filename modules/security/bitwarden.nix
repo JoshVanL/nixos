@@ -27,9 +27,9 @@ in {
 
     systemd.tmpfiles.rules = [
       "d /persist/home/.config/Bitwarden 0755 ${config.me.username} wheel - -"
-      "d '/persist/home/.config/Bitwarden\ CLI' 0755 ${config.me.username} wheel - -"
+      "d /persist/home/.config/BitwardenCLI 0755 ${config.me.username} wheel - -"
       "L+ /home/${config.me.username}/.config/Bitwarden - - - - /persist/home/.config/Bitwarden"
-      "L+ '/home/${config.me.username}/.config/Bitwarden\ CLI' - - - - '/persist/home/.config/Bitwarden\ CLI'"
+      "L+ '/home/${config.me.username}/.config/Bitwarden CLI' - - - - /persist/home/.config/BitwardenCLI"
     ] ++ (optionals cfg.server.enable [
       "d /persist/var/lib/postgresql 0755 ${config.me.username} wheel - -"
       "d /persist/var/lib/bitwarden_rs 0755 vaultwarden vaultwarden - -"
