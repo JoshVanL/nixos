@@ -1,7 +1,6 @@
 { lib
 , buildGoModule
 , fetchFromGitHub
-, installShellFiles
 }:
 
 buildGoModule rec {
@@ -17,15 +16,6 @@ buildGoModule rec {
 
   vendorSha256 = "sha256-LfovwcipO3/ovHLDSLRhHcEocbKdW399o6mJ45GavBM=";
   subPackages = [ "cmd/gomarkdoc" ];
-
-  nativeBuildInputs = [ installShellFiles ];
-  postInstall = ''
-    installShellCompletion --cmd gomarkdoc \
-      --bash <($out/bin/gomarkdoc completion bash) \
-      --fish <($out/bin/gomarkdoc completion fish) \
-      --zsh <($out/bin/gomarkdoc completion zsh)
-  '';
-
   meta = with lib; {
     homepage = "https://github.com/princjef/gomarkdoc";
     description = " Generate markdown documentation for Go (golang) code";
