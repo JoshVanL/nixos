@@ -20,6 +20,24 @@ let
     '';
   };
 
+  specialisationSH = pkgs.writeShellApplication {
+    name = "specialisation";
+    text = ''
+      if [ $# -ne 1 ]; then
+          echo "Usage: specialisation <specialisation name>"
+          echo "Names: main $(ls /nix/var/nix/profiles/system/specialisation)"
+          exit 1
+      fi
+      if [ "$1" = "main" ]; then
+          echo "Switching to main configuration."
+          sudo /nix/var/nix/profiles/system/bin/switch-to-configuration switch
+      else
+          echo "Switching to specialisation '$1'."
+          sudo /nix/var/nix/profiles/system/specialisation/"$1"/bin/switch-to-configuration switch
+      fi
+    '';
+  };
+
 in {
   options.me.base.nix = {
     substituters = mkOption {
@@ -86,6 +104,7 @@ in {
       home.packages = [
         updateSH
         gimmiSH
+        specialisationSH
       ];
 
       programs.zsh.shellAliases = mkIf config.me.shell.zsh.enable {
