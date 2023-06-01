@@ -58,9 +58,8 @@ in {
     services.openssh = mkIf cfg.ingress.enable {
       enable = true;
       settings = {
-        passwordAuthentication = false;
         PasswordAuthentication = false;
-        kbdInteractiveAuthentication = true;
+        KbdInteractiveAuthentication = true;
       };
     };
 
