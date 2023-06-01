@@ -11,7 +11,6 @@ in {
     services.nginx = {
       recommendedOptimisation = true;
       recommendedTlsSettings = true;
-      recommendedGzipSettings = true;
       appendHttpConfig = ''
         resolver 8.8.8.8 ipv6=off;
         access_log off;
