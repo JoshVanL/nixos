@@ -15,14 +15,12 @@ let
       xorg.xset
       xorg.xmodmap
       xorg.setxkbmap
-      xorg.xprop
     ];
     text = ''
       xset r rate 250 70
       xset s off -dpms
       setxkbmap -option caps:escape
       xmodmap -e 'keycode 94 = grave asciitilde'
-      xprop -root -set WM_NAME "-"
     '';
   };
 
@@ -129,6 +127,12 @@ in {
           type = "simple";
           desc = "picom compositor";
           exec = "${pkgs.picom}/bin/picom";
+          after = ["xrandr.service"];
+        };
+        xpropdate = mkSystemd {
+          type = "simple";
+          desc = "xpropdate: set WM_NAME to current datetime";
+          exec = "${pkgs.xpropdate}/bin/xpropdate";
           after = ["xrandr.service"];
         };
       };

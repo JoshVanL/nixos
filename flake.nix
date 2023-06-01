@@ -13,14 +13,26 @@
       url = "github:aristanetworks/nix-serve-ng";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    xpropdate = {
+      url = "github:joshvanl/xpropdate";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, joshvanldwm, nix-serve-ng }@inputs:
+  outputs = { self
+    , nixpkgs
+    , home-manager
+    , joshvanldwm
+    , nix-serve-ng
+    , xpropdate
+  }@inputs:
   let
     lib = nixpkgs.lib;
 
-    pkgsOverlays = system: [ joshvanldwm.overlays.${system} ] ++
-    lib.mapAttrsToList (name: _: import ./overlays/${name}) (lib.filterAttrs
+    pkgsOverlays = system: [
+      joshvanldwm.overlays.${system}
+      xpropdate.overlays.${system}
+    ] ++ lib.mapAttrsToList (name: _: import ./overlays/${name}) (lib.filterAttrs
       (name: entryType: lib.hasSuffix ".nix" name && entryType == "regular")
       (builtins.readDir ./overlays)
     );
