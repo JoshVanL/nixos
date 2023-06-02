@@ -23,6 +23,9 @@ let
   specialisationSH = pkgs.writeShellApplication {
     name = "specialisation";
     text = ''
+      mapfile -t SPECIALISATIONS < <(ls /nix/var/nix/profiles/system/specialisation)
+      SPECIALISATIONS=( "main" "''${SPECIALISATIONS[@]}" )
+
       containsSpec() {
         local e match="$1"
         shift
@@ -30,12 +33,9 @@ let
         return 1
       }
 
-      SPECIALISATIONS=$(ls /nix/var/nix/profiles/system/specialisation)
-      SPECIALISATIONS+=" main"
-
       if [ $# -ne 1 ]; then
           echo "Usage: specialisation <specialisation name>"
-          echo "Names: $SPECIALISATIONS"
+          echo "Names: ''${SPECIALISATIONS[*]}"
           exit 1
       fi
       if ! containsSpec "$1" "''${SPECIALISATIONS[@]}"; then
