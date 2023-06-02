@@ -23,10 +23,24 @@ let
   specialisationSH = pkgs.writeShellApplication {
     name = "specialisation";
     text = ''
+      containsSpec() {
+        local e match="$1"
+        shift
+        for e; do [[ "$e" == "$match" ]] && return 0; done
+        return 1
+      }
+
+      SPECIALISATIONS=$(ls /nix/var/nix/profiles/system/specialisation)
+      SPECIALISATIONS+="main"
+
       if [ $# -ne 1 ]; then
           echo "Usage: specialisation <specialisation name>"
-          echo "Names: main $(ls /nix/var/nix/profiles/system/specialisation)"
+          echo "Names: $SPECIALISATIONS"
           exit 1
+      fi
+      if ! containsSpec "$1" "''${SPECIALISATIONS[@]}"; then
+        echo "Specialisation '$1' does not exist."
+        exit 1
       fi
       if [ "$1" = "main" ]; then
           echo "Switching to main configuration."
