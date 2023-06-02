@@ -31,7 +31,7 @@ let
       }
 
       SPECIALISATIONS=$(ls /nix/var/nix/profiles/system/specialisation)
-      SPECIALISATIONS+="main"
+      SPECIALISATIONS+=" main"
 
       if [ $# -ne 1 ]; then
           echo "Usage: specialisation <specialisation name>"
