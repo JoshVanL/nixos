@@ -10,7 +10,7 @@ let
     text = ''
       sudo nixos-rebuild switch -L --flake '/keep/etc/nixos/.#'
     '' + optionalString config.me.shell.zsh.enable ''
-      source /home/${config.me.username}/.zshrc"
+      source /home/${config.me.username}/.zshrc
     '';
   };
 
