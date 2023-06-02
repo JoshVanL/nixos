@@ -9,7 +9,8 @@ let
     runtimeInputs = with pkgs; [ nixos-rebuild ];
     text = ''
       sudo nixos-rebuild switch -L --flake '/keep/etc/nixos/.#'
-      source "$HOME/.zshrc"
+    '' + optionalString config.me.shell.zsh.enable ''
+      source /home/${config.me.username}/.zshrc"
     '';
   };
 
