@@ -63,13 +63,12 @@ in {
           vim-go
         ];
         extraConfig = ''
-          " Go build
-          map <C-n> :cn<CR>
-          map <C-p> :cp<CR>
-          cmap gg GoBuild <CR>
-          cmap tt GoTest <CR>
-          nmap gi :GoIfErr <CR>
-          nmap <C-i> :GoImports <CR>
+          :autocmd FileType go map <C-n> :cn<CR>
+          :autocmd FileType go map <C-p> :cp<CR>
+          :autocmd FileType go cmap gg GoBuild <CR>
+          :autocmd FileType go cmap tt GoTest <CR>
+          :autocmd FileType go nmap gi :GoIfErr <CR>
+          :autocmd FileType go nmap <C-i> :GoImports <CR>
 
           let g:go_highlight_types = 1
           let g:go_highlight_fields = 1
