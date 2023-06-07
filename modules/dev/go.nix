@@ -66,7 +66,7 @@ in {
           :autocmd FileType go map <C-n> :cn<CR>
           :autocmd FileType go map <C-p> :cp<CR>
           :autocmd FileType go cmap gg GoBuild <CR>
-          :autocmd FileType go cmap tt GoTest <CR>
+          :autocmd FileType go cmap tt GoTest -race -v <CR>
           :autocmd FileType go nmap gi :GoIfErr <CR>
           :autocmd FileType go nmap <C-i> :GoImports <CR>
 
