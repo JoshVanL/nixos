@@ -38,10 +38,7 @@ let
       Description = sys.desc;
       PartOf = ["graphical-session.target"];
     };
-    Install = {
-      WantedBy = ["graphical-session.target"];
-      After = sys.after or [];
-    };
+    Install.WantedBy = ["graphical-session.target"];
     Service = {
       Environment = [ "DISPLAY=:0" ];
       Type = sys.type;
