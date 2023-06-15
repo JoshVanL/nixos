@@ -1,4 +1,12 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, ... }:
+
+let
+  wireguardCfg = {
+    enable = true;
+    privateKeyFile = "/persist/etc/wireguard/private_key";
+  } // config.me.security.joshvanl.wireguard;
+
+in {
   me = {
     system = "aarch64-linux";
     username = "josh";
@@ -72,9 +80,16 @@
   };
 
   specialisation = {
+    vpn = {
+      inheritParentConfig = true;
+      configuration = {
+        me.networking.wireguard = wireguardCfg;
+      };
+    };
     onthemove = {
       inheritParentConfig = true;
       configuration = {
+        me.networking.wireguard = wireguardCfg;
         me.window-manager.fontsize = lib.mkForce 24;
       };
     };

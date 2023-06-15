@@ -1,23 +1,30 @@
 { lib, pkgs, config, ... }:
 
+with lib;
 {
   options.me.security.joshvanl = {
-    sshPublicKeys = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
+    sshPublicKeys = mkOption {
+      type = types.listOf types.str;
       default = [];
       description = "List of joshvanl's SSH public keys";
     };
 
-    yubikeyIDs = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
+    yubikeyIDs = mkOption {
+      type = types.listOf types.str;
       default = [];
       description = "List of joshvanl's Yubikey client IDs";
     };
 
-    nixPublicKeys = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
+    nixPublicKeys = mkOption {
+      type = types.listOf types.str;
       default = [];
       description = "List of public keys for NixOS binary cache substituters";
+    };
+
+    wireguard = mkOption {
+      type = types.attrs;
+      default = {};
+      description = "Wireguard configuration";
     };
   };
 
@@ -41,6 +48,15 @@
       nixPublicKeys = [
         "machinecache.joshvanl.dev:Xc64ijCADm4FAsbQJI+J1ku8JKXPqrZHckKAf1jhrWA="
       ];
+
+      wireguard = {
+        addresses = [ "10.2.0.2/32" ];
+        dns = [ "10.2.0.1" ];
+        peer = {
+          endpoint = "146.70.83.66:51820";
+          publicKey = "lnSLhBJ3zosn36teAK1JJjn7ALiaPLq5k6YO07GnQi4=";
+        };
+      };
     };
   };
 }

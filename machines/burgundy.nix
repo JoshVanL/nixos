@@ -85,6 +85,10 @@
         enable = true;
         ingress.enable = true;
       };
+      wireguard = {
+        enable = true;
+        privateKeyFile = "/persist/etc/wireguard/private_key";
+      } // config.me.security.joshvanl.wireguard;
       acme = {
         enable = true;
         dnsProvider = "gcloud";

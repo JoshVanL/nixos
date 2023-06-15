@@ -7,5 +7,6 @@
     ./acme.nix
     ./nginx.nix
     ./podman.nix
+    ./wireguard.nix
   ];
 }

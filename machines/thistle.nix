@@ -85,4 +85,16 @@
       naturalScrolling = true;
     };
   };
+
+  specialisation = {
+    vpn = {
+      inheritParentConfig = true;
+      configuration = {
+        me.networking.wireguard = {
+          enable = true;
+          privateKeyFile = "/persist/etc/wireguard/private_key";
+        } // config.me.security.joshvanl.wireguard;
+      };
+    };
+  };
 }
