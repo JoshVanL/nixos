@@ -67,12 +67,10 @@
       };
     };
     networking = {
-      interfaces = {
-        hostName = "burgundy";
-        intf = {
-          eth0.useDHCP  = true;
-          wlan0.useDHCP = false;
-        };
+      dns.hostname = "burgundy";
+      interfaces.intf = {
+        eth0.useDHCP  = true;
+        wlan0.useDHCP = false;
       };
       ssh = {
         enable = true;

@@ -55,10 +55,8 @@ in {
     networking = {
       ssh.enable = true;
       tailscale.enable = true;
-      interfaces = {
-        hostName = "purple";
-        intf.enp0s5.useDHCP = true;
-      };
+      dns.hostname = "purple";
+      interfaces.intf.enp0s5.useDHCP = true;
       podman.enable = true;
     };
     shell = {

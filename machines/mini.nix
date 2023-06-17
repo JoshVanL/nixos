@@ -10,10 +10,8 @@
       parallels.enable = true;
     };
     networking = {
-      interfaces = {
-        hostName = "mini";
-        intf.enp0s5.useDHCP = true;
-      };
+      dns.hostname = "mini";
+      interfaces.intf.enp0s5.useDHCP = true;
     };
     dev.git = {
       enable = true;

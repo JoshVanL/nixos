@@ -8,5 +8,8 @@
     ./nginx.nix
     ./podman.nix
     ./wireguard.nix
+    ./networkmanager.nix
+    ./dns.nix
+    ./ncp.nix
   ];
 }

@@ -43,13 +43,11 @@
     networking = {
       ssh.enable = true;
       tailscale.enable = true;
-      interfaces = {
-        hostName = "thistle";
-        intf = {
-          enp1s0.useDHCP = true;
-          enp2s0f0.useDHCP = true;
-          wlan0.useDHCP = true;
-        };
+      dns.hostname = "thistle";
+      interfaces.intf = {
+        enp1s0.useDHCP = true;
+        enp2s0f0.useDHCP = true;
+        wlan0.useDHCP = true;
       };
       podman = {
         enable = true;
