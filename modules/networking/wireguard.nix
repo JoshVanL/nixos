@@ -28,12 +28,14 @@ in {
   };
 
   config = mkIf cfg.enable {
+    systemd.services.tailscaled.after = [
+      "wg-quick-wg0.service"
+    ];
+    systemd.services.wg-quick-wg0.after = [
+      "time-sync.target"
+    ];
     networking = {
-      nameservers = mkForce [];
-      networkmanager.insertNameservers = mkForce (
-        cfg.dns ++
-        optionals config.me.networking.tailscale.enable [ "100.100.100.100" ]
-      );
+      networkmanager.insertNameservers = cfg.dns;
       wg-quick.interfaces = {
         wg0 = {
           address = cfg.addresses;

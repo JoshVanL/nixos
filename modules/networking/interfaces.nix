@@ -27,14 +27,16 @@ in {
     environment.etc."NetworkManager/system-connections".source = "/persist/etc/NetworkManager/system-connections";
     fileSystems."/var/lib/iwd" = { options = [ "bind" ]; device = "/persist/var/lib/iwd"; };
 
-    # Stop NetworkManager complaining on restart.
-    systemd.services.NetworkManager-wait-online = {
-      serviceConfig = {
-        ExecStart = [ "" "${pkgs.networkmanager}/bin/nm-online -q" ];
-        Restart = "on-failure";
-        RestartSec = 1;
+    systemd = {
+      # Stop NetworkManager complaining on restart.
+      services.NetworkManager-wait-online = {
+        serviceConfig = {
+          ExecStart = [ "" "${pkgs.networkmanager}/bin/nm-online -q" ];
+          Restart = "on-failure";
+          RestartSec = 1;
+        };
+        unitConfig.StartLimitIntervalSec = 0;
       };
-      unitConfig.StartLimitIntervalSec = 0;
     };
 
     networking = {
@@ -45,17 +47,16 @@ in {
       hostName = cfg.hostName;
       hostId = "deadbeef";
       useDHCP  = false;
-      nameservers = [
+      nameservers = optionals (!config.me.networking.wireguard.enable) [
         "1.1.1.1"
         "8.8.8.8"
       ];
       interfaces = cfg.intf;
     };
 
-    services = {
-      ntp.enable = true;
-      avahi.enable = true;
-    };
+    # mDNS
+    services.avahi.enable = true;
+    services.timesyncd.enable = mkForce true;
 
     home-manager.users.${config.me.username}.home.packages = with pkgs; [
       fast-cli
