@@ -57,6 +57,7 @@ in {
     # mDNS
     services.avahi.enable = true;
     services.timesyncd.enable = mkForce true;
+    systemd.additionalUpstreamSystemUnits = [ "systemd-time-wait-sync.service" ];
 
     home-manager.users.${config.me.username}.home.packages = with pkgs; [
       fast-cli
