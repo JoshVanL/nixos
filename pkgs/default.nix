@@ -7,12 +7,12 @@ let
       nameValuePair name (pkgs.callPackage (./${name}) {})
     ) (dirs ./.));
 
-  output = listToAttrs (map (system:
+  packages = listToAttrs (map (system:
       nameValuePair system (callPackages (pkgsys system))
   ) targetSystems);
 
 in {
-  inherit output;
+  inherit packages;
   modules = { pkgs, ... }: {
     nixpkgs.config.packageOverrides = (callPackages pkgs);
   };

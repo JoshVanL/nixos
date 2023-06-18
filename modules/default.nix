@@ -6,13 +6,13 @@ let
   pkgs = import ../pkgs {inherit lib nixpkgs; };
   machines = import ../machines {inherit lib; };
 
-  meModules = { imports = (lib.defaultImport ./.); };
+  nixosModules = { imports = (lib.defaultImport ./.); };
 
   inpWithModules = filterAttrs (_: v: (hasAttrByPath ["nixosModules" "default"] v)) inputs;
   inpModules = mapAttrsToList (_: inp: inp.nixosModules.default) inpWithModules;
 
   machineModules = machineName: [
-    meModules
+    nixosModules
     overlays.modules
     pkgs.modules
     machines.${machineName}.modules
@@ -35,8 +35,7 @@ let
   apps = import ../apps { inherit self nixpkgs nixosConfigurations; };
 
 in {
-  inherit nixosConfigurations apps;
-  overlays = overlays.output;
-  packages = pkgs.output;
-  nixosModules = meModules;
+  inherit nixosConfigurations apps nixosModules;
+  inherit (overlays) overlays;
+  inherit (pkgs) packages;
 }

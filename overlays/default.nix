@@ -7,5 +7,5 @@ in {
   modules = {
     nixpkgs.overlays = attrValues overlays;
   };
-  output = overlays;
+  inherit overlays;
 }
