@@ -66,6 +66,20 @@
         logPath = "/keep/run/zfs_uploader/zfs_uploader.log";
         configPath = "/persist/etc/zfs_uploader/config.cfg";
       };
+      media = {
+        radarr = {
+          enable = true;
+          domain = "dish.joshvanl.dev";
+        };
+        jackett = {
+          enable = true;
+          domain = "hoodie.joshvanl.dev";
+        };
+        plex = {
+          enable = true;
+          domain = "plex.joshvanl.dev";
+        };
+      };
     };
     networking = {
       interfaces.intf = {
