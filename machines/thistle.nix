@@ -1,5 +1,6 @@
 { pkgs, lib, config, ... }: {
   me = {
+    machineName = "thistle";
     username = "josh";
     system = "x86_64-linux";
     base = {
@@ -43,7 +44,6 @@
     networking = {
       ssh.enable = true;
       tailscale.enable = true;
-      dns.hostname = "thistle";
       interfaces.intf = {
         enp1s0.useDHCP = true;
         enp2s0f0.useDHCP = true;

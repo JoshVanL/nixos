@@ -4,15 +4,11 @@ let
   cfg = config.me.networking.dns;
 
 in {
-  options.me.networking.dns = {
-    hostname = mkOption {
-      type = types.str;
-    };
-  };
+  options.me.networking.dns = { };
 
   config = {
     networking = {
-      hostName = cfg.hostname;
+      hostName = config.me.machineName;
       hostId = "deadbeef";
       useDHCP  = false;
       nameservers = optionals (!config.me.networking.wireguard.enable) [

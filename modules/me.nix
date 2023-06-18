@@ -5,6 +5,11 @@ let
 
 in {
   options.me = {
+    machineName = mkOption {
+      type = types.str;
+      description = "The name of the machine.";
+    };
+
     username = mkOption {
       type = types.str;
     };
@@ -12,7 +17,7 @@ in {
     system = mkOption {
       type = types.str;
       default = "";
-      description = "The architecture and OS of the system to install to.";
+      description = "The architecture and OS of the machine.";
     };
   };
 

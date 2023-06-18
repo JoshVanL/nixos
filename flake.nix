@@ -27,48 +27,36 @@
     , xpropdate
   }@inputs:
   let
-    lib = nixpkgs.lib;
+    lib = nixpkgs.lib // {
+      nixFiles = dir: lib.filterAttrs (name: _: lib.hasSuffix ".nix" name) (builtins.readDir dir);
+    };
 
     pkgsOverlays = system: [
       joshvanldwm.overlays.${system}
       xpropdate.overlays.${system}
-    ] ++ lib.mapAttrsToList (name: _: import ./overlays/${name}) (lib.filterAttrs
-      (name: entryType: lib.hasSuffix ".nix" name && entryType == "regular")
-      (builtins.readDir ./overlays)
-    );
+    ] ++ lib.mapAttrsToList (name: _: import ./overlays/${name}) (lib.nixFiles ./overlays);
 
-    machines = map (lib.removeSuffix ".nix") (lib.attrNames(
-      lib.filterAttrs
-        (_: entryType: entryType == "regular")
-        (builtins.readDir ./machines)
-    ));
+    machines = (import ./machines {inherit lib;});
 
-    buildMachine = name: system:
-      lib.nameValuePair name (lib.makeOverridable lib.nixosSystem {
-        inherit system;
-        modules = [
-          ({ pkgs, lib, config, ... }: {
-            nixpkgs.config.packageOverrides = (import ./pkgs);
-            nixpkgs.overlays = (pkgsOverlays system);
-            system.configurationRevision = lib.mkIf (self ? rev) self.rev;
-            imports = (import ./modules) ++ [(import (./machines/${name}.nix))];
-          })
-          nix-serve-ng.nixosModules.default
-          home-manager.nixosModules.home-manager {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-          }
-        ];
-      }
-    );
-
-    sysFromMachineName = name:
-      (import ./machines/${name}.nix {config={};pkgs={};lib=lib;}).me.system;
-
-    buildFromName = name: buildMachine name (sysFromMachineName name);
+    buildMachine = name: machine: lib.makeOverridable lib.nixosSystem {
+      system = machine.system;
+      modules = [
+        ({ pkgs, lib, config, ... }: {
+          nixpkgs.config.packageOverrides = (import ./pkgs);
+          nixpkgs.overlays = (pkgsOverlays machine.system);
+          system.configurationRevision = lib.mkIf (self ? rev) self.rev;
+          imports = machine.modules ++ (import ./modules);
+        })
+        nix-serve-ng.nixosModules.default
+        home-manager.nixosModules.home-manager {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+        }
+      ];
+    };
 
   in rec {
-    nixosConfigurations = builtins.listToAttrs (map buildFromName machines);
+    nixosConfigurations = builtins.mapAttrs buildMachine machines;
     apps = (import ./apps { inherit self nixpkgs nixosConfigurations; });
   };
 }

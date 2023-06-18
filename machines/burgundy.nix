@@ -1,5 +1,6 @@
 { pkgs, lib, config, ... }: {
   me = {
+    machineName = "burgundy";
     username = "josh";
     system = "aarch64-linux";
     base = {
@@ -67,7 +68,6 @@
       };
     };
     networking = {
-      dns.hostname = "burgundy";
       interfaces.intf = {
         eth0.useDHCP  = true;
         wlan0.useDHCP = false;

@@ -8,6 +8,7 @@ let
 
 in {
   me = {
+    machineName = "purple";
     system = "aarch64-linux";
     username = "josh";
     base = {
@@ -55,7 +56,6 @@ in {
     networking = {
       ssh.enable = true;
       tailscale.enable = true;
-      dns.hostname = "purple";
       interfaces.intf.enp0s5.useDHCP = true;
       podman.enable = true;
     };

@@ -1,5 +1,6 @@
 { lib, ... }: {
   me = {
+    machineName = "mini";
     username = "notme";
     system = "aarch64-linux";
     base = {
@@ -10,7 +11,6 @@
       parallels.enable = true;
     };
     networking = {
-      dns.hostname = "mini";
       interfaces.intf.enp0s5.useDHCP = true;
     };
     dev.git = {
