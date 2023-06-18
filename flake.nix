@@ -21,8 +21,6 @@
 
   outputs = { self, nixpkgs, ... }@inputs:
   let
-    lib = (import ./lib { lib = nixpkgs.lib; });
-    modules = import ./modules {inherit self lib nixpkgs inputs; };
-
+    modules = import ./modules {inherit self nixpkgs inputs; };
   in modules;
 }

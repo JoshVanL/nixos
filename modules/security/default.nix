@@ -1,10 +1,6 @@
-{ lib, pkgs, config, ... }:
+{ lib, ... }:
 with lib;
 
 {
-  imports = [
-    ./yubikey.nix
-    ./bitwarden.nix
-    ./joshvanl.nix
-  ];
+  imports = (defaultImport ./.);
 }

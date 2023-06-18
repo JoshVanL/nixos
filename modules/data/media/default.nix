@@ -1,8 +1,5 @@
-{ lib, pkgs, config, ... }:
+{ lib, ... }:
+with lib;
 {
-  imports = [
-    ./radarr.nix
-    ./jackett.nix
-    ./plex.nix
-  ];
+  imports = (defaultImport ./.);
 }

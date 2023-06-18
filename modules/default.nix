@@ -1,12 +1,12 @@
-{ self, lib, nixpkgs, inputs }:
-with lib;
+{ self, nixpkgs, inputs }:
+with nixpkgs.lib;
 let
+  lib = (import ../lib { lib = nixpkgs.lib; });
   overlays = import ../overlays {inherit lib; };
   pkgs = import ../pkgs {inherit lib nixpkgs; };
   machines = import ../machines {inherit lib; };
 
-  modulesList = (dirs ./.) ++ (nixFilesNoDefault ./.);
-  meModules = { imports = map (name: ./${name}) modulesList; };
+  meModules = { imports = (lib.defaultImport ./.); };
 
   inpWithModules = filterAttrs (_: v: (hasAttrByPath ["nixosModules" "default"] v)) inputs;
   inpModules = mapAttrsToList (_: inp: inp.nixosModules.default) inpWithModules;
@@ -25,6 +25,7 @@ let
   machineConfigs = builtins.mapAttrs (name: machine: {
     system = machine.system;
     modules = (machineModules name);
+    specialArgs = { inherit lib; };
   }) machines;
 
   nixosConfigurations = builtins.mapAttrs (_: m:
@@ -38,5 +39,4 @@ in {
   overlays = overlays.output;
   packages = pkgs.output;
   nixosModules = meModules;
-  machines = machineConfigs;
 }

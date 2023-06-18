@@ -1,9 +1,6 @@
-{ lib, pkgs, config, ... }:
+{ lib, ... }:
 with lib;
 
 {
-  imports = [
-    ./neovim.nix
-    ./zsh.nix
-  ];
+  imports = (defaultImport ./.);
 }

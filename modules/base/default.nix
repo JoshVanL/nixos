@@ -6,11 +6,5 @@ with lib;
     type = types.str;
   };
 
-  imports = [
-    ./os.nix
-    ./nix.nix
-    ./hardware.nix
-    ./boot.nix
-    ./parallels.nix
-  ];
+  imports = (defaultImport ./.);
 }

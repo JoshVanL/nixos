@@ -1,8 +1,5 @@
-{ ... }:
+{ lib, ... }:
+with lib;
 {
-  imports = [
-    ./zfs_uploader.nix
-    ./cache
-    ./media
-  ];
+  imports = (lib.defaultImport ./.);
 }

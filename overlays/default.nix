@@ -1,7 +1,7 @@
 { lib }:
 with lib;
 let
-  overlays = mapAttrs (_: file: import ./${file}) (nixFilesNoDefault' ./.);
+  overlays = mapAttrs (_: file: import ./${file}) (nixFilesNoDefault ./.);
 
 in {
   modules = {

@@ -1,11 +1,5 @@
-{ lib, pkgs, config, ... }:
+{ lib, ... }:
+with lib;
 {
-  imports = [
-    ./x.nix
-    ./alacritty.nix
-    ./browser.nix
-    ./fonts.nix
-    ./gtk.nix
-    ./rofi.nix
-  ];
+  imports = (defaultImport ./.);
 }

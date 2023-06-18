@@ -1,7 +1,7 @@
 { lib }:
 with lib;
 let
-  files = nixFilesNoDefault' ./.;
+  files = nixFilesNoDefault ./.;
   toMachine = file: (import ./${file} {config={};pkgs={};lib=lib;});
 
 in mapAttrs' (_: file: nameValuePair

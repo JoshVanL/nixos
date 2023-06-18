@@ -11,9 +11,10 @@ let
     ) (builtins.readDir dir)))
   );
   dirs = dir: attrNames (filterAttrs (name: type: type == "directory") (builtins.readDir dir));
-  nixFilesNoDefault' = dir: filterAttrs (name: _: name != "default") (nixFiles dir);
-  nixFilesNoDefault = dir: attrValues (nixFilesNoDefault' dir);
+  nixFilesNoDefault = dir: filterAttrs (name: _: name != "default") (nixFiles dir);
+  nixFilesNoDefault' = dir: attrValues (nixFilesNoDefault dir);
+  defaultImport = dir: map (name: "${dir}/${name}") ((nixFilesNoDefault' dir) ++ (dirs dir));
 
 in lib // {
-  inherit dirs nixFilesNoDefault' nixFilesNoDefault targetSystems;
+  inherit dirs nixFilesNoDefault defaultImport targetSystems;
 }

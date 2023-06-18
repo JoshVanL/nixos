@@ -1,9 +1,5 @@
-{ lib, pkgs, config, ... }:
+{ lib, ... }:
+with lib;
 {
-  imports = [
-    ./go.nix
-    ./nix.nix
-    ./machine.nix
-    ./container.nix
-  ];
+  imports = (defaultImport ./.);
 }
