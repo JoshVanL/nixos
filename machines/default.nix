@@ -1,13 +1,13 @@
 { lib }:
 with lib;
 let
-  files = filterAttrs (name: _: name != "default.nix") (lib.nixFiles ./.);
-  machine = file: (import ./${file} {config={};pkgs={};lib=lib;});
+  files = nixFilesNoDefault' ./.;
+  toMachine = file: (import ./${file} {config={};pkgs={};lib=lib;});
 
-in mapAttrs' (file: _: nameValuePair
-  ((machine file).me.machineName)
+in mapAttrs' (_: file: nameValuePair
+  ((toMachine file).me.machineName)
   {
-    system = (machine file).me.system;
-    modules = [ (import ./${file}) ];
+    modules = (import ./${file});
+    system = (toMachine file).me.system;
   }
 ) files

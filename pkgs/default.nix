@@ -1,16 +1,19 @@
-{ pkgs, ... }:
-with pkgs;
-{
-  go-jwt = callPackage ./go-jwt {};
-  gomarkdoc = callPackage ./gomarkdoc {};
-  go-protobuf = callPackage ./go-protobuf {};
-  go-protobuf-grpc = callPackage ./go-protobuf-grpc {};
-  kind = callPackage ./kind {};
-  paranoia = callPackage ./paranoia {};
-  vcert = callPackage ./vcert {};
-  gke-gcloud-auth-plugin = callPackage ./gke-gcloud-auth-plugin {};
-  zfs_uploader = callPackage ./zfs_uploader {};
-  mockery = callPackage ./mockery {};
-  goproxy = callPackage ./goproxy {};
-  mechanical-markdown = callPackage ./mechanical-markdown {};
+{ lib, nixpkgs }:
+with lib;
+let
+  pkgsys = system: import nixpkgs { inherit system; };
+
+  callPackages = pkgs: listToAttrs (map (name:
+      nameValuePair name (pkgs.callPackage (./${name}) {})
+    ) (dirs ./.));
+
+  output = listToAttrs (map (system:
+      nameValuePair system (callPackages (pkgsys system))
+  ) targetSystems);
+
+in {
+  inherit output;
+  modules = { pkgs, ... }: {
+    nixpkgs.config.packageOverrides = (callPackages pkgs);
+  };
 }

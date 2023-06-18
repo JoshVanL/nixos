@@ -62,6 +62,6 @@ let
   };
 
 in fold (attrset: acc: recursiveUpdate attrset acc) {} [
-  (import ./install.nix { inherit lib ; })
+  (import ./install.nix { inherit lib; })
   (import ./post-install.nix { inherit lib; })
 ]

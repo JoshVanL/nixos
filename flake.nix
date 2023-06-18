@@ -19,44 +19,10 @@
     };
   };
 
-  outputs = { self
-    , nixpkgs
-    , home-manager
-    , joshvanldwm
-    , nix-serve-ng
-    , xpropdate
-  }@inputs:
+  outputs = { self, nixpkgs, ... }@inputs:
   let
-    lib = nixpkgs.lib // {
-      nixFiles = dir: lib.filterAttrs (name: _: lib.hasSuffix ".nix" name) (builtins.readDir dir);
-    };
+    lib = (import ./lib { lib = nixpkgs.lib; });
+    modules = import ./modules {inherit self lib nixpkgs inputs; };
 
-    pkgsOverlays = system: [
-      joshvanldwm.overlays.${system}
-      xpropdate.overlays.${system}
-    ] ++ lib.mapAttrsToList (name: _: import ./overlays/${name}) (lib.nixFiles ./overlays);
-
-    machines = (import ./machines {inherit lib;});
-
-    buildMachine = name: machine: lib.makeOverridable lib.nixosSystem {
-      system = machine.system;
-      modules = [
-        ({ pkgs, lib, config, ... }: {
-          nixpkgs.config.packageOverrides = (import ./pkgs);
-          nixpkgs.overlays = (pkgsOverlays machine.system);
-          system.configurationRevision = lib.mkIf (self ? rev) self.rev;
-          imports = machine.modules ++ (import ./modules);
-        })
-        nix-serve-ng.nixosModules.default
-        home-manager.nixosModules.home-manager {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-        }
-      ];
-    };
-
-  in rec {
-    nixosConfigurations = builtins.mapAttrs buildMachine machines;
-    apps = (import ./apps { inherit self nixpkgs nixosConfigurations; });
-  };
+  in modules;
 }

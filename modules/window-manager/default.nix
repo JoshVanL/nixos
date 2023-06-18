@@ -1,6 +1,4 @@
 { lib, pkgs, config, ... }:
-with lib;
-
 {
   imports = [
     ./x.nix
