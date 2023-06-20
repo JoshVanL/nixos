@@ -5,7 +5,7 @@
     system = "aarch64-linux";
     base = {
       nix = {
-        substituters = [ "http://nixcache.joshvanl.dev" ];
+        extraSubstituters = [ "http://nixcache.joshvanl.dev" ];
         gc.automatic = false;
       };
       boot = {

@@ -17,7 +17,7 @@ in {
         initrd.availableKernelModules = [ "xhci_pci" "usbhid" "sr_mod" ];
       };
       nix = {
-        substituters = [
+        extraSubstituters = [
           "http://nixcache.joshvanl.dev/"
           "http://machinecache.joshvanl.dev/"
         ];

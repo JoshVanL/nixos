@@ -54,11 +54,11 @@ let
 
 in {
   options.me.base.nix = {
-    substituters = mkOption {
+    extraSubstituters = mkOption {
       type = types.listOf types.str;
-      default = [ "https://cache.nixos.org" ];
+      default = [];
       description = ''
-        A list of Nix binary caches to use.
+        A list of extra Nix binary caches to use.
       '';
     };
     trusted-public-keys = mkOption {
@@ -90,7 +90,7 @@ in {
       settings = {
         allowed-users = [ "root" "${config.me.username}"];
         auto-optimise-store = true;
-        substituters = lib.mkBefore cfg.substituters;
+        substituters = "https://cache.nixos.org" ++ cfg.extraSubstituters;
         connect-timeout = 1;
         trusted-public-keys = lib.mkBefore cfg.trusted-public-keys;
       };

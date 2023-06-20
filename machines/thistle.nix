@@ -5,7 +5,7 @@
     system = "x86_64-linux";
     base = {
       nix = {
-        substituters = [
+        extraSubstituters = [
           "http://nixcache.joshvanl.dev/"
           "http://machinecache.joshvanl.dev/"
         ];
