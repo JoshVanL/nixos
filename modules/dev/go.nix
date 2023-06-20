@@ -6,10 +6,10 @@ let
 in {
   options.me.dev.go = {
     enable = mkEnableOption "dev.go";
-    proxy = mkOption {
-      type = types.str;
-      default = "https://proxy.golang.org";
-      description = "The proxy to use for go modules";
+    extraProxies = mkOption {
+      type = types.listOf types.str;
+      default = [];
+      description = "Extra GOPROXY values to use";
     };
   };
 
@@ -52,7 +52,8 @@ in {
           GOPRIVATE = "github.com/diagridio";
           GOPATH  = "$HOME/go";
           GOBIN   = "$HOME/go/bin";
-          GOPROXY = cfg.proxy;
+          GOPROXY = concatStrings (intersperse
+            "," (cfg.extraProxies ++ [ "https://proxy.golang.org" ]));
         };
       };
 
