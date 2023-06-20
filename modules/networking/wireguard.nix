@@ -25,15 +25,24 @@ in {
         type = types.str;
       };
     };
+    isExitNode = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Whether this node is an exit node (i.e. forwards traffic to the internet).";
+    };
   };
 
   config = mkIf cfg.enable {
-    systemd.services.tailscaled.after = [
-      "wg-quick-wg0.service"
-    ];
-    systemd.services.wg-quick-wg0.after = [
-      "time-sync.target"
-    ];
+    systemd.services = {
+      tailscaled.after = [ "wg-quick-wg0.service" ];
+      wg-quick-wg0.after = [ "time-sync.target" ];
+    };
+
+    boot.kernel.sysctl = mkIf cfg.isExitNode {
+      "net.ipv4.ip_forward" = 1;
+      "net.ipv6.conf.all.forwarding" = 1;
+    };
+
     networking = {
       networkmanager.insertNameservers = cfg.dns;
       wg-quick.interfaces = {

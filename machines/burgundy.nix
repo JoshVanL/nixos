@@ -100,6 +100,7 @@
       wireguard = {
         enable = true;
         privateKeyFile = "/persist/etc/wireguard/private_key";
+        isExitNode = true;
       } // config.me.security.joshvanl.wireguard;
       acme = {
         enable = true;

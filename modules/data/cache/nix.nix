@@ -31,6 +31,10 @@ in {
   };
 
   config = mkIf cfg.enable {
+    assertions = [
+      {assertion = stringLength cfg.domain > 0; message = "Must provide a domain name";}
+    ];
+
     systemd.tmpfiles.rules = [
       "d ${cfg.cacheDir} 0755 nginx nginx - -"
     ];

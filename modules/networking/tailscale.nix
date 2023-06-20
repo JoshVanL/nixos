@@ -7,12 +7,19 @@ let
 in {
   options.me.networking.tailscale = {
     enable = mkEnableOption "tailsacle";
-
-    ingress.enable = mkEnableOption "ingress";
+    ingress = {
+      enable = mkEnableOption "ingress";
+      isExitNode = mkEnableOption "isExitNode";
+    };
   };
 
   config = mkIf cfg.enable {
-    services.tailscale.enable = true;
+    services.tailscale = {
+      enable = true;
+      # Don't enable IP forwarding by default if we are a server.
+      useRoutingFeatures = if cfg.ingress.enable then "none" else "client";
+    };
+
     fileSystems."/var/lib/tailscale" = { device = "/persist/var/lib/tailscale"; options = [ "bind" ]; };
 
     networking.firewall = mkIf cfg.ingress.enable {
@@ -22,7 +29,11 @@ in {
       allowedUDPPorts = [ config.services.tailscale.port ];
       # allow you to SSH in over the public internet
       allowedTCPPorts = optionals config.me.networking.ssh.ingress.enable [ 22 ];
-      checkReversePath = "loose";
+    };
+
+    boot.kernel.sysctl = mkIf cfg.ingress.isExitNode {
+      "net.ipv4.ip_forward" = 1;
+      "net.ipv6.conf.all.forwarding" = 1;
     };
 
     systemd = {
