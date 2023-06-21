@@ -70,11 +70,14 @@ in {
           partOf = [ "tailscaled.service" ];
           serviceConfig = {
             Type = "oneshot";
+            RestartSec = 3;
+            RemainAfterExit = true;
             ExecStart = "${pkgs.tailscale}/bin/tailscale up --reset --accept-dns=true " + (
               if cfg.vpn.enable then "--exit-node ${cfg.vpn.exitNode} --exit-node-allow-lan-access=true"
               else if cfg.ingress.enable then "--advertise-exit-node=true --accept-dns=false"
               else ""
             );
+            ExecStop = "${pkgs.tailscale}/bin/tailscale down";
           };
         };
       };
