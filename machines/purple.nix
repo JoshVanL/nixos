@@ -1,4 +1,5 @@
 { pkgs, lib, config, ... }:
+with lib;
 
 let
   wireguardCfg = {
@@ -57,6 +58,10 @@ in {
       ssh.enable = true;
       tailscale = {
         enable = true;
+        vpn = {
+          enable = true;
+          exitNode = "burgundy";
+        };
       };
       interfaces.intf.enp0s5.useDHCP = true;
       podman.enable = true;
@@ -80,36 +85,31 @@ in {
   };
 
   specialisation = {
-    vpn-tailscale = {
+    no-vpn = {
       inheritParentConfig = true;
       configuration = {
-        me.networking.tailscale.vpn = {
-          enable = true;
-          exitNode = "burgundy";
-        };
+        me.networking.tailscale.vpn.enable = mkForce false;
       };
     };
     vpn-wireguard = {
       inheritParentConfig = true;
       configuration = {
         me.networking.wireguard = wireguardCfg;
+        me.networking.tailscale.vpn.enable = mkForce false;
       };
     };
     onthemove = {
       inheritParentConfig = true;
       configuration = {
-        me.window-manager.fontsize = lib.mkForce 24;
-        me.networking.tailscale.vpn = {
-          enable = true;
-          exitNode = "burgundy";
-        };
+        me.window-manager.fontsize = mkForce 24;
       };
     };
     onthemove-wireguard = {
       inheritParentConfig = true;
       configuration = {
-        me.window-manager.fontsize = lib.mkForce 24;
+        me.window-manager.fontsize = mkForce 24;
         me.networking.wireguard = wireguardCfg;
+        me.networking.tailscale.vpn.enable = mkForce false;
       };
     };
   };
