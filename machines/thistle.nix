@@ -1,4 +1,7 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, ... }:
+with lib;
+
+{
   me = {
     machineName = "thistle";
     username = "josh";
@@ -13,7 +16,13 @@
       };
       boot = {
         loader = "systemd-boot";
-        initrd.availableKernelModules = [ "ehci_pci" "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" ];
+        initrd = {
+          availableKernelModules = [ "ehci_pci" "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" ];
+          ssh = {
+            enable = true;
+            authorizedKeys = config.me.security.joshvanl.sshPublicKeys;
+          };
+        };
       };
     };
     dev = {
@@ -42,8 +51,20 @@
       };
     };
     networking = {
-      ssh.enable = true;
-      tailscale.enable = true;
+      ssh = {
+        enable = true;
+        ingress = {
+          enable = true;
+          authorizedKeys = config.me.security.joshvanl.sshPublicKeys;
+        };
+      };
+      tailscale = {
+        enable = true;
+        vpn = {
+          enable = true;
+          exitNode = "burgundy";
+        };
+      };
       interfaces.intf = {
         enp1s0.useDHCP = true;
         enp2s0f0.useDHCP = true;
@@ -85,13 +106,17 @@
   };
 
   specialisation = {
-    vpn = {
+    no-vpn = {
       inheritParentConfig = true;
       configuration = {
-        me.networking.wireguard = {
-          enable = true;
-          privateKeyFile = "/persist/etc/wireguard/private_key";
-        } // config.me.security.joshvanl.wireguard;
+        me.networking.tailscale.vpn.enable = mkForce false;
+      };
+    };
+    vpn-wireguard = {
+      inheritParentConfig = true;
+      configuration = {
+        me.networking.wireguard = wireguardCfg;
+        me.networking.tailscale.vpn.enable = mkForce false;
       };
     };
   };
