@@ -106,7 +106,7 @@ with lib;
   };
 
   specialisation = {
-    no-vpn = {
+    vpn-none = {
       inheritParentConfig = true;
       configuration = {
         me.networking.tailscale.vpn.enable = mkForce false;
