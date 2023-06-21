@@ -5,7 +5,7 @@ let
 
 
 in {
-  options.me.shell.console = {}
+  options.me.shell.console = {};
 
   config = {
     i18n.defaultLocale = "en_US.UTF-8";
