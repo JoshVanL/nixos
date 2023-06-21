@@ -60,6 +60,7 @@ in {
       settings = {
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = true;
+        X11Forwarding = true;
       };
     };
 
