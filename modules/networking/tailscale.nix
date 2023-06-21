@@ -44,7 +44,7 @@ in {
       enable = true;
       trustedInterfaces = [ "tailscale0" ];
       # allow the Tailscale UDP port through the firewall
-      allowedUDPPorts = [ config.services.tailscale.port ];
+      allowedUDPPorts = mkIf cfg.ingress.enable [ config.services.tailscale.port ];
       # allow you to SSH in over the public internet
       allowedTCPPorts = optionals config.me.networking.ssh.ingress.enable [ 22 ];
       checkReversePath = mkIf (!cfg.ingress.enable) "loose";
