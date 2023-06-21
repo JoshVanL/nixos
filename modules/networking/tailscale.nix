@@ -65,7 +65,7 @@ in {
 
         tailscale-up = {
           description = "Start tailscale up";
-          wantedBy = [ "multi-user.target" ];
+          wantedBy = [ "default.target" ];
           after = [ "tailscaled.service" ];
           partOf = [ "tailscaled.service" ];
           serviceConfig = {
