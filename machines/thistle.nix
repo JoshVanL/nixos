@@ -115,7 +115,10 @@ with lib;
     vpn-wireguard = {
       inheritParentConfig = true;
       configuration = {
-        me.networking.wireguard = wireguardCfg;
+        me.networking.wireguard = {
+          enable = true;
+          privateKeyFile = "/persist/etc/wireguard/private_key";
+        } // config.me.security.joshvanl.wireguard;
         me.networking.tailscale.vpn.enable = mkForce false;
       };
     };
