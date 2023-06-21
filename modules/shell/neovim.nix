@@ -25,6 +25,20 @@ let
     };
   };
 
+  spellCheckFileTypes = [
+    "txt"
+    "tex"
+    "rst"
+    "yaml"
+    "html"
+    "md"
+    "mdx"
+    "go"
+    "nix"
+    "sh"
+    "proto"
+  ];
+
 in {
   options.me.shell.neovim = {
     enable = mkEnableOption "neovim";
@@ -161,21 +175,10 @@ in {
           :match ExtraWhitespace /\s\+$/
 
           "Spell Checking
-          autocmd BufNewFile,BufRead *.txt set spell spelllang=en_gb
-          autocmd BufNewFile,BufRead *.tex set spell spelllang=en_gb
-          autocmd BufNewFile,BufRead *.rst set spell spelllang=en_gb
-          autocmd BufNewFile,BufRead *.yaml set spell spelllang=en_gb
-          autocmd BufNewFile,BufRead *.html set spell spelllang=en_gb
-          autocmd BufNewFile,BufRead *.md set spell spelllang=en_gb
-          autocmd BufNewFile,BufRead *.mdx set spell spelllang=en_gb
-          autocmd BufNewFile,BufRead *.go set spell spelllang=en_gb
-          autocmd BufNewFile,BufRead *.go setlocal omnifunc=go#complete#Complete
-          autocmd BufNewFile,BufRead *.nix set spell spelllang=en_gb
-          autocmd BufNewFile,BufRead *.sh set spell spelllang=en_gb
-          autocmd BufNewFile,BufRead *.proto set spell spelllang=en_gb
-          autocmd BufNewFile,BufRead *.nix set spell spelllang=en_gb
-          autocmd BufNewFile,BufRead *COMMIT_EDITMSG set spell spelllang=en_gb
           hi SpellBad cterm=underline
+          ${concatStringsSep "\n"
+            (map (s: "autocmd BufNewFile,BufRead *." + s + " set spell spelllang=en_gb") spellCheckFileTypes)
+          }
 
           :set backspace=indent,eol,start
           let g:indentLine_char = '¦'
