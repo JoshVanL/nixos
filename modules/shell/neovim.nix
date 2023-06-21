@@ -77,6 +77,7 @@ in {
           indentLine
           vim-trailing-whitespace
           vim-lastplace
+          vim-dirdiff
 
           (mkIf cfg.openAI.enable vim-codegpt)
           # needed for codegpt
