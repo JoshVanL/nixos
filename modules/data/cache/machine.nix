@@ -62,7 +62,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    nix.settings.trusted-users = [ "nix-serve"];
+    nix.settings.trusted-users = [ "nix-serve" ];
     services = {
       nix-serve = {
         enable = true;

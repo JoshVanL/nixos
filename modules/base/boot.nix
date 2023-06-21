@@ -42,7 +42,6 @@ in {
   };
 
   config = {
-
     systemd.services.zfs-rollback-shutdown = {
       description = "Rollback ZFS on shutdown";
       wantedBy = [ "shutdown.target" "reboot.target" ];

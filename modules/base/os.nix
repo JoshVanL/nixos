@@ -4,13 +4,6 @@
   # Set your time zone.
   time.timeZone = "Europe/London";
 
-  # Language.
-  i18n.defaultLocale = "en_US.UTF-8";
-  console = {
-    font = "Lat2-Terminus16";
-    useXkbConfig = true;
-  };
-
   # Users.
   users = {
     defaultUserShell = pkgs.zsh;
@@ -22,16 +15,10 @@
         createHome = true;
         home = "/home/${config.me.username}";
         group = "users";
-        extraGroups = [
-          "wheel"
-          "networkmanager"
-          "video"
-        ];
+        extraGroups = [ "wheel" "video" ];
         passwordFile = "/keep/etc/users/${config.me.username}";
       };
-      root = {
-        hashedPassword = "!";
-      };
+      root.hashedPassword = "!";
     };
   };
 

@@ -27,6 +27,8 @@ in {
       };
     };
 
+    users.users.${config.me.username}.extraGroups = [ "networkmanager" ];
+
     networking = {
       networkmanager.enable = true;
       networkmanager.wifi.backend = "iwd";

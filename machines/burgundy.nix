@@ -95,12 +95,14 @@
       };
       tailscale = {
         enable = true;
-        ingress.enable = true;
+        ingress = {
+          enable = true;
+          isExitNode = true;
+        };
       };
       wireguard = {
         enable = true;
         privateKeyFile = "/persist/etc/wireguard/private_key";
-        isExitNode = true;
       } // config.me.security.joshvanl.wireguard;
       acme = {
         enable = true;

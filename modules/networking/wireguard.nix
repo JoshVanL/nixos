@@ -25,11 +25,6 @@ in {
         type = types.str;
       };
     };
-    isExitNode = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Whether this node is an exit node (i.e. forwards traffic to the internet).";
-    };
   };
 
   config = mkIf cfg.enable {
@@ -38,17 +33,20 @@ in {
       wg-quick-wg0.after = [ "time-sync.target" ];
     };
 
-    boot.kernel.sysctl = mkIf cfg.isExitNode {
-      "net.ipv4.ip_forward" = 1;
-      "net.ipv6.conf.all.forwarding" = 1;
-    };
-
     networking = {
+      nameservers = mkForce [];
       networkmanager.insertNameservers = cfg.dns;
       wg-quick.interfaces = {
         wg0 = {
           address = cfg.addresses;
           privateKeyFile = cfg.privateKeyFile;
+          dns = cfg.dns;
+          postUp = mkIf config.me.networking.tailscale.enable [
+            "${pkgs.iproute2}/bin/ip rule add preference 5200 from all lookup 52"
+          ];
+          postDown = mkIf config.me.networking.tailscale.enable [
+            "${pkgs.iproute2}/bin/ip rule delete preference 5200"
+          ];
           peers = [
             {
               publicKey = cfg.peer.publicKey;

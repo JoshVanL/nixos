@@ -11,7 +11,7 @@ in {
       hostName = config.me.machineName;
       hostId = "deadbeef";
       useDHCP  = false;
-      nameservers = optionals (!config.me.networking.wireguard.enable) [
+      nameservers = [
         "1.1.1.1"
         "8.8.8.8"
       ];

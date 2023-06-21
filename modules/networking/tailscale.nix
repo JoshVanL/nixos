@@ -7,13 +7,31 @@ let
 in {
   options.me.networking.tailscale = {
     enable = mkEnableOption "tailsacle";
+    vpn = {
+      enable = mkEnableOption "vpn";
+      exitNode = mkOption {
+        type = types.str;
+        default = "";
+        description = "The name of the exit node to use.";
+      };
+    };
     ingress = {
       enable = mkEnableOption "ingress";
-      isExitNode = mkEnableOption "isExitNode";
+      isExitNode = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Whether this node is an exit node (i.e. forwards traffic to the internet).";
+      };
     };
   };
 
   config = mkIf cfg.enable {
+    assertions = [
+      {assertion = !cfg.vpn.enable || stringLength cfg.vpn.exitNode > 0; message = "You must specify an exit node if you want to use Tailscale as a VPN.";}
+      {assertion = !cfg.vpn.enable || !cfg.ingress.enable; message = "You cannot use Tailscale as a VPN and an ingress node at the same time.";}
+      {assertion = cfg.ingress.enable || !cfg.ingress.isExitNode; message = "You cannot be an exit node if you are not an ingress node.";}
+    ];
+
     services.tailscale = {
       enable = true;
       # Don't enable IP forwarding by default if we are a server.
@@ -29,6 +47,7 @@ in {
       allowedUDPPorts = [ config.services.tailscale.port ];
       # allow you to SSH in over the public internet
       allowedTCPPorts = optionals config.me.networking.ssh.ingress.enable [ 22 ];
+      checkReversePath = mkIf (!cfg.ingress.enable) "loose";
     };
 
     boot.kernel.sysctl = mkIf cfg.ingress.isExitNode {
@@ -37,11 +56,28 @@ in {
     };
 
     systemd = {
-      services.tailscaled.after = [
-        "systemd-tmpfiles-setup.service"
-        "NetworkManager.service"
-        "time-sync.target"
-      ];
+      services = {
+        tailscaled.after = [
+          "systemd-tmpfiles-setup.service"
+          "NetworkManager.service"
+          "time-sync.target"
+        ];
+
+        tailscale-up = {
+          description = "Start tailscale up";
+          wantedBy = [ "multi-user.target" ];
+          after = [ "tailscaled.service" ];
+          partOf = [ "tailscaled.service" ];
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${pkgs.tailscale}/bin/tailscale up --reset --accept-dns=true " + (
+              if cfg.vpn.enable then "--exit-node ${cfg.vpn.exitNode} --exit-node-allow-lan-access=true"
+              else if cfg.ingress.enable then "--advertise-exit-node=true --accept-dns=false"
+              else ""
+            );
+          };
+        };
+      };
       user.tmpfiles.rules = [
         "d /persist/var/lib/tailscale 0700 root root - -"
       ];

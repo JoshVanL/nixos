@@ -55,7 +55,9 @@ in {
     };
     networking = {
       ssh.enable = true;
-      tailscale.enable = true;
+      tailscale = {
+        enable = true;
+      };
       interfaces.intf.enp0s5.useDHCP = true;
       podman.enable = true;
     };
@@ -78,7 +80,16 @@ in {
   };
 
   specialisation = {
-    vpn = {
+    vpn-tailscale = {
+      inheritParentConfig = true;
+      configuration = {
+        me.networking.tailscale.vpn = {
+          enable = true;
+          exitNode = "burgundy";
+        };
+      };
+    };
+    vpn-wireguard = {
       inheritParentConfig = true;
       configuration = {
         me.networking.wireguard = wireguardCfg;
@@ -87,8 +98,18 @@ in {
     onthemove = {
       inheritParentConfig = true;
       configuration = {
-        me.networking.wireguard = wireguardCfg;
         me.window-manager.fontsize = lib.mkForce 24;
+        me.networking.tailscale.vpn = {
+          enable = true;
+          exitNode = "burgundy";
+        };
+      };
+    };
+    onthemove-wireguard = {
+      inheritParentConfig = true;
+      configuration = {
+        me.window-manager.fontsize = lib.mkForce 24;
+        me.networking.wireguard = wireguardCfg;
       };
     };
   };
