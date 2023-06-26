@@ -77,7 +77,7 @@ in {
           let g:go_highlight_function_calls = 1
           let g:go_highlight_extra_types = 1
           let g:go_gopls_options = ['-remote=unix;/run/user/1000/gopls']
-          let g:go_build_tags = 'e2e perf conftests unit integration integration_test certtests all_components'
+          let g:go_build_tags = 'e2e perf conftests unit integration integration_test certtests allcomponents'
         '';
       };
 
