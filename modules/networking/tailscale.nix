@@ -69,8 +69,9 @@ in {
           after = [ "tailscaled.service" ];
           partOf = [ "tailscaled.service" ];
           serviceConfig = {
-            Type = "oneshot";
+            Type = "simple";
             RestartSec = 3;
+            Restart = "on-failure";
             RemainAfterExit = true;
             ExecStart = "${pkgs.tailscale}/bin/tailscale up --reset --accept-dns=true " + (
               if cfg.vpn.enable then "--exit-node ${cfg.vpn.exitNode} --exit-node-allow-lan-access=true"
