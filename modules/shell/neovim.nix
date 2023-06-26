@@ -39,6 +39,10 @@ let
     "proto"
   ];
 
+  spellCheckWholeFiles = [
+    "COMMIT_EDITMSG"
+  ];
+
 in {
   options.me.shell.neovim = {
     enable = mkEnableOption "neovim";
@@ -177,7 +181,9 @@ in {
           "Spell Checking
           hi SpellBad cterm=underline
           ${concatStringsSep "\n"
-            (map (s: "autocmd BufNewFile,BufRead *." + s + " set spell spelllang=en_gb") spellCheckFileTypes)
+            (map (s: "autocmd BufNewFile,BufRead " + s + " set spell spelllang=en_gb")
+              ((map (s: "*." + s) spellCheckFileTypes) ++ spellCheckWholeFiles)
+            )
           }
 
           :set backspace=indent,eol,start
