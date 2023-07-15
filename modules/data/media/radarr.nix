@@ -4,6 +4,14 @@ with lib;
 let
   cfg = config.me.data.media.radarr;
 
+  mvDirSH = pkgs.writeShellApplication {
+    name = "mvdir";
+    text = ''
+      rm "/var/lib/transmission/.config/transmission-daemon/torrents/''${TR_TORRENT_ID}.torrent"
+      mv "$TR_TORRENT_DIR/$TR_TORRENT_NAME" ${config.me.data.media.radarr.videosDir}/.
+    '';
+  };
+
 in {
   options.me.data.media.radarr = {
     enable = mkEnableOption "radarr";
@@ -39,6 +47,7 @@ in {
     };
 
     users.users.radarr.extraGroups = [ "video" "transmission" ];
+    users.users.transmission.extraGroups = [ "video" ];
 
     services = {
       radarr = {
@@ -49,6 +58,10 @@ in {
       transmission = {
         enable = true;
         downloadDirPermissions = "770";
+        settings = {
+          script-torrent-done-enabled = true;
+          script-torrent-done-filename = "${mvDirSH}/bin/mvdir";
+        };
       };
 
       nginx = {
