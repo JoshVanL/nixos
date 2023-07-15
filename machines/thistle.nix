@@ -17,7 +17,7 @@ with lib;
       boot = {
         loader = "systemd-boot";
         initrd = {
-          availableKernelModules = [ "ehci_pci" "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" ];
+          availableKernelModules = [ "ehci_pci" "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" "r8169" ];
           ssh = {
             enable = true;
             authorizedKeys = config.me.security.joshvanl.sshPublicKeys;
@@ -49,6 +49,12 @@ with lib;
         logPath = "/keep/run/zfs_uploader/zfs_uploader.log";
         configPath = "/persist/etc/zfs_uploader/config.cfg";
       };
+      media = {
+        plex = {
+          enable = true;
+          domain = "plex.joshvanl.dev";
+        };
+      };
     };
     networking = {
       ssh = {
@@ -57,6 +63,12 @@ with lib;
           enable = true;
           authorizedKeys = config.me.security.joshvanl.sshPublicKeys;
         };
+      };
+      acme = {
+        enable = true;
+        dnsProvider = "gcloud";
+        email = "me@joshvanl.dev";
+        credentialsFile = "/persist/etc/joshvanl/dns/acme/credentials.secret";
       };
       tailscale = {
         enable = true;
