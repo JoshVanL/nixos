@@ -101,6 +101,11 @@ in {
       };
     };
 
+    # Allow xinit to start graphical-session.target
+    systemd.user.targets.graphical-session = {
+      unitConfig.RefuseManualStart = false;
+    };
+
     home-manager.users.${config.me.username} = {
       systemd.user.services = {
         xrandr = mkSystemd {
