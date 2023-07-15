@@ -19,6 +19,7 @@ in {
   config = mkIf cfg.enable {
     assertions = [
       {assertion = stringLength cfg.domain > 0; message = "Must provide a domain name";}
+      {assertion = config.me.networking.acme.enable; message = "ACME must be enabled";}
     ];
 
     systemd.tmpfiles.rules = [

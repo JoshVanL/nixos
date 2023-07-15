@@ -19,6 +19,10 @@ in {
   };
 
   config = mkIf cfg.enable {
+    assertions = [
+      {assertion = !cfg.server.enable || config.me.networking.acme.enable; message = "ACME must be enabled when server enabled";}
+    ];
+
     home-manager.users.${config.me.username}.home = {
       packages = with pkgs; [
         bitwarden-cli

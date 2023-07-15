@@ -29,7 +29,7 @@ in {
     };
 
     systemd.tmpfiles.rules = [
-      "d /persist/var/lib/acme 0755 acme acme - -"
+      "d /persist/var/lib/acme 0755 root root - -"
     ];
 
     fileSystems."/var/lib/acme" = { options = [ "bind" ]; device = "/persist/var/lib/acme"; };
