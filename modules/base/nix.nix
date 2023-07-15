@@ -33,9 +33,19 @@ let
         return 1
       }
 
+      CURRENT_SPEC="main"
+      CURRENT_SPEC_DIR=$(readlink /run/current-system)
+      for f in /nix/var/nix/profiles/system/specialisation/*; do
+        if [ "$(readlink "$f")" = "$CURRENT_SPEC_DIR" ]; then
+          CURRENT_SPEC=$(basename "$f")
+          break
+        fi
+      done
+
       if [ $# -ne 1 ]; then
-          echo "Usage: specialisation <specialisation name>"
+          echo "Usage: specialisation <name>"
           echo "Names: ''${SPECIALISATIONS[*]}"
+          echo "Current: ''${CURRENT_SPEC}"
           exit 1
       fi
       if ! containsSpec "$1" "''${SPECIALISATIONS[@]}"; then
@@ -43,10 +53,10 @@ let
         exit 1
       fi
       if [ "$1" = "main" ]; then
-          echo "Switching to main configuration."
+          echo "Switching from '$CURRENT_SPEC' to 'main' configuration."
           sudo /nix/var/nix/profiles/system/bin/switch-to-configuration switch
       else
-          echo "Switching to specialisation '$1'."
+          echo "Switching from '$CURRENT_SPEC' to specialisation '$1'."
           sudo /nix/var/nix/profiles/system/specialisation/"$1"/bin/switch-to-configuration switch
       fi
     '';
