@@ -63,7 +63,7 @@ in {
           exitNode = "burgundy";
         };
       };
-      interfaces.intf.enp0s5.useDHCP = true;
+      interfaces = [ "enp0s5" ];
       podman.enable = true;
     };
     shell = {

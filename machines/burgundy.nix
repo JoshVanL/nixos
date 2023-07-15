@@ -82,10 +82,7 @@
       };
     };
     networking = {
-      interfaces.intf = {
-        eth0.useDHCP  = true;
-        wlan0.useDHCP = false;
-      };
+      interfaces = [ "eth0" ];
       ssh = {
         enable = true;
         ingress = {

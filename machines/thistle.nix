@@ -77,11 +77,7 @@ with lib;
           exitNode = "burgundy";
         };
       };
-      interfaces.intf = {
-        enp1s0.useDHCP = true;
-        enp2s0f0.useDHCP = true;
-        wlan0.useDHCP = true;
-      };
+      interfaces = [ "enp1s0" "enp2s0f0" "wlan0" ];
       podman = {
         enable = true;
         mirrorDomain = "containercache.joshvanl.dev";

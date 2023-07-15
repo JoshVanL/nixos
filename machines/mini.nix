@@ -10,9 +10,7 @@
       };
       parallels.enable = true;
     };
-    networking = {
-      interfaces.intf.enp0s5.useDHCP = true;
-    };
+    networking.interfaces = ["enp0s5"];
     dev.git = {
       enable = true;
       username = "joshvanl";
