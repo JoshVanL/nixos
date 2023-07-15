@@ -39,7 +39,6 @@ let
     Unit = {
       Description = sys.desc;
       PartOf = ["graphical-session.target"];
-      After = sys.after or [];
     };
     Install.WantedBy = ["graphical-session.target"];
     Service = {
@@ -120,25 +119,21 @@ in {
           type = "oneshot";
           desc = "configure X";
           exec = "${xconfSH}/bin/xconf.sh";
-          after = ["xrandr.service"];
         };
         feh = mkSystemd {
           type = "oneshot";
           desc = "set wallpaper";
           exec = "${pkgs.feh}/bin/feh --no-fehbg --bg-center --randomize ${imgs}/jpg";
-          after = ["xrandr.service"];
         };
         picom = mkSystemd {
           type = "simple";
           desc = "picom compositor";
           exec = "${pkgs.picom}/bin/picom";
-          after = ["feh.service"];
         };
         xpropdate = mkSystemd {
           type = "simple";
           desc = "xpropdate: set WM_NAME to current datetime";
           exec = "${pkgs.xpropdate}/bin/xpropdate";
-          after = ["xrandr.service"];
         };
       };
 
