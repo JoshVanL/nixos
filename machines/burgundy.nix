@@ -3,7 +3,7 @@
     machineName = "burgundy";
     username = "josh";
     system = "aarch64-linux";
-    roles.assume = [ "josh" "sshingress" "mediaserver" "securityserver" "cacheserver" "acme" ];
+    roles.assume = [ "josh" "sshingress" "securityserver" "cacheserver" "acme" ];
     base = {
       nix = {
         extraSubstituters = [ "http://nixcache.joshvanl.dev" ];
