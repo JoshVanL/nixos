@@ -6,104 +6,14 @@ with lib;
     machineName = "thistle";
     username = "josh";
     system = "x86_64-linux";
-    base = {
-      nix = {
-        extraSubstituters = [
-          "http://nixcache.joshvanl.dev/"
-          "http://machinecache.joshvanl.dev/"
-        ];
-        trusted-public-keys = config.me.security.joshvanl.nixPublicKeys;
-      };
-      boot = {
-        loader = "systemd-boot";
-        initrd = {
-          availableKernelModules = [ "ehci_pci" "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" "r8169" ];
-          ssh = {
-            enable = true;
-            authorizedKeys = config.me.security.joshvanl.sshPublicKeys;
-          };
-        };
-      };
-    };
-    dev = {
-      git = {
-        enable = true;
-        username = "joshvanl";
-        email = "me@joshvanl.dev";
-      };
-      build.enable = true;
-      go = {
-        enable = true;
-        extraProxies = ["http://gocache.joshvanl.dev"];
-      };
-      grpc.enable = true;
-      kube.enable = true;
-      crypto.enable = true;
-      data.enable = true;
-      image.enable = true;
-      cloud.enable = true;
-    };
-    data = {
-      zfs_uploader = {
-        enable = true;
-        logPath = "/keep/run/zfs_uploader/zfs_uploader.log";
-        configPath = "/persist/etc/zfs_uploader/config.cfg";
-      };
-      media = {
-        plex = {
-          enable = true;
-          domain = "plex.joshvanl.dev";
-        };
-      };
+    roles.assume = [ "josh" "sshingress" "nixsub" "mediaserver" "acme" "dev" ];
+    base.boot = {
+      loader = "systemd-boot";
+      initrd.availableKernelModules = [ "ehci_pci" "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" "r8169" ];
     };
     networking = {
-      ssh = {
-        enable = true;
-        ingress = {
-          enable = true;
-          authorizedKeys = config.me.security.joshvanl.sshPublicKeys;
-        };
-      };
-      acme = {
-        enable = true;
-        dnsProvider = "gcloud";
-        email = "me@joshvanl.dev";
-        credentialsFile = "/persist/etc/joshvanl/dns/acme/credentials.secret";
-      };
-      tailscale = {
-        enable = true;
-        vpn = {
-          enable = true;
-          exitNode = "burgundy";
-        };
-      };
       interfaces = [ "enp1s0" "enp2s0f0" "wlan0" ];
-      podman = {
-        enable = true;
-        mirrorDomain = "containercache.joshvanl.dev";
-        mirrors = [
-          "docker.io"
-          "ghcr.io"
-          "quay.io"
-          "registry.k8s.io"
-          "mcr.microsoft.com"
-        ];
-      };
-    };
-    shell = {
-      neovim = {
-        enable = true;
-        coPilot.enable = true;
-        openAI = {
-          enable = true;
-          apiKeyPath = "/persist/home/secrets/chatgpt/api_key";
-        };
-      };
-      zsh.enable = true;
-    };
-    security = {
-      bitwarden.enable = true;
-      yubikey.enable = true;
+      wireguard = config.me.security.joshvanl.wireguard;
     };
     window-manager = {
       enable = true;
@@ -120,14 +30,14 @@ with lib;
         me.networking.tailscale.vpn.enable = mkForce false;
       };
     };
-    vpn-wireguard = {
+    vpn-tailscale = {
       inheritParentConfig = true;
       configuration = {
-        me.networking.wireguard = {
+        me.networking.tailscale.vpn = {
           enable = true;
-          privateKeyFile = "/persist/etc/wireguard/private_key";
-        } // config.me.security.joshvanl.wireguard;
-        me.networking.tailscale.vpn.enable = mkForce false;
+          exitNode = "burgundy";
+        };
+        me.networking.wireguard.enable = mkForce false;
       };
     };
   };

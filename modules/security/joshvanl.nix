@@ -50,6 +50,8 @@ with lib;
       ];
 
       wireguard = {
+        enable = true;
+        privateKeyFile = "/persist/etc/wireguard/private_key";
         addresses = [ "10.2.0.2/32" ];
         dns = [ "10.2.0.1" ];
         peer = {

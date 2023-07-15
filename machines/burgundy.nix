@@ -3,6 +3,7 @@
     machineName = "burgundy";
     username = "josh";
     system = "aarch64-linux";
+    roles.assume = [ "josh" "sshingress" "mediaserver" "securityserver" "cacheserver" "acme" ];
     base = {
       nix = {
         extraSubstituters = [ "http://nixcache.joshvanl.dev" ];
@@ -18,116 +19,18 @@
           "console=ttyAMA0,115200"
           "console=tty1"
         ];
-        initrd = {
-          availableKernelModules = [ "usbhid" "usb_storage" "smsc95xx" "usbnet" ];
-          ssh = {
-            enable = true;
-            authorizedKeys = config.me.security.joshvanl.sshPublicKeys;
-          };
-        };
+        initrd.availableKernelModules = [ "usbhid" "usb_storage" "smsc95xx" "usbnet" ];
         # Enable so we can build other machines for the cache.
         emulatedSystems = [ "x86_64-linux" ];
       };
     };
-    data = {
-      cache = {
-        nix = {
-          enable = true;
-          domain = "nixcache.joshvanl.dev";
-          cacheDir = "/keep/run/nginx/cache/nix";
-          maxCacheSize = "300G";
-          maxCacheAge = "180d";
-        };
-        machine = {
-          enable = true;
-          domain = "machinecache.joshvanl.dev";
-          secretKeyFile = "/persist/etc/joshvanl/machinecache/cache-priv-key.pem";
-          machineRepo = "https://github.com/joshvanl/nixos";
-          timerOnCalendar = "*-*-* 4:00:00";
-        };
-        go = {
-          enable = true;
-          domain = "gocache.joshvanl.dev";
-        };
-        container = {
-          enable = true;
-          domain = "containercache.joshvanl.dev";
-          registries = [
-            {name = "docker.io"; upstream = "registry-1.docker.io";}
-            "ghcr.io"
-            "quay.io"
-            "registry.k8s.io"
-            "mcr.microsoft.com"
-          ];
-        };
-      };
-      zfs_uploader = {
-        enable = true;
-        logPath = "/keep/run/zfs_uploader/zfs_uploader.log";
-        configPath = "/persist/etc/zfs_uploader/config.cfg";
-      };
-      media = {
-        radarr = {
-          enable = true;
-          domain = "dish.joshvanl.dev";
-        };
-        jackett = {
-          enable = true;
-          domain = "hoodie.joshvanl.dev";
-        };
-        plex = {
-          enable = true;
-          domain = "plex.joshvanl.dev";
-        };
-      };
-    };
     networking = {
       interfaces = [ "eth0" ];
-      ssh = {
+      tailscale.ingress = {
         enable = true;
-        ingress = {
-          enable = true;
-          authorizedKeys = config.me.security.joshvanl.sshPublicKeys;
-        };
+        isExitNode = true;
       };
-      tailscale = {
-        enable = true;
-        ingress = {
-          enable = true;
-          isExitNode = true;
-        };
-      };
-      wireguard = {
-        enable = true;
-        privateKeyFile = "/persist/etc/wireguard/private_key";
-      } // config.me.security.joshvanl.wireguard;
-      acme = {
-        enable = true;
-        dnsProvider = "gcloud";
-        email = "me@joshvanl.dev";
-        credentialsFile = "/persist/etc/joshvanl/dns/acme/credentials.secret";
-      };
-    };
-    dev.git.enable = true;
-    shell = {
-      neovim.enable = true;
-      zsh.enable = true;
-    };
-    security = {
-      bitwarden = {
-        enable = true;
-        server = {
-          enable = true;
-          domain = "bitwarden.joshvanl.dev";
-        };
-      };
-      yubikey = {
-        enable = true;
-        pam = {
-          enable = true;
-          authorizedIDs = config.me.security.joshvanl.yubikeyIDs;
-        };
-      };
+      wireguard = config.me.security.joshvanl.wireguard;
     };
   };
 }

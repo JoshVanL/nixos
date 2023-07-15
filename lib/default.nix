@@ -16,5 +16,5 @@ let
   defaultImport = dir: map (name: "${dir}/${name}") ((nixFilesNoDefault' dir) ++ (dirs dir));
 
 in lib // {
-  inherit dirs nixFilesNoDefault defaultImport targetSystems;
+  inherit dirs nixFilesNoDefault nixFilesNoDefault' defaultImport targetSystems;
 }

@@ -3,6 +3,7 @@
     machineName = "mini";
     username = "notme";
     system = "aarch64-linux";
+    roles.assume = [ "josh" "dev" ];
     base = {
       boot = {
         loader = "systemd-boot";
@@ -11,15 +12,6 @@
       parallels.enable = true;
     };
     networking.interfaces = ["enp0s5"];
-    dev.git = {
-      enable = true;
-      username = "joshvanl";
-      email = "me@joshvanl.dev";
-    };
-    shell = {
-      neovim.enable = true;
-      zsh.enable = true;
-    };
     window-manager = {
       enable = true;
       fontsize = 32;
