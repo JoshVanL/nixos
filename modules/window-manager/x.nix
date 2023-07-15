@@ -39,6 +39,7 @@ let
     Unit = {
       Description = sys.desc;
       PartOf = ["graphical-session.target"];
+      After = sys.after or [];
     };
     Install.WantedBy = ["graphical-session.target"];
     Service = {
@@ -131,7 +132,7 @@ in {
           type = "simple";
           desc = "picom compositor";
           exec = "${pkgs.picom}/bin/picom";
-          after = ["xrandr.service"];
+          after = ["feh.service"];
         };
         xpropdate = mkSystemd {
           type = "simple";
