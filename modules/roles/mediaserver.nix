@@ -8,11 +8,11 @@ in {
   config = mkIf (elem "mediaserver" cfg.assume) {
     me.data.media = {
       radarr = {
-        enable = false;
+        enable = true;
         domain = "dish.joshvanl.dev";
       };
       jackett = {
-        enable = false;
+        enable = true;
         domain = "hoodie.joshvanl.dev";
       };
       plex = {
