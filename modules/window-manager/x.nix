@@ -4,9 +4,11 @@ with lib;
 let
   cfg = config.me.window-manager;
 
-  wallpaper = pkgs.fetchurl {
-    url = "https://github.com/JoshVanL/imgs/raw/main/wallpaper-3.jpg";
-    hash = "sha256-d+2uu+/ZtjJU34tNjidbMHGY6UDjPO7R2tA8VrCHWIA=";
+  imgs = pkgs.fetchFromGitHub {
+    owner = "joshvanl";
+    repo = "imgs";
+    rev = "20a376c";
+    hash = "sha256-Abk0UiI2Zmvgio4U3U5LlxFuCy7OCR1kGKk0RXEpAoY=";
   };
 
   xconfSH = pkgs.writeShellApplication {
@@ -122,7 +124,7 @@ in {
         feh = mkSystemd {
           type = "oneshot";
           desc = "set wallpaper";
-          exec = "${pkgs.feh}/bin/feh --bg-fill ${wallpaper} --no-fehbg";
+          exec = "${pkgs.feh}/bin/feh --no-fehbg --bg-center --randomize ${imgs}/jpg";
           after = ["xrandr.service"];
         };
         picom = mkSystemd {
