@@ -4,6 +4,16 @@ with lib;
 let
   cfg = config.me.networking.wireguard;
 
+  reloadTailscaleSH = pkgs.writeShellApplication {
+    name = "reload-tailscale";
+    runtimeInputs = with pkgs; [ coreutils systemdMinimal ];
+    text = ''
+      sleep 5
+      systemctl restart wg-quick-wg0
+      systemctl restart tailscale-up
+    '';
+  };
+
 in {
   options.me.networking.wireguard = {
     enable = mkEnableOption "wireguard";
@@ -31,6 +41,18 @@ in {
     systemd.services = {
       tailscaled.after = [ "wg-quick-wg0.service" ];
       wg-quick-wg0.after = [ "time-sync.target" ];
+
+      tailscale-wireguard-reload = {
+        enable = config.me.networking.tailscale.ingress.isExitNode;
+        description = "Reload tailscale after wireguard boot";
+        wantedBy = [ "default.target" ];
+        after = [ "tailscaled.service" ];
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = false;
+          ExecStart = "${reloadTailscaleSH}/bin/reload-tailscale";
+        };
+      };
     };
 
     networking = {
