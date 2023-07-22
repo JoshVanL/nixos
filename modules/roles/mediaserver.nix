@@ -11,6 +11,10 @@ in {
         enable = true;
         domain = "dish.joshvanl.dev";
       };
+      sonarr = {
+        enable = true;
+        domain = "sat.joshvanl.dev";
+      };
       jackett = {
         enable = true;
         domain = "hoodie.joshvanl.dev";
