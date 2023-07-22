@@ -72,7 +72,7 @@ in {
             enableACME = true;
             acmeRoot = null;
             locations."/" = {
-              proxyPass = "http://127.0.0.1:7878";
+              proxyPass = "http://127.0.0.1:8989";
               proxyWebsockets = true;
             };
             extraConfig = ''
