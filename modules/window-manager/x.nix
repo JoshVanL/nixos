@@ -7,8 +7,8 @@ let
   imgs = pkgs.fetchFromGitHub {
     owner = "joshvanl";
     repo = "imgs";
-    rev = "d05d29f634b7111dd81417c19e16fe4d033bec02";
-    hash = "sha256-Nzlu6evGRtaSE2sISp6xgXwUW7CXGrCI/+IPl+T1Zg0=";
+    rev = "c2be07ac9513f610e27775dce906967fbf407f82";
+    hash = "sha256-AkeDin1qgoCJ0IGdrExbkTwOkkxM6kRtKjDmB88vZPw=";
   };
 
   xconfSH = pkgs.writeShellApplication {
