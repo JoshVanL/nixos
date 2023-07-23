@@ -71,6 +71,10 @@ in {
     environment.variables.EDITOR = "vim";
 
     home-manager.users.${config.me.username} = {
+      home.packages = with pkgs; [
+        vimv
+      ];
+
       home.sessionVariables = {
         VISUAL = "vim";
       };
