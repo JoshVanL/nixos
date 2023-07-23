@@ -73,8 +73,8 @@ in {
             RestartSec = 3;
             Restart = "on-failure";
             RemainAfterExit = true;
-            ExecStart = "${pkgs.tailscale}/bin/tailscale up --reset --accept-dns=true " + (
-              if cfg.vpn.enable then "--exit-node ${cfg.vpn.exitNode} --exit-node-allow-lan-access=true"
+            ExecStart = "${pkgs.tailscale}/bin/tailscale up --reset --accept-routes=true " + (
+              if cfg.vpn.enable then "--exit-node ${cfg.vpn.exitNode} --accept-dns=true --exit-node-allow-lan-access=true"
               else if cfg.ingress.enable then "--advertise-exit-node=true --accept-dns=false"
               else ""
             );
