@@ -204,7 +204,8 @@ in {
           vnoremap <C-z> "+x
 
           " highlight word on cursor
-          autocmd CursorMoved * exe printf('match SpellLocal /\V\<%s\>/', escape(expand('<cword>'), '/\'))
+          hi CursorLine gui=underline cterm=underline
+          autocmd CursorMoved * exe printf('match CursorLine /\V\<%s\>/', escape(expand('<cword>'), '/\'))
 
           map <C-i> :set conceallevel=0<CR>
 
