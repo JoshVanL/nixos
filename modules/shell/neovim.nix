@@ -203,6 +203,9 @@ in {
           vmap <C-c> "+y
           vnoremap <C-z> "+x
 
+          " highlight word on cursor
+          autocmd CursorMoved * exe printf('match SpellLocal /\V\<%s\>/', escape(expand('<cword>'), '/\'))
+
           map <C-i> :set conceallevel=0<CR>
 
           nnoremap <leader>w!! :w !sudo tee > /dev/null %
