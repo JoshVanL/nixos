@@ -13,10 +13,10 @@ let
 
   xconfSH = pkgs.writeShellApplication {
     name = "xconf.sh";
-    runtimeInputs = with pkgs; [
-      xorg.xset
-      xorg.xmodmap
-      xorg.setxkbmap
+    runtimeInputs = with pkgs.xorg; [
+      xset
+      xmodmap
+      setxkbmap
     ];
     text = ''
       xset r rate 250 70
@@ -35,12 +35,18 @@ let
     '';
   };
 
-  mkSystemd = sys: {
+  mkSystemd = sys:
+  let
+    partOf = ["graphical-session.target"];
+    after = optionals (builtins.hasAttr "after" sys) sys.after;
+  in {
     Unit = {
       Description = sys.desc;
-      PartOf = ["graphical-session.target"];
+      PartOf = partOf;
+      Requires = after;
+      After = after;
     };
-    Install.WantedBy = ["graphical-session.target"];
+    Install.WantedBy = partOf;
     Service = {
       Environment = [ "DISPLAY=:0" ];
       Type = sys.type;
@@ -105,7 +111,10 @@ in {
 
     # Allow xinit to start graphical-session.target
     systemd.user.targets.graphical-session = {
-      unitConfig.RefuseManualStart = false;
+      unitConfig = {
+        RefuseManualStart = "no";
+        StopWhenUnneeded = "no";
+      };
     };
 
     home-manager.users.${config.me.username} = {
@@ -124,16 +133,19 @@ in {
           type = "oneshot";
           desc = "set wallpaper";
           exec = "${pkgs.feh}/bin/feh --no-fehbg --bg-center --randomize ${imgs}/jpg";
+          after = ["xrandr.service"];
         };
         picom = mkSystemd {
           type = "simple";
           desc = "picom compositor";
           exec = "${pkgs.picom}/bin/picom";
+          after = ["xrandr.service"];
         };
         xpropdate = mkSystemd {
           type = "simple";
           desc = "xpropdate: set WM_NAME to current datetime";
           exec = "${pkgs.xpropdate}/bin/xpropdate";
+          after = ["xrandr.service"];
         };
       };
 
