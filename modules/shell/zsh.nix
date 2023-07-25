@@ -39,7 +39,7 @@ in {
     home-manager.users.${config.me.username} = {
       home = {
         file.".config/oh-my-zsh/themes/amuse-custom.zsh-theme".source = pkgs.fetchurl {
-          url = "https://raw.githubusercontent.com/JoshVanL/oh-my-zsh-custom/main/amuse-custom.zsh-theme";
+          url = "https://raw.githubusercontent.com/joshvanl/oh-my-zsh-custom/main/amuse-custom.zsh-theme";
           hash = "sha256-aqd5rWF9BZmcGU8E9sKAKFR0cfh0Kn4i3ZRS/u4vyGw=";
         };
 
@@ -48,6 +48,7 @@ in {
           grpSH
           fzf
           direnv
+          ww
         ];
       };
 
