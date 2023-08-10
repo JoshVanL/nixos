@@ -19,7 +19,7 @@ in {
         crypto.enable = true;
         go = {
           enable = true;
-          extraProxies = ["http://gocache.joshvanl.dev"];
+          #extraProxies = ["http://gocache.joshvanl.dev"];
         };
         grpc.enable = true;
         kube.enable = true;
@@ -31,14 +31,14 @@ in {
 
       networking.podman = {
         enable = true;
-        mirrorDomain = "containercache.joshvanl.dev";
-        mirrors = [
-          "docker.io"
-          "ghcr.io"
-          "quay.io"
-          "registry.k8s.io"
-          "mcr.microsoft.com"
-        ];
+        #mirrorDomain = "containercache.joshvanl.dev";
+        #mirrors = [
+        #  "docker.io"
+        #  "ghcr.io"
+        #  "quay.io"
+        #  "registry.k8s.io"
+        #  "mcr.microsoft.com"
+        #];
       };
     };
   };

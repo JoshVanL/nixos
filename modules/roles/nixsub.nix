@@ -7,10 +7,10 @@ let
 in {
   config = mkIf (elem "nixsub" cfg.assume) {
     me.base.nix = {
-      extraSubstituters = [
-        "http://nixcache.joshvanl.dev/"
-        "http://machinecache.joshvanl.dev/"
-      ];
+      #extraSubstituters = [
+      #  "http://nixcache.joshvanl.dev/"
+      #  "http://machinecache.joshvanl.dev/"
+      #];
       trusted-public-keys = config.me.security.joshvanl.nixPublicKeys;
     };
   };
