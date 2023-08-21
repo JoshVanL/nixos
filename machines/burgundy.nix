@@ -30,7 +30,7 @@
         enable = true;
         isExitNode = true;
       };
-      wireguard = config.me.security.joshvanl.wireguard;
+      wireguard = config.me.security.joshvanl.wireguard.uk;
     };
   };
 }

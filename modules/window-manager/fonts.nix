@@ -3,7 +3,7 @@ with lib;
 
 {
   config = mkIf config.me.window-manager.enable {
-    fonts.fonts = with pkgs; [
+    fonts.packages = with pkgs; [
       font-awesome
     ];
 

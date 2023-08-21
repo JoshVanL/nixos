@@ -50,13 +50,25 @@ with lib;
       ];
 
       wireguard = {
-        enable = true;
-        privateKeyFile = "/persist/etc/wireguard/private_key";
-        addresses = [ "10.2.0.2/32" ];
-        dns = [ "10.2.0.1" ];
-        peer = {
-          endpoint = "146.70.83.66:51820";
-          publicKey = "lnSLhBJ3zosn36teAK1JJjn7ALiaPLq5k6YO07GnQi4=";
+        uk = {
+          enable = true;
+          privateKeyFile = "/persist/etc/wireguard/private_key_uk";
+          addresses = [ "10.2.0.2/32" ];
+          dns = [ "10.2.0.1" ];
+          peer = {
+            endpoint = "146.70.83.66:51820";
+            publicKey = "lnSLhBJ3zosn36teAK1JJjn7ALiaPLq5k6YO07GnQi4=";
+          };
+        };
+        costa = {
+          enable = true;
+          privateKeyFile = "/persist/etc/wireguard/private_key_costa";
+          addresses = [ "10.2.0.2/32" ];
+          dns = [ "10.2.0.1" ];
+          peer = {
+            endpoint = "138.199.50.104:51820";
+            publicKey = "kqT/fYDDcxeDHNn1sZQA8XVXZI98+9IjeDQ5gEPtMyg=";
+          };
         };
       };
     };
