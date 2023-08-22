@@ -1,3 +1,3 @@
 final: prev: {
-  go = prev.go_1_20;
+  go = prev.go_1_21;
 }
