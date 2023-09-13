@@ -16,7 +16,7 @@ with lib;
     };
     networking = {
       interfaces = [ "enp0s5" ];
-      wireguard = config.me.security.joshvanl.wireguard.costa;
+      wireguard = config.me.security.joshvanl.wireguard.uk;
       tailscale.vpn.enable = false;
       #tailscale.vpn = {
       #  enable = true;
@@ -25,7 +25,7 @@ with lib;
     };
     window-manager = {
       enable = true;
-      fontsize = 24;
+      fontsize = 15;
       xrandrArgs = "--output Virtual-1 --mode 4096x2160 --rate 120 --output Virtual-2 --off";
     };
   };
@@ -37,33 +37,10 @@ with lib;
         me.networking.tailscale.vpn.enable = mkForce false;
       };
     };
-    vpn-wireguard-uk = {
-      inheritParentConfig = true;
-      configuration = {
-        me.networking.wireguard = mkForce config.me.security.joshvanl.wireguard.uk;
-        me.networking.tailscale.vpn.enable = mkForce false;
-      };
-    };
     onthemove = {
       inheritParentConfig = true;
       configuration = {
         me.window-manager.fontsize = mkForce 24;
-      };
-    };
-    onthemove-wireguard-uk = {
-      inheritParentConfig = true;
-      configuration = {
-        me.window-manager.fontsize = mkForce 24;
-        me.networking.wireguard = mkForce config.me.security.joshvanl.wireguard.uk;
-        me.networking.tailscale.vpn.enable = mkForce false;
-      };
-    };
-    onthemove-wireguard-costa = {
-      inheritParentConfig = true;
-      configuration = {
-        me.window-manager.fontsize = mkForce 24;
-        me.networking.wireguard = mkForce config.me.security.joshvanl.wireguard.costa;
-        me.networking.tailscale.vpn.enable = mkForce false;
       };
     };
   };
