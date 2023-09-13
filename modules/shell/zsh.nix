@@ -44,6 +44,7 @@ in {
         };
 
         packages = with pkgs; [
+          bat
           ffSH
           grpSH
           fzf
