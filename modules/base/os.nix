@@ -2,7 +2,7 @@
 
 {
   # Set your time zone.
-  time.timeZone = "America/Costa_Rica";
+  time.timeZone = "Europe/London";
 
   # Users.
   users = {
