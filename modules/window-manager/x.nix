@@ -4,13 +4,6 @@ with lib;
 let
   cfg = config.me.window-manager;
 
-  imgs = pkgs.fetchFromGitHub {
-    owner = "joshvanl";
-    repo = "imgs";
-    rev = "c2be07ac9513f610e27775dce906967fbf407f82";
-    hash = "sha256-AkeDin1qgoCJ0IGdrExbkTwOkkxM6kRtKjDmB88vZPw=";
-  };
-
   xconfSH = pkgs.writeShellApplication {
     name = "xconf.sh";
     runtimeInputs = with pkgs.xorg; [
@@ -132,7 +125,7 @@ in {
         feh = mkSystemd {
           type = "oneshot";
           desc = "set wallpaper";
-          exec = "${pkgs.feh}/bin/feh --no-fehbg --bg-center --randomize ${imgs}/jpg";
+          exec = "${pkgs.feh}/bin/feh --no-fehbg --bg-center --randomize ${pkgs.joshvanlimgs}";
           after = ["xrandr.service"];
         };
         picom = mkSystemd {

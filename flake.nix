@@ -17,6 +17,10 @@
       url = "github:joshvanl/xpropdate";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    imgs = {
+      url = "github:joshvanl/imgs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
