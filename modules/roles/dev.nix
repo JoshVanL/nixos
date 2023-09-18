@@ -27,6 +27,7 @@ in {
         image.enable = true;
         python.enable = true;
         rust.enable = true;
+        dotnet.enable = true;
       };
 
       networking.podman = {
