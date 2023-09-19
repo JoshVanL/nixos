@@ -97,7 +97,7 @@ in {
           vim-fugitive
           vim-rhubarb
           indentLine
-          vim-trailing-whitespace
+          vim-better-whitespace
           vim-lastplace
           vim-dirdiff
 
@@ -177,10 +177,6 @@ in {
           EOF
 
           set guicursor=i:block
-
-          "highlight trailing whitespace
-          :highlight ExtraWhitespace ctermbg=red guibg=red
-          :match ExtraWhitespace /\s\+$/
 
           "Spell Checking
           hi SpellBad cterm=underline
