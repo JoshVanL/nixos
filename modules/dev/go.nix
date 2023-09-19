@@ -59,7 +59,7 @@ in {
 
       #programs.git.extraConfig.url."ssh://git@github.com:".insteadOf = "https://github.com/";
 
-      programs.neovim = mkIf config.me.shell.neovim.enable {
+      programs.neovim = {
         plugins = with pkgs.vimPlugins; [
           vim-go
         ];
