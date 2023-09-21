@@ -35,12 +35,21 @@ with lib;
       inheritParentConfig = true;
       configuration = {
         me.networking.tailscale.vpn.enable = mkForce false;
+        me.networking.wireguard.enable = mkForce false;
       };
     };
     onthemove = {
       inheritParentConfig = true;
       configuration = {
         me.window-manager.fontsize = mkForce 24;
+      };
+    };
+    onthemove-vpn-none = {
+      inheritParentConfig = true;
+      configuration = {
+        me.window-manager.fontsize = mkForce 24;
+        me.networking.tailscale.vpn.enable = mkForce false;
+        me.networking.wireguard.enable = mkForce false;
       };
     };
   };
