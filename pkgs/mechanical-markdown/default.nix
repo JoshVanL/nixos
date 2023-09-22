@@ -6,11 +6,11 @@ with pkgs.python3Packages;
 
 buildPythonPackage rec {
   pname = "mechanical-markdown";
-  version = "0.6.0";
+  version = "0.7.0";
 
   src = fetchPypi {
     inherit pname version;
-    hash = "sha256-jd8d2HicL/PO/+qqY9DKyhGwzwKJhxQvAguFsDrWARQ=";
+    hash = "sha256-R9dQzuFqo2WGXd+lLIf2qrr4xwxf9LdLyPQnVKB1gN4=";
   };
 
   propagatedBuildInputs = [
