@@ -100,6 +100,7 @@ in {
           vim-better-whitespace
           vim-lastplace
           vim-dirdiff
+          vim-nix
 
           (mkIf cfg.openAI.enable vim-codegpt)
           # needed for codegpt
