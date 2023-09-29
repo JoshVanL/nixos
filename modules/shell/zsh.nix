@@ -50,6 +50,7 @@ in {
           fzf
           direnv
           ww
+          tree
         ];
       };
 
