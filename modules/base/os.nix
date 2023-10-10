@@ -16,7 +16,7 @@
         home = "/home/${config.me.username}";
         group = "users";
         extraGroups = [ "wheel" "video" ];
-        passwordFile = "/keep/etc/users/${config.me.username}";
+        hashedPasswordFile = "/keep/etc/users/${config.me.username}";
       };
       root.hashedPassword = "!";
     };
