@@ -49,7 +49,7 @@ in {
         ];
 
         sessionVariables = {
-          GOPRIVATE = "github.com/diagridio";
+          GOPRIVATE = "github.com/diagridio,github.com/joshvanl";
           GOPATH  = "$HOME/go";
           GOBIN   = "$HOME/go/bin";
           GOPROXY = concatStrings (intersperse
