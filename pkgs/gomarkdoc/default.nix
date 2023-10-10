@@ -5,16 +5,16 @@
 
 buildGoModule rec {
   pname = "gomarkdoc";
-  version = "0.4.1";
+  version = "1.1.0";
 
   src = fetchFromGitHub {
     owner = "princjef";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-ep1dVsKKydqeQjz5ocZ8tQeJfCb66Oy36FPh/juLUgA=";
+    hash = "sha256-eMH+F1ZXAKHqnrvOJvCETm2NiDwY03IFHrDNYr3jaW8=";
   };
 
-  vendorSha256 = "sha256-LfovwcipO3/ovHLDSLRhHcEocbKdW399o6mJ45GavBM=";
+  vendorSha256 = "sha256-gCuYqk9agH86wfGd7k6QwLUiG3Mv6TrEd9tdyj8AYPs=";
   subPackages = [ "cmd/gomarkdoc" ];
   meta = with lib; {
     homepage = "https://github.com/princjef/gomarkdoc";
