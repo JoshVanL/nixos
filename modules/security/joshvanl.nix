@@ -70,6 +70,16 @@ with lib;
             publicKey = "kqT/fYDDcxeDHNn1sZQA8XVXZI98+9IjeDQ5gEPtMyg=";
           };
         };
+        italy = {
+          enable = true;
+          privateKeyFile = "/persist/etc/wireguard/private_key_italy";
+          addresses = [ "10.2.0.2/32" ];
+          dns = [ "10.2.0.1" ];
+          peer = {
+            endpoint = "146.70.182.34:51820";
+            publicKey = "QAx4kzh5ejS9RksrRPqv8u/d0eY3WMrMyvykPJZTN3M=";
+          };
+        };
       };
     };
   };
