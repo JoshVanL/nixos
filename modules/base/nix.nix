@@ -99,7 +99,7 @@ in {
     nix = {
       settings = {
         allowed-users = [ "root" "${config.me.username}"];
-        auto-optimise-store = true;
+        auto-optimise-store = false;
         substituters = [ "https://cache.nixos.org" ] ++ cfg.extraSubstituters;
         connect-timeout = 1;
         trusted-public-keys = lib.mkBefore cfg.trusted-public-keys;
