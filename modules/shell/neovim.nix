@@ -97,7 +97,6 @@ in {
           vim-fugitive
           vim-rhubarb
           indentLine
-          vim-better-whitespace
           vim-lastplace
           vim-dirdiff
           vim-nix
@@ -205,6 +204,15 @@ in {
           autocmd CursorMoved * exe printf('match CursorLine /\V\<%s\>/', escape(expand('<cword>'), '/\'))
 
           map <C-i> :set conceallevel=0<CR>
+
+          " highlight extra whitespace at the end of a line.
+          highlight ExtraWhitespace ctermbg=red guibg=red
+          autocmd VimEnter * autocmd WinEnter * let w:created=1
+          autocmd VimEnter * let w:created=1
+          autocmd WinEnter *
+            \ if !exists('w:created') | call matchadd('ExtraWhitespace', '\s\+\%#\@<!$') | endif
+          call matchadd('ExtraWhitespace', '\s\+\%#\@<!$')
+            "/\s\+\%#\@<!$\
 
           nnoremap <leader>w!! :w !sudo tee > /dev/null %
         '' + optionalString cfg.coPilot.enable ''
