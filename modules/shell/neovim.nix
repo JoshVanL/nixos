@@ -37,6 +37,7 @@ let
     "nix"
     "sh"
     "proto"
+    "cs"
   ];
 
   spellCheckWholeFiles = [
