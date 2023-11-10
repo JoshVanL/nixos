@@ -61,6 +61,7 @@ in {
           l = "ls -lah --group-directories-first";
           tmp = "cd $(mktemp -d)";
           cdn = "cd /etc/nixos";
+          watch = "watch -n 0.2 ";
         };
         history = {
           size = 100000;
