@@ -14,17 +14,6 @@ let
     };
   };
 
-  vim-codegpt = pkgs.vimUtils.buildVimPlugin {
-    pname = "vim-codegpt";
-    version = "0.0.1";
-    src = pkgs.fetchFromGitHub {
-      owner = "dpayne";
-      repo = "codegpt.nvim";
-      rev = "53b3e75af4ddd281d09fcd9574f8cebdf3198010";
-      sha256 = "sha256-boegd5ypU7k7tn3y78XguIV1ri4XyY9zfewQ9nLavfs=";
-    };
-  };
-
   spellCheckFileTypes = [
     "txt"
     "tex"
@@ -49,14 +38,6 @@ in {
 
     coPilot = {
       enable = mkEnableOption "GitHub Copilot";
-    };
-    openAI = {
-      enable = mkEnableOption "OpenAI";
-      apiKeyPath = mkOption {
-        type = types.path;
-        default = "";
-        description = "OpenAI API key";
-      };
     };
   };
 
@@ -100,11 +81,6 @@ in {
           vim-lastplace
           vim-dirdiff
           vim-nix
-
-          (mkIf cfg.openAI.enable vim-codegpt)
-          # needed for codegpt
-          plenary-nvim
-          nui-nvim
 
           (pkgs.vimPlugins.nvim-treesitter.withPlugins (plugins: with pkgs.tree-sitter-grammars; [
             tree-sitter-beancount
@@ -222,8 +198,6 @@ in {
           \ 'markdown': v:true,
           \ 'yaml': v:true
           \ }
-        ''+ optionalString cfg.openAI.enable ''
-          let $OPENAI_API_KEY = readfile('${cfg.openAI.apiKeyPath}')[0]
         '';
       };
     };
