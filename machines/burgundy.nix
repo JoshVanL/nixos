@@ -3,15 +3,16 @@
     machineName = "burgundy";
     username = "josh";
     system = "aarch64-linux";
-    roles.assume = [ "josh" "sshingress" "securityserver" "cacheserver" "acme" ];
+    #roles.assume = [ "josh" "sshingress" "securityserver" "cacheserver" "acme" ];
+    roles.assume = [ "josh" "sshingress" "securityserver" "acme" ];
     base = {
       nix = {
         extraSubstituters = [ "http://nixcache.joshvanl.dev" ];
         gc.automatic = false;
       };
       boot = {
-        loader = "raspberrypi";
-        kernelPackages = pkgs.linuxPackages_rpi4;
+        loader = "systemd-boot";
+        #kernelPackages = pkgs.linuxPackages_rpi4;
         # ttyAMA0 is the serial console broken out to the GPIO
         kernelParams = [
           "nohibernate"
