@@ -4,6 +4,11 @@ with lib;
 let
   cfg = config.me.window-manager;
 
+  wallimgs = builtins.fetchTarball {
+    url = "https://img.joshvanl.dev/wall/0001.tar.gz";
+    sha256 = "0xh6sflp9hr0dzq86ll0rwppqcn3npgx1mbbba0jgn3mph32xxbl";
+  };
+
   xconfSH = pkgs.writeShellApplication {
     name = "xconf.sh";
     runtimeInputs = with pkgs.xorg; [
@@ -125,7 +130,7 @@ in {
         feh = mkSystemd {
           type = "oneshot";
           desc = "set wallpaper";
-          exec = "${pkgs.feh}/bin/feh --no-fehbg --bg-scale --randomize ${pkgs.joshvanlimgs}";
+          exec = "${pkgs.feh}/bin/feh --no-fehbg --bg-scale --randomize ${wallimgs}";
           after = ["xrandr.service"];
         };
         picom = mkSystemd {
