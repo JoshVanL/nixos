@@ -49,9 +49,8 @@ with lib;
         "machinecache.joshvanl.dev:Xc64ijCADm4FAsbQJI+J1ku8JKXPqrZHckKAf1jhrWA="
       ];
 
-      wireguard = {
+      wireguard = mapAttrs(_: v: v // { enable = true; }) {
         uk = {
-          enable = true;
           privateKeyFile = "/persist/etc/wireguard/private_key_uk";
           addresses = [ "10.2.0.2/32" ];
           dns = [ "10.2.0.1" ];
@@ -60,8 +59,16 @@ with lib;
             publicKey = "lnSLhBJ3zosn36teAK1JJjn7ALiaPLq5k6YO07GnQi4=";
           };
         };
+        uk_hop = {
+          privateKeyFile = "/persist/etc/wireguard/private_key_uk_hop";
+          addresses = [ "10.2.0.2/32" ];
+          dns = [ "10.2.0.1" ];
+          peer = {
+            endpoint = "185.159.157.133:51820";
+            publicKey = "rASRjr/WnYDqR/aW824X2KfIxBIdS5nXQgnKly0TmBo=";
+          };
+        };
         costa = {
-          enable = true;
           privateKeyFile = "/persist/etc/wireguard/private_key_costa";
           addresses = [ "10.2.0.2/32" ];
           dns = [ "10.2.0.1" ];
@@ -71,7 +78,6 @@ with lib;
           };
         };
         italy = {
-          enable = true;
           privateKeyFile = "/persist/etc/wireguard/private_key_italy";
           addresses = [ "10.2.0.2/32" ];
           dns = [ "10.2.0.1" ];

@@ -13,7 +13,7 @@ with lib;
     };
     networking = {
       interfaces = [ "enp1s0" "enp2s0f0" "wlan0" ];
-      wireguard = config.me.security.joshvanl.wireguard.uk;
+      wireguard = config.me.security.joshvanl.wireguard.uk_hop;
     };
     window-manager = {
       enable = true;
