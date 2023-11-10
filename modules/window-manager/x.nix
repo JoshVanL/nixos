@@ -125,7 +125,7 @@ in {
         feh = mkSystemd {
           type = "oneshot";
           desc = "set wallpaper";
-          exec = "${pkgs.feh}/bin/feh --no-fehbg --bg-center --randomize ${pkgs.joshvanlimgs}";
+          exec = "${pkgs.feh}/bin/feh --no-fehbg --bg-scale --randomize ${pkgs.joshvanlimgs}";
           after = ["xrandr.service"];
         };
         picom = mkSystemd {
