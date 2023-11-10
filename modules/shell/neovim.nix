@@ -14,6 +14,17 @@ let
     };
   };
 
+  vim-github-visincr = pkgs.vimUtils.buildVimPlugin rec {
+    pname = "vim-github-visincr";
+    version = "20";
+    src = pkgs.fetchFromGitHub {
+      owner = "vim-scripts";
+      repo = "visincr";
+      rev = version;
+      sha256 = "sha256-2mFYO9KQlO+7DSpTmhpNVVI7Ua0DGJsr+PaYm00e3OE=";
+    };
+  };
+
   spellCheckFileTypes = [
     "txt"
     "tex"
@@ -81,6 +92,7 @@ in {
           vim-lastplace
           vim-dirdiff
           vim-nix
+          vim-github-visincr
 
           (pkgs.vimPlugins.nvim-treesitter.withPlugins (plugins: with pkgs.tree-sitter-grammars; [
             tree-sitter-beancount
