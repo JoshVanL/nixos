@@ -3,14 +3,14 @@ with lib;
 let
   cfg = config.me.shell.neovim;
 
-  vim-github-copilot = pkgs.vimUtils.buildVimPlugin {
+  vim-github-copilot = pkgs.vimUtils.buildVimPlugin rec {
     pname = "vim-github-copilot";
-    version = "1.8.4";
+    version = "1.11.4";
     src = pkgs.fetchFromGitHub {
       owner = "github";
       repo = "copilot.vim";
-      rev = "1358e8e45ecedc53daf971924a0541ddf6224faf";
-      sha256 = "sha256-6xIOngHzmBrgNfl0JI5dUkRLGlq2Tf+HsUj5gha/Ppw=";
+      rev = "v${version}";
+      sha256 = "sha256-yuaG4kOSXSivFQCvc6iEZP230tlaFoXcZb0WxBjeWdA=";
     };
   };
 
