@@ -19,9 +19,21 @@ let
   zfsDSPersist = "${zfsDSSafe}/persist";
   zfsBlankSnapshot = "${zfsDSRoot}@blank";
 
-  install = system: (pkgsys system).writeShellApplication {
+  raspPiFirmwareSrc = {
+    version = "1.35";
+    hash = "sha256-PqFta8T48SJSetaoTA/oStgNhf1DqGjZnDYK2ek9P24=";
+  };
+
+  install = system:
+  let
+    pkgs = pkgsys system;
+    raspPiFirmware = with raspPiFirmwareSrc; pkgs.fetchurl {
+      inherit hash;
+      url = "https://github.com/pftf/RPi4/releases/download/v${version}/RPi4_UEFI_Firmware_v${version}.zip";
+    };
+  in pkgs.writeShellApplication {
     name = "install.sh";
-    runtimeInputs = with (pkgsys system); [
+    runtimeInputs = with pkgs; [
       coreutils
       util-linux
       mkpasswd
@@ -119,8 +131,8 @@ let
 
       info "Partitioning disk '$DISK_PATH' ..."
       parted "$DISK_PATH" -- mklabel gpt
-      parted "$DISK_PATH" -- mkpart primary 512MiB 100%
-      parted "$DISK_PATH" -- mkpart ESP fat32 0MiB 512MiB
+      parted "$DISK_PATH" -- mkpart primary 513MiB 100%
+      parted "$DISK_PATH" -- mkpart ESP fat32 1MiB 513MiB
       parted "$DISK_PATH" -- set 2 boot on
 
       info "Formatting boot partition ..."
@@ -170,6 +182,14 @@ let
       info "Mounting '$DISK_PART_BOOT' to /mnt/boot ..."
       mkdir /mnt/boot
       mount -t vfat "$DISK_PART_BOOT" /mnt/boot
+
+      USE_RASP_PI_FIRMWARE=$(nix eval ".#nixosConfigurations.$MACHINE.options.me.base.boot.raspberryPiFirmware.value" 2&>/dev/null)
+      if [[ $USE_RASP_PI_FIRMWARE == "true" ]]; then
+        info "Installing Raspberry Pi firmware on /mnt/boot ..."
+        cp -r ${raspPiFirmware}/* /mnt/boot
+      fi
+
+      nix eval .\#nixosConfigurations.burgundy.options.me.base.boot.raspberryPiFirmware.value 2&>/dev/nullk
 
       info "Mounting '${zfsDSNix}' to /mnt/nix ..."
       mkdir /mnt/nix

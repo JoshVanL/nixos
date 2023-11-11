@@ -12,6 +12,7 @@
         gc.automatic = false;
       };
       boot = {
+        raspberryPiFirmware = true;
         loader = "systemd-boot";
         #kernelPackages = pkgs.linuxPackages_rpi4;
         # ttyAMA0 is the serial console broken out to the GPIO
@@ -21,7 +22,15 @@
         #  "console=ttyAMA0,115200"
         #  "console=tty1"
         #];
-        initrd.availableKernelModules = [ "usbhid" "usb_storage" "smsc95xx" "usbnet" "vc4" "pcie_brcmstb" "reset-raspberrypi" ];
+        initrd.availableKernelModules = [
+          "usbhid"
+          "usb_storage"
+          "smsc95xx"
+          "usbnet"
+          "vc4"
+          "pcie_brcmstb"
+          "reset-raspberrypi"
+        ];
         # Enable so we can build other machines for the cache.
         #emulatedSystems = [ "x86_64-linux" ];
       };
