@@ -93,9 +93,9 @@ in {
 
       zfs = {
         requestEncryptionCredentials = true;
+        devNodes = "/dev/disk/by-label/rpool";
         # TODO: @joshvanl
-        #devNodes = "/dev/disk/by-label/rpool";
-        devNodes = "/dev/disk/by-partuuid";
+        #devNodes = "/dev/disk/by-partuuid";
         #devNodes = "${DISK_PATH}";
       };
 
