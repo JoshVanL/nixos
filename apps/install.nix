@@ -19,7 +19,7 @@ let
   zfsDSPersist = "${zfsDSSafe}/persist";
   zfsBlankSnapshot = "${zfsDSRoot}@blank";
 
-  raspPiFirmwareSrc = {
+  raspPi4FirmwareSrc = {
     version = "1.35";
     hash = "sha256-/eeCXVayEfkk0d5OR743djzRgRnCU1I5nJrdUoGmfUk=";
   };
@@ -27,7 +27,7 @@ let
   install = system:
   let
     pkgs = pkgsys system;
-    raspPiFirmware = with raspPiFirmwareSrc; pkgs.fetchzip {
+    raspPi4Firmware = with raspPi4FirmwareSrc; pkgs.fetchzip {
       inherit hash;
       name = "rasp-pi-firmware-${version}";
       url = "https://github.com/pftf/RPi4/releases/download/v${version}/RPi4_UEFI_Firmware_v${version}.zip";
@@ -184,10 +184,10 @@ let
       mkdir /mnt/boot
       mount -t vfat "$DISK_PART_BOOT" /mnt/boot
 
-      USE_RASP_PI_FIRMWARE=$(nix eval --extra-experimental-features 'nix-command flakes' "github:$NIXOS_REPO/${commit-rev}#nixosConfigurations.$MACHINE.options.me.base.boot.raspberryPiFirmware.value")
+      USE_RASP_PI_FIRMWARE=$(nix eval --extra-experimental-features 'nix-command flakes' "github:$NIXOS_REPO/${commit-rev}#nixosConfigurations.$MACHINE.options.me.base.boot.raspPi4Firmware.value")
       if [[ $USE_RASP_PI_FIRMWARE == "true" ]]; then
-        info "Installing Raspberry Pi firmware on /mnt/boot ..."
-        cp -r ${raspPiFirmware}/* /mnt/boot
+        info "Installing Raspberry Pi 4 firmware on /mnt/boot ..."
+        cp -r ${raspPi4Firmware}/* /mnt/boot
       fi
 
       info "Mounting '${zfsDSNix}' to /mnt/nix ..."

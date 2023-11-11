@@ -21,7 +21,7 @@ in {
       default = [ ];
       type = types.listOf types.str;
     };
-    raspberryPiFirmware = mkOption {
+    raspPi4Firmware = mkOption {
       type = types.bool;
       default = false;
     };
@@ -93,7 +93,9 @@ in {
 
       zfs = {
         requestEncryptionCredentials = true;
-        devNodes = "/dev/disk/by-label/rpool";
+        # TODO: @joshvanl
+        #devNodes = "/dev/disk/by-label/rpool";
+        devNodes = "/dev/disk/by-partuuid";
       };
 
       kernelPackages = mkIf (cfg.kernelPackages != null) cfg.kernelPackages;

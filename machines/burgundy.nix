@@ -12,7 +12,7 @@
         gc.automatic = false;
       };
       boot = {
-        raspberryPiFirmware = true;
+        raspPi4Firmware = true;
         loader = "systemd-boot";
         #kernelPackages = pkgs.linuxPackages_rpi4;
         # ttyAMA0 is the serial console broken out to the GPIO
