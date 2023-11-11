@@ -13,7 +13,7 @@
       };
       boot = {
         loader = "systemd-boot";
-        #kernelPackages = pkgs.linuxPackages_rpi4;
+        kernelPackages = pkgs.linuxPackages_rpi4;
         # ttyAMA0 is the serial console broken out to the GPIO
         kernelParams = [
           "nohibernate"
@@ -21,7 +21,7 @@
           "console=ttyAMA0,115200"
           "console=tty1"
         ];
-        initrd.availableKernelModules = [ "usbhid" "usb_storage" "smsc95xx" "usbnet" "xhci_pci" "usbhid" "sr_mod" ];
+        initrd.availableKernelModules = [ "usbhid" "usb_storage" "smsc95xx" "usbnet" ];
         # Enable so we can build other machines for the cache.
         #emulatedSystems = [ "x86_64-linux" ];
       };
