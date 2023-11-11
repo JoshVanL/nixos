@@ -164,6 +164,7 @@ let
       zfs snapshot "${zfsBlankSnapshot}"
 
       info "Mounting '${zfsDSRoot}' to /mnt ..."
+      mkdir -p /mnt
       mount -t zfs "${zfsDSRoot}" /mnt
 
       info "Mounting '$DISK_PART_BOOT' to /mnt/boot ..."
