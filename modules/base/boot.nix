@@ -27,6 +27,7 @@ in {
         default = [ ];
         type = types.listOf types.str;
       };
+      supportedFilesystems = [ "zfs" ];
 
       ssh = {
         enable = mkOption {
@@ -103,6 +104,7 @@ in {
         grub.enable = false;
 
         systemd-boot.enable = cfg.loader == "systemd-boot";
+        generic-extlinux-compatible.enable = false;
         raspberryPi = mkIf (cfg.loader == "raspberrypi") {
           enable = true;
           version = 4;
