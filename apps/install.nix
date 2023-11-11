@@ -21,18 +21,20 @@ let
 
   raspPiFirmwareSrc = {
     version = "1.35";
-    hash = "sha256-PqFta8T48SJSetaoTA/oStgNhf1DqGjZnDYK2ek9P24=";
+    hash = "sha256-/eeCXVayEfkk0d5OR743djzRgRnCU1I5nJrdUoGmfUk=";
   };
 
-  install-withexp = system:
+  install = system:
   let
     pkgs = pkgsys system;
-    raspPiFirmware = with raspPiFirmwareSrc; pkgs.fetchurl {
+    raspPiFirmware = with raspPiFirmwareSrc; pkgs.fetchzip {
       inherit hash;
+      name = "rasp-pi-firmware-${version}";
       url = "https://github.com/pftf/RPi4/releases/download/v${version}/RPi4_UEFI_Firmware_v${version}.zip";
+      stripRoot = false;
     };
   in pkgs.writeShellApplication {
-    name = "install-withexp.sh";
+    name = "install.sh";
     runtimeInputs = with pkgs; [
       coreutils
       util-linux
@@ -226,22 +228,9 @@ let
     '';
   };
 
-  install = system:
-  let
-    pkgs = pkgsys system;
-  in pkgs.writeShellApplication {
-    name = "install.sh";
-    runtimeInputs = [ pkgs.nix ];
-    text = ''
-      NIXOS_REPO="''${NIXOS_REPO:-joshvanl/nixos}"
-      sudo nix run --experimental-features 'nix-command flakes' "github:$NIXOS_REPO/${commit-rev}#install-withexp"
-    '';
-  };
-
 in listToAttrs (map (system:
   nameValuePair "${system}" {
     default = mkApp (install system);
     install = mkApp (install system);
-    install-withexp = mkApp (install-withexp system);
   }
 ) targetSystems)
