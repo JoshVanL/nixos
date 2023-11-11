@@ -183,7 +183,7 @@ let
       mkdir /mnt/boot
       mount -t vfat "$DISK_PART_BOOT" /mnt/boot
 
-      USE_RASP_PI_FIRMWARE=$(nix eval "github:$NIXOS_REPO/${commit-rev}#nixosConfigurations.$MACHINE.options.me.base.boot.raspberryPiFirmware.value" 2&>/dev/null)
+      USE_RASP_PI_FIRMWARE=$(nix eval "github:$NIXOS_REPO/${commit-rev}#nixosConfigurations.$MACHINE.options.me.base.boot.raspberryPiFirmware.value")
       if [[ $USE_RASP_PI_FIRMWARE == "true" ]]; then
         info "Installing Raspberry Pi firmware on /mnt/boot ..."
         cp -r ${raspPiFirmware}/* /mnt/boot
