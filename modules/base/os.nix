@@ -29,7 +29,7 @@
   ];
 
   home-manager.users.${config.me.username}.home = {
-    stateVersion = "22.11";
+    stateVersion = config.system.stateVersion;
     packages = with pkgs; [
       killall
       htop
