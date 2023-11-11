@@ -120,7 +120,7 @@ let
       info "Partitioning disk '$DISK_PATH' ..."
       parted "$DISK_PATH" -- mklabel gpt
       parted "$DISK_PATH" -- mkpart primary 512MiB 100%
-      parted "$DISK_PATH" -- mkpart ESP fat32 1MiB 512MiB
+      parted "$DISK_PATH" -- mkpart ESP fat32 0MiB 512MiB
       parted "$DISK_PATH" -- set 2 boot on
 
       info "Formatting boot partition ..."
