@@ -24,7 +24,7 @@ let
     hash = "sha256-PqFta8T48SJSetaoTA/oStgNhf1DqGjZnDYK2ek9P24=";
   };
 
-  install = system:
+  install-withexp = system:
   let
     pkgs = pkgsys system;
     raspPiFirmware = with raspPiFirmwareSrc; pkgs.fetchurl {
@@ -32,7 +32,7 @@ let
       url = "https://github.com/pftf/RPi4/releases/download/v${version}/RPi4_UEFI_Firmware_v${version}.zip";
     };
   in pkgs.writeShellApplication {
-    name = "install.sh";
+    name = "install-withexp.sh";
     runtimeInputs = with pkgs; [
       coreutils
       util-linux
@@ -54,9 +54,8 @@ let
       declare -A USERNAMES_MAP=(${usernamesBashMap})
 
       NIXOS_REPO="''${NIXOS_REPO:-joshvanl/nixos}"
-      COMMIT="''${COMMIT:-main}"
 
-      info "Running NixOS install from ''${NIXOS_REPO}@''${COMMIT}"
+      info "Running NixOS install from ''${NIXOS_REPO}@${commit-rev} ..."
       err "!! WARNING: This will erase the contents of the chosen disk. !!"
       info "######################"
 
@@ -183,7 +182,7 @@ let
       mkdir /mnt/boot
       mount -t vfat "$DISK_PART_BOOT" /mnt/boot
 
-      USE_RASP_PI_FIRMWARE=$(nix eval "github:$NIXOS_REPO/${commit-rev}#nixosConfigurations.$MACHINE.options.me.base.boot.raspberryPiFirmware.value")
+      USE_RASP_PI_FIRMWARE=$(nix eval --experimental-features 'nix-command flakes' "github:$NIXOS_REPO/${commit-rev}#nixosConfigurations.$MACHINE.options.me.base.boot.raspberryPiFirmware.value")
       if [[ $USE_RASP_PI_FIRMWARE == "true" ]]; then
         info "Installing Raspberry Pi firmware on /mnt/boot ..."
         cp -r ${raspPiFirmware}/* /mnt/boot
@@ -227,9 +226,22 @@ let
     '';
   };
 
+  install = system:
+  let
+    pkgs = pkgsys system;
+  in pkgs.writeShellApplication {
+    name = "install.sh";
+    runtimeInputs = [ pkgs.nix ];
+    text = ''
+      NIXOS_REPO="''${NIXOS_REPO:-joshvanl/nixos}"
+      sudo nix run --experimental-features 'nix-command flakes' "github:$NIXOS_REPO/${commit-rev}#install-withexp"
+    '';
+  };
+
 in listToAttrs (map (system:
   nameValuePair "${system}" {
     default = mkApp (install system);
     install = mkApp (install system);
+    install-withexp = mkApp (install-withexp system);
   }
 ) targetSystems)
