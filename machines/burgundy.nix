@@ -4,7 +4,8 @@
     username = "josh";
     system = "aarch64-linux";
     #roles.assume = [ "josh" "sshingress" "securityserver" "cacheserver" "acme" ];
-    roles.assume = [ "josh" "sshingress" "securityserver" "acme" ];
+    #roles.assume = [ "josh" "sshingress" "securityserver" "acme" ];
+    roles.assume = [ "josh" ];
     base = {
       nix = {
         extraSubstituters = [ "http://nixcache.joshvanl.dev" ];
@@ -22,7 +23,7 @@
         ];
         initrd.availableKernelModules = [ "usbhid" "usb_storage" "smsc95xx" "usbnet" "xhci_pci" "usbhid" "sr_mod" ];
         # Enable so we can build other machines for the cache.
-        emulatedSystems = [ "x86_64-linux" ];
+        #emulatedSystems = [ "x86_64-linux" ];
       };
     };
     networking = {
