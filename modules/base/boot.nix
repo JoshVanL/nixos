@@ -95,7 +95,8 @@ in {
         requestEncryptionCredentials = true;
         # TODO: @joshvanl
         #devNodes = "/dev/disk/by-label/rpool";
-        #devNodes = "/dev/disk/by-partuuid";
+        devNodes = "/dev/disk/by-partuuid";
+        #devNodes = "${DISK_PATH}";
       };
 
       kernelPackages = mkIf (cfg.kernelPackages != null) cfg.kernelPackages;

@@ -7,6 +7,7 @@ with lib;
       "/" = {
         device = "rpool/local/root";
         fsType = "zfs";
+        neededForBoot = true;
       };
 
       "/boot" = {
@@ -17,6 +18,7 @@ with lib;
       "/nix" = {
         device = "rpool/local/nix";
         fsType = "zfs";
+        neededForBoot = true;
       };
 
       "/keep" = {
