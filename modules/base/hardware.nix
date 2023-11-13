@@ -7,7 +7,6 @@ with lib;
       "/" = {
         device = "rpool/local/root";
         fsType = "zfs";
-        options = [ "zfsutil" ];
       };
 
       "/boot" = {

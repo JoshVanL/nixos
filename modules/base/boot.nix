@@ -78,7 +78,6 @@ in {
           # we use step-cli to generate the ssh keys here since ssh-keygen has a
           # wobly about non-existent users.
           postCommands = ''
-            zpool import -a
             mkdir -p /boot/ssh /etc/ssh
             if [[ ! -f /boot/ssh/ssh_host_ed25519_key ]]; then
               ${pkgs.step-cli}/bin/step crypto keypair -f --kty=OKP --crv=Ed25519 --no-password --insecure /boot/ssh/pub /boot/ssh/priv
