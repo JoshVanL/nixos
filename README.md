@@ -1,9 +1,9 @@
 # [nixos](https://www.stilldrinking.org/programming-sucks)
 
-- `/machines` root machine configurations.
-- `/modules` modules used by the machines.
-- `/apps` runnable apps, used for installing and managing machines.
-- `/pkgs` software packages that are not in nixpkgs.
+- `/machines` root machine configurations;
+- `/modules` modules used by the machines;
+- `/apps` runnable apps, used for installing and managing machines;
+- `/pkgs` software packages that are not in nixpkgs;
 - `/overlays` overlays for nixpkgs.
 
 Machines use zfs where all data is shredded on boot unless stored (or sys
