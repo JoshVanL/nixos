@@ -79,7 +79,7 @@ in {
           # wobly about non-existent users.
           postCommands = ''
             mkdir -p /boot/ssh /etc/ssh
-            ls -la /dev/disk/by-partuuid
+            find /dev/disk | ${pkgs.findutils}/bin/xargs ls -l -
             if [[ ! -f /boot/ssh/ssh_host_ed25519_key ]]; then
               ${pkgs.step-cli}/bin/step crypto keypair -f --kty=OKP --crv=Ed25519 --no-password --insecure /boot/ssh/pub /boot/ssh/priv
               ${pkgs.step-cli}/bin/step crypto key format -f --no-password --insecure --ssh --out /boot/ssh/ssh_host_ed25519_key /boot/ssh/priv
