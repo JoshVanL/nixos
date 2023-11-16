@@ -5,8 +5,9 @@ let
   cfg = config.me.window-manager;
 
   wallimgs = builtins.fetchTarball {
-    url = "https://img.joshvanl.dev/wall/0001.tar.gz";
-    sha256 = "0xh6sflp9hr0dzq86ll0rwppqcn3npgx1mbbba0jgn3mph32xxbl";
+    name = "wallimgs";
+    url = "https://img.joshvanl.dev/wall/0002.tar.gz";
+    sha256 = "1z6i6z8529iczpvgj4vgdimiyhpkzhpa8c8s1zbx1n46z9v7xlg6";
   };
 
   xconfSH = pkgs.writeShellApplication {
