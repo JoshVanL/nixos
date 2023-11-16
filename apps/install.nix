@@ -218,6 +218,8 @@ let
       info "System linking /mnt/persist to ensure ssh is captured in nix install ..."
       ln -s /mnt/persist /persist
 
+      bash
+
       info "Installing NixOS to /mnt ..."
       NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-install --no-root-passwd --flake "github:$NIXOS_REPO/${commit-rev}#$MACHINE"
 
