@@ -14,9 +14,9 @@
       boot = {
         raspPi4Firmware = true;
         loader = "systemd-boot";
-        #kernelParams = [
-        #  "boot_on_fail"
-        #];
+        kernelParams = [
+          "boot.shell_on_fail"
+        ];
         #kernelPackages = pkgs.linuxPackages_rpi4;
         # ttyAMA0 is the serial console broken out to the GPIO
         #kernelParams = [
