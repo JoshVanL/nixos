@@ -79,6 +79,7 @@ in {
           # wobly about non-existent users.
           postCommands = ''
             mkdir -p /boot/ssh /etc/ssh
+            ls -la /dev/disk/by-partuuid
             if [[ ! -f /boot/ssh/ssh_host_ed25519_key ]]; then
               ${pkgs.step-cli}/bin/step crypto keypair -f --kty=OKP --crv=Ed25519 --no-password --insecure /boot/ssh/pub /boot/ssh/priv
               ${pkgs.step-cli}/bin/step crypto key format -f --no-password --insecure --ssh --out /boot/ssh/ssh_host_ed25519_key /boot/ssh/priv
@@ -93,9 +94,9 @@ in {
 
       zfs = {
         requestEncryptionCredentials = true;
-        devNodes = "/dev/disk/by-label/rpool";
+        #devNodes = "/dev/disk/by-label/rpool";
         # TODO: @joshvanl
-        #devNodes = "/dev/disk/by-partuuid";
+        devNodes = "/dev/disk/by-partuuid";
         #devNodes = "${DISK_PATH}";
       };
 
