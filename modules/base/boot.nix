@@ -87,6 +87,7 @@ in {
             fi
             cp /boot/ssh/ssh_host_ed25519_key /etc/ssh/ssh_host_ed25519_key
             cp /boot/ssh/ssh_host_ed25519_key.pub /etc/ssh/ssh_host_ed25519_key.pub
+            bash
             echo "zfs load-key -a; killall zfs" >> /root/.profile
           '';
         };
