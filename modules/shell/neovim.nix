@@ -38,6 +38,7 @@ let
     "sh"
     "proto"
     "cs"
+    "js"
   ];
 
   spellCheckWholeFiles = [
