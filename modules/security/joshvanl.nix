@@ -86,6 +86,24 @@ with lib;
             publicKey = "QAx4kzh5ejS9RksrRPqv8u/d0eY3WMrMyvykPJZTN3M=";
           };
         };
+        malta = {
+          privateKeyFile = "/persist/etc/wireguard/private_key_malta";
+          addresses = [ "10.2.0.2/32" ];
+          dns = [ "10.2.0.1" ];
+          peer = {
+            endpoint = "185.159.158.204:51820";
+            publicKey = "fX8h7YY6jz+Brn6LpO7Om+Zdp00HbpUKyyC7Hpc2Fz8=";
+          };
+        };
+        malta2 = {
+          privateKeyFile = "/persist/etc/wireguard/private_key_malta2";
+          addresses = [ "10.2.0.2/32" ];
+          dns = [ "10.2.0.1" ];
+          peer = {
+            endpoint = "178.249.212.161:51820";
+            publicKey = "fX8h7YY6jz+Brn6LpO7Om+Zdp00HbpUKyyC7Hpc2Fz8=";
+          };
+        };
       };
     };
   };
