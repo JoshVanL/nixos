@@ -7,8 +7,6 @@ with lib;
       "/" = {
         device = "rpool/local/root";
         fsType = "zfs";
-        neededForBoot = true;
-        options = [ "zfsutil" ];
       };
 
       "/boot" = {
@@ -19,22 +17,18 @@ with lib;
       "/nix" = {
         device = "rpool/local/nix";
         fsType = "zfs";
-        neededForBoot = true;
-        options = [ "zfsutil" ];
       };
 
       "/keep" = {
         device = "rpool/local/keep";
         fsType = "zfs";
         neededForBoot = true;
-        options = [ "zfsutil" ];
       };
 
       "/persist" = {
         device = "rpool/safe/persist";
         fsType = "zfs";
         neededForBoot = true;
-        options = [ "zfsutil" ];
       };
     };
 
