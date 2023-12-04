@@ -19,7 +19,7 @@ the installer application's instructions.
 $ nix run --experimental-features 'nix-command flakes' github:joshvanl/nixos
 ```
 
-After you have installed, rebooted and logged in, run:
+After you have installed, rebooted & logged in, run:
 
 ```bash
 $ sudo nix run /keep/etc/nixos#post-install
