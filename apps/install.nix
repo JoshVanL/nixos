@@ -140,20 +140,21 @@ let
       mkfs.fat -F 32 -n boot "$DISK_PART_BOOT"
 
       info "Creating '${zfsPool}' ZFS pool for '$DISK_PART_ROOT' ..."
-      zpool create -f \
-        -o ashift=12 \
-        -o autotrim=on \
-        -O canmount=off \
-        -O mountpoint=none \
-        -O acltype=posixacl \
-        -O compression=lz4 \
-        -O dnodesize=auto \
-        -O relatime=on \
-        -O normalization=formD \
-        -O xattr=sa \
-        -O encryption=aes-256-gcm \
-        -O keylocation=prompt \
-        -O keyformat=passphrase "${zfsPool}" "$DISK_PART_ROOT"
+      zpool create -O encryption=on -O keyformat=passphrase -O keylocation=prompt -O compression=on -O mountpoint=none -O xattr=sa -O acltype=posixacl "${zfsPool}" ''${DISK_PART_ROOT}
+      #zpool create -f \
+       # -o ashift=12 \
+        #-o autotrim=on \
+        #-O canmount=off \
+        #-O mountpoint=none \
+        #-O acltype=posixacl \
+        #-O compression=lz4 \
+        #-O dnodesize=auto \
+        #-O relatime=on \
+        #-O normalization=formD \
+        #-O xattr=sa \
+        #-O encryption=aes-256-gcm \
+        #-O keylocation=prompt \
+        #-O keyformat=passphrase "${zfsPool}" "$DISK_PART_ROOT"
 
       info "Creating '${zfsDSRoot}' ZFS dataset ..."
       zfs create -p -o canmount=on -o mountpoint=legacy "${zfsDSRoot}"
