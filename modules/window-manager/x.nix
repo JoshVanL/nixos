@@ -20,8 +20,19 @@ let
     text = ''
       xset r rate 250 70
       xset s off -dpms
-      setxkbmap -option caps:escape
       xmodmap -e 'keycode 94 = grave asciitilde'
+      setxkbmap -option caps:escape
+    '' + optionalString cfg.arrowKeysMap ''
+      xmodmap -e 'clear Shift'
+      xmodmap -e 'keysym Shift_R = Up'
+      xmodmap -e 'add Shift = Shift_L'
+      xmodmap -e 'clear mod1'
+      xmodmap -e 'keysym Alt_R = Left'
+      xmodmap -e 'add mod1 = Alt_L'
+      xmodmap -e 'keysym Menu = Down'
+      xmodmap -e 'clear Control'
+      xmodmap -e 'keysym Control_R = Right'
+      xmodmap -e 'add Control = Control_L'
     '';
   };
 
@@ -65,6 +76,8 @@ in {
       type = types.bool;
       default = false;
     };
+
+    arrowKeysMap = mkEnableOption "arrow-keys-map";
   };
 
   config = mkIf cfg.enable {
