@@ -27,6 +27,7 @@ with lib;
       enable = true;
       fontsize = 15;
       xrandrArgs = "--output Virtual-1 --mode 4096x2160 --rate 120 --output Virtual-2 --off";
+      arrowKeysMap = true;
     };
   };
 
@@ -42,6 +43,7 @@ with lib;
       inheritParentConfig = true;
       configuration = {
         me.window-manager.fontsize = mkForce 24;
+        me.window-manager.arrowKeysMap = mkForce false;
       };
     };
     onthemove-vpn-none = {
@@ -50,6 +52,7 @@ with lib;
         me.window-manager.fontsize = mkForce 24;
         me.networking.tailscale.vpn.enable = mkForce false;
         me.networking.wireguard.enable = mkForce false;
+        me.window-manager.arrowKeysMap = mkForce false;
       };
     };
   };
