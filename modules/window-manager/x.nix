@@ -24,14 +24,14 @@ let
       setxkbmap -option caps:escape
     '' + optionalString cfg.arrowKeysMap ''
       xmodmap -e 'clear Shift'
-      xmodmap -e 'keysym Shift_R = Up'
+      xmodmap -e 'keysym Shift_R = Up Up Up Up Up Up Up'
       xmodmap -e 'add Shift = Shift_L'
       xmodmap -e 'clear mod1'
-      xmodmap -e 'keysym Alt_R = Left'
+      xmodmap -e 'keysym Alt_R = Left Left Left Left Left Left Left'
       xmodmap -e 'add mod1 = Alt_L'
-      xmodmap -e 'keysym Menu = Down'
+      xmodmap -e 'keysym Menu = Down Down Down Down Down Down Down'
       xmodmap -e 'clear Control'
-      xmodmap -e 'keysym Control_R = Right'
+      xmodmap -e 'keysym Control_R = Right Right Right Right Right Right Right'
       xmodmap -e 'add Control = Control_L'
     '';
   };
