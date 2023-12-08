@@ -34,11 +34,15 @@ let
       xset
       xmodmap
       setxkbmap
+      xinput
     ];
     text = ''
       xset r rate 250 70
       xset s off -dpms
       setxkbmap -option caps:escape
+    '' + optionalString cfg.xMouseSpeedDeceleration.enable ''
+      xinput --set-prop ${toString cfg.xMouseSpeedDeceleration.prop} "Device Accel Constant Deceleration" ${toString cfg.xMouseSpeedDeceleration.deceleration}
+    '' + ''
       xmodmap ${xmodmapF}
     '';
   };
@@ -85,9 +89,32 @@ in {
     };
 
     arrowKeysMap60 = mkEnableOption "arrow-keys-map-60";
+
+    xMouseSpeedDeceleration = {
+      enable = mkEnableOption "xinput-mouse-speed-deceleration";
+      prop = mkOption {
+        type = types.int;
+        description = "Property ID of the mouse speed deceleration property";
+      };
+      deceleration = mkOption {
+        type = types.float;
+        description = "Mouse speed deceleration factor";
+      };
+    };
   };
 
   config = mkIf cfg.enable {
+    assertions = with cfg; [
+      {
+        assertion = !xMouseSpeedDeceleration.enable || (xMouseSpeedDeceleration.prop != null && xMouseSpeedDeceleration.deceleration != null);
+        message = "xMouseSpeedDeceleration: prop and deceleration must be set";
+      }
+    ];
+
+    me.base.nix.specialisation.postCommands = [
+      "systemctl --user start xconf.service"
+    ];
+
     services = {
       xserver = {
         enable = true;

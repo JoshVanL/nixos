@@ -28,6 +28,11 @@ with lib;
       fontsize = 15;
       xrandrArgs = "--output Virtual-1 --mode 4096x2160 --rate 120 --output Virtual-2 --off";
       arrowKeysMap60 = true;
+      xMouseSpeedDeceleration = {
+        enable = true;
+        prop = 8;
+        deceleration = 5.0;
+      };
     };
   };
 
@@ -44,6 +49,7 @@ with lib;
       configuration = {
         me.window-manager.fontsize = mkForce 24;
         me.window-manager.arrowKeysMap60 = mkForce false;
+        me.window-manager.xMouseSpeedDeceleration.deceleration = mkForce 1.0;
       };
     };
     onthemove-vpn-none = {
@@ -53,6 +59,7 @@ with lib;
         me.networking.tailscale.vpn.enable = mkForce false;
         me.networking.wireguard.enable = mkForce false;
         me.window-manager.arrowKeysMap60 = mkForce false;
+        me.window-manager.xMouseSpeedDeceleration.deceleration = mkForce 1.0;
       };
     };
   };

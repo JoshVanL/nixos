@@ -59,6 +59,8 @@ let
           echo "Switching from '$CURRENT_SPEC' to specialisation '$1'."
           sudo /nix/var/nix/profiles/system/specialisation/"$1"/bin/switch-to-configuration switch
       fi
+
+      ${strings.concatLines cfg.specialisation.postCommands}
     '';
   };
 
@@ -91,6 +93,16 @@ in {
       options = mkOption {
         type = types.str;
         default = "--delete-older-than 7d";
+      };
+    };
+
+    specialisation = {
+      postCommands = mkOption {
+        type = types.listOf types.str;
+        default = [];
+        description = ''
+          A list of commands to run after switching to a specialisation.
+        '';
       };
     };
   };
