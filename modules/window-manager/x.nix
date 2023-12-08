@@ -10,6 +10,24 @@ let
     sha256 = "1z6i6z8529iczpvgj4vgdimiyhpkzhpa8c8s1zbx1n46z9v7xlg6";
   };
 
+  xmodmapF = pkgs.writeTextFile {
+    name = "xmodmap";
+    text = ''
+      keycode 94 = grave asciitilde
+    '' + optionalString cfg.arrowKeysMap60 ''
+      clear Shift
+      keysym Shift_R = Up Up Up Up Up Up Up
+      add Shift = Shift_L
+      clear mod1
+      keysym Alt_R = Left Left Left Left Left Left Left
+      add mod1 = Alt_L
+      keysym Menu = Down Down Down Down Down Down Down
+      clear Control
+      keysym Control_R = Right Right Right Right Right Right Right
+      add Control = Control_L
+    '';
+  };
+
   xconfSH = pkgs.writeShellApplication {
     name = "xconf.sh";
     runtimeInputs = with pkgs.xorg; [
@@ -20,19 +38,8 @@ let
     text = ''
       xset r rate 250 70
       xset s off -dpms
-      xmodmap -e 'keycode 94 = grave asciitilde'
       setxkbmap -option caps:escape
-    '' + optionalString cfg.arrowKeysMap ''
-      xmodmap -e 'clear Shift'
-      xmodmap -e 'keysym Shift_R = Up Up Up Up Up Up Up'
-      xmodmap -e 'add Shift = Shift_L'
-      xmodmap -e 'clear mod1'
-      xmodmap -e 'keysym Alt_R = Left Left Left Left Left Left Left'
-      xmodmap -e 'add mod1 = Alt_L'
-      xmodmap -e 'keysym Menu = Down Down Down Down Down Down Down'
-      xmodmap -e 'clear Control'
-      xmodmap -e 'keysym Control_R = Right Right Right Right Right Right Right'
-      xmodmap -e 'add Control = Control_L'
+      xmodmap ${xmodmapF}
     '';
   };
 
@@ -77,7 +84,7 @@ in {
       default = false;
     };
 
-    arrowKeysMap = mkEnableOption "arrow-keys-map";
+    arrowKeysMap60 = mkEnableOption "arrow-keys-map-60";
   };
 
   config = mkIf cfg.enable {
