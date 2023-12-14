@@ -68,6 +68,15 @@ with lib;
             publicKey = "rASRjr/WnYDqR/aW824X2KfIxBIdS5nXQgnKly0TmBo=";
           };
         };
+        uk_hop_thistle = {
+          privateKeyFile = "/persist/etc/wireguard/private_key_uk_hop";
+          addresses = [ "10.2.0.2/32" ];
+          dns = [ "10.2.0.1" ];
+          peer = {
+            endpoint = "185.159.157.228:51820";
+            publicKey = "QA+TBTylpDuM0c/gbNfX7/efivIMg7P0ncLMBtTvglg=";
+          };
+        };
         costa = {
           privateKeyFile = "/persist/etc/wireguard/private_key_costa";
           addresses = [ "10.2.0.2/32" ];
