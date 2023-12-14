@@ -8,15 +8,15 @@ in {
   config = mkIf (elem "mediaserver" cfg.assume) {
     me.data.media = {
       radarr = {
-        enable = true;
+        enable = false;
         domain = "dish.joshvanl.dev";
       };
       sonarr = {
-        enable = true;
+        enable = false;
         domain = "sat.joshvanl.dev";
       };
       jackett = {
-        enable = true;
+        enable = false;
         domain = "hoodie.joshvanl.dev";
       };
       plex = {
