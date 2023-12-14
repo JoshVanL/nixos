@@ -6,7 +6,16 @@ with lib;
     machineName = "thistle";
     username = "josh";
     system = "x86_64-linux";
-    roles.assume = [ "josh" "sshingress" "nixsub" "mediaserver" "acme" "securityserver" "cacheserver" ];
+    roles.assume = [
+      "josh"
+      "sshingress"
+      "nixsub"
+      "mediaserver"
+      "acme"
+      "dev"
+      "securityserver"
+      "cacheserver"
+    ];
     base.boot = {
       loader = "systemd-boot";
       initrd.availableKernelModules = [ "ehci_pci" "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" "r8169" ];
