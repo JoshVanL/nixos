@@ -1,4 +1,4 @@
-# [nixos](https://www.stilldrinking.org/programming-sucks)
+# [nixos](https://www.stilldrinking.org/programming-sucks) 
 
 - `/machines` root machine configurations;
 - `/modules` modules used by the machines;
