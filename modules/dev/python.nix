@@ -12,6 +12,11 @@ let
     aiohttp
     dateutil
     uvicorn
+    redis
+    deprecation
+
+    flask
+    pip
     (
       buildPythonPackage rec {
         pname = "cloudevents";
