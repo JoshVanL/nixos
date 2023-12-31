@@ -6,8 +6,8 @@ let
 
   wallimgs = builtins.fetchTarball {
     name = "wallimgs";
-    url = "https://img.joshvanl.dev/wall/0002.tar.gz";
-    sha256 = "1z6i6z8529iczpvgj4vgdimiyhpkzhpa8c8s1zbx1n46z9v7xlg6";
+    url = "https://img.joshvanl.dev/wall/0003.tar.gz";
+    sha256 = "03jqk6pqclc4bkvv89gsg5ms2m0yr7zphdq1x9j1nl4dr81hdgwk";
   };
 
   xmodmapF = pkgs.writeTextFile {
