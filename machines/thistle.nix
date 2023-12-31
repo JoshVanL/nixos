@@ -24,12 +24,6 @@ with lib;
       interfaces = [ "enp1s0" "enp2s0f0" "wlan0" ];
       wireguard = config.me.security.joshvanl.wireguard.uk_hop_thistle;
     };
-    window-manager = {
-      enable = true;
-      fontsize = 10;
-      xrandrArgs = "--output DP-1 --mode 3840x2160 --rate 120";
-      naturalScrolling = true;
-    };
   };
 
   specialisation = {
