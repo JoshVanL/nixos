@@ -193,7 +193,7 @@ in {
           hi CursorLine gui=underline cterm=underline
           autocmd CursorMoved * exe printf('match CursorLine /\V\<%s\>/', escape(expand('<cword>'), '/\'))
 
-          map <C-i> :set conceallevel=0<CR>
+          set conceallevel=0
 
           " highlight extra whitespace at the end of a line.
           highlight ExtraWhitespace ctermbg=red guibg=red
