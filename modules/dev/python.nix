@@ -4,17 +4,6 @@ let
   cfg = config.me.dev.python;
 
   pythonPackages = py: py.withPackages(ps: with ps; [
-    requests
-    pydantic
-    fastapi
-    grpcio
-    httpx
-    aiohttp
-    dateutil
-    uvicorn
-    redis
-    deprecation
-
     flask
     pip
     (
@@ -31,10 +20,10 @@ let
     (
       buildPythonPackage rec {
         pname = "dapr";
-        version = "1.11.0";
+        version = "1.12.1";
         src = fetchPypi {
           inherit pname version;
-          sha256 = "sha256-PpC970JBWAJXDBNmwT7N9JVhireg1PWr2AajTXg+QUE=";
+          sha256 = "sha256-QtydNCLf9E+Gzywwv7NvwGKYKshmp89ovBwfSCMnO8I=";
         };
         doCheck = false;
       }
