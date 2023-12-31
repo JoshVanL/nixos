@@ -14,7 +14,7 @@ buildGoModule rec {
     hash = "sha256-eMH+F1ZXAKHqnrvOJvCETm2NiDwY03IFHrDNYr3jaW8=";
   };
 
-  vendorSha256 = "sha256-gCuYqk9agH86wfGd7k6QwLUiG3Mv6TrEd9tdyj8AYPs=";
+  vendorHash = "sha256-gCuYqk9agH86wfGd7k6QwLUiG3Mv6TrEd9tdyj8AYPs=";
   subPackages = [ "cmd/gomarkdoc" ];
   meta = with lib; {
     homepage = "https://github.com/princjef/gomarkdoc";

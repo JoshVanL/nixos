@@ -16,5 +16,5 @@ buildGoModule rec {
 
   modRoot = "cmd/protoc-gen-go-grpc";
 
-  vendorSha256  = "sha256-yxOfgTA5IIczehpWMM1kreMqJYKgRT5HEGbJ3SeQ/Lg=";
+  vendorHash  = "sha256-yxOfgTA5IIczehpWMM1kreMqJYKgRT5HEGbJ3SeQ/Lg=";
 }

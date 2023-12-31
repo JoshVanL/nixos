@@ -14,6 +14,6 @@ buildGoModule rec {
     hash = "sha256-7Cg7fByLR9jX3OSCqJfLw5PAHDQi/gopkjtkbobnyWM=";
   };
 
-  vendorSha256  = "sha256-yb8l4ooZwqfvenlxDRg95rqiL+hmsn0weS/dPv/oD2Y=";
+  vendorHash  = "sha256-yb8l4ooZwqfvenlxDRg95rqiL+hmsn0weS/dPv/oD2Y=";
   subPackages = [ "cmd/protoc-gen-go" ];
 }

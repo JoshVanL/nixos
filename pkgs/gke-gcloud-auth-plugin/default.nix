@@ -14,7 +14,7 @@ buildGoModule rec {
     hash = "sha256-ztLuve6B6YyMjyJwqwJqyickmzFwP/wJtdMkGFn3hmg=";
   };
 
-  vendorSha256 = null;
+  vendorHash = null;
   subPackages = [ "cmd/gke-gcloud-auth-plugin" ];
 
   meta = with lib; {
