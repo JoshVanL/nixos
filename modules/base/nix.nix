@@ -4,14 +4,6 @@ with lib;
 let
   cfg = config.me.base.nix;
 
-  updateSH = pkgs.writeShellApplication {
-    name = "update";
-    runtimeInputs = with pkgs; [ nixos-rebuild ];
-    text = ''
-      sudo nixos-rebuild switch -L --flake '/keep/etc/nixos/.#'
-    '';
-  };
-
   gimmiSH = pkgs.writeShellApplication {
     name = "gimmi";
     runtimeInputs = with pkgs; [ nix ];
@@ -20,8 +12,41 @@ let
     '';
   };
 
+  currentSpecialisationSH = pkgs.writeShellApplication {
+    name = "current-specialisation";
+    text = ''
+      CURRENT_SPEC="main"
+      CURRENT_SPEC_DIR=$(readlink /run/current-system)
+      for f in /nix/var/nix/profiles/system/specialisation/*; do
+        if [ "$(readlink "$f")" = "$CURRENT_SPEC_DIR" ]; then
+          CURRENT_SPEC=$(basename "$f")
+          break
+        fi
+      done
+      echo "$CURRENT_SPEC"
+    '';
+  };
+
+  updateSH = pkgs.writeShellApplication {
+    name = "update";
+    runtimeInputs = with pkgs; [
+      nixos-rebuild
+      currentSpecialisationSH
+    ];
+    text = ''
+      specArg=""
+      CURRENT_SPEC="$(current-specialisation)"
+      if [ "$CURRENT_SPEC" != "main" ]; then
+        specArg="--specialisation $CURRENT_SPEC"
+      fi
+      cmd="sudo nixos-rebuild switch -L --flake '/keep/etc/nixos/.#' $specArg"
+      eval "$cmd"
+    '';
+  };
+
   specialisationSH = pkgs.writeShellApplication {
     name = "specialisation";
+    runtimeInputs = [ currentSpecialisationSH ];
     text = ''
       mapfile -t SPECIALISATIONS < <(ls /nix/var/nix/profiles/system/specialisation)
       SPECIALISATIONS=( "main" "''${SPECIALISATIONS[@]}" )
@@ -33,15 +58,7 @@ let
         return 1
       }
 
-      CURRENT_SPEC="main"
-      CURRENT_SPEC_DIR=$(readlink /run/current-system)
-      for f in /nix/var/nix/profiles/system/specialisation/*; do
-        if [ "$(readlink "$f")" = "$CURRENT_SPEC_DIR" ]; then
-          CURRENT_SPEC=$(basename "$f")
-          break
-        fi
-      done
-
+      CURRENT_SPEC="$(current-specialisation)"
       if [ $# -ne 1 ]; then
           echo "Usage: specialisation <name>"
           echo "Names: ''${SPECIALISATIONS[*]}"
