@@ -3,6 +3,11 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 
+if ! which "$@" > /dev/null 2>&1; then
+  echo "Command not found: $*"
+  exit 1
+fi
+
 WHERE=$(whereis "$@")
 EXIT_CODE=$?
 if [ $EXIT_CODE -ne 0 ]; then
