@@ -4,23 +4,6 @@ with lib;
 let
   cfg = config.me.base.nix;
 
-  updateSH = pkgs.writeShellApplication {
-    name = "update";
-    runtimeInputs = with pkgs; [
-      nixos-rebuild
-      specialisation
-    ];
-    text = ''
-      specArg=""
-      CURRENT_SPEC="$(specialisation -q)"
-      if [ "$CURRENT_SPEC" != "main" ]; then
-        specArg="--specialisation $CURRENT_SPEC"
-      fi
-      cmd="sudo nixos-rebuild switch -L --flake '/keep/etc/nixos/.#' $specArg"
-      eval "$cmd"
-    '';
-  };
-
 in {
   options.me.base.nix = {
     extraSubstituters = mkOption {
@@ -95,7 +78,7 @@ in {
 
     home-manager.users.${config.me.username} = {
       home.packages = with pkgs; [
-        updateSH
+        update
         gimmi
         specialisation
       ];
