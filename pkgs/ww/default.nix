@@ -5,14 +5,14 @@ installShellFiles,
 }:
 
 let
-  wwSH = writeShellApplication {
+  sh = writeShellApplication {
     name = "ww";
     text = builtins.readFile ./ww.sh;
   };
 
   ww = stdenv.mkDerivation {
     name = "ww";
-    src = wwSH;
+    src = sh;
     nativeBuildInputs = [ installShellFiles ];
     installPhase = ''
       mkdir -p $out/bin
