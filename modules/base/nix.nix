@@ -4,14 +4,6 @@ with lib;
 let
   cfg = config.me.base.nix;
 
-  gimmiSH = pkgs.writeShellApplication {
-    name = "gimmi";
-    runtimeInputs = with pkgs; [ nix ];
-    text = ''
-      nix-shell -p "$@" --run "''${SHELL}"
-    '';
-  };
-
   updateSH = pkgs.writeShellApplication {
     name = "update";
     runtimeInputs = with pkgs; [
@@ -104,7 +96,7 @@ in {
     home-manager.users.${config.me.username} = {
       home.packages = with pkgs; [
         updateSH
-        gimmiSH
+        gimmi
         specialisation
       ];
 
