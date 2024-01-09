@@ -5,28 +5,29 @@ writeShellApplication,
 installShellFiles,
 }:
 
+with builtins;
 let
-  currentSpecSH = writeShellApplication {
+  currentSH = writeShellApplication {
     name = "current-specialisation";
-    text = builtins.readFile ./current-specialisation.sh;
+    text = readFile ./current-specialisation.sh;
   };
 
-  specialisationSH = writeShellApplication {
+  sh = writeShellApplication {
     name = "specialisation";
     runtimeInputs = [
       installShellFiles
-      currentSpecSH
+      currentSH
     ];
-    text = builtins.readFile ./specialisation.sh;
+    text = readFile ./specialisation.sh;
   };
 
   specialisation = stdenv.mkDerivation {
     name = "specialisation";
-    src = specialisationSH;
+    src = sh;
     nativeBuildInputs = [ installShellFiles ];
     installPhase = ''
       mkdir -p $out/bin
-      cp $src/bin/specialisation $out/bin
+      cp -r $src/* $out/bin
       installShellCompletion --cmd specialisation --zsh ${./completion.zsh}
     '';
   };
