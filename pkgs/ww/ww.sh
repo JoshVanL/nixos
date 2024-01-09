@@ -14,4 +14,4 @@ if [ $EXIT_CODE -ne 0 ]; then
   echo "$WHERE"
   exit $EXIT_CODE
 fi
-readlink -f "$(echo "$WHERE" | awk '{print $2}')"
+readlink -f "$(echo "$WHERE" | awk '{print $NF}')"
