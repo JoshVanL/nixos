@@ -26,8 +26,8 @@ let
     src = sh;
     nativeBuildInputs = [ installShellFiles ];
     installPhase = ''
-      mkdir -p $out/bin
-      cp -r $src/* $out/bin
+      mkdir -p $out
+      cp -r $src/* $out
       installShellCompletion --cmd specialisation --zsh ${./completion.zsh}
     '';
   };
