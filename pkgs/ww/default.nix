@@ -1,17 +1,24 @@
-{ writeShellApplication
-, coreutils
+{
+writeShellApplication,
+stdenv,
+installShellFiles,
 }:
 
-writeShellApplication {
-  name = "ww";
-  runtimeInputs = [ coreutils ];
-  text = ''
-    WHERE=$(whereis "$@")
-    EXIT_CODE=$?
-    if [ $EXIT_CODE -ne 0 ]; then
-      echo "$WHERE"
-      exit $EXIT_CODE
-    fi
-    readlink -f "$(echo "$WHERE" | awk '{print $2}')"
-  '';
-}
+let
+  wwSH = writeShellApplication {
+    name = "ww";
+    text = builtins.readFile ./ww.sh;
+  };
+
+  ww = stdenv.mkDerivation {
+    name = "ww";
+    src = wwSH;
+    nativeBuildInputs = [ installShellFiles ];
+    installPhase = ''
+      mkdir -p $out/bin
+      cp $src/bin/ww $out/bin
+      installShellCompletion --cmd ww --zsh ${./completion.zsh}
+    '';
+  };
+
+in ww
