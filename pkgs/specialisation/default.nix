@@ -1,5 +1,4 @@
 {
-lib,
 stdenv,
 writeShellApplication,
 installShellFiles,
@@ -14,10 +13,7 @@ let
 
   sh = writeShellApplication {
     name = "specialisation";
-    runtimeInputs = [
-      installShellFiles
-      currentSH
-    ];
+    runtimeInputs = [ currentSH ];
     text = readFile ./specialisation.sh;
   };
 

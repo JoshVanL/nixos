@@ -8,6 +8,7 @@ stdenv,
 installShellFiles,
 }:
 
+with builtins;
 let
   completionZSH = writeTextFile {
     name = "completion.zsh";
@@ -20,7 +21,7 @@ let
 
       function _pkgs() {
         local -a pkgs
-        pkgs=( ${builtins.replaceStrings ["'"] ["\\'"] (concatStringsSep " " (attrNames pkgs))} )
+        pkgs=( ${replaceStrings ["'"] ["\\'"] (concatStringsSep " " (attrNames pkgs))} )
 
         _wanted pkgs expl 'packages' compadd -a pkgs
       }
@@ -30,7 +31,7 @@ let
   sh = writeShellApplication {
     name = "gimmi";
     runtimeInputs = [ nix ];
-    text = builtins.readFile ./gimmi.sh;
+    text = readFile ./gimmi.sh;
   };
 
   gimmi = stdenv.mkDerivation {
