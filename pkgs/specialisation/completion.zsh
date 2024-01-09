@@ -1,14 +1,11 @@
-#compdef specialisation
-compdef _specialisation specialisation
-
-_specs() {
-  local -a specs
-  specs=( main /nix/var/nix/profiles/system/specialisation/*(N:t) )
-
-  _wanted specs expl 'specialisation' compadd -a specs
-}
-
 _specialisation() {
+  _specs() {
+    local -a specs
+    specs=( main /nix/var/nix/profiles/system/specialisation/*(N:t) )
+
+    _wanted specs expl 'specialisation' compadd -a specs
+  }
+
   local -a args=(
     '(-)-q[Print current specialisation]'
     '(-)-h[Show help]'
@@ -17,3 +14,5 @@ _specialisation() {
 
   _arguments $args
 }
+
+compdef _specialisation specialisation

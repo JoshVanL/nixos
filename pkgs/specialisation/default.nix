@@ -33,7 +33,7 @@ let
   specDer = stdenv.mkDerivation {
     name = "specialisation";
     src = specSH;
-    buildInputs = [ installShellFiles ];
+    nativeBuildInputs = [ installShellFiles ];
     installPhase = ''
       mkdir -p $out/bin
       cp $src/bin/specialisation $out/bin
