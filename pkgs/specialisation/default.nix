@@ -8,20 +8,10 @@ installShellFiles,
 let
   currentSpecSH = writeShellApplication {
     name = "current-specialisation";
-    text = ''
-      CURRENT_SPEC="main"
-      CURRENT_SPEC_DIR=$(readlink /run/current-system)
-      for f in /nix/var/nix/profiles/system/specialisation/*; do
-        if [ "$(readlink "$f")" = "$CURRENT_SPEC_DIR" ]; then
-          CURRENT_SPEC=$(basename "$f")
-          break
-        fi
-      done
-      echo "$CURRENT_SPEC"
-    '';
+    text = builtins.readFile ./current-specialisation.sh;
   };
 
-  specSH = writeShellApplication {
+  specialisationSH = writeShellApplication {
     name = "specialisation";
     runtimeInputs = [
       installShellFiles
@@ -30,9 +20,9 @@ let
     text = builtins.readFile ./specialisation.sh;
   };
 
-  specDer = stdenv.mkDerivation {
+  specialisation = stdenv.mkDerivation {
     name = "specialisation";
-    src = specSH;
+    src = specialisationSH;
     nativeBuildInputs = [ installShellFiles ];
     installPhase = ''
       mkdir -p $out/bin
@@ -41,4 +31,4 @@ let
     '';
   };
 
-in specDer
+in specialisation
