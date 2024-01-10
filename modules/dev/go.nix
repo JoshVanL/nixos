@@ -42,7 +42,7 @@ in {
           go
           gomarkdoc
           gotestsum
-          mockery
+          go-mockery
           gofumpt
           gotools
           gcc
