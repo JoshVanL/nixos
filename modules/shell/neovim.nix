@@ -99,7 +99,6 @@ in {
           (pkgs.vimPlugins.nvim-treesitter.withPlugins (plugins: with pkgs.tree-sitter-grammars; [
             tree-sitter-beancount
             tree-sitter-dockerfile
-            tree-sitter-gomod
             tree-sitter-html
             tree-sitter-json
             tree-sitter-make
