@@ -5,15 +5,15 @@
 
 buildGoModule rec {
   pname = "go-protobuf";
-  version = "1.28.1";
+  version = "1.32.0";
 
   src = fetchFromGitHub {
     owner = "protocolbuffers";
     repo = "protobuf-go";
     rev = "v${version}";
-    hash = "sha256-7Cg7fByLR9jX3OSCqJfLw5PAHDQi/gopkjtkbobnyWM=";
+    hash = "sha256-7i6neRiC0fdn5wnPDp7vCDPlVglzt7tDR0qtG9V/qZA=";
   };
 
-  vendorHash  = "sha256-yb8l4ooZwqfvenlxDRg95rqiL+hmsn0weS/dPv/oD2Y=";
+  vendorHash  = "sha256-nGI/Bd6eMEoY0sBwWEtyhFowHVvwLKjbT4yfzFz6Z3E=";
   subPackages = [ "cmd/protoc-gen-go" ];
 }
