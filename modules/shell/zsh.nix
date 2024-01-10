@@ -62,6 +62,7 @@ in {
           tmp = "cd $(mktemp -d)";
           cdn = "cd /etc/nixos";
           watch = "watch -n 0.2 ";
+          wa = "watch -n 0.2";
         };
         history = {
           size = 100000;
