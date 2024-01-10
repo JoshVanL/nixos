@@ -5,13 +5,13 @@
 
 buildGoModule rec {
   pname = "jwt";
-  version = "4.5.0";
+  version = "5.2.0";
 
   src = fetchFromGitHub {
     owner = "golang-jwt";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-dyKL8wQRApkdCkKxJ1knllvixsrBLw+BtRS0SjlN7NQ=";
+    hash = "sha256-KlZoiRRn4ER2z8r8CBmJ9dKoWTYjZEZ/kRL/2uAXoV8=";
   };
 
   vendorHash = null;
