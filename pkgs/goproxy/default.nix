@@ -5,16 +5,16 @@
 
 buildGoModule rec {
   pname = "goproxy";
-  version = "0.13.0";
+  version = "0.16.3";
 
   src = fetchFromGitHub {
     owner = "goproxy";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-k6BtPRIRaj2Jb/qKmhKYSDbF/eZ6oCMLiKoTwFqvgh0=";
+    hash = "sha256-XNoJP7wkBRKQposgs95k1Y6KoBmk8XUHX2/4Kjjhz0s=";
   };
 
-  vendorHash = "sha256-A4aUrb0y+bUFYDZMRsfqN/SVAHWAAGkHBF+dovlASwI=";
+  vendorHash = "sha256-7KpNSMzTOhTKmD/Gh6XDOu2qCACwVMwFrYqowW8wVLk=";
   doCheck = false;
 
   meta = with lib; {
