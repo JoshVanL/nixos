@@ -5,12 +5,12 @@ let
 
   vim-github-copilot = pkgs.vimUtils.buildVimPlugin rec {
     pname = "vim-github-copilot";
-    version = "1.11.4";
+    version = "1.13.0";
     src = pkgs.fetchFromGitHub {
       owner = "github";
       repo = "copilot.vim";
       rev = "v${version}";
-      sha256 = "sha256-yuaG4kOSXSivFQCvc6iEZP230tlaFoXcZb0WxBjeWdA=";
+      sha256 = "sha256-mHwK8vw3vbcMKuTb1aMRSL5GS0+4g3tw3G4uZGMA2lQ=";
     };
   };
 
