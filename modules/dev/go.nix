@@ -85,11 +85,12 @@ in {
         gog = "GO111MODULE=off go get -v";
         gogg = "go get -v";
         got = "go test --race -v";
-        gotu = "go test --race -v -tags unit";
         goi = "go mod tidy -v";
         gob = "go build -v";
         gon = "go install -v";
         gov = "go vet -v";
+        gotu = "got -tags unit";
+        goti = "got -tags integration";
 
         cdc = "cd $HOME/go/src/github.com/cert-manager/cert-manager";
         cdp = "cd $HOME/go/src/github.com/cert-manager/approver-policy";
