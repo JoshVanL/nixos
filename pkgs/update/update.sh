@@ -19,5 +19,5 @@ elif [ "$1" != "main" ]; then
 fi
 
 cmd="sudo nixos-rebuild switch -L --flake '/keep/etc/nixos/.#' $SPEC"
-echo ">> running: $cmd"
+echo ">> $cmd"
 eval "$cmd"
