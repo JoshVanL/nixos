@@ -4,6 +4,28 @@ with lib;
 let
   cfg = config.me.base.nix;
 
+  homeDir = config.home-manager.users.${config.me.username}.home.homeDirectory;
+
+  nixconfSH = pkgs.writeShellApplication {
+    name = "nix-conf";
+    text = ''
+      TARGETDIR="${homeDir}/.config/${config.me.username}"
+      TARGET="$TARGETDIR/nix.conf"
+      GITHUB_TOKEN="/persist/etc/github/token"
+      echo ">> Writing $TARGET"
+      rm -rf "$TARGETDIR" && mkdir -p "$TARGETDIR"
+      if [ -f "$GITHUB_TOKEN" ]; then
+        echo ">> Found github token in $GITHUB_TOKEN"
+        echo "access-tokens = github.com=$(cat $GITHUB_TOKEN)"
+        echo "access-tokens = github.com=$(cat $GITHUB_TOKEN)" > "$TARGET"
+      else
+        echo ">> Did not find github token in $GITHUB_TOKEN"
+        truncate -s 0 "$TARGET"
+      fi
+      echo ">> Wrote $TARGET"
+    '';
+  };
+
 in {
   options.me.base.nix = {
     extraSubstituters = mkOption {
@@ -76,24 +98,33 @@ in {
 
     nixpkgs.config.allowUnsupportedSystem = true;
 
-    home-manager.users.${config.me.username} = {
+    home-manager.users.${config.me.username} = let
+      hmlib = config.home-manager.users.${config.me.username}.lib;
+    in {
       home.packages = with pkgs; [
         update
         gimmi
         specialisation
       ];
 
-      xdg.configFile."specialisation/post-command.sh" = let
-        postCommand = pkgs.writeShellApplication {
-            name = "specialisation-post-command";
-            text = ''
-              ${concatStringsSep "\n" cfg.specialisation.postCommands}
-            '';
-          };
-      in {
-        enable = cfg.specialisation.postCommands != [];
-        source = "${postCommand}/bin/specialisation-post-command";
-        executable = true;
+      home.activation."nix-conf" = hmlib.dag.entryAfter
+        ["writeBoundary"] "${nixconfSH}/bin/nix-conf";
+
+      xdg.configFile = {
+        "nix/nix.conf".source = hmlib.file.mkOutOfStoreSymlink
+          "${homeDir}/.config/${config.me.username}/nix.conf";
+        "specialisation/post-command.sh" = let
+          postCommand = pkgs.writeShellApplication {
+              name = "specialisation-post-command";
+              text = ''
+                ${concatStringsSep "\n" cfg.specialisation.postCommands}
+              '';
+            };
+        in {
+          enable = cfg.specialisation.postCommands != [];
+          source = "${postCommand}/bin/specialisation-post-command";
+          executable = true;
+        };
       };
 
       programs.zsh.shellAliases = mkIf config.me.shell.zsh.enable {
