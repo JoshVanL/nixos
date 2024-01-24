@@ -200,6 +200,7 @@ in {
           xclip
           arandr
           evince
+          fehr
         ];
 
         file.".xinitrc".source = "${xinitrcSH}/bin/.xinitrc";
