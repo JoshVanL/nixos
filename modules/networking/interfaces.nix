@@ -3,14 +3,6 @@ with lib;
 let
   cfg = config.me.networking;
 
-  myIPSH = pkgs.writeShellApplication {
-    name = "myip";
-    runtimeInputs = with pkgs; [ curl ];
-    text = ''
-      curl -L http://ipconfig.me
-    '';
-  };
-
 in {
   options.me.networking = {
     interfaces = mkOption {
@@ -27,7 +19,7 @@ in {
     home-manager.users.${config.me.username}.home.packages = with pkgs; [
       fast-cli
       wget
-      myIPSH
+      myip
     ];
   };
 }
