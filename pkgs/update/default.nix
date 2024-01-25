@@ -1,13 +1,15 @@
 {
+callPackage,
 writeShellApplication,
 nixos-rebuild,
-specialisation,
 stdenv,
 installShellFiles,
 }:
 
 with builtins;
 let
+  specialisation = callPackage ../specialisation {};
+
   sh = writeShellApplication {
     name = "update";
     runtimeInputs = [
