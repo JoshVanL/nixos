@@ -7,4 +7,12 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-nix-shell -p "$@" --run "$SHELL"
+PKGS=()
+for pkg in "$@"; do
+  if [[ "$pkg" == -* ]]; then
+    break
+  fi
+  PKGS+=("nixpkgs#$pkg")
+done
+
+eval "nix shell ${PKGS[*]}"
