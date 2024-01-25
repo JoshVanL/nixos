@@ -16,7 +16,17 @@ let
       #compdef _gimmi gimmi
 
       function _gimmi() {
-        _arguments -C "1:pkgs:_pkgs"
+        _arguments -C \
+          "1:pkgs:_pkgs" \
+          "2:pkgs:_pkgs" \
+          "3:pkgs:_pkgs" \
+          "4:pkgs:_pkgs" \
+          "5:pkgs:_pkgs" \
+          "6:pkgs:_pkgs" \
+          "7:pkgs:_pkgs" \
+          "8:pkgs:_pkgs" \
+          "9:pkgs:_pkgs" \
+          "10:pkgs:_pkgs"
       }
 
       function _pkgs() {

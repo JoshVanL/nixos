@@ -1,8 +1,8 @@
 printHelp() {
-  echo "Usage: gimmi <package>"
+  echo "Usage: gimmi <packages>"
 }
 
-if [ $# -ne 1 ]; then
+if [ $# -eq 0 ]; then
     printHelp
     exit 1
 fi
