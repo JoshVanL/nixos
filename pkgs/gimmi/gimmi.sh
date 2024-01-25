@@ -15,4 +15,5 @@ for pkg in "$@"; do
   PKGS+=("nixpkgs#$pkg")
 done
 
-eval "nix shell -L ${PKGS[*]}"
+CMD="nix shell ${PKGS[*]}"
+eval "$CMD"
