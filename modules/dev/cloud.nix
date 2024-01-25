@@ -26,7 +26,7 @@ in {
         USE_GKE_GCLOUD_AUTH_PLUGIN = "True";
       };
 
-      programs.zsh.shellAliases = {
+      programs.zsh.shellGlobalAliases = {
         gcil = "gcloud compute instances list";
       };
     };

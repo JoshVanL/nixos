@@ -34,7 +34,7 @@ in {
         };
       };
 
-      programs.zsh.shellAliases = ({
+      programs.zsh.shellGlobalAliases = ({
         kc = "kubectl";
         kg = "kubectl get";
         wkc  = "watch -n 0.2 kubectl";

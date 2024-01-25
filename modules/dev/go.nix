@@ -81,7 +81,7 @@ in {
         '';
       };
 
-      programs.zsh.shellAliases = {
+      programs.zsh.shellGlobalAliases = {
         gog = "GO111MODULE=off go get -v";
         gogg = "go get -v";
         got = "go test --race -v";

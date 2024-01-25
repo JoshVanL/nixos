@@ -127,7 +127,7 @@ in {
         };
       };
 
-      programs.zsh.shellAliases = mkIf config.me.shell.zsh.enable {
+      programs.zsh.shellGlobalAliases = mkIf config.me.shell.zsh.enable {
         flake = "nix flake";
         garbage-collect = "sudo nix-collect-garbage -d";
       };

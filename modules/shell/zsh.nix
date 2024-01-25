@@ -57,7 +57,7 @@ in {
       programs.zsh = {
         enable = true;
         enableCompletion = true;
-        shellAliases = {
+        shellGlobalAliases = {
           l = "ls -lah --group-directories-first";
           tmp = "cd $(mktemp -d)";
           cdn = "cd /etc/nixos";
