@@ -1,8 +1,4 @@
-#compdef _update update
-
-function _update() {
-  _arguments -C "1:update:_update"
-}
+#compdef update
 
 function _update() {
   local -a update
@@ -10,3 +6,5 @@ function _update() {
 
   _wanted specs expl 'update' compadd -a specs
 }
+
+_arguments -C "1:update:_update"

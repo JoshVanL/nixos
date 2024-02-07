@@ -1,11 +1,4 @@
-#compdef _specialisation specialisation
-
-function _specialisation() {
-  _arguments -C \
-    "(-)-q[Print current specialisation]" \
-    "(-)-h[Show help]" \
-    "1:spec:_specs"
-}
+#compdef specialisation
 
 function _specs() {
   local -a specs
@@ -13,3 +6,8 @@ function _specs() {
 
   _wanted specs expl 'specialisation' compadd -a specs
 }
+
+_arguments -C \
+  "(-)-q[Print current specialisation]" \
+  "(-)-h[Show help]" \
+  "1:spec:_specs"
