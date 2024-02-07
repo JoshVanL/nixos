@@ -206,7 +206,7 @@ in {
         file.".xinitrc".source = "${xinitrcSH}/bin/.xinitrc";
       };
 
-      programs.zsh.shellGlobalAliases = {
+      programs.zsh.shellAliases = {
         x = "startx";
       };
     };
