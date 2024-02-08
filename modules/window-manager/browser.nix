@@ -9,7 +9,7 @@ with lib;
       "d /persist/home/.config/chromium  0755 ${config.me.username} wheel - -"
       "d /persist/home/.cache/mozilla 0755 ${config.me.username} wheel - -"
       "d /persist/home/.cache/chromium 0755 ${config.me.username} wheel - -"
-      "d /persist/home/downloads 0755 ${config.me.username} wheel - -"
+      "d /keep/home/downloads 0755 ${config.me.username} wheel - -"
       "d /persist/home/documents 0755 ${config.me.username} wheel - -"
 
       "L+ /home/${config.me.username}/.mozilla - - - - /persist/home/.mozilla"
