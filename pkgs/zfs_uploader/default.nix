@@ -31,13 +31,13 @@ in
 
 buildPythonApplication rec {
   pname = "zfs_uploader";
-  version = "0.8.0";
+  version = "0.9.0";
 
   src = fetchFromGitHub {
     owner = "ddebeau";
     repo = pname;
-    rev = "c48c1fa8368577d7c4e9f9c4a4e306cdfdc08944";
-    hash = "sha256-sx3Hj/H41KOZSWisbbdSYbSGzj9R00236gyUjvoh3UY=";
+    rev = version;
+    hash = "sha256-4izGvge7B7dgRIAkQy2X9rC1DXbBLHmTOb5yy2VI7S0=";
   };
 
   doCheck = false;
