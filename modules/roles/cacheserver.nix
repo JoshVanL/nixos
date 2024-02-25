@@ -15,14 +15,14 @@ in {
         maxCacheAge = "180d";
       };
       machine = {
-        enable = true;
+        enable = false;
         domain = "machinecache.joshvanl.dev";
         secretKeyFile = "/persist/etc/joshvanl/machinecache/cache-priv-key.pem";
         machineRepo = "https://github.com/joshvanl/nixos";
         timerOnCalendar = "*-*-* 4:00:00";
       };
       go = {
-        enable = true;
+        enable = false;
         domain = "gocache.joshvanl.dev";
       };
       container = {

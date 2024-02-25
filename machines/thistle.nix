@@ -27,6 +27,12 @@ with lib;
   };
 
   specialisation = {
+    transmit = {
+      inheritParentConfig = true;
+      configuration = {
+        me.roles.media.transmit = true;
+      };
+    };
     vpn-none = {
       inheritParentConfig = true;
       configuration = {

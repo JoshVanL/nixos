@@ -5,18 +5,22 @@ let
   cfg = config.me.roles;
 
 in {
+  options.me.roles.media = {
+    transmit = mkEnableOption "roles.media.transmit";
+  };
+
   config = mkIf (elem "mediaserver" cfg.assume) {
     me.data.media = {
       radarr = {
-        enable = false;
+        enable = cfg.media.transmit;
         domain = "dish.joshvanl.dev";
       };
       sonarr = {
-        enable = false;
+        enable = cfg.media.transmit;
         domain = "sat.joshvanl.dev";
       };
       jackett = {
-        enable = false;
+        enable = cfg.media.transmit;
         domain = "hoodie.joshvanl.dev";
       };
       plex = {
