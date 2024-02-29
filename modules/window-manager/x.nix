@@ -193,6 +193,12 @@ in {
           exec = "${pkgs.xpropdate}/bin/xpropdate";
           after = ["xrandr.service"];
         };
+        dunst = mkSystemd {
+          type = "simple";
+          desc = "dunst notifications";
+          exec = "${pkgs.dunst}/bin/dunst";
+          after = ["xrandr.service"];
+        };
       };
 
       home = {
