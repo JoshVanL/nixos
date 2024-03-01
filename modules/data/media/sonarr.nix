@@ -4,31 +4,19 @@ with lib;
 let
   cfg = config.me.data.media.sonarr;
 
-  mvDirSH = pkgs.writeShellApplication {
-    name = "mvdir";
-    text = ''
-      rm "/var/lib/transmission/.config/transmission-daemon/torrents/''${TR_TORRENT_ID}.torrent"
-      mv "$TR_TORRENT_DIR/$TR_TORRENT_NAME" ${config.me.data.media.sonarr.videosDir}/.
-    '';
-  };
-
 in {
   options.me.data.media.sonarr = {
     enable = mkEnableOption "sonarr";
     domain = mkOption {
       type = types.str;
     };
-    videosDir = mkOption {
-      type = types.str;
-      default = "/keep/run/media/videos";
-    };
-    sonarrDir = mkOption {
+    dataDir = mkOption {
       type = types.str;
       default = "/keep/run/media/sonarr";
     };
-    transmissionDir = mkOption {
+    videosDir = mkOption {
       type = types.str;
-      default = "/keep/run/media/transmission";
+      default = "/keep/run/media/videos";
     };
   };
 
@@ -39,50 +27,59 @@ in {
     ];
 
     systemd.tmpfiles.rules = [
-      "d ${cfg.transmissionDir} 0770 transmission transmission - -"
       "d ${cfg.videosDir} 0770 ${config.me.username} video - -"
     ];
-    fileSystems = {
-      "/var/lib/transmission" = { options = [ "bind" ]; device = cfg.transmissionDir; };
-    };
 
-    users.users.sonarr.extraGroups = [ "video" "transmission" ];
-    users.users.transmission.extraGroups = [ "video" ];
+    users.users.${config.me.username}.extraGroups = [ "video" ];
 
-    services = {
-      sonarr = {
-        enable = true;
-        dataDir = cfg.sonarrDir;
-      };
-
-      transmission = {
-        enable = true;
-        downloadDirPermissions = "770";
-        settings = {
-          script-torrent-done-enabled = true;
-          script-torrent-done-filename = "${mvDirSH}/bin/mvdir";
+    containers.sonarr = {
+      autoStart = true;
+      privateNetwork = true;
+      hostAddress = "192.168.100.16";
+      localAddress = "192.168.100.17";
+      bindMounts = {
+        "${cfg.dataDir}" = {
+          hostPath = cfg.dataDir;
+          isReadOnly = false;
+        };
+        "${cfg.videosDir}" = {
+          hostPath = cfg.videosDir;
+          isReadOnly = false;
         };
       };
+      ephemeral = true;
+      config = { ... }: {
+        services.sonarr = {
+          enable = true;
+          dataDir = cfg.dataDir;
+        };
+        users.users.sonarr.extraGroups = [ "video" ];
+        system.stateVersion = config.system.stateVersion;
+        networking = {
+          firewall.enable = true;
+          firewall.allowedTCPPorts = [ 8989 ];
+        };
+      };
+    };
 
-      nginx = {
-        enable = true;
-        virtualHosts = {
-          "${cfg.domain}" = {
-            forceSSL = true;
-            enableACME = true;
-            acmeRoot = null;
-            locations."/" = {
-              proxyPass = "http://127.0.0.1:8989";
-              proxyWebsockets = true;
-            };
-            extraConfig = ''
-              proxy_read_timeout 90;
-              add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
-              add_header X-Content-Type-Options nosniff;
-              add_header X-XSS-Protection "1; mode=block";
-              add_header X-Frame-Options SAMEORIGIN;
-            '';
+    services.nginx = {
+      enable = true;
+      virtualHosts = {
+        "${cfg.domain}" = {
+          forceSSL = true;
+          enableACME = true;
+          acmeRoot = null;
+          locations."/" = {
+            proxyPass = "http://192.168.100.17:8989";
+            proxyWebsockets = true;
           };
+          extraConfig = ''
+            proxy_read_timeout 90;
+            add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+            add_header X-Content-Type-Options nosniff;
+            add_header X-XSS-Protection "1; mode=block";
+            add_header X-Frame-Options SAMEORIGIN;
+          '';
         };
       };
     };
