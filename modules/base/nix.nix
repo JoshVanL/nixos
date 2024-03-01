@@ -92,7 +92,7 @@ in {
         experimental-features = nix-command flakes
       '';
     };
-    system.stateVersion = "23.11";
+    system.stateVersion = "24.05";
 
     environment.etc."nixos".source = "/keep/etc/nixos";
 
