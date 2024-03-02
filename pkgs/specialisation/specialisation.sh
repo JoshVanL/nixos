@@ -35,6 +35,10 @@ while getopts 'qh' OPTION; do
   esac
 done
 
+if [ $# -eq 0 ]; then
+    echo "$CURRENT_SPEC"
+    exit 0
+fi
 if [ $# -ne 1 ]; then
     printHelp
     exit 1
