@@ -55,9 +55,9 @@ in {
           RootDirectory = lib.mkForce "";
         };
         system.stateVersion = config.system.stateVersion;
-        networking = {
-          firewall.enable = true;
-          firewall.allowedTCPPorts = [ 9091 ];
+        networking.firewall = {
+          enable = true;
+          allowedTCPPorts = [ 9091 ];
         };
       };
     };

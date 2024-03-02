@@ -14,10 +14,6 @@ in {
       type = types.str;
       default = "/keep/run/media/sonarr";
     };
-    videosDir = mkOption {
-      type = types.str;
-      default = "/keep/run/media/videos";
-    };
   };
 
   config = mkIf cfg.enable {
@@ -25,12 +21,6 @@ in {
       {assertion = stringLength cfg.domain > 0; message = "Must provide a domain name";}
       {assertion = config.me.networking.acme.enable; message = "ACME must be enabled";}
     ];
-
-    systemd.tmpfiles.rules = [
-      "d ${cfg.videosDir} 0770 ${config.me.username} video - -"
-    ];
-
-    users.users.${config.me.username}.extraGroups = [ "video" ];
 
     containers.sonarr = {
       autoStart = true;
@@ -42,10 +32,6 @@ in {
           hostPath = cfg.dataDir;
           isReadOnly = false;
         };
-        "${cfg.videosDir}" = {
-          hostPath = cfg.videosDir;
-          isReadOnly = false;
-        };
       };
       ephemeral = true;
       config = { ... }: {
@@ -55,9 +41,9 @@ in {
         };
         users.users.sonarr.extraGroups = [ "video" ];
         system.stateVersion = config.system.stateVersion;
-        networking = {
-          firewall.enable = true;
-          firewall.allowedTCPPorts = [ 8989 ];
+        networking.firewall = {
+          enable = true;
+          allowedTCPPorts = [ 8989 ];
         };
       };
     };

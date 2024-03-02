@@ -14,10 +14,6 @@ in {
       type = types.str;
       default = "/keep/run/media/radarr";
     };
-    videosDir = mkOption {
-      type = types.str;
-      default = "/keep/run/media/videos";
-    };
   };
 
   config = mkIf cfg.enable {
@@ -25,12 +21,6 @@ in {
       {assertion = stringLength cfg.domain > 0; message = "Must provide a domain name";}
       {assertion = config.me.networking.acme.enable; message = "ACME must be enabled";}
     ];
-
-    systemd.tmpfiles.rules = [
-      "d ${cfg.videosDir} 0770 ${config.me.username} video - -"
-    ];
-
-    users.users.${config.me.username}.extraGroups = [ "video" ];
 
     containers.radarr = {
       autoStart = true;
@@ -42,10 +32,6 @@ in {
           hostPath = cfg.radarrDir;
           isReadOnly = false;
         };
-        "${cfg.videosDir}" = {
-          hostPath = cfg.videosDir;
-          isReadOnly = false;
-        };
       };
       ephemeral = true;
       config = { pkgs, ... }: {
@@ -54,10 +40,9 @@ in {
           dataDir = cfg.radarrDir;
         };
         system.stateVersion = config.system.stateVersion;
-        users.users.radarr.extraGroups = [ "video" ];
-        networking = {
-          firewall.enable = true;
-          firewall.allowedTCPPorts = [ 7878 ];
+        networking.firewall = {
+          enable = true;
+          allowedTCPPorts = [ 7878 ];
         };
       };
     };
