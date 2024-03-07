@@ -1,6 +1,7 @@
 {
 writeShellApplication,
 stdenv,
+curl,
 }:
 
 let
@@ -12,6 +13,7 @@ let
   binday = stdenv.mkDerivation {
     name = "binday";
     src = sh;
+    runtimeInputs = [ curl ];
     installPhase = ''
       mkdir -p $out/bin
       cp $src/bin/binday $out/bin
