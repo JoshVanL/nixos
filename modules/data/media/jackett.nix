@@ -46,13 +46,15 @@ in {
           firewall.enable = true;
           firewall.allowedTCPPorts = [ 9117 ];
         };
+        systemd.services.flareresolverr = let
+          flaresolverr = config.nur.repos.xddxdd.flaresolverr;
+        in {
+          enable = true;
+          unitConfig.Type = "simple";
+          serviceConfig.ExecStart = "${flaresolverr}/bin/flaresolverr";
+          wantedBy = [ "multi-user.target" ];
+        };
       };
-    };
-
-    virtualisation.oci-containers.containers.flaresolverr = {
-      autoStart = true;
-      image = flareresolverImage;
-      ports = [ "8191:8191" ];
     };
 
     services.nginx = {

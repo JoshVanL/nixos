@@ -20,6 +20,7 @@ let
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
     }
+    inputs.nur.nixosModules.nur
   ] ++ inpModules;
 
   machineConfigs = builtins.mapAttrs (name: machine: {

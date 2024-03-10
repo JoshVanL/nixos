@@ -10,6 +10,12 @@ in {
   };
 
   config = mkIf (elem "mediaserver" cfg.assume) {
+    networking.nat = mkIf cfg.media.transmit {
+      enable = true;
+      internalInterfaces = [ "ve-+" ];
+      externalInterface = "wg0";
+    };
+
     me.data.media = {
       transmission.enable = cfg.media.transmit;
       radarr = {
