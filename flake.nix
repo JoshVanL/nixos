@@ -17,6 +17,7 @@
       url = "github:joshvanl/xpropdate";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nur.url = github:nix-community/nur;
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
