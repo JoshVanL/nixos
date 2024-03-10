@@ -1,4 +1,8 @@
-{ lib, pkgs, config, ... }:
+{ lib
+, pkgs
+, config
+, ...
+}:
 
 with lib;
 let
@@ -39,46 +43,74 @@ in {
       "d /persist/var/lib/bitwarden_rs 0755 vaultwarden vaultwarden - -"
     ]);
 
-    services = mkIf cfg.server.enable {
-      vaultwarden = {
-        enable = true;
-        dbBackend = "postgresql";
-        config = {
-          tz = "Europe/London";
-          domain = "https://${cfg.server.domain}";
-          signupsAllowed = false;
-          invitationsAllowed = false;
-          rocketPort = rocketPort;
-          databaseUrl = "postgresql://vaultwarden@%2Frun%2Fpostgresql/vaultwarden";
-          enableDbWal = "false";
+    containers.vaultwarden = mkIf cfg.server.enable {
+      autoStart = cfg.server.enable;
+      privateNetwork = true;
+      hostAddress = "192.168.100.18";
+      localAddress = "192.168.100.19";
+      bindMounts = {
+        "/var/lib/bitwarden_rs" = {
+          hostPath = "/persist/var/lib/bitwarden_rs";
+          isReadOnly = false;
+        };
+        "/var/lib/postgresql" = {
+          hostPath = "/persist/var/lib/postgresql";
+          isReadOnly = false;
         };
       };
-      postgresql = {
-        enable = true;
-        package        = pkgs.postgresql_14;
-        authentication = lib.mkForce ''
-          # TYPE  DATABASE        USER            ADDRESS                 METHOD
-          local   all             all                                     trust
-          host    all             all             127.0.0.1/32            trust
-          host    all             all             ::1/128                 trust
-        '';
-        initialScript = pkgs.writeText "backend-initScript" ''
-          CREATE ROLE vaultwarden WITH LOGIN PASSWORD 'vaultwarden' CREATEDB;
-          CREATE DATABASE vaultwarden;
-          GRANT ALL PRIVILEGES ON DATABASE vaultwarden TO vaultwarden;
-        '';
-        ensureDatabases = ["vaultwarden"];
-        ensureUsers = [
-         {
-           name = "vaultwarden";
-           ensureDBOwnership = true;
-         }
-        ];
+      ephemeral = true;
+      config = { ... }: {
+        system.stateVersion = config.system.stateVersion;
+        networking = {
+          firewall.enable = true;
+          firewall.allowedTCPPorts = [ rocketPort ];
+        };
+        services = {
+          vaultwarden = {
+            enable = true;
+            dbBackend = "postgresql";
+            config = {
+              tz = "Europe/London";
+              domain = "https://${cfg.server.domain}";
+              signupsAllowed = false;
+              invitationsAllowed = false;
+              rocketAddress = "0.0.0.0";
+              rocketPort = rocketPort;
+              databaseUrl = "postgresql://vaultwarden@%2Frun%2Fpostgresql/vaultwarden";
+              enableDbWal = "false";
+            };
+          };
+          postgresql = {
+            enable = true;
+            package        = pkgs.postgresql_14;
+            authentication = lib.mkForce ''
+              # TYPE  DATABASE        USER            ADDRESS                 METHOD
+              local   all             all                                     trust
+              host    all             all             127.0.0.1/32            trust
+              host    all             all             ::1/128                 trust
+            '';
+            initialScript = pkgs.writeText "backend-initScript" ''
+              CREATE ROLE vaultwarden WITH LOGIN PASSWORD 'vaultwarden' CREATEDB;
+              CREATE DATABASE vaultwarden;
+              GRANT ALL PRIVILEGES ON DATABASE vaultwarden TO vaultwarden;
+            '';
+            ensureDatabases = ["vaultwarden"];
+            ensureUsers = [
+             {
+               name = "vaultwarden";
+               ensureDBOwnership = true;
+             }
+            ];
+          };
+          postgresqlBackup = {
+            enable = true;
+            databases = [ "vaultwarden" ];
+          };
+        };
       };
-      postgresqlBackup = {
-        enable = true;
-        databases = [ "vaultwarden" ];
-      };
+    };
+
+    services = mkIf cfg.server.enable {
       nginx = {
         enable = true;
         virtualHosts = {
@@ -87,7 +119,7 @@ in {
             enableACME = true;
             acmeRoot = null;
             locations."/" = {
-              proxyPass = "http://127.0.0.1:${toString rocketPort}";
+              proxyPass = "http://192.168.100.19:${toString rocketPort}";
               proxyWebsockets = true;
             };
             extraConfig = ''
@@ -100,19 +132,6 @@ in {
           };
         };
       };
-    };
-
-    systemd.services = mkIf cfg.server.enable {
-      postgresql.after = [ "systemd-tmpfiles-setup.service" ];
-      vaultwarden = {
-        wants = [ "nginx.service" ];
-        after = ["systemd-tmpfiles-setup.service"  "nginx.service" ];
-        bindsTo = [ "nginx.service" ];
-      };
-    };
-    fileSystems = mkIf cfg.server.enable {
-      "/var/lib/postgresql" = { options = [ "bind" ]; device = "/persist/var/lib/postgresql"; };
-      "/var/lib/bitwarden_rs" = { options = [ "bind" ]; device = "/persist/var/lib/bitwarden_rs"; };
     };
   };
 }
