@@ -4,8 +4,6 @@ with lib;
 let
   cfg = config.me.data.media.jackett;
 
-  flareresolverImage = "ghcr.io/flaresolverr/flaresolverr@sha256:f7b83961eaf7de4fc1d6c6350dc79f8626fa3019169bc25e4323305f12fb227f";
-
 in {
   options.me.data.media.jackett = {
     enable = mkEnableOption "jackett";
