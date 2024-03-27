@@ -32,7 +32,7 @@ in {
       };
       plex = {
         enable = true;
-        domain = "plex.joshvanl.dev";
+        domains = [ "plex.joshvanl.dev" "tailplex.joshvanl.dev" ];
       };
     };
   };

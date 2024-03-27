@@ -7,8 +7,8 @@ let
 in {
   options.me.data.media.plex = {
     enable = mkEnableOption "plex";
-    domain = mkOption {
-      type = types.str;
+    domains = mkOption {
+      type = types.listOf types.str;
     };
     plexDir = mkOption {
       type = types.str;
@@ -22,7 +22,7 @@ in {
 
   config = mkIf cfg.enable {
     assertions = [
-      {assertion = stringLength cfg.domain > 0; message = "Must provide a domain name";}
+      {assertion = length cfg.domains > 0; message = "Must provide a domain name";}
       {assertion = config.me.networking.acme.enable; message = "ACME must be enabled";}
     ];
 
@@ -69,11 +69,12 @@ in {
       };
     };
 
-    networking.firewall.allowedTCPPorts = [ 443 ];
+    networking.firewall.allowedTCPPorts = [ 443 32400 ];
     services.nginx = {
       enable = true;
-      virtualHosts = {
-        "${cfg.domain}" = {
+      virtualHosts = listToAttrs (map (domain: {
+        name = domain;
+        value = {
           forceSSL = true;
           http2 = true;
           enableACME = true;
@@ -123,7 +124,7 @@ in {
             proxy_buffering off;
           '';
         };
-      };
+      }) cfg.domains);
     };
   };
 }
