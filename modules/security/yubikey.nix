@@ -29,7 +29,6 @@ in {
         yubikey-personalization
         yubikey-manager
         pinentry
-        pinentry-curses
         imps
       ];
 
