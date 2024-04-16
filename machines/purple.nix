@@ -6,7 +6,7 @@ with lib;
     machineName = "purple";
     system = "aarch64-linux";
     username = "josh";
-    roles.assume = [ "josh" "nixsub" "dev" ];
+    roles.assume = [ "josh" "nixsub" "dev" "img" ];
     base = {
       boot = {
         loader = "systemd-boot";
@@ -17,6 +17,7 @@ with lib;
     networking = {
       interfaces = [ "enp0s5" ];
       wireguard = config.me.security.joshvanl.wireguard.uk_hop;
+      #wireguard = config.me.security.joshvanl.wireguard.italy;
       tailscale.vpn.enable = false;
       #tailscale.vpn = {
       #  enable = true;
