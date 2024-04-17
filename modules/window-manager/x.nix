@@ -49,10 +49,16 @@ let
 
   xinitrcSH = pkgs.writeShellApplication {
     name = ".xinitrc";
-    text = ''
-      ${pkgs.systemdMinimal}/bin/systemctl --user start graphical-session.target
-      ${pkgs.dwm}/bin/dwm
-      ${pkgs.systemdMinimal}/bin/systemctl --user stop graphical-session.target
+    runtimeInputs = with pkgs; [
+      systemdMinimal
+      dwm
+    ];
+    text = let
+      target = "graphical-session.target";
+    in ''
+      trap "systemctl --user stop ${target}" EXIT
+      systemctl --user start ${target}
+      dwm
     '';
   };
 
