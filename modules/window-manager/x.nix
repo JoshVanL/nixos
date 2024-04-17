@@ -122,6 +122,8 @@ in {
     ];
 
     services = {
+      displayManager.defaultSession = "none+dwm";
+
       xserver = {
         enable = true;
         xkb.layout = "us";
@@ -132,10 +134,7 @@ in {
           wallpaper.mode = "fill";
         };
 
-        displayManager = {
-          defaultSession = "none+dwm";
-          startx.enable = true;
-        };
+        displayManager.startx.enable = true;
 
         windowManager.dwm.enable = true;
 
