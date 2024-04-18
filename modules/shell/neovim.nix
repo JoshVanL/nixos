@@ -177,6 +177,7 @@ in {
 
           :set backspace=indent,eol,start
           let g:indentLine_char = '¦'
+          let g:indentLine_conceallevel=0
 
           "word wrap 80 chars for md files
           au BufRead,BufNewFile *.md setlocal textwidth=80
@@ -191,8 +192,6 @@ in {
           " highlight word on cursor
           hi CursorLine gui=underline cterm=underline
           autocmd CursorMoved * exe printf('match CursorLine /\V\<%s\>/', escape(expand('<cword>'), '/\'))
-
-          set conceallevel=0
 
           " highlight extra whitespace at the end of a line.
           highlight ExtraWhitespace ctermbg=red guibg=red
