@@ -16,7 +16,6 @@ let
       rm -rf "$TARGETDIR" && mkdir -p "$TARGETDIR"
       if [ -f "$GITHUB_TOKEN" ]; then
         echo ">> Found github token in $GITHUB_TOKEN"
-        echo "access-tokens = github.com=$(cat $GITHUB_TOKEN)"
         echo "access-tokens = github.com=$(cat $GITHUB_TOKEN)" > "$TARGET"
       else
         echo ">> Did not find github token in $GITHUB_TOKEN"
