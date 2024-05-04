@@ -50,7 +50,7 @@ let
   xinitrcSH = pkgs.writeShellApplication {
     name = ".xinitrc";
     runtimeInputs = with pkgs; [
-      systemdMinimal
+      systemd
       dwm
     ];
     text = let
@@ -124,6 +124,7 @@ in {
     services = {
       displayManager.defaultSession = "none+dwm";
 
+      libinput.enable = cfg.naturalScrolling;
       xserver = {
         enable = true;
         xkb.layout = "us";
@@ -135,10 +136,7 @@ in {
         };
 
         displayManager.startx.enable = true;
-
         windowManager.dwm.enable = true;
-
-        libinput.enable = cfg.naturalScrolling;
         extraConfig = mkIf cfg.naturalScrolling ''
           Section "InputClass"
             Identifier "libinput pointer catchall"
