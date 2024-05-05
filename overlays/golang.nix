@@ -1,5 +1,5 @@
 final: prev: rec {
-  go = prev.go_1_21;
+  go = prev.go_1_22;
 
   # `gocode` is fully deprecated, so replace it with a benign package.
   gocode = go;
