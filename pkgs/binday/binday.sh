@@ -44,8 +44,9 @@ if [ "$STATUS" -ne "200" ]; then
   exit_error_uprn
 fi
 HEADER=$(printf "%s" "$BODY" | grep '<h4>')
+mapfile -t array < <( echo "${HEADER//<h4>/$'\n'}" )
 
-printf "%s" "$HEADER" | awk -F'"|<' '
+printf "%s" "${array[1]}" | awk -F'"|<' '
   /img alt=/ {
     match($0, /<h4>([^<]+)/, bins)
     date = substr(bins[1], 6)
