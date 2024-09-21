@@ -101,14 +101,15 @@ in {
         cdm = "cd $HOME/go/src/github.com/cert-manager/istio-csi";
         cda = "cd $HOME/go/src/github.com/cert-manager/csi-driver";
         cdd = "cd $HOME/go/src/github.com/dapr/dapr";
+        cdk = "cd $HOME/go/src/github.com/dapr/kit";
         cddc = "cd $HOME/go/src/github.com/dapr/components-contrib";
         cdw = "cd $HOME/go/src/github.com/cert-manager/website";
         cdds = "cd $HOME/go/src/github.com/cert-manager/csi-driver-spiffe";
-        cdr = "cd $HOME/go/src/github.com/jetstack/approver-policy-rego";
         cdu = "cd $HOME/go/src/github.com/jetstack/spiffe-connector-vault";
         cde = "cd $HOME/go/src/github.com/jetstack/approver-policy-enterprise";
         cds = "cd $HOME/go/src/github.com/jetstack/js-trust";
         cdy = "cd /$HOME/go/src/github.com/joshvanl/yazbu";
+        cdr = "cd /$HOME/go/src/github.com/diagridio/go-etcd-cron";
       };
     };
   };

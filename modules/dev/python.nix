@@ -6,6 +6,13 @@ let
   pythonPackages = py: py.withPackages(ps: with ps; [
     flask
     pip
+    #uvicorn
+    #fastapi
+    #typing-extensions
+    #requests
+    #pydantic
+    #grpcio
+    virtualenv
     (
       buildPythonPackage rec {
         pname = "cloudevents";
@@ -20,10 +27,10 @@ let
     (
       buildPythonPackage rec {
         pname = "dapr";
-        version = "1.12.1";
+        version = "1.14.0";
         src = fetchPypi {
           inherit pname version;
-          sha256 = "sha256-QtydNCLf9E+Gzywwv7NvwGKYKshmp89ovBwfSCMnO8I=";
+          sha256 = "sha256-2QG3h6UVT0tORI5DmCVpPzNS3aN0iJ71QSgd0nJ7jWE=";
         };
         doCheck = false;
       }

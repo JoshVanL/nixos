@@ -180,7 +180,6 @@ in {
           let g:indentLine_conceallevel=0
 
           "word wrap 80 chars for md files
-          au BufRead,BufNewFile *.md setlocal textwidth=80
           au BufRead,BufNewFile *.tex setlocal textwidth=80
           au BufRead,BufNewFile *.rst setlocal textwidth=80
           au BufRead,BufNewFile *.txt setlocal textwidth=80
