@@ -15,6 +15,7 @@ in {
       step-cli
       (mkIf config.me.dev.git.enable git-crypt)
       age
+      passenc
     ];
   };
 }
