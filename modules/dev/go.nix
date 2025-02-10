@@ -29,8 +29,8 @@ in {
           ExecStopPost = "/run/current-system/sw/bin/rm -f %t/gopls";
           Restart = "always";
           RestartSec = 3;
-          MemoryHigh = "10G";
-          MemoryMax = "12G";
+          MemoryHigh = "20G";
+          MemoryMax = "40G";
         };
       };
       home = {
@@ -38,6 +38,7 @@ in {
         packages = with pkgs; [
           go-junit-report
           golangci-lint
+          #golangci-lint-langserver
           gopls
           go
           gomarkdoc
@@ -110,6 +111,7 @@ in {
         cds = "cd $HOME/go/src/github.com/jetstack/js-trust";
         cdy = "cd /$HOME/go/src/github.com/joshvanl/yazbu";
         cdr = "cd /$HOME/go/src/github.com/diagridio/go-etcd-cron";
+        cdur = "cd /$HOME/go/src/github.com/dapr/durabletask-go";
       };
     };
   };

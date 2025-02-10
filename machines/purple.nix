@@ -17,6 +17,7 @@ with lib;
     networking = {
       interfaces = [ "enp0s5" ];
       wireguard = config.me.security.joshvanl.wireguard.uk_hop;
+      #wireguard = config.me.security.joshvanl.wireguard.argentina;
       #wireguard = config.me.security.joshvanl.wireguard.italy;
       #wireguard = config.me.security.joshvanl.wireguard.costa;
       tailscale.vpn.enable = false;

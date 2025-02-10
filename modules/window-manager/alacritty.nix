@@ -18,6 +18,7 @@ in {
         env = {
           TERM = "xterm-256color";
         };
+        general.live_config_reload = true;
         window = {
           decorations = "full";
           opacity = 0.97;
@@ -84,8 +85,6 @@ in {
             {mouse="Middle"; action = "PasteSelection";}
           ];
         };
-
-        live_config_reload = true;
       };
     };
   };

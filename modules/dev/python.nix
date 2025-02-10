@@ -6,6 +6,7 @@ let
   pythonPackages = py: py.withPackages(ps: with ps; [
     flask
     pip
+    grpcio-tools
     #uvicorn
     #fastapi
     #typing-extensions

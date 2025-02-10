@@ -28,6 +28,7 @@ in {
         python.enable = true;
         rust.enable = true;
         dotnet.enable = true;
+        node.enable = true;
       };
 
       networking.podman = {

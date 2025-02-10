@@ -22,6 +22,8 @@ in {
     home-manager.users.${config.me.username} = {
       home.packages = with pkgs; [
         git-extras
+        gh
+        gh-dash
       ];
 
       programs.git = {

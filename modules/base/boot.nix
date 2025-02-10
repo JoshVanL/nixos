@@ -96,12 +96,6 @@ in {
       zfs = {
         requestEncryptionCredentials = true;
         devNodes = "/dev/disk/by-label/rpool";
-        #forceImportAll = true;
-        #devNodes = "/dev/disk/by-label/rpool";
-        # TODO: @joshvanl
-        #devNodes = "/dev/disk/by-partuuid";
-        #devNodes = "/dev/disk/by-partuuid/3a0ac4c9-0d49-4380-bb9c-01c250a524b6";
-        #devNodes = "${DISK_PATH}";
       };
 
       kernelPackages = mkIf (cfg.kernelPackages != null) cfg.kernelPackages;

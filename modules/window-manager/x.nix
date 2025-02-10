@@ -187,7 +187,7 @@ in {
         picom = mkSystemd {
           type = "simple";
           desc = "picom compositor";
-          exec = "${pkgs.picom}/bin/picom";
+          exec = "${pkgs.picom}/bin/picom --backend glx";
           after = ["xrandr.service"];
         };
         xpropdate = mkSystemd {
