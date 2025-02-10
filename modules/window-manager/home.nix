@@ -5,14 +5,10 @@ let
 
 in {
   config = mkIf config.me.window-manager.enable {
-    systemd.tmpfiles.rules = [
-      "d /persist/home/.config/binday 0700 ${config.me.username} wheel - -"
-      "L+ /home/${config.me.username}/.config/binday - - - - /persist/home/.config/binday"
-    ];
+    systemd.tmpfiles.rules = [];
 
     home-manager.users.${config.me.username} = {
       home.packages = with pkgs; [
-        binday
       ];
     };
   };
