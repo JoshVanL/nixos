@@ -4,13 +4,6 @@ let
   cfg = config.me.window-manager;
 
 in {
-  options.me.window-manager = {
-    fontsize = mkOption {
-      type = types.int;
-      default = 15;
-    };
-  };
-
   config = mkIf config.me.window-manager.enable {
     home-manager.users.${config.me.username}.programs.alacritty = {
       enable = true;

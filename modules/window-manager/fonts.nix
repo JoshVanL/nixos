@@ -2,6 +2,13 @@
 with lib;
 
 {
+  options.me.window-manager = {
+    fontsize = mkOption {
+      type = types.int;
+      default = 15;
+    };
+  };
+
   config = mkIf config.me.window-manager.enable {
     fonts.packages = with pkgs; [
       font-awesome
