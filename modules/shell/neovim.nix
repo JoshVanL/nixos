@@ -95,6 +95,7 @@ in {
           vim-dirdiff
           vim-nix
           vim-github-visincr
+          nvim-colorizer-lua
 
           (pkgs.vimPlugins.nvim-treesitter.withPlugins (plugins: with pkgs.tree-sitter-grammars; [
             tree-sitter-beancount
@@ -163,6 +164,7 @@ in {
               disable = {},
             },
           }
+          require 'colorizer'.setup()
           EOF
 
           set guicursor=i:block
@@ -202,6 +204,7 @@ in {
             "/\s\+\%#\@<!$\
 
           nnoremap <leader>w!! :w !sudo tee > /dev/null %
+
         '' + optionalString cfg.coPilot.enable ''
           let g:copilot_node_command = "${pkgs.nodejs}/bin/node"
           let g:copilot_filetypes = {
