@@ -6,7 +6,7 @@ let
 in {
   config = mkIf config.me.window-manager.enable {
     home-manager.users.${config.me.username}.programs.ghostty = {
-      enable = true;
+      enable = false;
       enableZshIntegration = config.me.shell.zsh.enable;
       themes = {
         joshvanl = {
