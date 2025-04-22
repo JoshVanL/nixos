@@ -63,7 +63,7 @@ in {
       # Clense with fire.
       initrd = {
         availableKernelModules = cfg.initrd.availableKernelModules;
-        postDeviceCommands = lib.mkAfter ''
+        postResumeCommands = lib.mkAfter ''
           zfs rollback -r rpool/local/root@blank
         '';
 
