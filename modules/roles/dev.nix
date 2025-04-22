@@ -29,6 +29,7 @@ in {
         rust.enable = true;
         dotnet.enable = true;
         node.enable = true;
+        ai.enable = true;
       };
 
       networking.podman = {
