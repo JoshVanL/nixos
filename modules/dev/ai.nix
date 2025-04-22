@@ -12,12 +12,12 @@ in {
     systemd.tmpfiles.rules = [
       "d /persist/home/.config/chatgpt 0755 ${config.me.username} wheel - -"
       "L+ /home/${config.me.username}/.config/chatgpt - - - - /persist/home/.config/chatgpt"
-    ]);
+    ];
 
     home-manager.users.${config.me.username} = {
       home = {
         packages = with pkgs; [
-          chatgpt
+          chatgpt-cli
         ];
       };
     };

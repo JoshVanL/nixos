@@ -17,13 +17,14 @@ in {
       packages = with pkgs; [
         grpcurl
         protobuf
+        #grpc-tools
       ] ++ (optionals config.me.dev.go.enable [
         go-protobuf
         go-protobuf-grpc
       ]) ++ (optionals config.me.dev.python.enable [
         python3Packages.protobuf
       ]) ++ (optionals config.me.dev.c.enable [
-        grpc
+        #grpc
         protobufc
       ]);
     };
