@@ -47,6 +47,7 @@ in {
           gofumpt
           gotools
           gcc
+          graphviz
         ];
 
         sessionVariables = {
@@ -112,6 +113,7 @@ in {
         cdy = "cd /$HOME/go/src/github.com/joshvanl/yazbu";
         cdr = "cd /$HOME/go/src/github.com/diagridio/go-etcd-cron";
         cdur = "cd /$HOME/go/src/github.com/dapr/durabletask-go";
+        cdg = "cd /$HOME/go/src/github.com/diagridio/go-cron";
       };
     };
   };

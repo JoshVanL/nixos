@@ -24,7 +24,7 @@ in {
       ]) ++ (optionals config.me.dev.python.enable [
         python3Packages.protobuf
       ]) ++ (optionals config.me.dev.c.enable [
-        #grpc
+        grpc
         protobufc
       ]);
     };

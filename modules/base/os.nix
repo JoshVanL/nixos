@@ -2,9 +2,9 @@
 
 {
   # Set your time zone.
-  time.timeZone = "Europe/London";
+  #time.timeZone = "Europe/London";
   #time.timeZone = "America/Los_Angeles";
-  #time.timeZone = "America/Buenos_Aires";
+  time.timeZone = "America/Buenos_Aires";
   #time.timeZone = "America/Toronto";
 
   # Users.
