@@ -83,7 +83,7 @@ in {
         plugins = (with pkgs.vimPlugins; [
           gruvbox
           vim-airline
-          LanguageClient-neovim
+          #LanguageClient-neovim
           nerdtree
           (mkIf cfg.coPilot.enable vim-github-copilot)
           ack-vim

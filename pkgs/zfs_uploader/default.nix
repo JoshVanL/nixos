@@ -17,6 +17,8 @@ let
           hash = "sha256-ZeZXS2OVSY03HQRfKop+T31Qxq0h73MT0VscfPIN8eM=";
         };
         doCheck = false;
+        pyproject = true;
+        build-system = [ setuptools ];
         nativeBuildInputs = [
           setuptools-scm
           pytz
@@ -41,6 +43,8 @@ buildPythonApplication rec {
   };
 
   doCheck = false;
+  pyproject = true;
+  build-system = [ setuptools ];
 
   propagatedBuildInputs = with python3Packages; [
     apscheduler

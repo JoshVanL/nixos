@@ -48,6 +48,7 @@ in {
           gotools
           gcc
           graphviz
+          hugo
         ];
 
         sessionVariables = {

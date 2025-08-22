@@ -19,8 +19,8 @@ in {
 
       home = {
         packages = with pkgs.dotnetCorePackages; [
-          #sdk_8_0
-          sdk_9_0
+          sdk_8_0
+          #sdk_9_0
         ];
         sessionVariables = {
           #DOTNET_ROOT = "${pkgs.dotnet-sdk}";

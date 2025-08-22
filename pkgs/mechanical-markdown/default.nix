@@ -22,6 +22,8 @@ buildPythonPackage rec {
   ];
 
   doCheck = false;
+  pyproject = true;
+  build-system = [ setuptools ];
 
   meta = with lib; {
     homepage = "https://github.com/dapr/mechanical-markdown";
