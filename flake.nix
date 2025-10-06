@@ -1,12 +1,14 @@
 {
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-unstable";
+    #jnixpkgs.url = "nixpkgs/nixos-unstable";
+    nixpkgs.url = "nixpkgs/nixos-25.05";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      #url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     joshvanldwm = {
-      url = "github:joshvanl/dwm";
+      url = "github:joshvanl/dwm?rev=d084abaa0a508f7a016cd7becc74e7e0523a3e23";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-serve-ng = {

@@ -20,6 +20,7 @@ in {
     home-manager.users.${config.me.username}.home.packages = with pkgs; [
       imagemagick
       imv
+      feh
       gthumb
       scrot
       screenSH

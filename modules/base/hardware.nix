@@ -33,6 +33,9 @@ with lib;
     };
 
     hardware.enableRedistributableFirmware = true;
+    #boot.kernelParams = [ "zfs.zfs_arc_max=1073741824" ]; # 1 GiB
+    zramSwap.enable = true;
+    zramSwap.memoryPercent = 50;
 
     services = {
       # ZFS maintenance settings.

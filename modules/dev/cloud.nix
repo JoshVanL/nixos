@@ -17,7 +17,13 @@ in {
     home-manager.users.${config.me.username} = {
       home.packages = with pkgs; [
         awscli2
+        azure-cli
+        #(azure-cli.withExtensions [ azure-cli.extensions.aks-preview ])
         (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.cloud-build-local])
+        # TODO: @joshvanl
+        postgresql
+        etcd
+        redis
       ] ++
         (optional config.me.dev.kube.enable pkgs.gke-gcloud-auth-plugin)
       ;

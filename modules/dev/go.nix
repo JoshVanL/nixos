@@ -20,26 +20,26 @@ in {
     ];
 
     home-manager.users.${config.me.username} = {
-      systemd.user.services.gopls = {
-        Unit.Description = "gopls daemon";
-        Install.WantedBy = [ "default.target" ];
-        Service = {
-          ExecStart = "${pkgs.gopls}/bin/gopls -listen=unix;%t/gopls";
-          Environment = [ "PATH=${pkgs.go}/bin" ];
-          ExecStopPost = "/run/current-system/sw/bin/rm -f %t/gopls";
-          Restart = "always";
-          RestartSec = 3;
-          MemoryHigh = "20G";
-          MemoryMax = "40G";
-        };
-      };
+      #systemd.user.services.gopls = {
+      #  Unit.Description = "gopls daemon";
+      #  Install.WantedBy = [ "default.target" ];
+      #  Service = {
+      #    ExecStart = "${pkgs.gopls}/bin/gopls -listen=unix;%t/gopls";
+      #    Environment = [ "PATH=${pkgs.go}/bin" ];
+      #    ExecStopPost = "/run/current-system/sw/bin/rm -f %t/gopls";
+      #    Restart = "always";
+      #    RestartSec = 3;
+      #    MemoryHigh = "20G";
+      #    MemoryMax = "40G";
+      #  };
+      #};
       home = {
         # install core golang dev packages
         packages = with pkgs; [
           go-junit-report
           golangci-lint
           #golangci-lint-langserver
-          gopls
+          #gopls
           go
           gomarkdoc
           gotestsum
@@ -79,10 +79,10 @@ in {
           let g:go_highlight_functions = 1
           let g:go_highlight_function_calls = 1
           let g:go_highlight_extra_types = 1
-          let g:go_gopls_options = ['-remote=unix;/run/user/1000/gopls']
           let g:go_build_tags = 'e2e perf conftests unit integration integration_test certtests allcomponents'
         '';
       };
+      #"let g:go_gopls_options = ['-remote=unix;/run/user/1000/gopls']
 
       programs.zsh.shellGlobalAliases = {
         gog = "GO111MODULE=off go get -v";

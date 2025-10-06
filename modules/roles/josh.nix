@@ -21,7 +21,7 @@ in {
         zsh.enable = true;
       };
       security = {
-        bitwarden.enable = true;
+        #bitwarden.enable = true;
         yubikey.enable = true;
       };
       networking = {
