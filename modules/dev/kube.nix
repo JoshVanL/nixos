@@ -23,6 +23,7 @@ in {
           cmctl
           dapr-cli
           kubernetes-controller-tools
+          kubelogin
         ]
         ++ (optional config.me.networking.podman.enable kind)
         ++ (optional config.me.dev.kube.enable pkgs.gke-gcloud-auth-plugin)

@@ -17,6 +17,7 @@ in {
       packages = with pkgs; [
         grpcurl
         protobuf
+        protoc-gen-connect-go
         #grpc-tools
       ] ++ (optionals config.me.dev.go.enable [
         go-protobuf

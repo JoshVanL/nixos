@@ -5,12 +5,12 @@ let
 
   vim-github-copilot = pkgs.vimUtils.buildVimPlugin rec {
     pname = "vim-github-copilot";
-    version = "1.13.0";
+    version = "1.56.0";
     src = pkgs.fetchFromGitHub {
       owner = "github";
       repo = "copilot.vim";
       rev = "v${version}";
-      sha256 = "sha256-mHwK8vw3vbcMKuTb1aMRSL5GS0+4g3tw3G4uZGMA2lQ=";
+      sha256 = "sha256-dL+yxTPSjX5PDJ4LgqFoS1HtkZV9G1S6VD+w+CPhil8=";
     };
   };
 
@@ -189,6 +189,9 @@ in {
           " Clipboard
           vmap <C-c> "+y
           vnoremap <C-z> "+x
+          " cut to system clipboard
+          nnoremap <C-x> "+d
+          xnoremap <C-x> "+d
 
           " highlight word on cursor
           hi CursorLine gui=underline cterm=underline

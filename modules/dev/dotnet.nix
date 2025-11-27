@@ -10,6 +10,12 @@ in {
 
   config = mkIf cfg.enable {
     programs.nix-ld.enable = true;
+    programs.nix-ld.libraries = with pkgs; [
+      stdenv.cc.cc   # provides libstdc++.so.6
+      zlib
+      openssl
+      c-ares
+    ];
     home-manager.users.${config.me.username} = {
       programs.neovim = {
         plugins = with pkgs.vimPlugins; [
