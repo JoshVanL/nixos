@@ -2,6 +2,7 @@
 with lib;
 let
   cfg = config.me.base.parallels;
+  prl-tools = config.hardware.parallels.package;
 
 in {
   options.me.base.parallels = {
@@ -12,12 +13,18 @@ in {
     hardware.parallels.enable = true;
     nixpkgs.config.allowUnfreePredicate = pkg: (lib.getName pkg) == "prl-tools";
 
-    systemd.user.services.prlcp = {
-      enable = true;
-      serviceConfig = {
-        Environment = [ "DISPLAY=:0" ];
-        Restart = mkForce "always";
-        RestartSec = mkForce "5s";
+    home-manager.users.${config.me.username} = {
+      systemd.user.services.prlcp = {
+        Unit = {
+          Description = "Parallels Copy & Paste Service";
+          PartOf = ["graphical-session.target"];
+        };
+        Install.WantedBy = ["graphical-session.target"];
+        Service = {
+          Environment = [ "DISPLAY=:0" ];
+          Type = "simple";
+          ExecStart = [ "${prl-tools}/bin/prlcp" ];
+        };
       };
     };
   };
