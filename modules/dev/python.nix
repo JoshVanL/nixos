@@ -7,6 +7,7 @@ let
     flask
     pip
     grpcio-tools
+    uv
     #uvicorn
     #fastapi
     #typing-extensions
@@ -50,6 +51,7 @@ in {
   config = mkIf cfg.enable {
     home-manager.users.${config.me.username}.home.packages = with pkgs; [
       (pythonPackages python3)
+      stdenv.cc.cc.lib
     ];
   };
 }

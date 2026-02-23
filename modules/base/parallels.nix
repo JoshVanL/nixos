@@ -11,7 +11,7 @@ in {
 
   config = mkIf cfg.enable {
     hardware.parallels.enable = true;
-    nixpkgs.config.allowUnfreePredicate = pkg: (lib.getName pkg) == "prl-tools";
+    me.nixpkgs.allowedUnfree = [ "prl-tools" ];
 
     home-manager.users.${config.me.username} = {
       systemd.user.services.prlcp = {
