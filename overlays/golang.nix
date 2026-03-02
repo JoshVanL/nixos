@@ -27,13 +27,16 @@ final: prev: rec {
   #};
 
    golangci-lint = prev.golangci-lint.overrideAttrs (oldAttrs: rec {
+    #version = "2.8.0";
     version = "1.64.4";
     src = prev.fetchFromGitHub {
       owner = "golangci";
       repo = "golangci-lint";
       rev = "v${version}";
       sha256 = "sha256-BrkBIf4WP3COAac/5vre8fHLgDneg5Gm31nNq8sXzEE=";
+      #sha256 = "sha256-w6MAOirj8rPHYbKrW4gJeemXCS64fNtteV6IioqIQTQ=";
     };
+    #vendorHash = "sha256-/Vqo/yrmGh6XipELQ9NDtlMEO2a654XykmvnMs0BdrI=";
     vendorHash = "sha256-xUKse9yTAVuysmPwmX4EXdlpg6NYKfT5QB1RgmBQvhk=";
   });
 }
