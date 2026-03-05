@@ -49,9 +49,15 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home-manager.users.${config.me.username}.home.packages = with pkgs; [
-      (pythonPackages python3)
-      stdenv.cc.cc.lib
-    ];
+    home-manager.users.${config.me.username}.home = {
+      packages = with pkgs; [
+        (pythonPackages python3)
+        stdenv.cc.cc.lib
+      ];
+
+      sessionVariables = {
+        LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib\${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}";
+      };
+    };
   };
 }
