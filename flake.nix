@@ -2,6 +2,7 @@
   inputs = {
     #jnixpkgs.url = "nixpkgs/nixos-unstable";
     nixpkgs.url = "nixpkgs/nixos-25.11";
+    nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable";
     home-manager = {
       #url = "github:nix-community/home-manager";
       url = "github:nix-community/home-manager/release-25.11";
