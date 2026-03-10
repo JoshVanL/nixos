@@ -20,6 +20,7 @@ final: prev: {
         --add-flags "$out/lib/node_modules/@anthropic-ai/claude-code/cli.js" \
         --set DISABLE_AUTOUPDATER 1 \
         --set DISABLE_AUTO_MIGRATE_TO_NATIVE 1 \
+        --set DISABLE_INSTALLATION_CHECKS 1 \
         --unset DEV
 
       runHook postInstall
