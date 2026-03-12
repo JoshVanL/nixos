@@ -32,6 +32,8 @@ in {
         ai.enable = true;
       };
 
+      shell.cdgo.enable = true;
+
       networking.podman = {
         enable = true;
         #mirrorDomain = "containercache.joshvanl.dev";
