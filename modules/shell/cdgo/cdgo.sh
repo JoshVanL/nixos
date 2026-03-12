@@ -24,7 +24,8 @@ for arg in "$@"; do
   fi
 done
 
-# Clone repos
+# Clone repos concurrently
+pids=()
 for repo in "${repos[@]}"; do
   owner="${repo%%/*}"
   reponame="${repo##*/}"
@@ -35,14 +36,29 @@ for repo in "${repos[@]}"; do
     continue
   fi
 
-  echo ">> git clone --depth 1 https://github.com/${repo} $repodir" >&2
-  git clone --depth 1 "https://github.com/${repo}" "$repodir"
+  (
+    echo ">> git clone --depth 1 https://github.com/${repo} $repodir" >&2
+    git clone --depth 1 "https://github.com/${repo}" "$repodir"
 
-  if [ "$owner" != "joshvanl" ]; then
-    echo ">> git -C $repodir remote add fork git@github.com:joshvanl/${reponame}.git" >&2
-    git -C "$repodir" remote add fork "git@github.com:joshvanl/${reponame}.git"
+    if [ "$owner" != "joshvanl" ]; then
+      echo ">> git -C $repodir remote add fork git@github.com:joshvanl/${reponame}.git" >&2
+      git -C "$repodir" remote add fork "git@github.com:joshvanl/${reponame}.git"
+    fi
+  ) &
+  pids+=($!)
+done
+
+# Wait for all clones and fail if any failed
+failed=0
+for pid in "${pids[@]}"; do
+  if ! wait "$pid"; then
+    failed=1
   fi
 done
+if [ "$failed" -ne 0 ]; then
+  echo ">> Some clones failed" >&2
+  exit 1
+fi
 
 # Write .claude/settings.json if it doesn't exist
 mkdir -p "$dir/.claude"
