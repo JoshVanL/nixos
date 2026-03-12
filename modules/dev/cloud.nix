@@ -16,6 +16,7 @@ in {
 
     home-manager.users.${config.me.username} = {
       home.packages = with pkgs; [
+        diagrid-cli
         awscli2
         azure-cli
         #(azure-cli.withExtensions [ azure-cli.extensions.aks-preview ])
