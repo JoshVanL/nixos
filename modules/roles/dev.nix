@@ -32,7 +32,21 @@ in {
         ai.enable = true;
       };
 
-      shell.cdgo.enable = true;
+      shell.cdgo = {
+        enable = true;
+        groups = {
+          daprgo = [
+            "dapr/dapr"
+            "dapr/durabletask-protobuf"
+            "dapr/proposals"
+            "dapr/durabletask-go"
+            "dapr/kit"
+            "dapr/components-contrib"
+            "dapr/go-sdk"
+            "dapr/cli"
+          ];
+        };
+      };
 
       networking.podman = {
         enable = true;

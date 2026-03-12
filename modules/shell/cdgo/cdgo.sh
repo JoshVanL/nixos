@@ -10,8 +10,22 @@ dir="$HOME/sandbox/workspace/$name"
 echo ">> mkdir -p $dir" >&2
 mkdir -p "$dir"
 
+# Expand group names to repos
+repos=()
+for arg in "$@"; do
+  group_repos=$(jq -r --arg g "$arg" '.[$g] // empty | .[]' "$CDGO_GROUPS_FILE")
+  if [ -n "$group_repos" ]; then
+    echo ">> Expanding group '$arg'" >&2
+    while IFS= read -r r; do
+      repos+=("$r")
+    done <<< "$group_repos"
+  else
+    repos+=("$arg")
+  fi
+done
+
 # Clone repos
-for repo in "$@"; do
+for repo in "${repos[@]}"; do
   owner="${repo%%/*}"
   reponame="${repo##*/}"
   repodir="$dir/$reponame"
@@ -50,6 +64,8 @@ if [ ! -f "$dir/.claude/settings.json" ]; then
       "Bash(node:*)",
       "Bash(npm:*)",
       "Bash(npx:*)",
+      "Bash(grep:*)",
+      "Bash(rg:*)",
       "WebSearch",
       "WebFetch"
     ],
