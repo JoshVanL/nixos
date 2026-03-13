@@ -83,6 +83,8 @@ if [ ! -f "$dir/.claude/settings.json" ]; then
       "Bash(rg:*)",
       "Bash(ls:*)",
       "Bash(ls)",
+      "Bash(find:*)",
+      "Bash(find)",
       "Bash(protoc-gen-go)",
       "Bash(protoc-gen-go:*)",
       "WebSearch",
