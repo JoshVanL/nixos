@@ -1,10 +1,9 @@
 if [ -z "${1:-}" ]; then
-  echo "Usage: cdgo <name> [owner/repo ...]" >&2
-  exit 1
+  name=$(head -c 6 /dev/urandom | basenc --base32hex | tr '[:upper:]' '[:lower:]' | tr -d '=')
+else
+  name="$1"
+  shift
 fi
-
-name="$1"
-shift
 
 dir="$HOME/sandbox/workspace/$name"
 echo ">> mkdir -p $dir" >&2
