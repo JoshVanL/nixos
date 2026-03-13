@@ -31,6 +31,20 @@ in {
 
       programs.zsh.initContent = ''
         cdgo() { cd "$(__cdgo "$@")" || return; }
+        _cdgo() {
+          if (( CURRENT == 2 )); then
+            local -a dirs
+            local base="$HOME/sandbox/workspace"
+            if [[ -d "$base" ]]; then
+              dirs=("$base"/*(/:t))
+              compadd -a dirs
+            fi
+          else
+            local -a groups=(${lib.concatStringsSep " " (map (g: "'${g}'") (attrNames cfg.groups))})
+            compadd -a groups
+          fi
+        }
+        compdef _cdgo cdgo
       '';
     };
   };
