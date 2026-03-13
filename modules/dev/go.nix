@@ -14,6 +14,18 @@ in {
   };
 
   config = mkIf cfg.enable {
+    me.shell.cdgo.groups = {
+      daprgo = [
+        "dapr/dapr"
+        "dapr/durabletask-protobuf"
+        "dapr/proposals"
+        "dapr/durabletask-go"
+        "dapr/kit"
+        "dapr/components-contrib"
+        "dapr/go-sdk"
+        "dapr/cli"
+      ];
+    };
     systemd.tmpfiles.rules = [
       "d /keep/home/go 0755 ${config.me.username} wheel - -"
       "L+ /home/${config.me.username}/go - - - - /keep/home/go"
