@@ -91,6 +91,8 @@ if [ ! -f "$dir/.claude/settings.json" ]; then
       "Bash(tail)",
       "Bash(protoc-gen-go)",
       "Bash(protoc-gen-go:*)",
+      "Edit",
+      "Write",
       "WebSearch",
       "WebFetch"
     ],
