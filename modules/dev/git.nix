@@ -28,16 +28,14 @@ in {
 
       programs.git = {
         enable = true;
-        userEmail = cfg.email;
-        userName  = cfg.username;
         ignores = [
           "*.swp"
           ".envrc"
         ];
-        extraConfig = {
-          init = {
-            defaultBranch = "main";
-          };
+        settings = {
+          user.email = cfg.email;
+          user.name  = cfg.username;
+          init.defaultBranch = "main";
         };
       };
     };

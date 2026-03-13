@@ -60,7 +60,7 @@ in {
         };
       };
 
-      programs.git.extraConfig.url."ssh://git@github.com/diagridio".insteadOf = "https://github.com/diagridio";
+      programs.git.settings.url."ssh://git@github.com/diagridio".insteadOf = "https://github.com/diagridio";
 
       programs.neovim = {
         plugins = with pkgs.vimPlugins; [

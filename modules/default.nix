@@ -24,8 +24,9 @@ let
   ] ++ inpModules;
 
   machineConfigs = builtins.mapAttrs (name: machine: {
-    system = machine.system;
-    modules = (machineModules name);
+    modules = (machineModules name) ++ [
+      { nixpkgs.hostPlatform.system = machine.system; }
+    ];
     specialArgs = { inherit lib; };
   }) machines;
 

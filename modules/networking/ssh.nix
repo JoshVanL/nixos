@@ -67,7 +67,10 @@ in {
     home-manager.users.${config.me.username} = {
       programs.ssh = {
         enable = true;
-        userKnownHostsFile = "/persist/home/.ssh/known_hosts";
+        enableDefaultConfig = false;
+        matchBlocks."*" = {
+          userKnownHostsFile = "/persist/home/.ssh/known_hosts";
+        };
       };
       home.packages = [
         sshbyeSH
