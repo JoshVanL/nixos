@@ -114,6 +114,7 @@ args+=(
   --setenv USER "$(whoami)"
   --setenv CDGO_SANDBOX "1"
   --setenv CDGO_WORKSPACE "$dir"
+  --setenv GH_TOKEN "$(cat /persist/etc/github/read-only)"
 )
 
 echo ">> Entering sandbox for: $dir" >&2
