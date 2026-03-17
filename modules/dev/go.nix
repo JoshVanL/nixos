@@ -24,6 +24,7 @@ in {
         "dapr/components-contrib"
         "dapr/go-sdk"
         "dapr/cli"
+        "dapr/docs"
       ];
     };
     systemd.tmpfiles.rules = [
