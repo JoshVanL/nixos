@@ -32,7 +32,10 @@ in {
         ai.enable = true;
       };
 
-      shell.cdgo.enable = true;
+      shell.cdgo = {
+        enable = true;
+        sandbox.enable = true;
+      };
 
       networking.podman = {
         enable = true;

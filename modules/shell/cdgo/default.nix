@@ -14,6 +14,15 @@ let
     text = builtins.readFile ./cdgo.sh;
   };
 
+  cdgoSandboxSH = pkgs.writeShellApplication {
+    name = "__cdgo_sandbox";
+    runtimeInputs = with pkgs; [ bubblewrap coreutils ];
+    runtimeEnv = {
+      CDGO_SANDBOX_EXTRA_RO_BINDS = concatStringsSep "\n" cfg.sandbox.extraRoBinds;
+    };
+    text = builtins.readFile ./cdgo-sandbox.sh;
+  };
+
 in {
   options.me.shell.cdgo = {
     enable = mkEnableOption "cdgo";
@@ -23,14 +32,34 @@ in {
       default = {};
       description = "Named groups of repos. e.g. { daprgo = [ \"dapr/dapr\" \"dapr/kit\" ]; }";
     };
+
+    sandbox = {
+      enable = mkEnableOption "cdgo sandbox isolation via bubblewrap";
+
+      extraRoBinds = mkOption {
+        type = types.listOf types.str;
+        default = [];
+        description = "Extra host paths to bind read-only into the sandbox.";
+      };
+    };
   };
 
   config = mkIf cfg.enable {
     home-manager.users.${config.me.username} = {
-      home.packages = [ cdgoSH ];
+      home.packages = [ cdgoSH ] ++ (optionals cfg.sandbox.enable [ cdgoSandboxSH ]);
 
       programs.zsh.initContent = ''
         cdgo() { cd "$(__cdgo "$@")" || return; }
+      '' + (optionalString cfg.sandbox.enable ''
+        cdgo-sandbox() {
+          local dir
+          dir="$(__cdgo "$@")" || return
+          __cdgo_sandbox "$dir"
+        }
+        if [ -n "''${CDGO_SANDBOX:-}" ]; then
+          PROMPT="[sandbox:$(basename "$CDGO_WORKSPACE")] $PROMPT"
+        fi
+      '') + ''
         _cdgo() {
           if (( CURRENT == 2 )); then
             local -a dirs
@@ -45,7 +74,9 @@ in {
           fi
         }
         compdef _cdgo cdgo
-      '';
+      '' + (optionalString cfg.sandbox.enable ''
+        compdef _cdgo cdgo-sandbox
+      '');
     };
   };
 }
