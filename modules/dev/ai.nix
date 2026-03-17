@@ -3,18 +3,6 @@ with lib;
 let
   cfg = config.me.dev.ai;
 
-  claude-d = pkgs.writeShellApplication {
-    name = "claude-d";
-    runtimeInputs = with pkgs; [ claude-code ];
-    text = ''
-      if [ "''${CDGO_SANDBOX:-}" != "1" ]; then
-        echo ">> error: `claude-d` must be run inside a `cdgo-sandbox`," >&2
-        exit 1
-      fi
-      claude --dangerously-skip-permissions "$@"
-    '';
-  };
-
 in {
   options.me.dev.ai = {
     enable = mkEnableOption "dev.ai";
@@ -37,7 +25,6 @@ in {
         packages = with pkgs; [
           chatgpt-cli
           claude-code
-          claude-d
           gemini-cli
         ];
       };

@@ -23,6 +23,18 @@ let
     text = builtins.readFile ./cdgo-sandbox.sh;
   };
 
+  claudeDSH = pkgs.writeShellApplication {
+    name = "claude-d";
+    runtimeInputs = with pkgs; [ claude-code ];
+    text = ''
+      if [ "''${CDGO_SANDBOX:-}" != "1" ]; then
+        echo ">> error: \`claude-d\` must be run inside a \`cdgo-sandbox\`." >&2
+        exit 1
+      fi
+      claude --dangerously-skip-permissions "$@"
+    '';
+  };
+
 in {
   options.me.shell.cdgo = {
     enable = mkEnableOption "cdgo";
@@ -46,7 +58,7 @@ in {
 
   config = mkIf cfg.enable {
     home-manager.users.${config.me.username} = {
-      home.packages = [ cdgoSH ] ++ (optionals cfg.sandbox.enable [ cdgoSandboxSH ]);
+      home.packages = [ cdgoSH ] ++ (optionals cfg.sandbox.enable [ cdgoSandboxSH claudeDSH ]);
 
       programs.zsh.initContent = ''
         cdgo() { cd "$(__cdgo "$@")" || return; }
