@@ -28,6 +28,10 @@ in {
           gemini-cli
         ];
       };
+
+      programs.zsh.shellAliases = {
+        claude-d = "claude --dangerously-skip-permissions";
+      };
     };
   };
 }
