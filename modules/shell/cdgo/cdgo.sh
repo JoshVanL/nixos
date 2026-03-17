@@ -36,8 +36,8 @@ for repo in "${repos[@]}"; do
   fi
 
   (
-    echo ">> git clone --depth 1 https://github.com/${repo} $repodir" >&2
-    git clone --depth 1 "https://github.com/${repo}" "$repodir"
+    echo ">> git clone --no-single-branch --depth 1 https://github.com/${repo} $repodir" >&2
+    git clone --no-single-branch --depth 1 "https://github.com/${repo}" "$repodir"
 
     if [ "$owner" != "joshvanl" ]; then
       echo ">> git -C $repodir remote add fork git@github.com:joshvanl/${reponame}.git" >&2
