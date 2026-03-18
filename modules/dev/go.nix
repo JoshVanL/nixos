@@ -26,6 +26,21 @@ in {
         "dapr/cli"
         "dapr/docs"
       ];
+      daprall = [
+        "dapr/dapr"
+        "dapr/durabletask-protobuf"
+        "dapr/proposals"
+        "dapr/durabletask-go"
+        "dapr/kit"
+        "dapr/components-contrib"
+        "dapr/go-sdk"
+        "dapr/cli"
+        "dapr/docs"
+        "dapr/python-sdk"
+        "dapr/java-sdk"
+        "dapr/js-sdk"
+        "dapr/dotnet-sdk"
+      ];
     };
     systemd.tmpfiles.rules = [
       "d /keep/home/go 0755 ${config.me.username} wheel - -"
