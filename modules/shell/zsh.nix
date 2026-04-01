@@ -34,6 +34,7 @@ in {
 
     systemd.tmpfiles.rules = [
       "L+ /home/${config.me.username}/.zsh_history - - - - /persist/home/.zsh_history"
+      "L+ /home/${config.me.username}/.viminfo     - - - - /persist/home/.viminfo"
     ];
 
     home-manager.users.${config.me.username} = {
@@ -68,8 +69,6 @@ in {
           size = 100000;
         };
         initContent = ''
-          rm -f $HOME/.zsh_history && ln -s /persist/home/.zsh_history $HOME/.zsh_history
-          rm -f $HOME/.viminfo     && ln -s /persist/home/.viminfo     $HOME/.viminfo
           if [ -n "$\{commands[fzf-share]\}" ]; then
             source "$(fzf-share)/key-bindings.zsh"
             source "$(fzf-share)/completion.zsh"
