@@ -120,6 +120,25 @@ When making git commits, ALWAYS use `git commit -s` (signoff flag).
 NEVER push to any remote (origin, fork, or any other).
 NEVER create, merge, or comment on pull requests or issues on GitHub.
 NEVER create releases or repositories on GitHub.
+
+## Go
+
+- Run `golangci-lint run ./...` when editing Go files to catch lint issues early.
+- Do not over-comment code. Only add comments where the logic is not self-evident.
+- Never use m-dashes (--) in comments or strings. Use hyphens (-) or reword.
+
+## Dapr
+
+When working on Dapr repositories:
+
+- Integration tests: `go test -v --race --tags integration ./tests/integration/. --focus <TestNameRegex>`
+  Use `--focus` to target specific test names rather than running the full suite.
+- Run integration tests when your changes need verification beyond unit tests.
+- Custom compile Dapr binaries (daprd, placement, scheduler, sentry, operator, injector)
+  for integration tests using a unique output path so parallel runs do not interfere
+  with each other. For example:
+  `go build -tags allcomponents -o /tmp/daprd-<unique> ./cmd/daprd`
+  Then point the test to that binary via the appropriate env var or test flag.
 CLAUDEMD
 else
   echo ">> Skipping CLAUDE.md: already exists" >&2
