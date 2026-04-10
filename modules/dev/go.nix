@@ -25,6 +25,7 @@ in {
         "dapr/go-sdk"
         "dapr/cli"
         "dapr/docs"
+        "diagridio/go-etcd-cron"
       ];
       daprall = [
         "dapr/dapr"
@@ -40,6 +41,7 @@ in {
         "dapr/java-sdk"
         "dapr/js-sdk"
         "dapr/dotnet-sdk"
+        "diagridio/go-etcd-cron"
       ];
     };
     systemd.tmpfiles.rules = [
