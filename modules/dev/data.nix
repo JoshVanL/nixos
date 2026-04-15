@@ -15,6 +15,7 @@ in {
       unzip
       postgresql
       jq
+      sqlite
     ];
   };
 }
