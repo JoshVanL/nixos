@@ -1,11 +1,11 @@
 final: prev: {
   claude-code = prev.stdenv.mkDerivation rec {
     pname = "claude-code";
-    version = "2.1.109";
+    version = "2.1.111";
 
     src = prev.fetchzip {
       url = "https://registry.npmjs.org/@anthropic-ai/claude-code/-/claude-code-${version}.tgz";
-      hash = "sha256-tzqFLTe8lh2Qxs0Uo1L/QAVR7uYhRNU1ekErHNUSdsA=";
+      hash = "sha256-K3qhZXVJ2DIKv7YL9f/CHkuUYnK0lkIR1wjEa+xeSCk=";
     };
 
     nativeBuildInputs = [ prev.makeWrapper ];
