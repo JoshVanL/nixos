@@ -8,6 +8,7 @@ let
     pip
     grpcio-tools
     uv
+    tox
     #uvicorn
     #fastapi
     #typing-extensions
