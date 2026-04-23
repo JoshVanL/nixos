@@ -4,9 +4,7 @@ let
   unstable = import inputs.nixpkgs-unstable { inherit (prev) system; };
 in
 {
-  #go = prev.go_1_24;
-  #go = prev.go_1_23;
-  #go = prev.go_1_22;
+  go_1_26 = unstable.go_1_26;
 
   golangci-lint = prev.golangci-lint.override {
     buildGo125Module = fnOrAttrs:

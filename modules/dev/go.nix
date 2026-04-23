@@ -70,7 +70,7 @@ in {
           golangci-lint
           #golangci-lint-langserver
           #gopls
-          go
+          go_1_26
           gomarkdoc
           gotestsum
           go-mockery
