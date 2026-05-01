@@ -120,12 +120,12 @@ When making git commits, ALWAYS use `git commit -s` (signoff flag).
 NEVER push to any remote (origin, fork, or any other).
 NEVER create, merge, or comment on pull requests or issues on GitHub.
 NEVER create releases or repositories on GitHub.
+NEVER use em dashes (—) in any output, commit messages, comments, strings, or file content. Use commas, parentheses, colons, hyphens, or separate sentences instead.
 
 ## Go
 
 - Run `golangci-lint run ./...` when editing Go files to catch lint issues early.
 - Do not over-comment code. Only add comments where the logic is not self-evident.
-- Never use m-dashes (--) in comments or strings. Use hyphens (-) or reword.
 
 ## Dapr
 

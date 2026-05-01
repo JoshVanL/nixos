@@ -73,8 +73,9 @@ Machines can define specialisations (e.g., `transmit`, `vpn-none`, `vpn-tailscal
 
 ## Conventions
 
+- **No em dashes**: Do not use em dashes (—) in any output, commit messages, or file content. Use commas, parentheses, colons, or separate sentences instead.
 - **Commit messages**: `module/path.nix: description` (e.g., `overlays/claude-code.nix: update version to 2.1.63`)
-- **Module files**: Match their config path — `modules/dev/go.nix` controls `config.me.dev.go`
+- **Module files**: Match their config path. `modules/dev/go.nix` controls `config.me.dev.go`
 - **Aggregators**: Each directory has a `default.nix` that imports all sibling `.nix` files
 - **Shell wrappers**: Use `pkgs.writeShellApplication` for custom scripts
 - **Persistent state**: Always symlink or bind-mount from `/keep` or `/persist`, never store state on root
