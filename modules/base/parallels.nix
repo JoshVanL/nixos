@@ -24,6 +24,8 @@ in {
           Environment = [ "DISPLAY=:0" ];
           Type = "simple";
           ExecStart = [ "${prl-tools}/bin/prlcp" ];
+          Restart = "on-failure";
+          RestartSec = 5;
         };
       };
     };
