@@ -1,7 +1,27 @@
 { lib, config, ... }:
 with lib;
+let
+  cfg = config.me.base.hardware;
 
-{
+in {
+  options.me.base.hardware = {
+    zfsArcMaxBytes = mkOption {
+      type = types.nullOr types.int;
+      default = null;
+      description = ''
+        Cap the ZFS ARC at this many bytes via the zfs.zfs_arc_max kernel
+        parameter. When null, ZFS auto-tunes (typically ~50% of RAM).
+      '';
+    };
+    zramSwapMemoryPercent = mkOption {
+      type = types.int;
+      default = 50;
+      description = ''
+        Percentage of RAM to reserve for zram-backed swap.
+      '';
+    };
+  };
+
   config = {
     fileSystems = {
       "/" = {
@@ -33,9 +53,11 @@ with lib;
     };
 
     hardware.enableRedistributableFirmware = true;
-    #boot.kernelParams = [ "zfs.zfs_arc_max=1073741824" ]; # 1 GiB
     zramSwap.enable = true;
-    zramSwap.memoryPercent = 50;
+    zramSwap.memoryPercent = cfg.zramSwapMemoryPercent;
+
+    boot.kernelParams = mkIf (cfg.zfsArcMaxBytes != null)
+      [ "zfs.zfs_arc_max=${toString cfg.zfsArcMaxBytes}" ];
 
     services = {
       # ZFS maintenance settings.

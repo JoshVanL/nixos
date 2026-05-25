@@ -11,6 +11,7 @@ in {
 
   config = mkIf cfg.enable {
     hardware.parallels.enable = true;
+    hardware.graphics.enable = true;
     me.nixpkgs.allowedUnfree = [ "prl-tools" ];
 
     home-manager.users.${config.me.username} = {

@@ -42,6 +42,24 @@ in {
       '';
     };
 
+    maxJobs = mkOption {
+      type = types.nullOr types.int;
+      default = null;
+      description = ''
+        nix.settings.max-jobs: the maximum number of derivations to build
+        in parallel. When null, leaves the nixpkgs default in place.
+      '';
+    };
+    cores = mkOption {
+      type = types.nullOr types.int;
+      default = null;
+      description = ''
+        nix.settings.cores: the number of cores each derivation build may
+        use. 0 means use all available cores. When null, leaves the nixpkgs
+        default in place.
+      '';
+    };
+
     gc = {
       automatic = mkOption {
         type = types.bool;
@@ -76,6 +94,8 @@ in {
         substituters = [ "https://cache.nixos.org" ] ++ cfg.extraSubstituters;
         connect-timeout = 1;
         trusted-public-keys = lib.mkBefore cfg.trusted-public-keys;
+        max-jobs = mkIf (cfg.maxJobs != null) cfg.maxJobs;
+        cores = mkIf (cfg.cores != null) cfg.cores;
       };
 
 

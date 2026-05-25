@@ -19,7 +19,7 @@
         createHome = true;
         home = "/home/${config.me.username}";
         group = "users";
-        extraGroups = [ "wheel" "video" ];
+        extraGroups = [ "wheel" "video" "render" ];
         hashedPasswordFile = "/keep/etc/users/${config.me.username}";
       };
       root.hashedPassword = "!";
