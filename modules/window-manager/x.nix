@@ -86,7 +86,22 @@ in {
     enable = mkEnableOption "window-manager";
 
     xrandrArgs = mkOption {
-      type = types.lines;
+      type = types.nullOr types.lines;
+      default = null;
+      description = ''
+        When set, an xrandr systemd service runs at session start with these
+        args. When null, no xrandr service runs and resolution is left to the
+        display driver (e.g. prl-tools).
+      '';
+    };
+
+    dpi = mkOption {
+      type = types.nullOr types.int;
+      default = null;
+      description = ''
+        When set, forces X server DPI. When null, X auto-computes DPI from the
+        monitor's reported physical size.
+      '';
     };
 
     naturalScrolling = mkOption {
@@ -128,7 +143,7 @@ in {
       xserver = {
         enable = true;
         xkb.layout = "us";
-        dpi = 220;
+        dpi = cfg.dpi;
 
         desktopManager = {
           xterm.enable = false;
@@ -167,12 +182,15 @@ in {
     };
 
     home-manager.users.${config.me.username} = {
-      systemd.user.services = {
+      systemd.user.services = let
+        afterXrandr = optionals (cfg.xrandrArgs != null) ["xrandr.service"];
+      in (optionalAttrs (cfg.xrandrArgs != null) {
         xrandr = mkSystemd {
           type = "oneshot";
           desc = "configure xrandr";
           exec = "${pkgs.xorg.xrandr}/bin/xrandr ${cfg.xrandrArgs}";
         };
+      }) // {
         xconf = mkSystemd {
           type = "oneshot";
           desc = "configure X";
@@ -182,25 +200,25 @@ in {
           type = "oneshot";
           desc = "set wallpaper";
           exec = "${pkgs.feh}/bin/feh --no-fehbg --bg-scale --randomize ${wallimgs}";
-          after = ["xrandr.service"];
+          after = afterXrandr;
         };
         picom = mkSystemd {
           type = "simple";
           desc = "picom compositor";
           exec = "${pkgs.picom}/bin/picom --backend glx";
-          after = ["xrandr.service"];
+          after = afterXrandr;
         };
         xpropdate = mkSystemd {
           type = "simple";
           desc = "xpropdate: set WM_NAME to current datetime";
           exec = "${pkgs.xpropdate}/bin/xpropdate";
-          after = ["xrandr.service"];
+          after = afterXrandr;
         };
         dunst = mkSystemd {
           type = "simple";
           desc = "dunst notifications";
           exec = "${pkgs.dunst}/bin/dunst";
-          after = ["xrandr.service"];
+          after = afterXrandr;
         };
       };
 

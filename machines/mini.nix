@@ -15,6 +15,7 @@
     window-manager = {
       enable = true;
       fontsize = 32;
+      dpi = 220;
       xrandrArgs = "--output Virtual-1 --mode 4096x2160 --rate 120 --output Virtual-2 --off";
     };
   };

@@ -29,6 +29,7 @@ with lib;
     window-manager = {
       enable = true;
       fontsize = 15;
+      dpi = 220;
       xrandrArgs = "--output Virtual-1 --mode 4096x2160 --rate 120 --output Virtual-2 --off";
       arrowKeysMap60 = true;
       xMouseSpeedDeceleration = {

@@ -30,8 +30,8 @@ with lib;
     };
     window-manager = {
       enable = true;
-      fontsize = 15;
-      xrandrArgs = "--output Virtual-1 --mode 3024x1898 --output Virtual-2 --off";
+      fontsize = 20;
+      dpi = 170;
       arrowKeysMap60 = true;
       xMouseSpeedDeceleration = {
         enable = true;
@@ -52,7 +52,6 @@ with lib;
     onthemove = {
       inheritParentConfig = true;
       configuration = {
-        me.window-manager.fontsize = mkForce 24;
         me.window-manager.arrowKeysMap60 = mkForce false;
         me.window-manager.xMouseSpeedDeceleration.deceleration = mkForce 1.0;
       };
@@ -60,7 +59,6 @@ with lib;
     onthemove-vpn-none = {
       inheritParentConfig = true;
       configuration = {
-        me.window-manager.fontsize = mkForce 24;
         me.networking.tailscale.vpn.enable = mkForce false;
         me.networking.wireguard.enable = mkForce false;
         me.window-manager.arrowKeysMap60 = mkForce false;
