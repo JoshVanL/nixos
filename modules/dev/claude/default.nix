@@ -42,9 +42,9 @@ in {
 
   config = mkIf cfg.enable {
     systemd.tmpfiles.rules = [
-      "L+ /home/${config.me.username}/.claude.json - - - - /keep/home/.claude.json"
-      "L+ /home/${config.me.username}/.claude - - - - /keep/home/.claude"
-      "C+ /keep/home/.claude/settings.json 0600 ${config.me.username} wheel - ${claudeSettings}"
+      "L+ /home/${config.me.username}/.claude.json - - - - /persist/home/.claude.json"
+      "L+ /home/${config.me.username}/.claude - - - - /persist/home/.claude"
+      "C+ /persist/home/.claude/settings.json 0600 ${config.me.username} wheel - ${claudeSettings}"
     ];
 
     me.nixpkgs.allowedUnfree = [ "claude-code" ];
