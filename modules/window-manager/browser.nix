@@ -39,12 +39,22 @@ with lib;
       };
 
       home.packages = with pkgs; [
-        chromium
+        (chromium.override {
+          commandLineArgs = [
+            "--use-gl=angle"
+            "--use-angle=gl-egl"
+            "--enable-features=UseOzonePlatform"
+            "--ozone-platform=x11"
+          ];
+        })
         firefox
       ];
 
       home.sessionVariables = {
         BROWSER = "firefox";
+        MOZ_X11_EGL = "1";
+        MOZ_ACCELERATED = "1";
+        MOZ_WEBRENDER = "1";
       };
     };
   };
