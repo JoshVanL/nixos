@@ -57,6 +57,11 @@ in {
   };
 
   config = mkIf cfg.enable {
+    systemd.tmpfiles.rules = [
+      "d /keep/home/sandbox 0755 ${config.me.username} wheel - -"
+      "L+ /home/${config.me.username}/sandbox - - - - /keep/home/sandbox"
+    ];
+
     home-manager.users.${config.me.username} = {
       home.packages = [ cdgoSH ] ++ (optionals cfg.sandbox.enable [ cdgoSandboxSH claudeDSH ]);
 
