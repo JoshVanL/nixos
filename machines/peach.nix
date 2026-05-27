@@ -1,5 +1,4 @@
-{ pkgs, lib, config, ... }:
-with lib;
+{ ... }:
 
 {
   me = {
@@ -16,7 +15,7 @@ with lib;
       parallels.enable = true;
       hardware = {
         zfsArcMaxBytes = 8 * 1024 * 1024 * 1024;
-        zramSwapMemoryPercent = 25;
+        zramSwapMemoryPercent = 50;
       };
       nix = {
         maxJobs = 4;
@@ -25,45 +24,27 @@ with lib;
     };
     networking = {
       interfaces = [ "enp0s5" ];
-      wireguard = config.me.security.joshvanl.wireguard.uk_hop;
       tailscale.vpn.enable = false;
     };
     window-manager = {
       enable = true;
-      fontsize = 20;
-      dpi = 170;
-      arrowKeysMap60 = true;
+      fontsize = 18;
+      dpi = 255;
+      xrandrArgs = ''
+        --newmode 4096x2560_60 905.75 4096 4448 4896 5696 2560 2563 2569 2651 -HSync +VSync
+        --addmode Virtual-1 4096x2560_60
+        --output Virtual-1 --mode 4096x2560_60 --output Virtual-2 --off
+      '';
       xMouseSpeedDeceleration = {
         enable = true;
         prop = 8;
-        deceleration = 5.0;
+        deceleration = 1.0;
       };
     };
   };
 
-  specialisation = {
-    vpn-none = {
-      inheritParentConfig = true;
-      configuration = {
-        me.networking.tailscale.vpn.enable = mkForce false;
-        me.networking.wireguard.enable = mkForce false;
-      };
-    };
-    onthemove = {
-      inheritParentConfig = true;
-      configuration = {
-        me.window-manager.arrowKeysMap60 = mkForce false;
-        me.window-manager.xMouseSpeedDeceleration.deceleration = mkForce 1.0;
-      };
-    };
-    onthemove-vpn-none = {
-      inheritParentConfig = true;
-      configuration = {
-        me.networking.tailscale.vpn.enable = mkForce false;
-        me.networking.wireguard.enable = mkForce false;
-        me.window-manager.arrowKeysMap60 = mkForce false;
-        me.window-manager.xMouseSpeedDeceleration.deceleration = mkForce 1.0;
-      };
-    };
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 180;
+    "vm.page-cluster" = 0;
   };
 }

@@ -56,6 +56,21 @@ let
     '';
   };
 
+  xrandrSH = pkgs.writeShellApplication {
+    name = "xrandr-setup.sh";
+    runtimeInputs = [ pkgs.xorg.xrandr ];
+    text = ''
+      while IFS= read -r line; do
+        case "$line" in
+          ""|"#"*) continue ;;
+        esac
+        eval "xrandr $line"
+      done <<'EOF'
+${optionalString (cfg.xrandrArgs != null) cfg.xrandrArgs}
+EOF
+    '';
+  };
+
   mkSystemd = sys:
   let
     partOf = ["graphical-session.target"];
@@ -182,7 +197,7 @@ in {
         xrandr = mkSystemd {
           type = "oneshot";
           desc = "configure xrandr";
-          exec = "${pkgs.xorg.xrandr}/bin/xrandr ${cfg.xrandrArgs}";
+          exec = "${xrandrSH}/bin/xrandr-setup.sh";
         };
       }) // {
         xconf = mkSystemd {

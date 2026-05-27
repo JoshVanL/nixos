@@ -66,9 +66,6 @@ in {
           enable = true;
           pools  = [ "rpool" ];
         };
-        autoSnapshot =  {
-          enable = true;
-        };
         trim.enable = true;
       };
     };
