@@ -33,7 +33,7 @@ modules/               # Reusable NixOS modules (~77 files)
   roles/               # Role definitions: josh, dev, mediaserver, acme, sshingress, cacheserver, nixsub, img
   wm/                  # X11/DWM, alacritty, ghostty, rofi, fonts, gtk, browser
 overlays/              # Package overrides: golang, dapr, claude-code, bitwarden-cli, backblaze-b2
-pkgs/                  # Custom packages (~17): ww, paranoia, passenc, gimmi, fehr, myip, imps, zfs_uploader, etc.
+pkgs/                  # Custom packages (~17): ww, paranoia, passenc, gimmi, wp, myip, imps, zfs_uploader, etc.
 lib/                   # Helper functions: nixFiles, defaultImport, dirs
 apps/                  # Install & post-install scripts
 ```

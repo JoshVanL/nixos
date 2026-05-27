@@ -4,12 +4,6 @@ with lib;
 let
   cfg = config.me.window-manager;
 
-  wallimgs = builtins.fetchTarball {
-    name = "wallimgs";
-    url = "https://img.joshvanl.dev/wall/0004.tar.gz";
-    sha256 = "04d8lqggaxf4kpn84gg021fv2k02xd0p6hfxzxgx00vca1wfggfx";
-  };
-
   xmodmapF = pkgs.writeTextFile {
     name = "xmodmap";
     text = ''
@@ -199,7 +193,7 @@ in {
         feh = mkSystemd {
           type = "oneshot";
           desc = "set wallpaper";
-          exec = "${pkgs.feh}/bin/feh --no-fehbg --bg-scale --randomize ${wallimgs}";
+          exec = "${pkgs.wp}/bin/wp rotate";
           after = afterXrandr;
         };
         picom = mkSystemd {
@@ -227,7 +221,6 @@ in {
           xclip
           arandr
           evince
-          fehr
         ];
 
         file.".xinitrc".source = "${xinitrcSH}/bin/.xinitrc";
