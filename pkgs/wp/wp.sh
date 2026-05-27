@@ -133,18 +133,14 @@ cmd_view() {
     "${items[@]}"
 }
 
-cmd_rotate() {
+cmd_roll() {
   shopt -s nullglob
   local items=("$LIBRARY"/*)
   if [ "${#items[@]}" -eq 0 ]; then
-    echo "library empty - run 'wp fetch' then 'wp review'"
+    echo "library empty - run 'wp fetch' then 'wp refresh'"
     return 0
   fi
   feh --no-fehbg --bg-scale --randomize "$LIBRARY"
-}
-
-cmd_roll() {
-  systemctl restart --user feh.service
 }
 
 cmd_prune() {
@@ -184,9 +180,9 @@ wp - wallpaper queue/library manager
                    arrows = navigate manually
                    q = quit; actions apply on exit
   wp view        browse the library in feh (read-only, arrows to navigate, q to quit)
-  wp roll        rotate to a new wallpaper now (restarts feh.service)
-  wp rotate      apply a random wallpaper from library (used by feh.service;
-                 no-op on empty library)
+  wp roll        pick a random wallpaper from library and apply it.
+                 Also the command run by feh.service at login (no-op on empty
+                 library).
   wp ls          show library/queue/blacklist counts and paths (default)
   wp prune       trim library to \$WP_LIBRARY_MAX, oldest first
 
@@ -210,7 +206,6 @@ case "${1:-}" in
   refresh)      cmd_refresh ;;
   view)         cmd_view ;;
   roll)         cmd_roll ;;
-  rotate)       cmd_rotate ;;
   prune)        cmd_prune ;;
   ls|"")        cmd_ls ;;
   -h|--help)    usage ;;

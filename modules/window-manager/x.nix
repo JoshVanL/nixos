@@ -193,7 +193,7 @@ in {
         feh = mkSystemd {
           type = "oneshot";
           desc = "set wallpaper";
-          exec = "${pkgs.wp}/bin/wp rotate";
+          exec = "${pkgs.wp}/bin/wp roll";
           after = afterXrandr;
         };
         picom = mkSystemd {
