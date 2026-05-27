@@ -43,11 +43,12 @@ in {
     };
 
     maxJobs = mkOption {
-      type = types.nullOr types.int;
+      type = types.nullOr (types.either types.int (types.enum [ "auto" ]));
       default = null;
       description = ''
         nix.settings.max-jobs: the maximum number of derivations to build
-        in parallel. When null, leaves the nixpkgs default in place.
+        in parallel. Accepts an integer or "auto" (use all available cores).
+        When null, leaves the nixpkgs default in place.
       '';
     };
     cores = mkOption {

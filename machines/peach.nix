@@ -18,7 +18,7 @@
         zramSwapMemoryPercent = 50;
       };
       nix = {
-        maxJobs = 4;
+        maxJobs = "auto";
         cores = 0;
       };
     };
@@ -28,7 +28,7 @@
     };
     window-manager = {
       enable = true;
-      fontsize = 18;
+      fontsize = 25;
       dpi = 255;
       xrandrArgs = ''
         --newmode 4096x2560_60 905.75 4096 4448 4896 5696 2560 2563 2569 2651 -HSync +VSync
