@@ -87,7 +87,7 @@ cmd_refresh() {
 
   local workdir
   workdir=$(mktemp -d)
-  trap 'rm -rf "$workdir"' EXIT
+  trap 'rm -rf "$workdir"' RETURN
   : > "$workdir/keep"
   : > "$workdir/skip"
 
