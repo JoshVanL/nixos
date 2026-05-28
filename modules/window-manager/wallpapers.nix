@@ -9,6 +9,7 @@ let
     WP_QUEUE = cfg.queueDir;
     WP_LIBRARY = cfg.libraryDir;
     WP_BLACKLIST = cfg.blacklistPath;
+    WP_CURRENT = cfg.currentPath;
     WP_QUERY = cfg.query;
     WP_CATEGORIES = cfg.categories;
     WP_PURITY = cfg.purity;
@@ -31,7 +32,7 @@ in {
 
     queueDir = mkOption {
       type = types.str;
-      default = "/keep/etc/wallpapers/queue";
+      default = "/keep/var/lib/wallpapers/queue";
       description = ''
         Candidate queue. Ephemeral by nature (redownloadable), so lives on
         /keep rather than /persist.
@@ -40,7 +41,7 @@ in {
 
     libraryDir = mkOption {
       type = types.str;
-      default = "/keep/etc/wallpapers/library";
+      default = "/keep/var/lib/wallpapers/library";
       description = ''
         Kept wallpapers used by the feh service. Ephemeral by nature
         (redownloadable), so lives on /keep rather than /persist.
@@ -49,10 +50,19 @@ in {
 
     blacklistPath = mkOption {
       type = types.str;
-      default = "/persist/etc/wallpapers/blacklist";
+      default = "/persist/var/lib/wallpapers/blacklist";
       description = ''
         File of sha256 hashes that wp will never re-add. Represents
         accumulated taste, so lives on /persist for backup.
+      '';
+    };
+
+    currentPath = mkOption {
+      type = types.str;
+      default = "/persist/var/lib/wallpapers/current";
+      description = ''
+        File holding the path of the currently applied wallpaper.
+        Written by `wp roll`, read by `wp current` and `wp rm-current`.
       '';
     };
 
@@ -117,6 +127,7 @@ in {
       "d ${cfg.libraryDir}                     0755 ${config.me.username} users -"
       "d ${dirOf cfg.blacklistPath}            0755 ${config.me.username} users -"
       "f ${cfg.blacklistPath}                  0644 ${config.me.username} users -"
+      "d ${dirOf cfg.currentPath}              0755 ${config.me.username} users -"
     ];
 
     home-manager.users.${config.me.username} = {

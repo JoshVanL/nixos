@@ -1,8 +1,9 @@
 set -euo pipefail
 
-QUEUE="${WP_QUEUE:-/keep/etc/wallpapers/queue}"
-LIBRARY="${WP_LIBRARY:-/keep/etc/wallpapers/library}"
-BLACKLIST="${WP_BLACKLIST:-/persist/etc/wallpapers/blacklist}"
+QUEUE="${WP_QUEUE:-/keep/var/lib/wallpapers/queue}"
+LIBRARY="${WP_LIBRARY:-/keep/var/lib/wallpapers/library}"
+BLACKLIST="${WP_BLACKLIST:-/persist/var/lib/wallpapers/blacklist}"
+CURRENT="${WP_CURRENT:-/persist/var/lib/wallpapers/current}"
 
 WP_QUERY="${WP_QUERY:-landscape}"
 WP_CATEGORIES="${WP_CATEGORIES:-100}"
@@ -13,7 +14,7 @@ WP_TOPRANGE="${WP_TOPRANGE:-1M}"
 WP_LIBRARY_MAX="${WP_LIBRARY_MAX:-200}"
 WP_FETCH_COUNT="${WP_FETCH_COUNT:-12}"
 
-mkdir -p "$QUEUE" "$LIBRARY" "$(dirname "$BLACKLIST")"
+mkdir -p "$QUEUE" "$LIBRARY" "$(dirname "$BLACKLIST")" "$(dirname "$CURRENT")"
 touch "$BLACKLIST"
 
 cmd_fetch() {
@@ -140,7 +141,35 @@ cmd_roll() {
     echo "library empty - run 'wp fetch' then 'wp refresh'"
     return 0
   fi
-  feh --no-fehbg --bg-scale --randomize "$LIBRARY"
+  local choice="${items[RANDOM % ${#items[@]}]}"
+  feh --no-fehbg --bg-scale "$choice"
+  printf '%s\n' "$choice" > "$CURRENT"
+}
+
+cmd_current() {
+  if [ ! -s "$CURRENT" ]; then
+    echo "no current wallpaper recorded" >&2
+    return 1
+  fi
+  cat "$CURRENT"
+}
+
+cmd_rm_current() {
+  if [ ! -s "$CURRENT" ]; then
+    echo "no current wallpaper recorded" >&2
+    return 1
+  fi
+  local f
+  f=$(cat "$CURRENT")
+  if [ -f "$f" ]; then
+    sha256sum "$f" | awk '{print $1}' >> "$BLACKLIST"
+    rm -f "$f"
+    echo "removed: $f"
+  else
+    echo "current wallpaper file missing: $f" >&2
+  fi
+  : > "$CURRENT"
+  cmd_roll
 }
 
 cmd_prune() {
@@ -183,6 +212,8 @@ wp - wallpaper queue/library manager
   wp roll        pick a random wallpaper from library and apply it.
                  Also the command run by feh.service at login (no-op on empty
                  library).
+  wp current     print the path of the currently applied wallpaper
+  wp rm-current  blacklist and delete the current wallpaper, then roll a new one
   wp ls          show library/queue/blacklist counts and paths (default)
   wp prune       trim library to \$WP_LIBRARY_MAX, oldest first
 
@@ -190,6 +221,7 @@ env vars (override defaults):
   WP_QUEUE         $QUEUE
   WP_LIBRARY       $LIBRARY
   WP_BLACKLIST     $BLACKLIST
+  WP_CURRENT       $CURRENT
   WP_QUERY         $WP_QUERY
   WP_CATEGORIES    $WP_CATEGORIES   (bitmask: General/Anime/People)
   WP_PURITY        $WP_PURITY   (bitmask: SFW/Sketchy/NSFW)
@@ -206,6 +238,8 @@ case "${1:-}" in
   refresh)      cmd_refresh ;;
   view)         cmd_view ;;
   roll)         cmd_roll ;;
+  current)      cmd_current ;;
+  rm-current)   cmd_rm_current ;;
   prune)        cmd_prune ;;
   ls|"")        cmd_ls ;;
   -h|--help)    usage ;;
