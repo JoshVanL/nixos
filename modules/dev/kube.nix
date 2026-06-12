@@ -20,6 +20,7 @@ in {
         packages = with pkgs; [
           kubectl
           kubernetes-helm
+          helmfile
           cmctl
           dapr-cli
           kubernetes-controller-tools

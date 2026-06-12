@@ -47,4 +47,13 @@
     "vm.swappiness" = 180;
     "vm.page-cluster" = 0;
   };
+
+  specialisation = {
+    diagrid-dev = {
+      inheritParentConfig = true;
+      configuration = {
+        me.dev.diagrid.enable = true;
+      };
+    };
+  };
 }
