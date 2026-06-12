@@ -2,6 +2,7 @@
 , stdenv
 , fetchurl
 , autoPatchelfHook
+, installShellFiles
 }:
 
 let
@@ -26,7 +27,7 @@ stdenv.mkDerivation {
 
   dontUnpack = true;
 
-  nativeBuildInputs = [ autoPatchelfHook ];
+  nativeBuildInputs = [ autoPatchelfHook installShellFiles ];
   buildInputs = [ stdenv.cc.cc.lib ];
 
   installPhase = ''
@@ -35,6 +36,14 @@ stdenv.mkDerivation {
     tar -xzf $src -C $out/bin
     chmod +x $out/bin/diagrid
     runHook postInstall
+  '';
+
+  postInstall = ''
+    run="$(cat $NIX_CC/nix-support/dynamic-linker) --library-path ${lib.makeLibraryPath [ stdenv.cc.cc.lib ]} $out/bin/diagrid"
+    installShellCompletion --cmd diagrid \
+      --bash <(HOME=$TMPDIR $run completion bash) \
+      --zsh <(HOME=$TMPDIR $run completion zsh) \
+      --fish <(HOME=$TMPDIR $run completion fish)
   '';
 
   meta = with lib; {
