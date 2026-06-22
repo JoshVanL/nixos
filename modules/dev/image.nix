@@ -5,9 +5,13 @@ let
 
   screenSH = pkgs.writeShellApplication {
     name = "screen";
-    runtimeInputs = with pkgs; [ xclip scrot ];
+    runtimeInputs = with pkgs; [ xclip scrot coreutils ];
     text = ''
-      scrot -shole - | xclip -selection clipboard -target image/png
+      dir="$HOME/screenshots"
+      mkdir -p "$dir"
+      scrot -shole - \
+        | tee "$dir/$(date +%Y-%m-%d-%H%M%S).png" \
+        | xclip -selection clipboard -target image/png
     '';
   };
 
