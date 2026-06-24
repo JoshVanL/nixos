@@ -32,9 +32,15 @@ in {
     environment.pathsToLink = [ "/share/zsh/site-functions" ];
     programs.zsh.enable = true;
 
+    # Point HISTFILE directly at the persisted path (see history.path below)
+    # instead of symlinking ~/.zsh_history into /persist. zsh saves history with
+    # HIST_SAVE_BY_COPY (on by default), writing a new file and rename()ing it
+    # over $HISTFILE; a rename over a symlink would replace the symlink with a
+    # regular file on the ephemeral root, silently breaking persistence. Writing
+    # straight to /persist keeps the save atomic and the data persistent.
     systemd.tmpfiles.rules = [
-      "L+ /home/${config.me.username}/.zsh_history - - - - /persist/home/.zsh_history"
-      "L+ /home/${config.me.username}/.viminfo     - - - - /persist/home/.viminfo"
+      "d /persist/home                          0755 ${config.me.username} wheel - -"
+      "L+ /home/${config.me.username}/.viminfo  - - - - /persist/home/.viminfo"
     ];
 
     home-manager.users.${config.me.username} = {
@@ -43,7 +49,7 @@ in {
 
         file.".config/oh-my-zsh/themes/amuse-custom.zsh-theme".source = pkgs.fetchurl {
           url = "https://raw.githubusercontent.com/joshvanl/oh-my-zsh-custom/main/amuse-custom.zsh-theme";
-          hash = "sha256-aqd5rWF9BZmcGU8E9sKAKFR0cfh0Kn4i3ZRS/u4vyGw=";
+          hash = "sha256-Eerg4P7Ybjqbytr0nRVsvCT1+TEL447voKpbFwqANjE=";
         };
 
         packages = with pkgs; [
@@ -69,6 +75,7 @@ in {
         };
         history = {
           size = 100000;
+          path = "/persist/home/.zsh_history";
         };
         initContent = ''
           if [ -n "$\{commands[fzf-share]\}" ]; then
