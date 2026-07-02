@@ -121,6 +121,7 @@ NEVER push to any remote (origin, fork, or any other).
 NEVER create, merge, or comment on pull requests or issues on GitHub.
 NEVER create releases or repositories on GitHub.
 NEVER use em dashes (—) in any output, commit messages, comments, strings, or file content. Use commas, parentheses, colons, hyphens, or separate sentences instead.
+ALWAYS use European-style dates (DD/MM/YYYY) in any output, commit messages, comments, strings, or file content. Do not use American-style dates (MM/DD/YYYY).
 
 ## Go
 
