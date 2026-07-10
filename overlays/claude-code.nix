@@ -1,15 +1,15 @@
 final: prev: {
   claude-code = let
-    version = "2.1.195";
+    version = "2.1.199";
 
     sources = {
       "x86_64-linux" = {
         suffix = "linux-x64";
-        hash = "sha256-MRV653+W5DhCYCzIm95g+3PltbdmV++GCE/owjB2m2g=";
+        hash = "sha256-NZOszK4hDGSuZ4BVTPUBmOiYkH2Km11N59qexvR1VNg=";
       };
       "aarch64-linux" = {
         suffix = "linux-arm64";
-        hash = "sha256-hzoQHsQ+WWONUuNxWAkXy5S3pJTkPWBH5HtNkzaYSH8=";
+        hash = "sha256-Q4AbVL3DPNpSl2dGFNHMTpx8LtwjLaILxyfrcGEmaos=";
       };
     };
 
