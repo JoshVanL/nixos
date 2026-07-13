@@ -64,7 +64,7 @@ let
         case "$line" in
           ""|"#"*) continue ;;
         esac
-        eval "xrandr $line"
+        eval "xrandr $line || true"
       done <<'EOF'
 ${optionalString (cfg.xrandrArgs != null) cfg.xrandrArgs}
 EOF
@@ -87,6 +87,8 @@ EOF
       Environment = [ "DISPLAY=:0" ];
       Type = sys.type;
       ExecStart = sys.exec;
+    } // optionalAttrs (sys.type == "oneshot") {
+      RemainAfterExit = true;
     };
   };
 
