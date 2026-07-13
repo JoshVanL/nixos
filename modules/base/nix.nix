@@ -93,7 +93,7 @@ in {
         allowed-users = [ "root" "${config.me.username}"];
         auto-optimise-store = false;
         substituters = [ "https://cache.nixos.org" ] ++ cfg.extraSubstituters;
-        connect-timeout = 1;
+        connect-timeout = 10;
         trusted-public-keys = lib.mkBefore cfg.trusted-public-keys;
         max-jobs = mkIf (cfg.maxJobs != null) cfg.maxJobs;
         cores = mkIf (cfg.cores != null) cfg.cores;
