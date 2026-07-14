@@ -77,13 +77,19 @@ in {
           size = 100000;
           path = "/persist/home/.zsh_history";
         };
-        initContent = ''
-          if [ -n "$\{commands[fzf-share]\}" ]; then
-            source "$(fzf-share)/key-bindings.zsh"
-            source "$(fzf-share)/completion.zsh"
-          fi
-          eval "$(direnv hook zsh)"
-        '';
+        initContent = mkMerge [
+          # Skip oh-my-zsh's compaudit security check: all completion dirs
+          # live in the read-only /nix/store so the audit can never fail,
+          # and it costs tens of ms on every shell start.
+          (mkOrder 500 "ZSH_DISABLE_COMPFIX=true")
+          ''
+            if [ -n "''${commands[fzf-share]}" ]; then
+              source "$(fzf-share)/key-bindings.zsh"
+              source "$(fzf-share)/completion.zsh"
+            fi
+            eval "$(direnv hook zsh)"
+          ''
+        ];
         oh-my-zsh = {
           enable = true;
           theme = "amuse-custom";
