@@ -14,6 +14,8 @@ in {
       "L+ /home/${config.me.username}/.aws - - - - /keep/home/.aws"
     ];
 
+    me.nixpkgs.allowedUnfree = [ "terraform" ];
+
     home-manager.users.${config.me.username} = {
       home.packages = with pkgs; [
         diagrid-cli
@@ -25,6 +27,7 @@ in {
         etcd
         redis
         open-policy-agent
+        terraform
       ] ++
         (optional config.me.dev.kube.enable pkgs.gke-gcloud-auth-plugin)
       ;
