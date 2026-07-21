@@ -11,10 +11,6 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    joshvanldwm = {
-      url = "github:joshvanl/dwm?rev=d084abaa0a508f7a016cd7becc74e7e0523a3e23";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nix-serve-ng = {
       url = "github:aristanetworks/nix-serve-ng";
       inputs.nixpkgs.follows = "nixpkgs";

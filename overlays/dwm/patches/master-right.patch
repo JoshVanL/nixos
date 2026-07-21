@@ -1,0 +1,57 @@
+diff --git a/config.def.h b/config.def.h
+index fb8f039..97e368b 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -4,6 +4,7 @@
+ static const unsigned int borderpx  = 4;        /* border pixel of windows */
+ static const unsigned int gappx     = 20;        /* gaps between windows */
+ static const unsigned int snap      = 32;       /* snap pixel */
++static const int rmaster            = 1;        /* 1 means master-area is initially on the right */
+ static const int showbar            = 1;        /* 0 means no bar */
+ static const int topbar             = 1;        /* 0 means bottom bar */
+ static const char *fonts[]          = { "monospace:size=10" };
+diff --git a/dwm.c b/dwm.c
+index 77d11a6..263f7ca 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -123,6 +123,7 @@ struct Monitor {
+ 	unsigned int seltags;
+ 	unsigned int sellt;
+ 	unsigned int tagset[2];
++	int rmaster;          /* 1 means master on right */
+ 	int showbar;
+ 	int topbar;
+ 	Client *clients;
+@@ -642,6 +643,7 @@ createmon(void)
+ 	m->tagset[0] = m->tagset[1] = 1;
+ 	m->mfact = mfact;
+ 	m->nmaster = nmaster;
++	m->rmaster = rmaster;
+ 	m->showbar = showbar;
+ 	m->topbar = topbar;
+   m->gappx = gappx;
+@@ -1702,17 +1704,21 @@ tile(Monitor *m)
+ 		return;
+ 
+ 	if (n > m->nmaster)
+-		mw = m->nmaster ? m->ww * m->mfact : 0;
++		mw = m->nmaster
++			? m->ww * (m->rmaster ? 1.0 - m->mfact : m->mfact)
++			: 0;
+ 	else
+     mw = m->ww - m->gappx;
+   for (i = 0, my = ty = m->gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+ 		if (i < m->nmaster) {
+       h = (m->wh - my) / (MIN(n, m->nmaster) - i) - m->gappx;
+-      resize(c, m->wx + m->gappx, m->wy + my, mw - (2*c->bw) - m->gappx, h - (2*c->bw), 0);
++			resize(c, m->rmaster ? m->wx + m->ww - mw + 0*m->gappx : m->wx + 0*m->gappx,
++			       m->wy + my, mw - (2*c->bw) - 1*m->gappx, h - (2*c->bw), 0);
+       my += HEIGHT(c) + m->gappx;
+ 		} else {
+       h = (m->wh - ty) / (n - i) - m->gappx;
+-      resize(c, m->wx + mw + m->gappx, m->wy + ty, m->ww - mw - (2*c->bw) - 2*m->gappx, h - (2*c->bw), 0);
++			resize(c, m->rmaster ? m->wx + 1*m->gappx : m->wx + mw + 2*m->gappx, m->wy + ty,
++			       m->ww - mw - (2*c->bw) - 2*m->gappx, h - (2*c->bw), 0);
+       ty += HEIGHT(c) + m->gappx;
+ 		}
+ }
