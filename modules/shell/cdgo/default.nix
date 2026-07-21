@@ -10,6 +10,7 @@ let
     runtimeInputs = with pkgs; [ git gh jq coreutils ];
     runtimeEnv = {
       CDGO_GROUPS_FILE = "${groupsFile}";
+      CDGO_CLAUDE_MD_FILE = "${./CLAUDE.md}";
     };
     text = builtins.readFile ./cdgo.sh;
   };
