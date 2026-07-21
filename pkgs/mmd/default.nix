@@ -2,15 +2,18 @@
 writeShellApplication,
 stdenv,
 installShellFiles,
+mermaid-ascii,
 mermaid-cli,
 chafa,
 coreutils,
+feh,
+gawk,
 }:
 
 let
   sh = writeShellApplication {
     name = "mmd";
-    runtimeInputs = [ mermaid-cli chafa coreutils ];
+    runtimeInputs = [ mermaid-ascii mermaid-cli chafa coreutils feh gawk ];
     text = builtins.readFile ./mmd.sh;
   };
 
