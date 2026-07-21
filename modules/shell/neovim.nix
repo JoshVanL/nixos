@@ -45,33 +45,6 @@ let
     "COMMIT_EDITMSG"
   ];
 
-  # Render mermaid diagrams as character art in any terminal (alacritty has
-  # no image protocol). Takes a .mmd file or a markdown file with mermaid
-  # blocks.
-  mmdSH = pkgs.writeShellApplication {
-    name = "mmd";
-    runtimeInputs = with pkgs; [ mermaid-cli chafa coreutils ];
-    text = ''
-      if [ $# -lt 1 ]; then
-        echo "usage: mmd <file.mmd|file.md>" >&2
-        exit 1
-      fi
-      tmp=$(mktemp -d)
-      trap 'rm -rf "$tmp"' EXIT
-      mmdc -i "$1" -o "$tmp/out.png" -b transparent -t dark --scale 2 --quiet >/dev/null
-      found=false
-      for f in "$tmp"/*.png; do
-        [ -e "$f" ] || continue
-        found=true
-        chafa "$f"
-      done
-      if [ "$found" = false ]; then
-        echo "no mermaid diagrams found in $1" >&2
-        exit 1
-      fi
-    '';
-  };
-
 in {
   options.me.shell.neovim = {
     enable = mkEnableOption "neovim";
@@ -97,7 +70,8 @@ in {
         # mermaid diagram rendering in markdown via diagram.nvim
         mermaid-cli
         imagemagick
-        mmdSH
+        # terminal character art rendering of mermaid diagrams (pkgs/mmd)
+        mmd
       ];
 
       home.sessionVariables = {
