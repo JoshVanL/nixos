@@ -7,6 +7,20 @@ in {
   config = mkIf config.me.window-manager.enable {
     home-manager.users.${config.me.username}.programs.ghostty = {
       enable = true;
+      # Parallels' virtual GPU (virgl) only exposes OpenGL 4.0 which is too
+      # old for ghostty's renderer. Mesa software rendering (llvmpipe)
+      # provides 4.5 and is fast enough for a terminal.
+      package = mkIf config.me.base.parallels.enable (pkgs.symlinkJoin {
+        name = "ghostty-soft-gl";
+        paths = [ pkgs.ghostty ];
+        nativeBuildInputs = [ pkgs.makeWrapper ];
+        postBuild = ''
+          wrapProgram $out/bin/ghostty --set LIBGL_ALWAYS_SOFTWARE 1
+        '';
+        # home-manager's config reload hook uses lib.getExe, which
+        # derives the binary name from the derivation name
+        meta.mainProgram = "ghostty";
+      });
       enableZshIntegration = config.me.shell.zsh.enable;
       themes = {
         joshvanl = {
@@ -44,9 +58,9 @@ in {
         font-size = cfg.fontsize;
         font-family = "Menlo for Powerline";
         background-opacity = 0.97;
-        window-decoration = true;
+        window-decoration = false;
         theme = "joshvanl";
-        bold-is-bright = true;
+        bold-color = "bright";
         mouse-hide-while-typing = true;
         term = "xterm-256color";
         shell-integration-features = "no-cursor";

@@ -45,6 +45,33 @@ let
     "COMMIT_EDITMSG"
   ];
 
+  # Render mermaid diagrams as character art in any terminal (alacritty has
+  # no image protocol). Takes a .mmd file or a markdown file with mermaid
+  # blocks.
+  mmdSH = pkgs.writeShellApplication {
+    name = "mmd";
+    runtimeInputs = with pkgs; [ mermaid-cli chafa coreutils ];
+    text = ''
+      if [ $# -lt 1 ]; then
+        echo "usage: mmd <file.mmd|file.md>" >&2
+        exit 1
+      fi
+      tmp=$(mktemp -d)
+      trap 'rm -rf "$tmp"' EXIT
+      mmdc -i "$1" -o "$tmp/out.png" -b transparent -t dark --scale 2 --quiet >/dev/null
+      found=false
+      for f in "$tmp"/*.png; do
+        [ -e "$f" ] || continue
+        found=true
+        chafa "$f"
+      done
+      if [ "$found" = false ]; then
+        echo "no mermaid diagrams found in $1" >&2
+        exit 1
+      fi
+    '';
+  };
+
 in {
   options.me.shell.neovim = {
     enable = mkEnableOption "neovim";
@@ -67,6 +94,10 @@ in {
     home-manager.users.${config.me.username} = {
       home.packages = with pkgs; [
         vimv
+        # mermaid diagram rendering in markdown via diagram.nvim
+        mermaid-cli
+        imagemagick
+        mmdSH
       ];
 
       home.sessionVariables = {
@@ -79,6 +110,9 @@ in {
         vimAlias = true;
         vimdiffAlias = true;
         defaultEditor = true;
+
+        # lua bindings to imagemagick, required by image-nvim
+        extraLuaPackages = ps: [ ps.magick ];
 
         plugins = (with pkgs.vimPlugins; [
           gruvbox
@@ -96,6 +130,8 @@ in {
           vim-nix
           vim-github-visincr
           nvim-colorizer-lua
+          image-nvim
+          diagram-nvim
 
           (pkgs.vimPlugins.nvim-treesitter.withPlugins (plugins: with pkgs.tree-sitter-grammars; [
             tree-sitter-beancount
@@ -165,6 +201,27 @@ in {
             },
           }
           require 'colorizer'.setup()
+
+          -- Render mermaid blocks in markdown as inline images (kitty
+          -- graphics protocol). Only inside ghostty: alacritty has no image
+          -- protocol and would display the escape sequences as garbage. Use
+          -- `mmd <file>` for terminal-agnostic character art rendering.
+          if os.getenv("GHOSTTY_RESOURCES_DIR") then
+            require("image").setup({
+              backend = "kitty",
+            })
+            require("diagram").setup({
+              integrations = {
+                require("diagram.integrations.markdown"),
+              },
+              renderer_options = {
+                mermaid = {
+                  theme = "dark",
+                  background = "transparent",
+                },
+              },
+            })
+          end
           EOF
 
           set guicursor=i:block
