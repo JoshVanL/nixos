@@ -9,6 +9,8 @@ let
     text = builtins.readFile ./claude-statusline.sh;
   };
 
+  skillNames = builtins.attrNames (builtins.readDir ./skills);
+
   claudeSettings = pkgs.writeText "claude-settings.json" (builtins.toJSON {
     permissions = {
       deny = [
@@ -45,7 +47,10 @@ in {
       "L+ /home/${config.me.username}/.claude.json - - - - /persist/home/.claude.json"
       "L+ /home/${config.me.username}/.claude - - - - /persist/home/.claude"
       "C+ /persist/home/.claude/settings.json 0600 ${config.me.username} wheel - ${claudeSettings}"
-    ];
+      "d /persist/home/.claude/skills 0755 ${config.me.username} wheel -"
+    ] ++ map (name:
+      "L+ /persist/home/.claude/skills/${name} - - - - ${./skills}/${name}"
+    ) skillNames;
 
     me.nixpkgs.allowedUnfree = [ "claude-code" ];
 
