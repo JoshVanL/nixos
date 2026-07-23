@@ -64,6 +64,8 @@ in {
       #  };
       #};
       home = {
+        sessionPath = [ "$HOME/go/bin" ];
+
         # install core golang dev packages
         packages = with pkgs; [
           go-junit-report
