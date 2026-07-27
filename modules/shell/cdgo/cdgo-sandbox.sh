@@ -24,6 +24,10 @@ args=(
   # System binaries and zsh
   --ro-bind /run/current-system /run/current-system
 
+  # FHS shims: /bin/sh and /usr/bin/env (symlinks into /nix/store)
+  --ro-bind /bin /bin
+  --ro-bind /usr/bin /usr/bin
+
   # Networking and identity
   --ro-bind /etc/resolv.conf /etc/resolv.conf
   --ro-bind /etc/hosts /etc/hosts
