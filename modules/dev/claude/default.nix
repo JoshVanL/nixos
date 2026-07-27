@@ -35,6 +35,7 @@ let
     };
     effortLevel = "high";
     skipDangerousModePermissionPrompt = true;
+    askUserQuestionTimeout = "never";
   });
 
 in {
