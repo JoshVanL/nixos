@@ -65,6 +65,7 @@ if [ ! -f "$dir/.claude/settings.json" ]; then
   echo ">> Writing $dir/.claude/settings.json" >&2
   cat > "$dir/.claude/settings.json" << 'SETTINGS'
 {
+  "askUserQuestionTimeout": "never",
   "permissions": {
     "allow": [
       "Bash(git *)",
