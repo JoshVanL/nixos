@@ -38,6 +38,11 @@ args=(
   --ro-bind /etc/nsswitch.conf /etc/nsswitch.conf
   --ro-bind /etc/profiles /etc/profiles
 
+  # Timezone: /etc/localtime is a symlink chain into /nix/store (already
+  # bound), so a single bind lets glibc resolve the local timezone instead
+  # of falling back to UTC.
+  --ro-bind /etc/localtime /etc/localtime
+
   # Empty home, then selective mounts on top
   --tmpfs "$home"
 )
