@@ -19,14 +19,16 @@ in {
         Unit = {
           Description = "Parallels Copy & Paste Service";
           PartOf = ["graphical-session.target"];
+          StartLimitIntervalSec = 0;
         };
         Install.WantedBy = ["graphical-session.target"];
         Service = {
           Environment = [ "DISPLAY=:0" ];
           Type = "simple";
           ExecStart = [ "${prl-tools}/bin/prlcp" ];
-          Restart = "on-failure";
+          Restart = "always";
           RestartSec = 5;
+          OOMScoreAdjust = 100;
         };
       };
     };
