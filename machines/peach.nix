@@ -48,6 +48,39 @@
     "vm.page-cluster" = 0;
   };
 
+  # Disk-backed spillover for zram, on a second 64G Parallels virtual disk.
+  # zram alone has no overflow, so when it fills the machine goes straight from
+  # fine to global OOM kill.
+  #
+  # Recreating this from scratch (fresh install, new host, or a deleted disk
+  # image) takes two manual steps, since nothing here provisions it:
+  #
+  #   1. Parallels > Configure > Hardware > + > Hard Disk. 64G, expanding is
+  #      fine, it only ever holds swap. Do not let Parallels format it.
+  #   2. Give it a GPT with one named partition covering the whole disk:
+  #
+  #        sudo sfdisk /dev/disk/by-id/<the-new-disk> <<'EOF'
+  #        label: gpt
+  #        name=peach-swap, type=0657FD6D-A4AB-43C4-84E5-0933C84B4F4F
+  #        EOF
+  #
+  # No mkswap: randomEncryption runs cryptsetup and mkswap on every boot.
+  swapDevices = [{
+    device = "/dev/disk/by-partlabel/peach-swap";
+    # rpool is aes-256-gcm encrypted. Without this, anything paged out lands on
+    # disk in plaintext and undoes that. Random key is regenerated each boot.
+    randomEncryption = {
+      enable = true;
+      # Expanding disk on the host, so pass TRIM through and let freed swap
+      # shrink the image back. Leaks which blocks are unused, which means
+      # nothing for a device re-keyed every boot.
+      allowDiscards = true;
+    };
+    # zram is priority 5. Lower priority here means zram absorbs the hot path
+    # and the disk only takes the overflow.
+    priority = 1;
+  }];
+
   specialisation = {
     diagrid-dev = {
       inheritParentConfig = true;
