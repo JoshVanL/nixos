@@ -48,6 +48,7 @@ in {
       "L+ /home/${config.me.username}/.claude.json - - - - /persist/home/.claude.json"
       "L+ /home/${config.me.username}/.claude - - - - /persist/home/.claude"
       "C+ /persist/home/.claude/settings.json 0600 ${config.me.username} wheel - ${claudeSettings}"
+      "C+ /persist/home/.claude/CLAUDE.md 0644 ${config.me.username} wheel - ${./CLAUDE.md}"
       "d /persist/home/.claude/skills 0755 ${config.me.username} wheel -"
     ] ++ map (name:
       "L+ /persist/home/.claude/skills/${name} - - - - ${./skills}/${name}"
