@@ -11,6 +11,15 @@ let
 
   skillNames = builtins.attrNames (builtins.readDir ./skills);
 
+  # Lazy senior dev mode. Loaded as a skills-directory plugin (ponytail@skills-dir),
+  # so no marketplace or /plugin install step is needed.
+  ponytail = pkgs.fetchFromGitHub {
+    owner = "DietrichGebert";
+    repo = "ponytail";
+    rev = "v4.9.0";
+    sha256 = "sha256-8cYggVltBAlZ/Zj4pl1bOu7mQdZFXCmDGW4RSpvRA+w=";
+  };
+
   claudeSettings = pkgs.writeText "claude-settings.json" (builtins.toJSON {
     permissions = {
       deny = [
@@ -50,6 +59,7 @@ in {
       "C+ /persist/home/.claude/settings.json 0600 ${config.me.username} wheel - ${claudeSettings}"
       "C+ /persist/home/.claude/CLAUDE.md 0644 ${config.me.username} wheel - ${./CLAUDE.md}"
       "d /persist/home/.claude/skills 0755 ${config.me.username} wheel -"
+      "L+ /persist/home/.claude/skills/ponytail - - - - ${ponytail}"
     ] ++ map (name:
       "L+ /persist/home/.claude/skills/${name} - - - - ${./skills}/${name}"
     ) skillNames;
