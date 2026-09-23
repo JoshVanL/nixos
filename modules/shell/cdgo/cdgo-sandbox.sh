@@ -123,8 +123,13 @@ args+=(
   --setenv USER "$(whoami)"
   --setenv CDGO_SANDBOX "1"
   --setenv CDGO_WORKSPACE "$dir"
-  --setenv GH_TOKEN "$(cat /persist/etc/github/read-only)"
 )
+
+# The token goes through the inherited environment, never --setenv: bwrap's
+# argv is world-readable via /proc/<pid>/cmdline, while /proc/<pid>/environ is
+# readable only by its owner.
+GH_TOKEN=$(cat /persist/etc/github/read-only)
+export GH_TOKEN
 
 echo ">> Entering sandbox for: $dir" >&2
 exec bwrap "${args[@]}" -- /run/current-system/sw/bin/zsh -l
