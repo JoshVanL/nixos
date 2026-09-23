@@ -125,7 +125,7 @@ in {
         gon = "go install -v";
         gov = "go vet -v";
         gotu = "got -tags unit";
-        goti = "got -tags integration";
+        goti = "go test --race -tags integration";
 
         cdc = "cd $HOME/go/src/github.com/cert-manager/cert-manager";
         cdp = "cd $HOME/go/src/github.com/cert-manager/approver-policy";
