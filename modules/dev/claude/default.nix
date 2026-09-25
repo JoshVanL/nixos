@@ -67,7 +67,7 @@ in {
       "C+ /persist/home/.claude/CLAUDE.md 0644 ${config.me.username} wheel - ${./CLAUDE.md}"
       "d /persist/home/.claude/skills 0755 ${config.me.username} wheel -"
       "L+ /persist/home/.claude/skills/ponytail - - - - ${ponytail}"
-      "L+ /persist/home/.claude/skills/no-ai-slop - - - - ${no-ai-slop}/skills/no-ai-slop"
+      "L+ /persist/home/.claude/skills/no-ai-slop - - - - ${no-ai-slop}"
     ] ++ map (name:
       "L+ /persist/home/.claude/skills/${name} - - - - ${./skills}/${name}"
     ) skillNames;
