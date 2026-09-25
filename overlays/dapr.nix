@@ -2,16 +2,8 @@
 final: prev:
 let
   unstable = import inputs.nixpkgs-unstable { inherit (prev) system; };
-  # dapr cli 1.18.0 and its github.com/dapr/dapr dependency require
-  # go >= 1.26.4, but unstable only ships 1.26.3.
-  go_1_26_4 = unstable.go_1_26.overrideAttrs (old: rec {
-    version = "1.26.4";
-    src = prev.fetchurl {
-      url = "https://go.dev/dl/go${version}.src.tar.gz";
-      hash = "sha256-T2aKMvv8ETLmqIH7lowvHa2mMUkqM5IRc1+7JVpCYC0=";
-    };
-  });
-  buildGoModule' = unstable.buildGo126Module.override { go = go_1_26_4; };
+  # go_1_26_4 comes from the golang overlay, which is applied first.
+  buildGoModule' = unstable.buildGo126Module.override { go = final.go_1_26_4; };
 in
 {
   dapr-cli = prev.dapr-cli.override {
