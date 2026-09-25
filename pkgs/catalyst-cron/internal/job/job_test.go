@@ -1,4 +1,4 @@
-package main
+package job
 
 import (
 	"testing"
@@ -23,7 +23,7 @@ func TestNextRun(t *testing.T) {
 		"0 0 * * 1":                        time.Date(2026, 9, 28, 3, 0, 0, 0, time.UTC),
 		"CRON_TZ=Europe/London 0 13 * * *": time.Date(2026, 9, 26, 12, 0, 0, 0, time.UTC),
 	} {
-		got, err := nextRun(spec, now)
+		got, err := Job{Cron: spec}.NextRun(now)
 		if err != nil {
 			t.Fatalf("%s: %v", spec, err)
 		}
@@ -32,7 +32,7 @@ func TestNextRun(t *testing.T) {
 		}
 	}
 
-	if _, err := nextRun("not a cron", now); err == nil {
+	if _, err := (Job{Cron: "not a cron"}).NextRun(now); err == nil {
 		t.Error("expected error for invalid spec")
 	}
 }
