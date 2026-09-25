@@ -22,6 +22,7 @@
         cores = 0;
       };
     };
+    data.catalyst.enable = true;
     networking = {
       interfaces = [ "enp0s5" ];
       tailscale.vpn.enable = false;

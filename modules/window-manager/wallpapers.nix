@@ -4,6 +4,7 @@ with lib;
 let
   cfg = config.me.window-manager.wallpapers;
   wmCfg = config.me.window-manager;
+  catalyst = config.me.data.catalyst.enable;
 
   envAttrs = {
     WP_QUEUE = cfg.queueDir;
@@ -119,6 +120,12 @@ in {
       default = "weekly";
       description = "systemd OnCalendar expression for the fetch timer.";
     };
+
+    fetchCron = mkOption {
+      type = types.str;
+      default = "0 0 * * 1";
+      description = "Fetch schedule when me.data.catalyst is enabled, replacing fetchInterval.";
+    };
   };
 
   config = mkIf (wmCfg.enable && cfg.enable) {
@@ -143,7 +150,7 @@ in {
         };
       };
 
-      systemd.user.timers.wp-fetch = {
+      systemd.user.timers.wp-fetch = mkIf (!catalyst) {
         Unit.Description = "periodic wallpaper fetch";
         Timer = {
           OnCalendar = cfg.fetchInterval;
@@ -151,6 +158,12 @@ in {
         };
         Install.WantedBy = [ "timers.target" ];
       };
+    };
+
+    me.data.catalyst.jobs.wp-fetch = mkIf catalyst {
+      cron = cfg.fetchCron;
+      unit = "wp-fetch.service";
+      user = config.me.username;
     };
   };
 }
