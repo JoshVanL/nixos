@@ -20,6 +20,13 @@ let
     sha256 = "sha256-8cYggVltBAlZ/Zj4pl1bOu7mQdZFXCmDGW4RSpvRA+w=";
   };
 
+  no-ai-slop = pkgs.fetchFromGitHub {
+    owner = "petergyang";
+    repo = "no-ai-slop";
+    rev = "v1.0.6";
+    sha256 = "sha256-BBAv/PvR6R3psxY2AFNECtXOCqi1NYQ4oSdbCVDMLeI=";
+  };
+
   claudeSettings = pkgs.writeText "claude-settings.json" (builtins.toJSON {
     permissions = {
       deny = [
@@ -60,6 +67,7 @@ in {
       "C+ /persist/home/.claude/CLAUDE.md 0644 ${config.me.username} wheel - ${./CLAUDE.md}"
       "d /persist/home/.claude/skills 0755 ${config.me.username} wheel -"
       "L+ /persist/home/.claude/skills/ponytail - - - - ${ponytail}"
+      "L+ /persist/home/.claude/skills/no-ai-slop - - - - ${no-ai-slop}/skills/no-ai-slop"
     ] ++ map (name:
       "L+ /persist/home/.claude/skills/${name} - - - - ${./skills}/${name}"
     ) skillNames;
