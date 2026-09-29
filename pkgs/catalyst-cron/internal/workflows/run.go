@@ -1,6 +1,7 @@
 package workflows
 
 import (
+	"log"
 	"time"
 
 	"github.com/dapr/durabletask-go/workflow"
@@ -11,6 +12,10 @@ import (
 
 // RunV1 is a single run of a job, retrying the unit on failure.
 func RunV1(ctx *workflow.WorkflowContext) (any, error) {
+	if !ctx.IsReplaying() {
+		log.Printf("Running workflow %s", ctx.ID())
+	}
+
 	var in RunInput
 	if err := ctx.GetInput(&in); err != nil {
 		return nil, err
