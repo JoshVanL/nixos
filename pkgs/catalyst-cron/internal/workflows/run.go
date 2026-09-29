@@ -31,8 +31,14 @@ func RunV1(ctx *workflow.WorkflowContext) (any, error) {
 		}),
 	).Await(&res)
 	if err != nil {
+		log.Printf("Workflow %s failed: %v", ctx.ID(), err)
 		return nil, err
 	}
+
+	if !ctx.IsReplaying() {
+		log.Printf("Completed workflow %s", ctx.ID())
+	}
+
 	return res, nil
 }
 
