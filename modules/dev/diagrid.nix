@@ -50,6 +50,7 @@ in {
       "oidc.local.diagrid.io"
       "tunnel-proxy.local.diagrid.io"
       "tunnel-upstream.local.diagrid.io"
+      "git.local.diagrid.io"
     ];
   };
 }
