@@ -48,6 +48,13 @@ in {
   };
 
   config = mkIf cfg.enable {
+    # For `catalyst-cron run`, and its completion of job names.
+    environment.systemPackages = [ pkgs.catalyst-cron ];
+    environment.etc = {
+      "catalyst-cron/jobs.json".source = jobsFile;
+      "catalyst-cron/env".source = cfg.envFile;
+    };
+
     systemd.services.catalyst-cron = {
       description = "Catalyst workflow scheduler";
       wants = [ "network-online.target" ];
@@ -57,7 +64,7 @@ in {
       # Skip cleanly until the Catalyst App ID has been set up.
       unitConfig.ConditionPathExists = cfg.envFile;
       serviceConfig = {
-        ExecStart = "${pkgs.catalyst-cron}/bin/catalyst-cron --config ${jobsFile}";
+        ExecStart = "${pkgs.catalyst-cron}/bin/catalyst-cron serve --config ${jobsFile}";
         EnvironmentFile = cfg.envFile;
         Restart = "always";
         RestartSec = "10s";

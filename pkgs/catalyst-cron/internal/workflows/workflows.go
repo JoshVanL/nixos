@@ -2,9 +2,10 @@
 //
 // Workflows are registered under a canonical name with one implementation
 // per version. New instances run the latest version, and each instance
-// replays with the version recorded in its history. Schedule picks up a new
-// version at its next ContinueAsNew. To change a workflow's behaviour, add
-// a new version (e.g. ScheduleV2) marked latest, and keep the old ones
+// replays with the version recorded in its history. Ensure replaces Schedule
+// instances on an older version when catalyst-cron starts, and Run picks up
+// a new version with the next run. To change a workflow's behaviour, add a
+// new version (e.g. ScheduleV3) marked latest, and keep the old ones
 // registered until no instance still uses them.
 package workflows
 
@@ -16,6 +17,9 @@ const (
 	// Canonical workflow names, which instances are started with.
 	Schedule = "Schedule"
 	Run      = "Run"
+
+	// latestSchedule is the version new Schedule instances run.
+	latestSchedule = "ScheduleV2"
 )
 
 // Register adds every workflow version and activity to r.
@@ -25,7 +29,8 @@ func Register(r *workflow.Registry) error {
 		latest          bool
 		wf              workflow.Workflow
 	}{
-		{Schedule, "ScheduleV1", true, ScheduleV1},
+		{Schedule, "ScheduleV1", false, ScheduleV1},
+		{Schedule, latestSchedule, true, ScheduleV2},
 		{Run, "RunV1", true, RunV1},
 	} {
 		if err := r.AddVersionedWorkflowN(v.canonical, v.name, v.latest, v.wf); err != nil {
