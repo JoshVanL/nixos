@@ -8,10 +8,12 @@ let
     runtimeInputs = with pkgs; [ xclip scrot coreutils ];
     text = ''
       dir="$HOME/screenshots"
+      file="$dir/$(date +%Y-%m-%d-%H%M%S).png"
       mkdir -p "$dir"
       scrot -shole - \
-        | tee "$dir/$(date +%Y-%m-%d-%H%M%S).png" \
+        | tee "$file" \
         | xclip -selection clipboard -target image/png
+      echo "$file"
     '';
   };
 
