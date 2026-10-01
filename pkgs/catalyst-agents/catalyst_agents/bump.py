@@ -210,7 +210,9 @@ def register(runtime: wf.WorkflowRuntime, llm, cfg: dict) -> list[DurableAgent]:
             llm=llm,
             tools=trees[target].tools(cfg["machine"]),
             execution=AgentExecutionConfig(
-                max_iterations=40,
+                # A real bump takes about 6 turns. More than 15 means it is
+                # stuck, and every turn resends the whole conversation.
+                max_iterations=15,
                 # Edits and builds must not race each other.
                 tool_execution_mode=ToolExecutionMode.SEQUENTIAL,
             ),
