@@ -56,7 +56,9 @@ except Exception as e:
 with open(t.built_file, "w") as f:
     f.write(t.tree_id())
 tools["commit"].run(message="pin: update 1.0 -> 2.0")
-assert t.finish("pkg 1.0 -> 2.0") == {"notify": True, "summary": "pkg 1.0 -> 2.0 (branch bump/pkg)"}
+res = t.finish("pkg 1.0 -> 2.0")
+assert res["notify"] and res["summary"].splitlines()[0] == "pkg 1.0 -> 2.0 (branch bump/pkg)", res
+assert "git merge --ff-only bump/pkg" in res["summary"], res
 assert git("log", "-1", "--format=%s", "bump/pkg", cwd=repo).strip() == "pin: update 1.0 -> 2.0"
 assert git("log", "-1", "--format=%s", "main", cwd=repo).strip() == "init"
 assert not os.path.exists(t.dir)

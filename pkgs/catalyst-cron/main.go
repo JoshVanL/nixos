@@ -205,7 +205,7 @@ func lastResult(ctx context.Context, wf *workflow.Client, j job.Job, md *workflo
 	}
 	var res workflows.WorkflowResult
 	_ = json.Unmarshal([]byte(md.Output.GetValue()), &res)
-	return res.Summary
+	return workflows.FirstLine(res.Summary)
 }
 
 // dial connects to Catalyst using the service's EnvironmentFile, for commands

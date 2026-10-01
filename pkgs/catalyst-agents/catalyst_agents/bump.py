@@ -83,7 +83,15 @@ class Tree:
         if commits == 0:
             self.git("branch", "-D", self.branch, cwd=self.repo)
             return {"notify": False, "summary": reply}
-        return {"notify": True, "summary": f"{reply} (branch {self.branch})"}
+        b = self.branch
+        return {"notify": True, "summary": "\n".join([
+            f"{reply} (branch {b})",
+            "",
+            f"git show {b}",
+            f"git merge --ff-only {b}",
+            f"update",
+            "git push origin main",
+        ])}
 
     def tools(self, machine: str) -> list:
         t = self
