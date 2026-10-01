@@ -4,6 +4,8 @@ with lib;
 let
   cfg = config.me.data.catalyst;
   agents = cfg.agents;
+  # The repo the bump agents branch from and commit to.
+  repo = "/keep/etc/nixos";
 
   jobsFile = pkgs.writeText "catalyst-cron.json" (builtins.toJSON (mapAttrsToList (name: job: {
     inherit name;
@@ -16,7 +18,7 @@ let
 
   agentsConfig = pkgs.writeText "catalyst-agents.json" (builtins.toJSON {
     inherit (agents) llmComponent;
-    repo = "/keep/etc/nixos";
+    inherit repo;
     machine = config.me.machineName;
     bump = mapAttrs (_: t: t.instructions) agents.bump;
   });
@@ -214,6 +216,12 @@ in {
         };
       };
 
+      # Bump writes pending-review/bumps.md here, listing branches to review.
+      # Empty, git does not show it.
+      systemd.tmpfiles.rules = [
+        "d ${repo}/pending-review 0755 ${config.me.username} wheel - -"
+      ];
+
       systemd.services.catalyst-agents = {
         description = "Dapr Agents on Catalyst: job-doctor and bump";
         wants = [ "network-online.target" ];
@@ -244,16 +252,17 @@ in {
 
           # Sandbox. The filesystem is read-only, with home, /keep and
           # /persist hidden, apart from: the repo (read-only, with .git
-          # writable for the bump branches), the user's unit files, and the
-          # state directory. No devices, capabilities, or new privileges.
+          # writable for the bump branches and pending-review for the list of
+          # them), the user's unit files, and the state directory. No devices,
+          # capabilities, or new privileges.
           ProtectSystem = "strict";
           ProtectHome = "tmpfs";
           TemporaryFileSystem = [ "/keep:ro" "/persist:ro" ];
           BindReadOnlyPaths = [
-            "/keep/etc/nixos"
+            repo
             "-/home/${config.me.username}/.config/systemd/user"
           ];
-          BindPaths = [ "/keep/etc/nixos/.git" ];
+          BindPaths = [ "${repo}/.git" "${repo}/pending-review" ];
           PrivateTmp = true;
           PrivateDevices = true;
           PrivateIPC = true;

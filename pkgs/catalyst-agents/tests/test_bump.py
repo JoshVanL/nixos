@@ -35,6 +35,8 @@ t.prepare()
 assert t.finish("up to date at 1.0") == {"notify": False, "summary": "up to date at 1.0"}
 assert not os.path.exists(t.dir)
 assert "bump/pkg" not in git("branch", cwd=repo)
+pending = os.path.join(repo, "pending-review", "bumps.md")
+assert not os.path.exists(pending)
 
 t.prepare()
 assert tools["read_file"].run(path="pin.nix") == 'version = "1.0";\n'
@@ -59,6 +61,9 @@ tools["commit"].run(message="pin: update 1.0 -> 2.0")
 res = t.finish("pkg 1.0 -> 2.0")
 assert res["notify"] and res["summary"].splitlines()[0] == "pkg 1.0 -> 2.0 (branch bump/pkg)", res
 assert "git merge --ff-only bump/pkg" in res["summary"], res
+with open(pending) as f:
+    listed = f.read()
+assert "## bump/pkg" in listed and "- pin: update 1.0 -> 2.0" in listed, listed
 assert git("log", "-1", "--format=%s", "bump/pkg", cwd=repo).strip() == "pin: update 1.0 -> 2.0"
 assert git("log", "-1", "--format=%s", "main", cwd=repo).strip() == "init"
 assert not os.path.exists(t.dir)

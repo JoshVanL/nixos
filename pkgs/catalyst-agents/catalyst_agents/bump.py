@@ -37,6 +37,34 @@ INSTRUCTIONS = [
 ]
 
 
+def review_steps(branch: str) -> list[str]:
+    return [
+        f"git show {branch}",
+        f"git merge --ff-only {branch}",
+        "update",
+        "git push origin main",
+    ]
+
+
+def write_pending(repo: str) -> None:
+    """Rewrite pending-review/bumps.md in the repo, listing every bump branch
+    with commits not on main and how to land it. Removed when there are none."""
+    path = os.path.join(repo, "pending-review", "bumps.md")
+    out = []
+    branches = run(["git", "for-each-ref", "--format=%(refname:short)", "refs/heads/bump/"], cwd=repo)
+    for b in branches.split():
+        if subjects := run(["git", "log", "--format=- %s", f"main..{b}"], cwd=repo).strip():
+            out += [f"## {b}", "", subjects, "", "```sh", *review_steps(b), "```", ""]
+    if not out:
+        if os.path.exists(path):
+            os.remove(path)
+        return
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w") as f:
+        f.write("# Bumps to review\n\nRewritten by catalyst-agents after every bump run. "
+                "Branches you merge or delete drop off at the next run.\n\n" + "\n".join(out))
+
+
 class Tree:
     """The git worktree that one target's agent edits."""
 
@@ -76,22 +104,18 @@ class Tree:
         self.git("worktree", "add", "-B", self.branch, self.dir, "main", cwd=self.repo)
 
     def finish(self, reply: str) -> dict:
-        """Remove the worktree, and report as catalyst-cron's WorkflowResult."""
+        """Remove the worktree, update the pending list, and report as
+        catalyst-cron's WorkflowResult."""
         commits = int(self.git("rev-list", "--count", f"main..{self.branch}", cwd=self.repo))
         self.remove()
-        reply = reply.strip().splitlines()[0] if reply.strip() else "no reply"
         if commits == 0:
             self.git("branch", "-D", self.branch, cwd=self.repo)
+        write_pending(self.repo)
+        reply = reply.strip().splitlines()[0] if reply.strip() else "no reply"
+        if commits == 0:
             return {"notify": False, "summary": reply}
-        b = self.branch
-        return {"notify": True, "summary": "\n".join([
-            f"{reply} (branch {b})",
-            "",
-            f"git show {b}",
-            f"git merge --ff-only {b}",
-            f"update",
-            "git push origin main",
-        ])}
+        return {"notify": True, "summary": "\n".join(
+            [f"{reply} (branch {self.branch})", "", *review_steps(self.branch)])}
 
     def tools(self, machine: str) -> list:
         t = self
