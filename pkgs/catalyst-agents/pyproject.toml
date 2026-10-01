@@ -1,0 +1,13 @@
+[project]
+name = "catalyst-agents"
+version = "0.1.0"
+description = "Dapr Agents on Diagrid Catalyst that catalyst-cron calls: job-doctor and bump"
+requires-python = ">=3.13,<3.14"
+dependencies = ["dapr-agents==1.0.6"]
+
+[project.scripts]
+catalyst-agents = "catalyst_agents.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

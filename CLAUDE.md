@@ -21,7 +21,7 @@ nix run --experimental-features 'nix-command flakes' github:joshvanl/nixos
 ## Repository Structure
 
 ```
-flake.nix              # Inputs: nixpkgs (nixos-25.11), home-manager, joshvanldwm, nix-serve-ng, xpropdate, nur
+flake.nix              # Inputs: nixpkgs (nixos-25.11), home-manager, joshvanldwm, nix-serve-ng, xpropdate, nur, pyproject-nix/uv2nix (Python apps)
 machines/              # Per-machine configs (burgundy, thistle, purple, mini)
 modules/               # Reusable NixOS modules (~77 files)
   base/                # Boot (ZFS rollback), nix settings, OS, unfree allowlist

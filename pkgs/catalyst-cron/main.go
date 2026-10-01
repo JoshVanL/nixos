@@ -1,9 +1,11 @@
-// catalyst-cron runs systemd units on a cron schedule, using Dapr workflows
-// hosted on Diagrid Catalyst in place of systemd timers.
+// catalyst-cron runs systemd units, or workflows of other Catalyst App IDs, on
+// a cron schedule, using Dapr workflows hosted on Diagrid Catalyst in place of
+// systemd timers.
 package main
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
@@ -39,7 +41,8 @@ func main() {
 }
 
 func serveCmd(config *string) *cobra.Command {
-	return &cobra.Command{
+	var notifyUser string
+	cmd := &cobra.Command{
 		Use:   "serve",
 		Short: "Run the workflow worker and keep every job scheduled",
 		Args:  cobra.NoArgs,
@@ -58,7 +61,7 @@ func serveCmd(config *string) *cobra.Command {
 			}
 
 			r := workflow.NewRegistry()
-			if err := workflows.Register(r); err != nil {
+			if err := workflows.Register(r, notifyUser); err != nil {
 				return err
 			}
 			if err := wf.StartWorker(ctx, r); err != nil {
@@ -79,6 +82,8 @@ func serveCmd(config *string) *cobra.Command {
 			return nil
 		},
 	}
+	cmd.Flags().StringVar(&notifyUser, "notify-user", "", "user to show failures and results to as desktop notifications")
+	return cmd
 }
 
 func runCmd(config, envFile *string) *cobra.Command {
@@ -141,13 +146,18 @@ func listCmd(config, envFile *string) *cobra.Command {
 			}
 
 			w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
-			fmt.Fprintln(w, "JOB\tCRON\tUNIT\tSTATUS")
+			fmt.Fprintln(w, "JOB\tCRON\tRUNS\tSTATUS\tLAST RESULT")
 			for _, j := range jobs {
 				id, err := instanceID(j.Name)
 				if err != nil {
 					return err
 				}
-				fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", j.Name, j.Cron, j.Unit, status(cmd.Context(), wf, id))
+				runs := j.Unit
+				if j.Workflow != "" {
+					runs = fmt.Sprintf("%s/%s(%s)", j.AppID, j.Workflow, j.Input)
+				}
+				md, err := wf.FetchWorkflowMetadata(cmd.Context(), id, workflow.WithFetchPayloads(true))
+				fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n", j.Name, j.Cron, runs, status(md, err), lastResult(cmd.Context(), wf, j, md))
 			}
 			return w.Flush()
 		},
@@ -156,8 +166,7 @@ func listCmd(config, envFile *string) *cobra.Command {
 
 // status is a Schedule instance's custom status while it runs, otherwise why
 // it stopped.
-func status(ctx context.Context, wf *workflow.Client, id string) string {
-	md, err := wf.FetchWorkflowMetadata(ctx, id, workflow.WithFetchPayloads(true))
+func status(md *workflow.WorkflowMetadata, err error) string {
 	switch {
 	case errors.Is(err, api.ErrInstanceNotFound):
 		return "not scheduled"
@@ -171,6 +180,32 @@ func status(ctx context.Context, wf *workflow.Client, id string) string {
 		s += ": " + msg
 	}
 	return s
+}
+
+// lastResult is what the last run of a Schedule instance reported: why it
+// failed, with the job-doctor's diagnosis first for a unit, or a workflow
+// job's summary.
+func lastResult(ctx context.Context, wf *workflow.Client, j job.Job, md *workflow.WorkflowMetadata) string {
+	var in workflows.ScheduleInput
+	if md == nil || json.Unmarshal([]byte(md.Input.GetValue()), &in) != nil || in.Last == nil ||
+		(j.Unit != "" && in.Last.Success) {
+		return ""
+	}
+
+	md, err := wf.FetchWorkflowMetadata(ctx, in.Last.Instance, workflow.WithFetchPayloads(true))
+	switch {
+	case errors.Is(err, api.ErrInstanceNotFound):
+		return ""
+	case err != nil:
+		return "error: " + err.Error()
+	case md.RuntimeStatus == workflow.StatusRunning:
+		return "running"
+	case md.FailureDetails.GetErrorMessage() != "":
+		return workflows.FirstLine(md.FailureDetails.GetErrorMessage())
+	}
+	var res workflows.WorkflowResult
+	_ = json.Unmarshal([]byte(md.Output.GetValue()), &res)
+	return res.Summary
 }
 
 // dial connects to Catalyst using the service's EnvironmentFile, for commands

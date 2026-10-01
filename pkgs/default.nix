@@ -1,10 +1,12 @@
-{ lib, nixpkgs }:
+{ lib, nixpkgs, inputs }:
 with lib;
 let
   pkgsys = system: import nixpkgs { inherit system; };
 
+  # Packages that take an `inputs` argument get the flake inputs.
   callPackages = pkgs: listToAttrs (map (name:
-      nameValuePair name (pkgs.callPackage (./${name}) {})
+      nameValuePair name (pkgs.callPackage (./${name})
+        (optionalAttrs (functionArgs (import ./${name}) ? inputs) { inherit inputs; }))
     ) (dirs ./.));
 
   packages = listToAttrs (map (system:

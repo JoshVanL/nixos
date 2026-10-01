@@ -3,7 +3,7 @@ with nixpkgs.lib;
 let
   lib = (import ../lib { lib = nixpkgs.lib; });
   overlays = import ../overlays {inherit lib inputs; };
-  pkgs = import ../pkgs {inherit lib nixpkgs; };
+  pkgs = import ../pkgs {inherit lib nixpkgs inputs; };
   machines = import ../machines {inherit lib; };
 
   nixosModules = { imports = (lib.defaultImport ./.); };

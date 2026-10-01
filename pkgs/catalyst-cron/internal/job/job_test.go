@@ -1,6 +1,8 @@
 package job
 
 import (
+	"os"
+	"path/filepath"
 	"testing"
 	"time"
 )
@@ -34,5 +36,24 @@ func TestNextRun(t *testing.T) {
 
 	if _, err := (Job{Cron: "not a cron"}).NextRun(now); err == nil {
 		t.Error("expected error for invalid spec")
+	}
+}
+
+func TestLoad(t *testing.T) {
+	for jobs, ok := range map[string]bool{
+		`[{"name":"a","cron":"0 13 * * *","unit":"a.service"}]`:                               true,
+		`[{"name":"a","cron":"0 13 * * *","workflow":"bump","appId":"x","input":"y"}]`:        true,
+		`[{"name":"a","cron":"0 13 * * *"}]`:                                                  false,
+		`[{"name":"a","cron":"0 13 * * *","unit":"a.service","workflow":"bump","appId":"x"}]`: false,
+		`[{"name":"a","cron":"0 13 * * *","workflow":"bump"}]`:                                false,
+		`[{"name":"a","cron":"not a cron","unit":"a.service"}]`:                               false,
+	} {
+		path := filepath.Join(t.TempDir(), "jobs.json")
+		if err := os.WriteFile(path, []byte(jobs), 0o600); err != nil {
+			t.Fatal(err)
+		}
+		if _, err := Load(path); (err == nil) != ok {
+			t.Errorf("%s: got err %v, want ok %t", jobs, err, ok)
+		}
 	}
 }
