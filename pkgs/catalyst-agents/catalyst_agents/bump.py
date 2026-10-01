@@ -41,8 +41,7 @@ def review_steps(branch: str) -> list[str]:
     return [
         f"git show {branch}",
         f"git merge --ff-only {branch}",
-        "update",
-        "git push origin main",
+        f"git branch -D {branch}",
     ]
 
 
