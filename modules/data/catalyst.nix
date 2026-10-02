@@ -216,12 +216,6 @@ in {
         };
       };
 
-      # Bump writes pending-review/bumps.md here, listing branches to review.
-      # Empty, git does not show it.
-      systemd.tmpfiles.rules = [
-        "d ${repo}/pending-review 0755 ${config.me.username} wheel - -"
-      ];
-
       systemd.services.catalyst-agents = {
         description = "Dapr Agents on Catalyst: job-doctor and bump";
         wants = [ "network-online.target" ];
