@@ -7,9 +7,16 @@ let
   # The repo the bump agents branch from and commit to.
   repo = "/keep/etc/nixos";
 
+  # Cron specs follow the machine's time zone. Naming it in each spec means a
+  # time zone change rewrites the jobs, so catalyst-cron restarts and
+  # reschedules them, instead of keeping the zone it started with.
+  zonedCron = cron:
+    if config.time.timeZone == null || hasPrefix "CRON_TZ=" cron then cron
+    else "CRON_TZ=${config.time.timeZone} ${cron}";
+
   jobsFile = pkgs.writeText "catalyst-cron.json" (builtins.toJSON (mapAttrsToList (name: job: {
     inherit name;
-    inherit (job) cron;
+    cron = zonedCron job.cron;
   } // filterAttrs (_: v: v != null) {
     inherit (job) unit user workflow appId input;
   } // optionalAttrs (agents.enable && job.unit != null) {
