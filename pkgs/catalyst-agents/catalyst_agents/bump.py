@@ -10,6 +10,7 @@ import json
 import os
 import re
 import shutil
+import subprocess
 
 import dapr.ext.workflow as wf
 import requests
@@ -33,6 +34,8 @@ INSTRUCTIONS = [
     "4. Build until it passes. If it fails for a reason other than a hash, read the error and fix it in the repo. If you cannot, reply with the error and do not commit.",
     "5. Read the release notes between the old and new version. Commit with a first line '<path without .nix>: update <old> -> <new>', and a body listing only notes that matter here: breaking changes, removed or renamed options or flags, security fixes.",
     "6. Reply with one line: '<package> <old> -> <new>', plus anything a human must check before merging.",
+    "Use search to find where something is defined before reading files.",
+    "Never allow an insecure, broken or unfree package, or change nixpkgs config to get past a refusal. Reply with the package and the error instead, and do not commit.",
     "Never use em dashes.",
 ]
 
@@ -216,7 +219,22 @@ class Tree:
             t.git("commit", "-s", "-m", message)
             return t.git("rev-parse", "--short", "HEAD").strip()
 
-        return [read_file, edit_file, fetch, prefetch, build, flake_update, diff, commit]
+        @tool
+        def search(pattern: str) -> str:
+            """Find lines in the repo's tracked files that match a regular expression, as path:line:text.
+
+            Args:
+                pattern: Extended regular expression, e.g. docker or 'virtualisation\\.docker'.
+            """
+            p = subprocess.run(["git", "grep", "-n", "-I", "-E", "-e", pattern],
+                               cwd=t.dir, capture_output=True, text=True, timeout=60)
+            if p.returncode == 1:
+                return "no matches"
+            if p.returncode != 0:
+                raise RuntimeError(p.stderr[-MAX_OUTPUT:])
+            return p.stdout[:MAX_OUTPUT]
+
+        return [read_file, search, edit_file, fetch, prefetch, build, flake_update, diff, commit]
 
 
 def register(runtime: wf.WorkflowRuntime, llm, cfg: dict) -> list[DurableAgent]:

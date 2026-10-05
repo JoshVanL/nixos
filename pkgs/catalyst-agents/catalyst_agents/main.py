@@ -22,6 +22,10 @@ def main() -> None:
     # be sent work items for workflows that only another one registered.
     runtime = wf.WorkflowRuntime()
     for agent in [doctor.agent(llm), *bump.register(runtime, llm, cfg)]:
+        # Each run starts fresh, so skip the LLM call that summarises every
+        # finished run into long-term memory. Dapr Agents always sets a
+        # memory store, and runs the summary whenever one is set.
+        agent.memory = None
         agent.register(runtime)
     runtime.start()
     try:

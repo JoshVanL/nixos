@@ -40,6 +40,8 @@ assert not os.path.exists(pending)
 
 t.prepare()
 assert tools["read_file"].run(path="pin.nix") == 'version = "1.0";\n'
+assert tools["search"].run(pattern="vers.on") == 'pin.nix:1:version = "1.0";\n'
+assert tools["search"].run(pattern="nothing-here") == "no matches"
 tools["edit_file"].run(path="pin.nix", old="1.0", new="2.0")
 try:
     tools["read_file"].run(path="../repo/pin.nix")
