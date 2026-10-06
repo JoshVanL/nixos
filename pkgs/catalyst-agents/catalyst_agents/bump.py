@@ -133,8 +133,11 @@ class Tree:
         reply = reply.strip().splitlines()[0] if reply.strip() else "no reply"
         if commits == 0:
             return {"notify": False, "summary": reply}
+        # The commit subject leads, as it says what changed; the agent's reply
+        # follows, for anything to check before merging.
+        subject = self.git("log", "-1", "--format=%s", self.branch, cwd=self.repo).strip()
         return {"notify": True, "summary": "\n".join(
-            [f"{reply} (branch {self.branch})", "", *review_steps(self.branch)])}
+            [f"{subject} (branch {self.branch})", reply, "", *review_steps(self.branch)])}
 
     def tools(self, machine: str) -> list:
         t = self
@@ -301,7 +304,10 @@ def register(runtime: wf.WorkflowRuntime, llm, cfg: dict) -> list[DurableAgent]:
             finish, input={"target": target, "reply": (out or {}).get("content", "")}
         ))
 
-    runtime.register_workflow(bump, name="bump")
-    runtime.register_activity(prepare, name="bump.prepare")
-    runtime.register_activity(finish, name="bump.finish")
+    # Versioned as catalyst-cron's workflows are: callers start the canonical
+    # "bump", and a change gets a new version, keeping the old registered while
+    # instances still use it. Activities carry their version in their name.
+    runtime.register_versioned_workflow(bump, name="bump", version_name="bumpV1", is_latest=True)
+    runtime.register_activity(prepare, name="bump.prepareV1")
+    runtime.register_activity(finish, name="bump.finishV1")
     return list(agents.values())

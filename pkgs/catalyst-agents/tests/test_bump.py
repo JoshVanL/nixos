@@ -61,7 +61,7 @@ with open(t.built_file, "w") as f:
     f.write(t.tree_id())
 tools["commit"].run(message="pin: update 1.0 -> 2.0")
 res = t.finish("pkg 1.0 -> 2.0")
-assert res["notify"] and res["summary"].splitlines()[0] == "pkg 1.0 -> 2.0 (branch bump/pkg)", res
+assert res["notify"] and res["summary"].splitlines()[0] == "pin: update 1.0 -> 2.0 (branch bump/pkg)", res
 assert "git merge --ff-only bump/pkg" in res["summary"], res
 with open(pending) as f:
     listed = f.read()

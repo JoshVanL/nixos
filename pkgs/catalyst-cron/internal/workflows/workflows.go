@@ -7,6 +7,11 @@
 // a new version with the next run. To change a workflow's behaviour, add a
 // new version (e.g. ScheduleV3) marked latest, and keep the old ones
 // registered until no instance still uses them.
+//
+// Activities carry their version in their name (e.g. RunUnitV1), as the SDK
+// does not version them. To change an activity's input, output or behaviour,
+// register it under a new name, call that from a new workflow version, and
+// keep the old name registered alongside the workflow versions that call it.
 package workflows
 
 import (
@@ -20,6 +25,10 @@ const (
 
 	// latestSchedule is the version new Schedule instances run.
 	latestSchedule = "ScheduleV2"
+
+	// Activity names, versioned.
+	RunUnitV1 = "RunUnitV1"
+	NotifyV1  = "NotifyV1"
 )
 
 // Register adds every workflow version and activity to r. Notify sends
@@ -32,7 +41,6 @@ func Register(r *workflow.Registry, notifyUser string) error {
 	}{
 		{Schedule, "ScheduleV1", false, ScheduleV1},
 		{Schedule, latestSchedule, true, ScheduleV2},
-		{Run, "RunV1", false, RunV1},
 		{Run, "RunV2", true, RunV2},
 	} {
 		if err := r.AddVersionedWorkflowN(v.canonical, v.name, v.latest, v.wf); err != nil {
@@ -40,8 +48,8 @@ func Register(r *workflow.Registry, notifyUser string) error {
 		}
 	}
 	for name, a := range map[string]workflow.Activity{
-		"RunUnit": RunUnit,
-		"Notify":  Notify(notifyUser),
+		RunUnitV1: RunUnit,
+		NotifyV1:  Notify(notifyUser),
 	} {
 		if err := r.AddActivityN(name, a); err != nil {
 			return err

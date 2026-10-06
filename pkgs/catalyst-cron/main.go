@@ -15,6 +15,7 @@ import (
 	"strings"
 	"syscall"
 	"text/tabwriter"
+	"time"
 
 	"github.com/dapr/durabletask-go/api"
 	"github.com/dapr/durabletask-go/workflow"
@@ -130,7 +131,8 @@ func runCmd(config, envFile *string) *cobra.Command {
 }
 
 func listCmd(config, envFile *string) *cobra.Command {
-	return &cobra.Command{
+	var output string
+	cmd := &cobra.Command{
 		Use:     "list",
 		Aliases: []string{"ls"},
 		Short:   "List jobs with the status of their schedule on Catalyst",
@@ -145,39 +147,82 @@ func listCmd(config, envFile *string) *cobra.Command {
 				return err
 			}
 
+			wide := output == "wide"
 			w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
-			fmt.Fprintln(w, "JOB\tCRON\tRUNS\tSTATUS\tLAST RESULT")
+			if wide {
+				fmt.Fprintln(w, "JOB\tSCHEDULE\tRUNS\tNEXT\tLAST\tSTATUS\tRESULT")
+			} else {
+				fmt.Fprintln(w, "JOB\tNEXT\tLAST\tSTATUS")
+			}
 			for _, j := range jobs {
 				id, err := instanceID(j.Name)
 				if err != nil {
 					return err
 				}
+				md, err := wf.FetchWorkflowMetadata(cmd.Context(), id, workflow.WithFetchPayloads(true))
+				next, last, state := schedule(j, md, err)
+				if !wide {
+					fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", j.Name, next, last, state)
+					continue
+				}
+				_, spec, _ := strings.Cut(j.Cron, " ")
+				if !strings.HasPrefix(j.Cron, "CRON_TZ=") {
+					spec = j.Cron
+				}
 				runs := j.Unit
 				if j.Workflow != "" {
 					runs = fmt.Sprintf("%s/%s(%s)", j.AppID, j.Workflow, j.Input)
 				}
-				md, err := wf.FetchWorkflowMetadata(cmd.Context(), id, workflow.WithFetchPayloads(true))
-				fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n", j.Name, j.Cron, runs, status(md, err), lastResult(cmd.Context(), wf, j, md))
+				fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\t%s\t%s\n", j.Name, spec, runs, next, last, state,
+					truncate(lastResult(cmd.Context(), wf, j, md), 80))
 			}
 			return w.Flush()
 		},
 	}
+	cmd.Flags().StringVarP(&output, "output", "o", "", "output format: wide adds the schedule, what runs, and the last result")
+	return cmd
 }
 
-// status is a Schedule instance's custom status while it runs, otherwise why
-// it stopped.
-func status(md *workflow.WorkflowMetadata, err error) string {
+// timeFormat is short and local: the year and zone are rarely news.
+const timeFormat = "Mon 02 Jan 15:04"
+
+// schedule is when a job runs next, when it last ran, and how that went or
+// what its Schedule instance is doing.
+func schedule(j job.Job, md *workflow.WorkflowMetadata, err error) (next, last, state string) {
 	switch {
 	case errors.Is(err, api.ErrInstanceNotFound):
-		return "not scheduled"
+		return "-", "-", "not scheduled"
 	case err != nil:
-		return "error: " + err.Error()
-	case md.RuntimeStatus == workflow.StatusRunning:
-		return md.CustomStatus.GetValue()
+		return "-", "-", "error: " + err.Error()
+	case md.RuntimeStatus != workflow.StatusRunning:
+		state = md.String()
+		if msg, _, _ := strings.Cut(md.FailureDetails.GetErrorMessage(), "\n"); msg != "" {
+			state += ": " + msg
+		}
+		return "-", "-", state
 	}
-	s := md.String()
-	if msg, _, _ := strings.Cut(md.FailureDetails.GetErrorMessage(), "\n"); msg != "" {
-		s += ": " + msg
+
+	next, last, state = "-", "-", "-"
+	if n, err := j.NextRun(time.Now()); err == nil {
+		next = n.Local().Format(timeFormat)
+	}
+	var in workflows.ScheduleInput
+	if json.Unmarshal([]byte(md.Input.GetValue()), &in) == nil && in.Last != nil {
+		last = in.Last.StartedAt.Local().Format(timeFormat)
+		state = "failed " + in.Last.Duration
+		if in.Last.Success {
+			state = "ok " + in.Last.Duration
+		}
+	}
+	if strings.HasPrefix(md.CustomStatus.GetValue(), "running since") {
+		state = "running"
+	}
+	return next, last, state
+}
+
+func truncate(s string, n int) string {
+	if r := []rune(s); len(r) > n {
+		return string(r[:n-1]) + "…"
 	}
 	return s
 }

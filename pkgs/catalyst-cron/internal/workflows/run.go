@@ -13,38 +13,6 @@ import (
 	"github.com/joshvanl/catalyst-cron/internal/systemd"
 )
 
-// RunV1 is a single run of a job, retrying the unit on failure.
-func RunV1(ctx *workflow.WorkflowContext) (any, error) {
-	if !ctx.IsReplaying() {
-		log.Printf("Running workflow %s", ctx.ID())
-	}
-
-	var in RunInput
-	if err := ctx.GetInput(&in); err != nil {
-		return nil, err
-	}
-
-	var res systemd.Result
-	err := ctx.CallActivity("RunUnit",
-		workflow.WithActivityInput(in.Job),
-		workflow.WithActivityRetryPolicy(&workflow.RetryPolicy{
-			MaxAttempts:          3,
-			InitialRetryInterval: time.Minute,
-			BackoffCoefficient:   2,
-		}),
-	).Await(&res)
-	if err != nil {
-		log.Printf("Workflow %s failed: %v", ctx.ID(), err)
-		return nil, err
-	}
-
-	if !ctx.IsReplaying() {
-		log.Printf("Completed workflow %s", ctx.ID())
-	}
-
-	return res, nil
-}
-
 // RunUnit runs the job's systemd unit.
 func RunUnit(ctx workflow.ActivityContext) (any, error) {
 	var j job.Job
@@ -74,10 +42,10 @@ type Notification struct {
 // DoctorWorkflow is the workflow of the job-doctor Dapr agent.
 const DoctorWorkflow = "dapr.agents.job-doctor.workflow"
 
-// RunV2 is RunV1, plus workflow jobs, which run a workflow on another App ID,
-// and desktop notifications of failures and of results that ask for one. A
-// failed unit with a Doctor gets diagnosed by the job-doctor agent, as a child
-// workflow.
+// RunV2 is a single run of a job: its systemd unit, retried on failure, or a
+// workflow on another App ID. Failures, and results that ask for one, become
+// desktop notifications. A failed unit with a Doctor gets diagnosed by the
+// job-doctor agent, as a child workflow.
 func RunV2(ctx *workflow.WorkflowContext) (any, error) {
 	if !ctx.IsReplaying() {
 		log.Printf("Running workflow %s", ctx.ID())
@@ -107,7 +75,7 @@ func RunV2(ctx *workflow.WorkflowContext) (any, error) {
 
 	started := ctx.CurrentTimeUTC()
 	var res systemd.Result
-	err := ctx.CallActivity("RunUnit",
+	err := ctx.CallActivity(RunUnitV1,
 		workflow.WithActivityInput(in.Job),
 		workflow.WithActivityRetryPolicy(&workflow.RetryPolicy{
 			MaxAttempts:          3,
@@ -156,7 +124,7 @@ func RunV2(ctx *workflow.WorkflowContext) (any, error) {
 // notify sends a desktop notification, logging rather than failing when it
 // cannot.
 func notify(ctx *workflow.WorkflowContext, title, body string) {
-	err := ctx.CallActivity("Notify", workflow.WithActivityInput(Notification{title, body})).Await(nil)
+	err := ctx.CallActivity(NotifyV1, workflow.WithActivityInput(Notification{title, body})).Await(nil)
 	if err != nil && !ctx.IsReplaying() {
 		log.Printf("Workflow %s: notify: %v", ctx.ID(), err)
 	}
