@@ -65,7 +65,9 @@ assert res["notify"] and res["summary"].splitlines()[0] == "pkg 1.0 -> 2.0 (bran
 assert "git merge --ff-only bump/pkg" in res["summary"], res
 with open(pending) as f:
     listed = f.read()
-assert "## bump/pkg" in listed and "- pin: update 1.0 -> 2.0" in listed, listed
+assert "## bump/pkg\n\npin: update 1.0 -> 2.0" in listed, listed
+assert listed.count("git merge --ff-only") == 1 and "git merge --ff-only <branch>" in listed, listed
+assert "Signed-off-by" not in listed, listed
 assert git("log", "-1", "--format=%s", "bump/pkg", cwd=repo).strip() == "pin: update 1.0 -> 2.0"
 assert git("log", "-1", "--format=%s", "main", cwd=repo).strip() == "init"
 assert not os.path.exists(t.dir)

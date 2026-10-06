@@ -49,22 +49,39 @@ def review_steps(branch: str) -> list[str]:
 
 
 def write_pending(repo: str) -> None:
-    """Rewrite pending-review/bumps.md in the repo, listing every bump branch
-    with commits not on main and how to land it. Removed when there are none."""
+    """Rewrite pending-review/bumps.md in the repo: how to land a bump, then
+    every bump branch with commits not on main and their messages, which hold
+    the release notes. Removed when there are none."""
     path = os.path.join(repo, "pending-review", "bumps.md")
     out = []
     branches = run(["git", "for-each-ref", "--format=%(refname:short)", "refs/heads/bump/"], cwd=repo)
     for b in branches.split():
-        if subjects := run(["git", "log", "--format=- %s", f"main..{b}"], cwd=repo).strip():
-            out += [f"## {b}", "", subjects, "", "```sh", *review_steps(b), "```", ""]
+        log = run(["git", "log", "--format=%s%n%n%b%x00", f"main..{b}"], cwd=repo)
+        messages = [
+            "\n".join(line for line in m.splitlines() if not line.startswith("Signed-off-by:")).strip()
+            for m in log.split("\0") if m.strip()
+        ]
+        if messages:
+            out += [f"## {b}", "", "\n\n".join(messages), ""]
     if not out:
         if os.path.exists(path):
             os.remove(path)
         return
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w") as f:
-        f.write("# Bumps to review\n\nRewritten by catalyst-agents after every bump run. "
-                "Branches you merge or delete drop off at the next run.\n\n" + "\n".join(out))
+        f.write("\n".join([
+            "# Bumps to review",
+            "",
+            "Rewritten by catalyst-agents after every bump run. Branches you merge or delete drop off at the next run.",
+            "",
+            "For each branch below:",
+            "",
+            "```sh",
+            *review_steps("<branch>"),
+            "```",
+            "",
+            *out,
+        ]))
 
 
 class Tree:
