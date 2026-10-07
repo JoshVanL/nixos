@@ -52,6 +52,11 @@ submits a review and never passes an `event` to the API.
      as separate threads.
    - No em dashes. Code identifiers in backticks. Snippets in fenced blocks.
 
+   Then load the `plain-sumary` skill and rewrite `body.md` and every comment
+   body to follow it: first sentence is the finding, no metaphors, no contrast
+   openers, no narrative of how it was found. Keep the `path:line` first line
+   and the fenced code blocks unchanged.
+
 4. **Dry run** to validate:
    `DRY_RUN=1 scripts/draft-review.sh <owner/repo> <n> <comments-dir>`
    The script checks each `path:line` is present on the new side of the PR
@@ -71,7 +76,8 @@ submits a review and never passes an `event` to the API.
 6. **Report.** Tell the user: the review is a draft only they can see, the
    number of inline comments, the URL
    `https://github.com/<owner/repo>/pull/<n>/files`, and that they submit it
-   with "Finish your review". Do not restate the findings.
+   with "Finish your review". Do not restate the findings. Write this report
+   with the `plain-sumary` skill loaded.
 
 ## Facts about the GitHub API this relies on
 
