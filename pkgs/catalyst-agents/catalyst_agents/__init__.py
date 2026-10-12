@@ -2,8 +2,21 @@
 
 import subprocess
 
+from dapr_agents.agents.configs import WorkflowRetryPolicy
+
 # Cap on text handed back to the LLM from one tool call.
 MAX_OUTPUT = 20000
+
+# Retries for the agents' activities, mainly LLM calls. Anthropic's API can
+# answer 529 Overloaded for minutes at a time, longer than the default ~17s of
+# retries. Waiting is a durable timer and failed calls are not billed, so
+# retry for about 35 minutes: 30s, 1m, 2m, 4m, 8m, then every 10m.
+RETRY = WorkflowRetryPolicy(
+    max_attempts=8,
+    initial_backoff_seconds=30,
+    max_backoff_seconds=600,
+    backoff_multiplier=2,
+)
 
 
 def run(args: list[str], cwd: str | None = None, timeout: int = 120) -> str:

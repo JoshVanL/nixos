@@ -21,7 +21,7 @@ from dapr_agents.agents.configs import (
     ToolExecutionMode,
 )
 
-from catalyst_agents import MAX_OUTPUT, run
+from catalyst_agents import MAX_OUTPUT, RETRY, run
 
 STATE = os.environ.get("STATE_DIRECTORY", "/var/lib/catalyst-agents")
 ATTR = re.compile(r"^[A-Za-z0-9_.-]*$")
@@ -278,6 +278,7 @@ def register(runtime: wf.WorkflowRuntime, llm, cfg: dict) -> list[DurableAgent]:
                 tool_execution_mode=ToolExecutionMode.SEQUENTIAL,
             ),
             mcp=AgentMCPConfig(enabled=False),
+            retry_policy=RETRY,
         )
 
     def prepare(ctx: wf.WorkflowActivityContext, target: str) -> None:

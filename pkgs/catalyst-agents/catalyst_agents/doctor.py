@@ -11,7 +11,7 @@ import re
 from dapr_agents import DurableAgent, tool
 from dapr_agents.agents.configs import AgentExecutionConfig, AgentMCPConfig
 
-from catalyst_agents import MAX_OUTPUT, run
+from catalyst_agents import MAX_OUTPUT, RETRY, run
 
 UNIT = re.compile(r"^[A-Za-z0-9@._:\\-]+$")
 
@@ -95,4 +95,5 @@ def agent(llm) -> DurableAgent:
         tools=[journal, unit_file, read_file],
         execution=AgentExecutionConfig(max_iterations=10),
         mcp=AgentMCPConfig(enabled=False),
+        retry_policy=RETRY,
     )
