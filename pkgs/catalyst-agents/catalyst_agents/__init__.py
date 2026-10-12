@@ -25,7 +25,8 @@ def run(args: list[str], cwd: str | None = None, timeout: int = 120) -> str:
     On failure raises RuntimeError with the tail of stdout and stderr, which
     the agent sees as the tool's result.
     """
-    p = subprocess.run(args, cwd=cwd, capture_output=True, text=True, timeout=timeout)
+    # Build logs can hold bytes that are not UTF-8.
+    p = subprocess.run(args, cwd=cwd, capture_output=True, text=True, errors="replace", timeout=timeout)
     if p.returncode != 0:
         out = (p.stdout + p.stderr)[-MAX_OUTPUT:]
         raise RuntimeError(f"{args[0]} exited {p.returncode}:\n{out}")

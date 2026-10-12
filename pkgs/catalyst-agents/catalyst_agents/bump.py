@@ -25,6 +25,13 @@ from catalyst_agents import MAX_OUTPUT, RETRY, run
 
 STATE = os.environ.get("STATE_DIRECTORY", "/var/lib/catalyst-agents")
 ATTR = re.compile(r"^[A-Za-z0-9_.-]*$")
+# nixpkgs refusing a package, which needs a human, not a workaround.
+REFUSED = re.compile(r"is marked as (insecure|broken)|has an unfree license|refusing to evaluate")
+# Settings that get past such a refusal, which commit will not take.
+ALLOWS = re.compile(r"^\+.*(permittedInsecurePackages|allowInsecure|allowBroken|allowUnfree|NIXPKGS_ALLOW_)", re.M)
+# DurableAgent ends a run that hits max_iterations normally, with this notice
+# in its reply (dapr_agents/agents/durable.py), rather than failing it.
+OUT_OF_TURNS = "I reached the maximum number of reasoning steps"
 
 INSTRUCTIONS = [
     "You keep one pinned package in a NixOS flake repo up to date. You work in a git worktree on its own branch, so your edits never touch main.",
@@ -203,9 +210,15 @@ class Tree:
             if not ATTR.match(attr):
                 raise ValueError(f"invalid attribute {attr!r}")
             tree = t.tree_id()
-            run(["nix", "build", "--no-link", "-L",
-                 f"{t.dir}#nixosConfigurations.{machine}.{attr or 'config.system.build.toplevel'}"],
-                timeout=4 * 3600)
+            try:
+                run(["nix", "build", "--no-link", "-L",
+                     f"{t.dir}#nixosConfigurations.{machine}.{attr or 'config.system.build.toplevel'}"],
+                    timeout=4 * 3600)
+            except RuntimeError as e:
+                if REFUSED.search(str(e)):
+                    raise RuntimeError(f"{e}\n\nnixpkgs refused a package. That needs a human: stop now, "
+                                       "reply with the package and this error, and do not work around it.") from None
+                raise
             with open(t.built_file, "w") as f:
                 f.write(tree)
             return "build passed"
@@ -236,6 +249,8 @@ class Tree:
             built = open(t.built_file).read() if os.path.exists(t.built_file) else ""
             if t.tree_id() != built:
                 raise ValueError("the current content has not been built; run build first")
+            if ALLOWS.search(t.git("diff", "--cached", "-U0")):
+                raise ValueError("commits must not allow insecure, broken or unfree packages; reply with the error instead")
             t.git("commit", "-s", "-m", message)
             return t.git("rev-parse", "--short", "HEAD").strip()
 
@@ -287,7 +302,7 @@ def register(runtime: wf.WorkflowRuntime, llm, cfg: dict) -> list[DurableAgent]:
     def finish(ctx: wf.WorkflowActivityContext, inp: dict) -> dict:
         return trees[inp["target"]].finish(inp["reply"])
 
-    def bump(ctx: wf.DaprWorkflowContext, target: str):
+    def run_bump(ctx: wf.DaprWorkflowContext, target: str, fail_out_of_turns: bool):
         if target not in trees:
             raise ValueError(f"no bump target {target!r}")
         yield ctx.call_activity(prepare, input=target)
@@ -301,14 +316,24 @@ def register(runtime: wf.WorkflowRuntime, llm, cfg: dict) -> list[DurableAgent]:
             # Clean up, then fail the run so catalyst-cron reports why.
             yield ctx.call_activity(finish, input={"target": target, "reply": ""})
             raise
-        return (yield ctx.call_activity(
-            finish, input={"target": target, "reply": (out or {}).get("content", "")}
-        ))
+        reply = (out or {}).get("content", "")
+        res = yield ctx.call_activity(finish, input={"target": target, "reply": reply})
+        if fail_out_of_turns and OUT_OF_TURNS in reply:
+            raise RuntimeError(f"{target}: the agent used all its turns without finishing")
+        return res
+
+    def bump_v1(ctx: wf.DaprWorkflowContext, target: str):
+        return (yield from run_bump(ctx, target, fail_out_of_turns=False))
+
+    # bumpV2 fails a run whose agent ran out of turns, instead of completing it.
+    def bump_v2(ctx: wf.DaprWorkflowContext, target: str):
+        return (yield from run_bump(ctx, target, fail_out_of_turns=True))
 
     # Versioned as catalyst-cron's workflows are: callers start the canonical
     # "bump", and a change gets a new version, keeping the old registered while
     # instances still use it. Activities carry their version in their name.
-    runtime.register_versioned_workflow(bump, name="bump", version_name="bumpV1", is_latest=True)
+    runtime.register_versioned_workflow(bump_v1, name="bump", version_name="bumpV1", is_latest=False)
+    runtime.register_versioned_workflow(bump_v2, name="bump", version_name="bumpV2", is_latest=True)
     runtime.register_activity(prepare, name="bump.prepareV1")
     runtime.register_activity(finish, name="bump.finishV1")
     return list(agents.values())

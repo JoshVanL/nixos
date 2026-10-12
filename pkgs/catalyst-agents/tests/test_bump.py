@@ -72,4 +72,16 @@ assert git("log", "-1", "--format=%s", "bump/pkg", cwd=repo).strip() == "pin: up
 assert git("log", "-1", "--format=%s", "main", cwd=repo).strip() == "init"
 assert not os.path.exists(t.dir)
 
+# Commit refuses changes that get past a nixpkgs refusal.
+t.prepare()
+tools["edit_file"].run(path="pin.nix", old='version = "1.0";', new='version = "1.0"; permittedInsecurePackages = [ "x" ];')
+with open(t.built_file, "w") as f:
+    f.write(t.tree_id())
+try:
+    tools["commit"].run(message="pin: allow x")
+    raise AssertionError("committed an insecure-package allowance")
+except Exception as e:
+    assert "must not allow" in str(e), e
+t.finish("refused")
+
 print("ok")
