@@ -150,6 +150,20 @@ in {
         };
       };
 
+      # Not feh.service: as a RemainAfterExit oneshot, starting it again is a no-op.
+      systemd.user.services.wp-roll = {
+        Unit = {
+          Description = "apply a random wallpaper from the library";
+          # Skip, rather than fail, when X is not running.
+          ConditionPathExists = "/tmp/.X11-unix/X0";
+        };
+        Service = {
+          Type = "oneshot";
+          Environment = envList ++ [ "DISPLAY=:0" ];
+          ExecStart = "${pkgs.wp}/bin/wp roll";
+        };
+      };
+
       systemd.user.timers.wp-fetch = mkIf (!catalyst) {
         Unit.Description = "periodic wallpaper fetch";
         Timer = {
@@ -163,6 +177,12 @@ in {
     me.data.catalyst.jobs.wp-fetch = mkIf catalyst {
       cron = cfg.fetchCron;
       unit = "wp-fetch.service";
+      user = config.me.username;
+    };
+
+    me.data.catalyst.jobs.wp-roll = mkIf catalyst {
+      cron = mkDefault "0 13 * * *";
+      unit = "wp-roll.service";
       user = config.me.username;
     };
   };
