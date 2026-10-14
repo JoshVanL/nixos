@@ -41,6 +41,8 @@ in {
         "dapr/java-sdk"
         "dapr/js-sdk"
         "dapr/dotnet-sdk"
+        "dapr/rust-sdk"
+        "mikeee/dapr-durabletask"
         "diagridio/go-etcd-cron"
       ];
     };
