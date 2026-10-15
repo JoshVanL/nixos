@@ -129,7 +129,8 @@ args+=(
 # argv is world-readable via /proc/<pid>/cmdline, while /proc/<pid>/environ is
 # readable only by its owner.
 GH_TOKEN=$(cat /persist/etc/github/read-only)
-export GH_TOKEN
+GH_TOKEN_DIAGRIDIO=$(cat /persist/etc/github/diagridio-read-only)
+export GH_TOKEN GH_TOKEN_DIAGRIDIO
 
 echo ">> Entering sandbox for: $dir" >&2
 exec bwrap "${args[@]}" -- /run/current-system/sw/bin/zsh -l

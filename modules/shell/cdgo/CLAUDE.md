@@ -2,6 +2,7 @@ When making git commits, ALWAYS use `git commit -s` (signoff flag).
 NEVER push to any remote (origin, fork, or any other).
 NEVER create, merge, or comment on pull requests or issues on GitHub.
 NEVER create releases or repositories on GitHub.
+For `gh` or GitHub API access to `diagridio` org repos, use `GH_TOKEN="$GH_TOKEN_DIAGRIDIO" gh ...` instead of the default `GH_TOKEN`.
 NEVER use em dashes (—) in any output, commit messages, comments, strings, or file content. Use commas, parentheses, colons, hyphens, or separate sentences instead.
 ALWAYS use European-style dates (DD/MM/YYYY) in any output, commit messages, comments, strings, or file content. Do not use American-style dates (MM/DD/YYYY).
 
