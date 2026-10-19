@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, config, pkgs, ... }:
 with lib;
 let
   cfg = config.me.dev.diagrid;
@@ -14,6 +14,7 @@ in {
     # nosuid,nodev mount flags) and cannot bind ports 80/443.
     virtualisation.docker = {
       enable = true;
+      package = pkgs.docker_29;
       # Keep image and cluster state off the ephemeral root, otherwise the
       # zfs storage driver leaks layer datasets under the rolled-back root.
       daemon.settings.data-root = "/keep/var/lib/docker";
