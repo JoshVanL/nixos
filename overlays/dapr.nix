@@ -13,12 +13,12 @@ in
           let
             orig = if builtins.isFunction fnOrAttrs then fnOrAttrs finalAttrs else fnOrAttrs;
           in orig // rec {
-            version = "1.18.2";
+            version = "1.19.0";
             src = prev.fetchFromGitHub {
               owner = "dapr";
               repo = "cli";
               rev = "v${version}";
-              sha256 = "sha256-A21Fk5WzlyMcHG2wpPQVChwkDdcCrDx3zhzl0KZLBS0=";
+              sha256 = "sha256-6c23u6PS8KwfkUr4nj6A2Q/jsRlGM0CzHdqKIodNQ+c=";
             };
             vendorHash = "sha256-P7zrfUcb/Hxo7QbIQfq9JSf2d7meZShQ++GG8HkEoLE=";
             ldflags = [
