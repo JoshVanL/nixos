@@ -100,6 +100,9 @@ in {
 
       zfs = {
         requestEncryptionCredentials = true;
+        # 26.11 flips this to false. Keep the current behaviour until the
+        # systemd stage 1 port, when boot is re-tested anyway.
+        forceImportRoot = true;
         devNodes = "/dev/disk/by-label/rpool";
       };
 

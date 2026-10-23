@@ -68,8 +68,8 @@ in {
       programs.ssh = {
         enable = true;
         enableDefaultConfig = false;
-        matchBlocks."*" = {
-          userKnownHostsFile = "/persist/home/.ssh/known_hosts";
+        settings."*" = {
+          UserKnownHostsFile = "/persist/home/.ssh/known_hosts";
         };
       };
       home.packages = [

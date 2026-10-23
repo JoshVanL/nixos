@@ -24,7 +24,7 @@ let
 
   xconfSH = pkgs.writeShellApplication {
     name = "xconf.sh";
-    runtimeInputs = with pkgs.xorg; [
+    runtimeInputs = with pkgs; [
       xset
       xmodmap
       setxkbmap
@@ -58,7 +58,7 @@ let
 
   xrandrSH = pkgs.writeShellApplication {
     name = "xrandr-setup.sh";
-    runtimeInputs = [ pkgs.xorg.xrandr ];
+    runtimeInputs = [ pkgs.xrandr ];
     text = ''
       while IFS= read -r line; do
         case "$line" in

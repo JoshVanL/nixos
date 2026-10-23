@@ -78,6 +78,9 @@ in {
       ];
 
       programs.neovim = {
+        # No plugin here needs the Python or Ruby provider.
+        withPython3 = false;
+        withRuby = false;
         enable = true;
         viAlias = true;
         vimAlias = true;
@@ -162,17 +165,20 @@ in {
           let g:airline_powerline_fonts = 1
           let g:airline_detect_paste=1
 
+          " nvim-colorizer requires this at setup time; both terminals support true colour.
+          set termguicolors
+
           lua << EOF
-          require'nvim-treesitter.configs'.setup {
-            highlight = {
-              enable = true,
-              disable = {},
-            },
-            indent = {
-              enable = true,
-              disable = {},
-            },
-          }
+          -- nvim-treesitter (main branch, nixpkgs 26.05) has no 'configs'
+          -- module. Highlighting and indentation are enabled per buffer when a
+          -- parser for the filetype is installed.
+          vim.api.nvim_create_autocmd('FileType', {
+            callback = function(args)
+              if pcall(vim.treesitter.start, args.buf) then
+                vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+              end
+            end,
+          })
           require 'colorizer'.setup()
 
           -- Render mermaid blocks in markdown as inline images (kitty
