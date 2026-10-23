@@ -15,10 +15,6 @@
       url = "github:aristanetworks/nix-serve-ng";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    xpropdate = {
-      url = "github:joshvanl/xpropdate";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nur.url = github:nix-community/nur;
     # Python apps from a uv.lock, for pkgs/catalyst-agents.
     pyproject-nix = {

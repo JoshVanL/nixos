@@ -16,8 +16,8 @@ buildGoModule rec {
 
   vendorHash = "sha256-gCuYqk9agH86wfGd7k6QwLUiG3Mv6TrEd9tdyj8AYPs=";
   subPackages = [ "cmd/gomarkdoc" ];
-  # Upstream tests fail under Go 1.26 (flag parsing and a missing fixture);
-  # the binary itself builds fine.
+  # Upstream tests are broken (unknown -mod flag, missing fixture); the
+  # binary builds fine.
   doCheck = false;
   meta = with lib; {
     homepage = "https://github.com/princjef/gomarkdoc";

@@ -1,7 +1,6 @@
 final: prev:
 {
-  # nixpkgs 26.05 ships dapr-cli 1.17.1; keep the newer release. Its go.mod
-  # needs go >= 1.26.4, which 26.05's buildGo126Module (1.26.8) satisfies.
+  # Newer than the nixpkgs release. Its go.mod needs go >= 1.26.4.
   dapr-cli = prev.dapr-cli.override {
     buildGoModule = fnOrAttrs:
       let

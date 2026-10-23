@@ -156,12 +156,16 @@ in {
 
       systemd.services.catalyst-cron = {
         description = "Catalyst workflow scheduler";
-        wants = [ "network-online.target" ];
-        after = [ "network-online.target" ];
+        # No network-online.target dependency: a boot without internet must not
+        # wait on it. The service retries every 10s until it connects.
         wantedBy = [ "multi-user.target" ];
         path = [ config.systemd.package pkgs.libnotify ];
         # Skip cleanly until the Catalyst App ID has been set up.
-        unitConfig.ConditionPathExists = cfg.envFile;
+        unitConfig = {
+          ConditionPathExists = cfg.envFile;
+          # Keep restarting for as long as the endpoint is unreachable.
+          StartLimitIntervalSec = 0;
+        };
         serviceConfig = {
           ExecStart = "${pkgs.catalyst-cron}/bin/catalyst-cron serve --config ${jobsFile}"
             + optionalString (cfg.notifyUser != null) " --notify-user ${cfg.notifyUser}";
@@ -209,7 +213,7 @@ in {
             Source hash: prefetch https://github.com/dapr/cli/archive/refs/tags/vVERSION.tar.gz with unpack.
             Build attribute: pkgs.dapr-cli
             Release notes: the body of that GitHub release.
-            The overlay builds with nixpkgs' buildGo126Module (Go 1.26.8 on 26.05). If the go directive in https://raw.githubusercontent.com/dapr/cli/vVERSION/go.mod needs a newer Go, reply with the Go version needed and do not commit.
+            The overlay builds with nixpkgs' buildGo126Module. If the go directive in https://raw.githubusercontent.com/dapr/cli/vVERSION/go.mod needs a newer Go, reply with the Go version needed and do not commit.
           '';
         };
         flake-lock = {
@@ -225,8 +229,8 @@ in {
 
       systemd.services.catalyst-agents = {
         description = "Dapr Agents on Catalyst: job-doctor and bump";
-        wants = [ "network-online.target" ];
-        after = [ "network-online.target" ];
+        # No network-online.target dependency: a boot without internet must not
+        # wait on it. The service retries every 10s until it connects.
         wantedBy = [ "multi-user.target" ];
         path = [ config.nix.package config.systemd.package pkgs.git ];
         environment = {
@@ -239,7 +243,10 @@ in {
           GIT_COMMITTER_EMAIL = "catalyst-agents@${config.me.machineName}";
         };
         # Skip cleanly until the agents' App ID has been set up.
-        unitConfig.ConditionPathExists = agents.envFile;
+        unitConfig = {
+          ConditionPathExists = agents.envFile;
+          StartLimitIntervalSec = 0;
+        };
         serviceConfig = {
           ExecStart = getExe pkgs.catalyst-agents;
           # Bump commits to the user's repo, and job-doctor reads the user's

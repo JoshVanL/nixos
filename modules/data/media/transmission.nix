@@ -40,7 +40,7 @@ in {
           "/var/lib/transmission" = { options = [ "bind" ]; fsType = "none"; device = cfg.dataDir; };
         };
         services.transmission = {
-          # transmission 3 was removed; 4 migrates the state directory on first start.
+          # transmission 4 migrates the state directory on first start.
           package = pkgs.transmission_4;
           enable = true;
           downloadDirPermissions = "770";

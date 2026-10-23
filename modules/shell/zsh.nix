@@ -93,8 +93,7 @@ in {
         oh-my-zsh = {
           enable = true;
           theme = "amuse-custom";
-          # home-manager 26.05 single-quotes this value in .zshrc, so $HOME would
-          # not expand. Use the absolute path.
+          # Written into .zshrc single-quoted, so $HOME would not expand.
           custom = "/home/${config.me.username}/.config/oh-my-zsh";
           plugins = [ "git" ];
         };

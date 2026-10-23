@@ -62,15 +62,27 @@ in {
     boot = {
       # Clense with fire.
       initrd = {
-        # 26.05 defaults to systemd stage 1, which rejects the scripted hooks
-        # below (postResumeCommands, network.postCommands). Keep the scripted
-        # initrd until they are ported; scripted initrd is removed in 26.11.
-        systemd.enable = false;
+        # systemd stage 1, except where initrd SSH is used: its key generation
+        # and unlock flow below are scripted-only and are ported separately,
+        # with a console at hand.
+        systemd = {
+          enable = !cfg.initrd.ssh.enable;
+          # Roll the root dataset back to blank before it is mounted.
+          services.rollback = mkIf (!cfg.initrd.ssh.enable) {
+            description = "Roll back rpool/local/root to the blank snapshot";
+            wantedBy = [ "initrd.target" ];
+            after = [ "zfs-import-rpool.service" ];
+            before = [ "sysroot.mount" ];
+            unitConfig.DefaultDependencies = "no";
+            serviceConfig.Type = "oneshot";
+            script = "zfs rollback -r rpool/local/root@blank";
+          };
+        };
 
         availableKernelModules = cfg.initrd.availableKernelModules;
-        postResumeCommands = lib.mkAfter ''
+        postResumeCommands = mkIf cfg.initrd.ssh.enable (lib.mkAfter ''
           zfs rollback -r rpool/local/root@blank
-        '';
+        '');
 
         network = mkIf cfg.initrd.ssh.enable {
           enable = true;
@@ -100,8 +112,7 @@ in {
 
       zfs = {
         requestEncryptionCredentials = true;
-        # 26.11 flips this to false. Keep the current behaviour until the
-        # systemd stage 1 port, when boot is re-tested anyway.
+        # zpool import -f for the root pool. Revisit with the initrd SSH port.
         forceImportRoot = true;
         devNodes = "/dev/disk/by-label/rpool";
       };

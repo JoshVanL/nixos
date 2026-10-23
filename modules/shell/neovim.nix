@@ -55,7 +55,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # diagram.nvim is marked unfree in nixpkgs 26.05.
+    # diagram.nvim has an unfree licence.
     me.nixpkgs.allowedUnfree = [ "diagram.nvim" ];
 
     systemd.tmpfiles.rules = [
@@ -174,8 +174,8 @@ in {
           set runtimepath^=${pkgs.vimPlugins.nvim-treesitter}/runtime
 
           lua << EOF
-          -- nvim-treesitter (main branch, nixpkgs 26.05) has no 'configs'
-          -- module. Highlighting and indentation are enabled per buffer when a
+          -- nvim-treesitter has no 'configs' module. Highlighting and
+          -- indentation are enabled per buffer when a
           -- parser for the filetype is installed.
           vim.api.nvim_create_autocmd('FileType', {
             callback = function(args)

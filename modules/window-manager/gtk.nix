@@ -15,7 +15,7 @@ with lib;
           name = "Arc-Dark";
           package = pkgs.arc-theme;
         };
-        # home-manager 26.05 no longer applies gtk.theme to GTK 4 by default.
+        # gtk.theme only covers GTK 2 and 3.
         gtk4.theme = {
           name = "Arc-Dark";
           package = pkgs.arc-theme;

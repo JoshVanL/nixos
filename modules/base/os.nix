@@ -33,12 +33,18 @@
     "d /keep/etc/users 0700 root root - -"
   ];
 
-  home-manager.users.${config.me.username}.home = {
-    stateVersion = config.system.stateVersion;
-    packages = with pkgs; [
-      killall
-      htop
-      lsof
-    ];
+  home-manager.users.${config.me.username} = {
+    # The generated home-configuration.nix(5) man page trips a store-path
+    # context warning on every evaluation, and is not used.
+    manual.manpages.enable = false;
+
+    home = {
+      stateVersion = config.system.stateVersion;
+      packages = with pkgs; [
+        killall
+        htop
+        lsof
+      ];
+    };
   };
 }
