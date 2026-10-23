@@ -13,8 +13,8 @@ in {
       home.packages = with pkgs; [
         nodejs_22
         #nodejs
-        nodePackages.typescript
-        nodePackages.typescript-language-server
+        typescript
+        typescript-language-server
       ];
     };
   };

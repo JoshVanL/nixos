@@ -62,6 +62,11 @@ in {
     boot = {
       # Clense with fire.
       initrd = {
+        # 26.05 defaults to systemd stage 1, which rejects the scripted hooks
+        # below (postResumeCommands, network.postCommands). Keep the scripted
+        # initrd until they are ported; scripted initrd is removed in 26.11.
+        systemd.enable = false;
+
         availableKernelModules = cfg.initrd.availableKernelModules;
         postResumeCommands = lib.mkAfter ''
           zfs rollback -r rpool/local/root@blank

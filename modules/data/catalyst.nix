@@ -209,7 +209,7 @@ in {
             Source hash: prefetch https://github.com/dapr/cli/archive/refs/tags/vVERSION.tar.gz with unpack.
             Build attribute: pkgs.dapr-cli
             Release notes: the body of that GitHub release.
-            The overlay builds with go_1_26_4. If the go directive in https://raw.githubusercontent.com/dapr/cli/vVERSION/go.mod needs a newer Go, reply with the Go version needed and do not commit.
+            The overlay builds with nixpkgs' buildGo126Module (Go 1.26.8 on 26.05). If the go directive in https://raw.githubusercontent.com/dapr/cli/vVERSION/go.mod needs a newer Go, reply with the Go version needed and do not commit.
           '';
         };
         flake-lock = {

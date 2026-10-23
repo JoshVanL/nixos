@@ -30,7 +30,7 @@ in {
     ];
 
     fileSystems = {
-      "/run/nginx/cache/go" = { options = [ "bind" ]; device = "${cfg.cacheDir}"; };
+      "/run/nginx/cache/go" = { options = [ "bind" ]; fsType = "none"; device = "${cfg.cacheDir}"; };
     };
 
     systemd.services.goproxy = {

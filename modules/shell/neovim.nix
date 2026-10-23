@@ -55,6 +55,9 @@ in {
   };
 
   config = mkIf cfg.enable {
+    # diagram.nvim is marked unfree in nixpkgs 26.05.
+    me.nixpkgs.allowedUnfree = [ "diagram.nvim" ];
+
     systemd.tmpfiles.rules = [
       "L+ /home/${config.me.username}/.viminfo - - - - /persist/home/.viminfo"
     ] ++ (optionals cfg.coPilot.enable [
@@ -73,10 +76,6 @@ in {
         # terminal character art rendering of mermaid diagrams (pkgs/mmd)
         mmd
       ];
-
-      home.sessionVariables = {
-        VISUAL = "vim";
-      };
 
       programs.neovim = {
         enable = true;

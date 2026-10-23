@@ -50,7 +50,7 @@ in {
           "plexmediaserver"
         ];
         fileSystems = {
-          "/var/lib/plex" = { options = [ "bind" ]; device = cfg.plexDir; };
+          "/var/lib/plex" = { options = [ "bind" ]; fsType = "none"; device = cfg.plexDir; };
         };
         services.plex = {
           enable = true;

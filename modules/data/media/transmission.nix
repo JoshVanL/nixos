@@ -37,9 +37,11 @@ in {
       ephemeral = true;
       config = { pkgs, ... }: {
         fileSystems = {
-          "/var/lib/transmission" = { options = [ "bind" ]; device = cfg.dataDir; };
+          "/var/lib/transmission" = { options = [ "bind" ]; fsType = "none"; device = cfg.dataDir; };
         };
         services.transmission = {
+          # transmission 3 was removed; 4 migrates the state directory on first start.
+          package = pkgs.transmission_4;
           enable = true;
           downloadDirPermissions = "770";
           settings = {

@@ -93,7 +93,7 @@ in {
     ];
 
     fileSystems = {
-      "${storagePath}" = { options = [ "bind" ]; device = "${cfg.cacheDir}"; };
+      "${storagePath}" = { options = [ "bind" ]; fsType = "none"; device = "${cfg.cacheDir}"; };
     };
 
     systemd.services = listToAttrs (flatten (imap0 (i: registry: [
@@ -106,7 +106,7 @@ in {
           wantedBy = [ "multi-user.target" ];
           startLimitIntervalSec = 120;
           script = ''
-            ${pkgs.docker-distribution}/bin/registry serve ${configFile i}
+            ${pkgs.distribution}/bin/registry serve ${configFile i}
           '';
 
           serviceConfig = {
@@ -126,7 +126,7 @@ in {
           unitConfig.X-StopOnRemoval = false;
           serviceConfig.Type = "oneshot";
           script = ''
-            ${pkgs.docker-distribution}/bin/registry garbage-collect ${configFile i}
+            ${pkgs.distribution}/bin/registry garbage-collect ${configFile i}
             /run/current-system/systemd/bin/systemctl restart docker-registry.service
           '';
           startAt = cfg.garbageCollectDates;

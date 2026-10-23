@@ -17,7 +17,6 @@ in {
       nameValuePair iface { useDHCP = true; }
     ) cfg.interfaces);
     home-manager.users.${config.me.username}.home.packages = with pkgs; [
-      fast-cli
       wget
       myip
     ];

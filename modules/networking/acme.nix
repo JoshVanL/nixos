@@ -24,7 +24,7 @@ in {
       defaults = {
         email = cfg.email;
         dnsProvider = cfg.dnsProvider;
-        credentialsFile = cfg.credentialsFile;
+        environmentFile = cfg.credentialsFile;
       };
     };
 
@@ -32,6 +32,6 @@ in {
       "d /persist/var/lib/acme 0755 root root - -"
     ];
 
-    fileSystems."/var/lib/acme" = { options = [ "bind" ]; device = "/persist/var/lib/acme"; };
+    fileSystems."/var/lib/acme" = { options = [ "bind" ]; fsType = "none"; device = "/persist/var/lib/acme"; };
   };
 }

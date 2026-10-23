@@ -19,7 +19,6 @@ in {
     home-manager.users.${config.me.username} = {
       programs.neovim = {
         plugins = with pkgs.vimPlugins; [
-          vim-csharp
         ];
       };
 

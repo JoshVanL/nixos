@@ -38,7 +38,7 @@ in {
       useRoutingFeatures = if cfg.ingress.enable then "none" else "client";
     };
 
-    fileSystems."/var/lib/tailscale" = { device = "/persist/var/lib/tailscale"; options = [ "bind" ]; };
+    fileSystems."/var/lib/tailscale" = { device = "/persist/var/lib/tailscale"; options = [ "bind" ]; fsType = "none"; };
 
     networking.firewall = mkIf cfg.ingress.enable {
       enable = true;

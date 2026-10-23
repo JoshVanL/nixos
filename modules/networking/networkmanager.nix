@@ -13,7 +13,7 @@ in {
       "d /persist/var/lib/iwd 0755 ${config.me.username} wheel - -"
     ];
     environment.etc."NetworkManager/system-connections".source = "/persist/etc/NetworkManager/system-connections";
-    fileSystems."/var/lib/iwd" = { options = [ "bind" ]; device = "/persist/var/lib/iwd"; };
+    fileSystems."/var/lib/iwd" = { options = [ "bind" ]; fsType = "none"; device = "/persist/var/lib/iwd"; };
 
     systemd = {
       # Stop NetworkManager complaining on restart.

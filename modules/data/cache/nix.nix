@@ -40,7 +40,7 @@ in {
     ];
 
     fileSystems = {
-      "/run/nginx/cache/nix" = { options = [ "bind" ]; device = "${cfg.cacheDir}"; };
+      "/run/nginx/cache/nix" = { options = [ "bind" ]; fsType = "none"; device = "${cfg.cacheDir}"; };
     };
 
     services.nginx = {

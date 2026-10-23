@@ -1,11 +1,7 @@
-{ inputs }:
 final: prev:
-let
-  unstable = import inputs.nixpkgs-unstable { inherit (prev) system; };
-  # go_1_26_4 comes from the golang overlay, which is applied first.
-  buildGoModule' = unstable.buildGo126Module.override { go = final.go_1_26_4; };
-in
 {
+  # nixpkgs 26.05 ships dapr-cli 1.17.1; keep the newer release. Its go.mod
+  # needs go >= 1.26.4, which 26.05's buildGo126Module (1.26.8) satisfies.
   dapr-cli = prev.dapr-cli.override {
     buildGoModule = fnOrAttrs:
       let
@@ -28,6 +24,6 @@ in
               "-X github.com/dapr/cli/pkg/standalone.gitversion=${version}"
             ];
           };
-      in buildGoModule' wrapFn;
+      in prev.buildGo126Module wrapFn;
   };
 }

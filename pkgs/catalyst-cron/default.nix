@@ -1,10 +1,9 @@
 { buildGoModule
-, go_1_26_4
 , installShellFiles
 , lib
 }:
 
-(buildGoModule.override { go = go_1_26_4; }) {
+buildGoModule {
   pname = "catalyst-cron";
   version = "0.1.0";
 
