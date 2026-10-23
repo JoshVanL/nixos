@@ -168,6 +168,11 @@ in {
           " nvim-colorizer requires this at setup time; both terminals support true colour.
           set termguicolors
 
+          " nixpkgs' grammar bundle ships each grammar's upstream queries, which
+          " use predicates nvim-treesitter no longer defines (#is-not?). Put the
+          " plugin's curated queries first so they win.
+          set runtimepath^=${pkgs.vimPlugins.nvim-treesitter}/runtime
+
           lua << EOF
           -- nvim-treesitter (main branch, nixpkgs 26.05) has no 'configs'
           -- module. Highlighting and indentation are enabled per buffer when a
