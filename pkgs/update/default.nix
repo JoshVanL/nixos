@@ -1,7 +1,6 @@
 {
 callPackage,
 writeShellApplication,
-nixos-rebuild,
 stdenv,
 installShellFiles,
 }:
@@ -13,7 +12,6 @@ let
   sh = writeShellApplication {
     name = "update";
     runtimeInputs = [
-      nixos-rebuild
       specialisation
     ];
     text = readFile ./update.sh;
