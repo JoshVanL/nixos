@@ -6,11 +6,11 @@
 }:
 
 let
-  version = "1.106.0";
+  version = "1.111.0";
   bucket = "bkt-p-cli-common-us-central1-95640";
   sysMap = {
-    x86_64-linux = { os = "linux"; arch = "amd64"; hash = "sha256-592u2NBhk6M/5c63RhlTaO3UgKK8BuHkjAnbSzr1S9k="; };
-    aarch64-linux = { os = "linux"; arch = "arm64"; hash = "sha256-evlqk5DRdkUaRadYR/s7vuvjg0lrFX9agWD9BO8cMYk="; };
+    x86_64-linux = { os = "linux"; arch = "amd64"; hash = "sha256-7GXG9EgJWccpQKzT7i2h9zqlQqm+eI1hKYHTMJOCqOk="; };
+    aarch64-linux = { os = "linux"; arch = "arm64"; hash = "sha256-4Vi4VAsjtAFhF2++7a+wCdo7GfNx6a8CXRnX5K96MSk="; };
   };
   plat = sysMap.${stdenv.hostPlatform.system};
   name = "diagrid_${plat.os}_${plat.arch}";
