@@ -216,6 +216,26 @@ in {
             The overlay builds with nixpkgs' buildGo126Module. If the go directive in https://raw.githubusercontent.com/dapr/cli/vVERSION/go.mod needs a newer Go, reply with the Go version needed and do not commit.
           '';
         };
+        catalyst-cron-deps = {
+          cron = mkDefault "45 9 * * 1";
+          instructions = ''
+            Pin: the Go dependencies of pkgs/catalyst-cron (go.mod, go.sum), and vendorHash in pkgs/catalyst-cron/default.nix. This target replaces steps 1 to 3:
+            Run update_deps on pkgs/catalyst-cron. If no file changed, reply 'up to date' and stop.
+            Set vendorHash to lib.fakeHash, build pkgs.catalyst-cron, and copy the correct hash from the error.
+            If the build fails because go.mod needs a newer Go: when pkgs/catalyst-cron/default.nix overrides go, set that override's version to the go line of go.mod, and its hash with prefetch of https://go.dev/dl/goVERSION.src.tar.gz without unpack. With no override, reply with the Go version needed and do not commit.
+            Commit with the first line 'pkgs/catalyst-cron: update dependencies', and a body listing each direct dependency of go.mod that moved, old -> new. Skip release notes.
+          '';
+        };
+        catalyst-agents-deps = {
+          cron = mkDefault "15 10 * * 1";
+          instructions = ''
+            Pin: dapr-agents in pkgs/catalyst-agents/pyproject.toml, and every Python dependency in pkgs/catalyst-agents/uv.lock. This target replaces steps 1 to 3:
+            Latest dapr-agents: tag_name of https://api.github.com/repos/dapr/dapr-agents/releases/latest. If it is newer than the pin, edit the pin.
+            Run update_deps on pkgs/catalyst-agents. If no file changed, reply 'up to date' and stop.
+            Build pkgs.catalyst-agents.
+            Commit with the first line 'pkgs/catalyst-agents: update dependencies', and a body listing dapr-agents and each dapr package that moved, old -> new. Release notes of dapr-agents: the body of https://api.github.com/repos/dapr/dapr-agents/releases/tags/vVERSION
+          '';
+        };
         flake-lock = {
           cron = mkDefault "0 10 * * 1";
           instructions = ''
@@ -232,7 +252,8 @@ in {
         # No network-online.target dependency: a boot without internet must not
         # wait on it. The service retries every 10s until it connects.
         wantedBy = [ "multi-user.target" ];
-        path = [ config.nix.package config.systemd.package pkgs.git ];
+        # go, uv and python313 for bump's update_deps.
+        path = [ config.nix.package config.systemd.package pkgs.git pkgs.go pkgs.uv pkgs.python313 ];
         environment = {
           CATALYST_AGENTS_CONFIG = agentsConfig;
           # The real home is hidden, so nix and git keep their caches here.

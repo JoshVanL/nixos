@@ -19,8 +19,9 @@ RETRY = WorkflowRetryPolicy(
 )
 
 
-def run(args: list[str], cwd: str | None = None, timeout: int = 120) -> str:
-    """Run a command and return its stdout.
+def run(args: list[str], cwd: str | None = None, timeout: int = 120, stderr: bool = False) -> str:
+    """Run a command and return its stdout, followed by its stderr if stderr
+    is set.
 
     On failure raises RuntimeError with the tail of stdout and stderr, which
     the agent sees as the tool's result.
@@ -30,4 +31,4 @@ def run(args: list[str], cwd: str | None = None, timeout: int = 120) -> str:
     if p.returncode != 0:
         out = (p.stdout + p.stderr)[-MAX_OUTPUT:]
         raise RuntimeError(f"{args[0]} exited {p.returncode}:\n{out}")
-    return p.stdout[:MAX_OUTPUT]
+    return (p.stdout + p.stderr if stderr else p.stdout)[:MAX_OUTPUT]

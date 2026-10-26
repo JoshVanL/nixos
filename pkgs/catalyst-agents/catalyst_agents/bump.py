@@ -234,6 +234,30 @@ class Tree:
             return t.git("diff", "--stat") or "no change"
 
         @tool
+        def update_deps(path: str) -> str:
+            """Upgrade the dependencies of a Go module (each direct one to its latest release) or uv project (all to their latest allowed release) in the repo, rewriting its lock files. Returns what moved, then which files changed.
+
+            Args:
+                path: Directory holding go.mod or uv.lock, relative to the repo root, e.g. pkgs/catalyst-cron.
+            """
+            d = t.path(path)
+            # go and uv report what moved on stderr.
+            if os.path.exists(os.path.join(d, "go.mod")):
+                # Naming each module, rather than `go get -u ./...`, lets go
+                # switch to a newer toolchain when an upgrade needs one.
+                direct = run(["go", "list", "-m", "-f", "{{if not (or .Main .Indirect)}}{{.Path}}@latest{{end}}", "all"],
+                             cwd=d, timeout=900).split()
+                out = run(["go", "get", *direct], cwd=d, timeout=900, stderr=True)
+                out += run(["go", "mod", "tidy"], cwd=d, timeout=900, stderr=True)
+            elif os.path.exists(os.path.join(d, "uv.lock")):
+                # --no-build resolves from published metadata, so no package's
+                # build code runs here.
+                out = run(["uv", "lock", "--upgrade", "--no-build"], cwd=d, timeout=900, stderr=True)
+            else:
+                raise ValueError(f"{path!r} holds neither go.mod nor uv.lock")
+            return f"{out}\n{t.git('diff', '--stat') or 'no change'}"
+
+        @tool
         def diff() -> str:
             """Return the uncommitted changes in the repo, as git diff shows them."""
             t.tree_id()
@@ -269,7 +293,7 @@ class Tree:
                 raise RuntimeError(p.stderr[-MAX_OUTPUT:])
             return p.stdout[:MAX_OUTPUT]
 
-        return [read_file, search, edit_file, fetch, prefetch, build, flake_update, diff, commit]
+        return [read_file, search, edit_file, fetch, prefetch, build, flake_update, update_deps, diff, commit]
 
 
 def register(runtime: wf.WorkflowRuntime, llm, cfg: dict) -> list[DurableAgent]:

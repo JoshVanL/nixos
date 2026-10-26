@@ -178,7 +178,7 @@ dependencies = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "dapr-agents", specifier = "==1.0.6" }]
+requires-dist = [{ name = "dapr-agents", specifier = "==1.0.9" }]
 
 [[package]]
 name = "certifi"
@@ -359,7 +359,7 @@ wheels = [
 
 [[package]]
 name = "dapr-agents"
-version = "1.0.6"
+version = "1.0.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohttp" },
@@ -373,6 +373,7 @@ dependencies = [
     { name = "dapr-ext-workflow" },
     { name = "docker" },
     { name = "fastapi" },
+    { name = "httpx" },
     { name = "huggingface-hub" },
     { name = "jinja2" },
     { name = "litellm" },
@@ -389,6 +390,7 @@ dependencies = [
     { name = "opentelemetry-instrumentation-grpc" },
     { name = "opentelemetry-instrumentation-httpx" },
     { name = "opentelemetry-proto" },
+    { name = "opentelemetry-sdk" },
     { name = "opentelemetry-semantic-conventions" },
     { name = "posthog" },
     { name = "protobuf" },
@@ -403,9 +405,9 @@ dependencies = [
     { name = "websockets" },
     { name = "wrapt" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/46/1b/3582c6b02f12bcf232f09ffcd37c9f8609deb6af43fde368184e84f1069d/dapr_agents-1.0.6.tar.gz", hash = "sha256:937f6a51fcec8921731eb2a28fe2c53f3d7db292db2e74f246ca912c0ad4f4f0", size = 2759468, upload-time = "2026-08-30T12:18:29.569Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a0/86/0ed4ecefbdf961e79c9a1c89dda93d5b96de7fcaf6fb8ae35e70877fd5c3/dapr_agents-1.0.9.tar.gz", hash = "sha256:d8a72831469556aeccaffbe51a7fce39f369bf1a123e13f372728c9946878e99", size = 2924955, upload-time = "2026-10-09T09:01:49.02Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/28/e0/2286a423c46f962431b6921d22b0471305b481b48c83b6ff5d4914ca3b69/dapr_agents-1.0.6-py3-none-any.whl", hash = "sha256:ec7dc72361d8f2f4e22d15d692491a7185a86ff741e6119fe096389dd7a3b60b", size = 560924, upload-time = "2026-08-30T12:18:27.72Z" },
+    { url = "https://files.pythonhosted.org/packages/c6/89/5e6989c440be8c68b9bfb3ca1049db8c437907303f0505644d906b4da7c3/dapr_agents-1.0.9-py3-none-any.whl", hash = "sha256:a723ec6c3e66bc65bbd759f0c7e78b739702c1fb6f7db944eeaaf3df009be861", size = 617804, upload-time = "2026-10-09T09:01:47.665Z" },
 ]
 
 [[package]]
