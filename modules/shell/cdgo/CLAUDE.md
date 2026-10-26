@@ -6,6 +6,14 @@ For `gh` or GitHub API access to `diagridio` org repos, use `GH_TOKEN="$GH_TOKEN
 NEVER use em dashes (—) in any output, commit messages, comments, strings, or file content. Use commas, parentheses, colons, hyphens, or separate sentences instead.
 ALWAYS use European-style dates (DD/MM/YYYY) in any output, commit messages, comments, strings, or file content. Do not use American-style dates (MM/DD/YYYY).
 
+## Sandbox
+
+You are running inside a bubblewrap (bwrap) sandbox. Its /tmp is a private tmpfs: the user cannot see it or copy files out of it, and it is wiped when the sandbox exits. This includes Claude Code's scratchpad directory, which lives under /tmp.
+
+- Write any file the user should read or keep (reports, notes, patches, logs, generated output) to the sandbox workspace root, `$CDGO_WORKSPACE` (`~/sandbox/workspace/<sandbox name>`), never to /tmp.
+- /tmp is fine for scratch files only you use, such as build artifacts and test binaries.
+- When you tell the user about a file, give its full path under `$CDGO_WORKSPACE`.
+
 ## Go
 
 - Run `golangci-lint run ./...` when editing Go files to catch lint issues early.
