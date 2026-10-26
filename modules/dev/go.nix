@@ -42,6 +42,7 @@ in {
         "dapr/js-sdk"
         "dapr/dotnet-sdk"
         "dapr/rust-sdk"
+        "dapr/.github"
         "mikeee/dapr-durabletask"
         "diagridio/go-etcd-cron"
       ];
