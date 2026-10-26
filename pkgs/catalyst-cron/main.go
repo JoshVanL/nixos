@@ -165,15 +165,11 @@ func listCmd(config, envFile *string) *cobra.Command {
 					fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", j.Name, next, last, state)
 					continue
 				}
-				_, spec, _ := strings.Cut(j.Cron, " ")
-				if !strings.HasPrefix(j.Cron, "CRON_TZ=") {
-					spec = j.Cron
-				}
 				runs := j.Unit
 				if j.Workflow != "" {
 					runs = fmt.Sprintf("%s/%s(%s)", j.AppID, j.Workflow, j.Input)
 				}
-				fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\t%s\t%s\n", j.Name, spec, runs, next, last, state,
+				fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\t%s\t%s\n", j.Name, j.Cron, runs, next, last, state,
 					truncate(lastResult(cmd.Context(), wf, j, md), 80))
 			}
 			return w.Flush()

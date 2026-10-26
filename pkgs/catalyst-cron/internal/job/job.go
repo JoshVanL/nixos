@@ -59,7 +59,7 @@ func (j Job) NextRun(now time.Time) (time.Time, error) {
 	if err != nil {
 		return time.Time{}, err
 	}
-	// Cron specs without CRON_TZ follow the zone of the time given, and the
-	// workflow clock is UTC, so use this machine's zone.
+	// Cron specs follow the zone of the time given, and the workflow clock is
+	// UTC, so use this machine's local time.
 	return s.Next(now.Local()), nil
 }

@@ -20,10 +20,9 @@ func TestNextRun(t *testing.T) {
 	now := time.Date(2026, 9, 25, 15, 30, 0, 0, time.UTC)
 
 	for spec, want := range map[string]time.Time{
-		"0 13 * * *":                       time.Date(2026, 9, 25, 16, 0, 0, 0, time.UTC),
-		"0 12 * * *":                       time.Date(2026, 9, 26, 15, 0, 0, 0, time.UTC),
-		"0 0 * * 1":                        time.Date(2026, 9, 28, 3, 0, 0, 0, time.UTC),
-		"CRON_TZ=Europe/London 0 13 * * *": time.Date(2026, 9, 26, 12, 0, 0, 0, time.UTC),
+		"0 13 * * *": time.Date(2026, 9, 25, 16, 0, 0, 0, time.UTC),
+		"0 12 * * *": time.Date(2026, 9, 26, 15, 0, 0, 0, time.UTC),
+		"0 0 * * 1":  time.Date(2026, 9, 28, 3, 0, 0, 0, time.UTC),
 	} {
 		got, err := Job{Cron: spec}.NextRun(now)
 		if err != nil {
