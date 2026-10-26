@@ -19,7 +19,6 @@ in {
       # Stop NetworkManager complaining on restart.
       services.NetworkManager-wait-online = {
         serviceConfig = {
-          ExecStart = [ "" "${pkgs.networkmanager}/bin/nm-online -q" ];
           Restart = "on-failure";
           RestartSec = 1;
         };
