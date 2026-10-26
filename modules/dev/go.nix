@@ -43,6 +43,7 @@ in {
         "dapr/dotnet-sdk"
         "dapr/rust-sdk"
         "dapr/.github"
+        "dapr/dapr-agents"
         "mikeee/dapr-durabletask"
         "diagridio/go-etcd-cron"
       ];
