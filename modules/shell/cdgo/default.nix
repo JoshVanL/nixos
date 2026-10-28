@@ -64,10 +64,20 @@ in {
     ];
 
     home-manager.users.${config.me.username} = {
-      home.packages = [ cdgoSH ] ++ (optionals cfg.sandbox.enable [ cdgoSandboxSH claudeDSH ]);
+      home.packages = [ cdgoSH pkgs.cdpr ] ++ (optionals cfg.sandbox.enable [ cdgoSandboxSH claudeDSH ]);
 
       programs.zsh.initContent = ''
         cdgo() { cd "$(__cdgo "$@")" || return; }
+        # A file rather than $(...), which would swallow --help and the
+        # interactive shell of --sandbox.
+        cdpr() {
+          local f rc
+          f=$(mktemp) || return
+          __cdpr --cwd-file "$f" "$@"; rc=$?
+          [ -s "$f" ] && cd "$(<"$f")"
+          rm -f "$f"
+          return $rc
+        }
       '' + (optionalString cfg.sandbox.enable ''
         cdgo-sandbox() {
           local dir

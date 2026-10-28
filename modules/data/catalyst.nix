@@ -212,7 +212,7 @@ in {
             Pin: the Go dependencies of pkgs/catalyst-cron (go.mod, go.sum), and vendorHash in pkgs/catalyst-cron/default.nix. This target replaces steps 1 to 3:
             Run update_deps on pkgs/catalyst-cron. If no file changed, reply 'up to date' and stop.
             Set vendorHash to lib.fakeHash, build pkgs.catalyst-cron, and copy the correct hash from the error.
-            If the build fails because go.mod needs a newer Go: when pkgs/catalyst-cron/default.nix overrides go, set that override's version to the go line of go.mod, and its hash with prefetch of https://go.dev/dl/goVERSION.src.tar.gz without unpack. With no override, reply with the Go version needed and do not commit.
+            If the build fails because go.mod needs a newer Go: when pkgs/catalyst-cron/default.nix builds with go_1_26_latest, set its version in overlays/golang.nix to the go line of go.mod, and its hash with prefetch of https://go.dev/dl/goVERSION.src.tar.gz without unpack. Otherwise reply with the Go version needed and do not commit.
             Commit with the first line 'pkgs/catalyst-cron: update dependencies', and a body listing each direct dependency of go.mod that moved, old -> new. Skip release notes.
           '';
         };

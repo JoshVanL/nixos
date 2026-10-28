@@ -1,22 +1,10 @@
 { buildGoModule
-, fetchurl
-, go_1_26
+, go_1_26_latest
 , installShellFiles
 , lib
 }:
 
-let
-  # go.mod needs go >= 1.26.10, newer than nixpkgs' go_1_26. Drop this once
-  # go_1_26 catches up.
-  go = go_1_26.overrideAttrs (old: rec {
-    version = "1.26.10";
-    src = fetchurl {
-      url = "https://go.dev/dl/go${version}.src.tar.gz";
-      hash = "sha256-/WPog7ovK/ypPBZGsx6+9j4rHk0rMXyXidl2po2B828=";
-    };
-  });
-
-in (buildGoModule.override { inherit go; }) {
+(buildGoModule.override { go = go_1_26_latest; }) {
   pname = "catalyst-cron";
   version = "0.1.0";
 
