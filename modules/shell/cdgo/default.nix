@@ -17,9 +17,19 @@ let
 
   cdgoSandboxSH = pkgs.writeShellApplication {
     name = "__cdgo_sandbox";
-    runtimeInputs = with pkgs; [ bubblewrap coreutils ];
+    runtimeInputs = with pkgs; [ bubblewrap coreutils util-linux ];
     runtimeEnv = {
       CDGO_SANDBOX_EXTRA_RO_BINDS = concatStringsSep "\n" cfg.sandbox.extraRoBinds;
+      # The sandbox maps a single UID, so files owned by other UIDs in images
+      # cannot be chowned. An explicit overlay driver keeps podman off zfs.
+      CDGO_CONTAINERS_STORAGE_CONF = optionalString config.me.networking.podman.enable
+        "${pkgs.writeText "cdgo-containers-storage.conf" ''
+          [storage]
+          driver = "overlay"
+
+          [storage.options.overlay]
+          ignore_chown_errors = "true"
+        ''}";
     };
     text = builtins.readFile ./cdgo-sandbox.sh;
   };

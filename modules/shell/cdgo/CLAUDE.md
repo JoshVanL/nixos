@@ -13,6 +13,9 @@ You are running inside a bubblewrap (bwrap) sandbox. Its /tmp is a private tmpfs
 - Write any file the user should read or keep (reports, notes, patches, logs, generated output) to the sandbox workspace root, `$CDGO_WORKSPACE` (`~/sandbox/workspace/<sandbox name>`), never to /tmp.
 - /tmp is fine for scratch files only you use, such as build artifacts and test binaries.
 - When you tell the user about a file, give its full path under `$CDGO_WORKSPACE`.
+- Containers: use `podman`. It runs inside this sandbox; there is no host Docker/Podman socket, no `DOCKER_HOST`, and no kind.
+- Containers only have UID 0. Images that switch to another user (postgres, redis's default entrypoint, gosu/su-exec) fail with `chown: Invalid argument`; work around with `--user 0` and `--entrypoint`.
+- All containers are stopped when the sandbox exits.
 
 ## Go
 

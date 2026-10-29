@@ -12,6 +12,11 @@ args=(
   --unshare-all
   --share-net
 
+  # bwrap's init otherwise outlives the shell for as long as any process
+  # inside does (podman's pause process never exits). When the shell exits,
+  # the outer bwrap exits and this SIGKILLs everything left in the sandbox.
+  --die-with-parent
+
   # System essentials
   --proc /proc
   --dev /dev
@@ -78,6 +83,33 @@ if [ -n "$hm_files" ] && [ -d "$hm_files/.local" ]; then
   done < <(find "$hm_files/.local" -maxdepth 3 -not -type d)
 fi
 
+# Podman runs nested inside the sandbox, never via a host socket, so
+# containers see only what the sandbox sees.
+if [ -n "${CDGO_CONTAINERS_STORAGE_CONF:-}" ]; then
+  args+=(
+    --tmpfs /var/tmp
+    --ro-bind /etc/containers /etc/containers
+    --ro-bind /sys /sys
+    --dev-bind /dev/net/tun /dev/net/tun
+    --setenv CONTAINERS_STORAGE_CONF "$CDGO_CONTAINERS_STORAGE_CONF"
+    # Podman rejects a ~/.config it does not own (here: the home-manager
+    # store path) unless XDG_CONFIG_HOME is set explicitly.
+    --setenv XDG_CONFIG_HOME "$home/.config"
+  )
+  # Two sandboxes sharing a store would each reset the other's container
+  # state, so only the first on a workspace gets it. Every sandbox process
+  # inherits the lock fd, so it is held until the sandbox is fully gone.
+  # Image layers keep read-only dirs: delete a workspace with
+  # `chmod -R u+w <ws> && rm -rf <ws>`.
+  mkdir -p "$dir/.containers"
+  exec {lockfd}>"$dir/.containers/lock"
+  if flock -n "$lockfd"; then
+    args+=(--bind "$dir/.containers" "$home/.local/share/containers")
+  else
+    echo ">> podman storage for this workspace is in use by another sandbox; using in-memory storage" >&2
+  fi
+fi
+
 # Cache directory (rw) for oh-my-zsh completions, go-build, etc.
 if [ -d "$home/.cache" ]; then
   args+=(--bind "$home/.cache" "$home/.cache")
@@ -133,4 +165,14 @@ GH_TOKEN_DIAGRIDIO=$(cat /persist/etc/github/diagridio-read-only)
 export GH_TOKEN GH_TOKEN_DIAGRIDIO
 
 echo ">> Entering sandbox for: $dir" >&2
-exec bwrap "${args[@]}" -- /run/current-system/sw/bin/zsh -l
+# Stop containers gracefully before --die-with-parent kills the rest. libpod
+# only exists in the sandbox's private /run/user if podman ran this session.
+# shellcheck disable=SC2016
+exec bwrap "${args[@]}" -- /run/current-system/sw/bin/bash -c '
+  /run/current-system/sw/bin/zsh -l
+  rc=$?
+  if [ -d "$XDG_RUNTIME_DIR/libpod" ]; then
+    /run/current-system/sw/bin/podman stop --all >/dev/null
+  fi
+  exit $rc
+'
