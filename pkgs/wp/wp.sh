@@ -96,8 +96,8 @@ cmd_refresh() {
     --auto-zoom \
     --hide-pointer \
     --title "wp refresh [%u/%l] %f  |  1=keep  2=skip  q=quit" \
-    --action1 ";echo %f >> $workdir/keep; xdotool key --clearmodifiers Right" \
-    --action2 ";echo %f >> $workdir/skip; xdotool key --clearmodifiers Right" \
+    --action1 ";echo %F >> $workdir/keep; xdotool key --clearmodifiers Right" \
+    --action2 ";echo %F >> $workdir/skip; xdotool key --clearmodifiers Right" \
     "${items[@]}" || true
 
   local kept=0 skipped=0
