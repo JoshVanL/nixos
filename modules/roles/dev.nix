@@ -28,6 +28,7 @@ in {
         python.enable = true;
         rust.enable = true;
         dotnet.enable = true;
+        java.enable = true;
         node.enable = true;
         ai.enable = true;
       };
